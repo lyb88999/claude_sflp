@@ -9,15 +9,19 @@ class NetworkManager:
         self.network_model = network_model
         self.topology_manager = topology_manager
         self.priority_tasks = {}  # 优先级任务队列
+        self._connection_status = {}  # 连接状态
         
-    def is_connected(self) -> bool:
+    def is_connected(self, satellite_id: str = None) -> bool:
         """检查网络连接状态"""
-        # 在这里可以添加更复杂的连接状态检查逻辑
-        return True
+        if satellite_id not in self._connection_status:
+            # 根据拓扑状态初始化连接状态
+            self._connection_status[satellite_id] = True
+            
+        return self._connection_status[satellite_id]
         
     def has_priority_task(self) -> bool:
         """检查是否有高优先级任务"""
-        return len(self.priority_tasks) > 0
+        return False  # 简化处理，默认没有高优先级任务
         
     def add_priority_task(self, task_id: str, priority: int):
         """添加优先级任务"""

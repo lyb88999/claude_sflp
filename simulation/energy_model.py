@@ -54,11 +54,11 @@ class EnergyModel:
         """获取卫星配置"""
         return self.configs.get(sat_name, self.configs['default'])
         
-    def initialize_battery(self, sat_name: str, initial_level: float = 0.8):
+    def initialize_battery(self, satellite: str, initial_level: float = 0.8):
         """初始化卫星电池电量"""
-        config = self.get_satellite_config(sat_name)
-        self.battery_levels[sat_name] = config.battery_capacity * initial_level
-        self.energy_usage[sat_name] = []
+        config = self.get_satellite_config(satellite)
+        self.battery_levels[satellite] = config.battery_capacity * initial_level
+        print(f"已初始化卫星 {satellite} 电池电量: {self.battery_levels[satellite]:.2f} Wh")
         
     def calculate_solar_power(self, sat_name: str, time: float) -> float:
         """
@@ -203,11 +203,11 @@ class EnergyModel:
             'battery_level': self.battery_levels[sat_name]
         })
         
-    def get_battery_level(self, sat_name: str) -> float:
-        """获取当前电池电量"""
-        if sat_name not in self.battery_levels:
-            self.initialize_battery(sat_name)
-        return self.battery_levels[sat_name]
+    def get_battery_level(self, satellite: str) -> float:
+        """获取电池电量"""
+        if satellite not in self.battery_levels:
+            self.initialize_battery(satellite)
+        return self.battery_levels[satellite]
         
     def get_transmission_capacity(self, sat_name: str) -> float:
         """
@@ -282,21 +282,19 @@ class EnergyModel:
         return (current_level - amount) >= min_level
         
     def has_minimum_energy(self, satellite: str) -> bool:
-        """
-        检查是否有最小运行能量
-        Args:
-            satellite: 卫星名称
-        Returns:
-            bool: 是否有最小能量
-        """
+        """检查是否有最小运行能量"""
         if satellite not in self.battery_levels:
-            return False
+            self.initialize_battery(satellite)
             
-        # 获取卫星配置
         config = self.get_satellite_config(satellite)
         min_level = config.battery_capacity * 0.2  # 20%的电池容量作为最小能量
+        current_level = self.battery_levels[satellite]
         
-        return self.battery_levels[satellite] >= min_level
+        has_energy = current_level >= min_level
+        if not has_energy:
+            print(f"卫星 {satellite} 能量不足: {current_level:.2f} Wh < {min_level:.2f} Wh")
+        
+        return has_energy
     
     def consume_energy(self, satellite: str, amount: float):
         """
