@@ -11,6 +11,7 @@ setup(
         'matplotlib',
         'pyyaml',
         'networkx',
-        'scipy'
+        'scipy',
+        'torch'
     ],
 )

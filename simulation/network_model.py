@@ -106,8 +106,8 @@ class SatelliteNetwork:
         return position
 
     
-    def check_visibility(self, sat1: str, sat2: str, time: float,
-                     max_distance: float = 8000.0) -> bool:
+    def check_visibility(self, sat1: str, sat2: str, time: float, 
+                     max_distance: float = 4000.0) -> bool:
         """
         检查两颗卫星之间是否可见
         Args:
@@ -139,13 +139,15 @@ class SatelliteNetwork:
             pos2 = self.compute_position(sat2, time)
             
             # 计算距离
-            distance = np.linalg.norm(pos2 - pos1)
+            distance = float(np.linalg.norm(pos2 - pos1))  # 转换为Python float
             
             # 根据轨道平面关系设置阈值
             if plane_diff == 1:  # 相邻轨道平面
-                return distance <= 7500.0  # 稍大于标称距离7155km
+                is_visible = distance <= 7500.0  # 稍大于标称距离7155km
             else:  # 同一轨道平面
-                return distance <= max_distance
+                is_visible = distance <= max_distance
+                
+            return bool(is_visible)  # 显式转换为Python布尔值
                 
         except Exception as e:
             print(f"可见性检查时出错 ({sat1}-{sat2}): {str(e)}")

@@ -259,3 +259,53 @@ class EnergyModel:
             'total_task_consumption': total_task,
             'current_battery_level': self.get_battery_level(sat_name)
         }
+    
+    def can_consume(self, amount: float) -> bool:
+        """
+        检查是否有足够的能量消耗
+        Args:
+            amount: 所需能量(Wh)
+        Returns:
+            bool: 是否有足够能量
+        """
+        # 检查卫星是否初始化
+        if not self.battery_levels:
+            return False
+            
+        # 计算当前可用能量
+        current_level = min(self.battery_levels.values())  # 使用最低电量作为判断依据
+        
+        # 确保保留一定的能量余量（20%）
+        min_level = max(self.configs.values(),
+                       key=lambda x: x.battery_capacity).battery_capacity * 0.2
+                       
+        return (current_level - amount) >= min_level
+        
+    def has_minimum_energy(self, satellite: str) -> bool:
+        """
+        检查是否有最小运行能量
+        Args:
+            satellite: 卫星名称
+        Returns:
+            bool: 是否有最小能量
+        """
+        if satellite not in self.battery_levels:
+            return False
+            
+        # 获取卫星配置
+        config = self.get_satellite_config(satellite)
+        min_level = config.battery_capacity * 0.2  # 20%的电池容量作为最小能量
+        
+        return self.battery_levels[satellite] >= min_level
+    
+    def consume_energy(self, satellite: str, amount: float):
+        """
+        消耗能量
+        Args:
+            satellite: 卫星名称
+            amount: 消耗的能量(Wh)
+        """
+        if satellite not in self.battery_levels:
+            self.initialize_battery(satellite)
+            
+        self.battery_levels[satellite] -= amount
