@@ -1,7 +1,8 @@
+import logging
 from typing import List, Tuple, Dict
 import numpy as np
-from datetime import datetime, timedelta
-from skyfield.api import load, EarthSatellite, utc
+from datetime import datetime, timedelta, timezone
+from skyfield.api import load, EarthSatellite, utc, wgs84
 from astropy import units as u
 from astropy.coordinates import CartesianRepresentation
 
@@ -15,6 +16,16 @@ class SatelliteNetwork:
         self.ts = load.timescale()
         self.satellites = self._load_satellites(tle_file)
         self.positions_cache = {}  # 位置缓存
+
+        # 添加logger
+        self.logger = logging.getLogger(__name__)
+
+        # 添加地面站位置 (经度,纬度,高度)
+        self.ground_stations = {
+            "station_0": (0.0, 0.0, 0.0),      # 经度0度赤道
+            "station_1": (120.0, 0.0, 0.0),    # 经度120度赤道
+            "station_2": (-120.0, 0.0, 0.0),   # 经度-120度赤道
+        }
         
     def _load_satellites(self, tle_file: str) -> Dict[str, EarthSatellite]:
         """
@@ -106,51 +117,67 @@ class SatelliteNetwork:
         return position
 
     
-    def check_visibility(self, sat1: str, sat2: str, time: float, 
-                     max_distance: float = 4000.0) -> bool:
+    def check_visibility(self, src: str, dst: str, time: float) -> bool:
         """
-        检查两颗卫星之间是否可见
+        检查源节点和目标节点之间是否可见
         Args:
-            sat1: 第一颗卫星名称
-            sat2: 第二颗卫星名称
+            src: 源节点ID(可以是卫星或地面站)
+            dst: 目标节点ID(可以是卫星或地面站)
             time: 时间戳
-            max_distance: 最大可见距离(km)
         Returns:
             bool: 是否可见
         """
-        if sat1 == sat2:
-            return True
-            
         try:
-            # 获取卫星编号
-            sat_num1 = int(sat1.split()[-1])
-            sat_num2 = int(sat2.split()[-1])
-            
-            # 计算轨道平面差异
-            plane_diff = abs(sat_num1 - sat_num2)
-            if plane_diff > 3:  # 如果相差超过半个星座，取补值
-                plane_diff = 6 - plane_diff
+            # 转换卫星ID格式
+            def convert_sat_id(sat_id: str) -> str:
+                if sat_id.startswith('satellite_'):
+                    num = sat_id.split('_')[1]
+                    return f"Iridium {num}"
+                return sat_id
+
+            # 如果包含地面站
+            if src.startswith('station_') or dst.startswith('station_'):
+                station_id = src if src.startswith('station_') else dst
+                sat_id = dst if dst.startswith('satellite_') else src
+                return self.check_ground_station_visibility(station_id, convert_sat_id(sat_id), time)
                 
-            # 检查是否为相邻轨道平面或同一轨道平面
-            if plane_diff > 1:
-                return False  # 非相邻轨道平面不可见
-                
-            pos1 = self.compute_position(sat1, time)
-            pos2 = self.compute_position(sat2, time)
+            # 卫星间可见性检查
+            src_id = convert_sat_id(src)
+            dst_id = convert_sat_id(dst)
             
-            # 计算距离
-            distance = float(np.linalg.norm(pos2 - pos1))  # 转换为Python float
-            
-            # 根据轨道平面关系设置阈值
-            if plane_diff == 1:  # 相邻轨道平面
-                is_visible = distance <= 7500.0  # 稍大于标称距离7155km
-            else:  # 同一轨道平面
-                is_visible = distance <= max_distance
+            try:
+                sat1_num = int(src_id.split()[-1])
+                sat2_num = int(dst_id.split()[-1])
                 
-            return bool(is_visible)  # 显式转换为Python布尔值
+                # 计算轨道平面差异
+                plane_diff = abs(sat1_num - sat2_num)
+                if plane_diff > 3:  # 如果相差超过半个星座，取补值
+                    plane_diff = 6 - plane_diff
+                    
+                # 检查是否为相邻轨道平面或同一轨道平面
+                if plane_diff > 1:
+                    return False  # 非相邻轨道平面不可见
+                    
+                pos1 = self.compute_position(src, time)
+                pos2 = self.compute_position(dst, time)
+                
+                # 计算距离
+                distance = float(np.linalg.norm(pos2 - pos1))  # 转换为Python float
+                
+                # 根据轨道平面关系设置阈值
+                if plane_diff == 1:  # 相邻轨道平面
+                    is_visible = distance <= 7500.0  # 稍大于标称距离7155km
+                else:  # 同一轨道平面
+                    is_visible = distance <= 4000.0
+                    
+                return bool(is_visible)  # 显式转换为Python布尔值
+                
+            except Exception as e:
+                self.logger.error(f"可见性检查时出错 ({src}-{dst}): {str(e)}")
+                return False
                 
         except Exception as e:
-            print(f"可见性检查时出错 ({sat1}-{sat2}): {str(e)}")
+            self.logger.error(f"可见性检查主方法出错: {str(e)}")
             return False
         
     def compute_doppler_shift(self, sat1: str, sat2: str, 
@@ -212,3 +239,48 @@ class SatelliteNetwork:
         v2 = positions[2] - positions[0]
         normal = np.cross(v1, v2)
         return normal / np.linalg.norm(normal)
+    
+    def check_ground_station_visibility(self, station_id: str, sat_id: str, 
+                                      time: float, min_elevation: float = 10.0) -> bool:
+        """
+        检查地面站和卫星之间是否可见
+        Args:
+            station_id: 地面站ID
+            sat_id: 卫星ID
+            time: 时间戳
+            min_elevation: 最小仰角(度)
+        Returns:
+            bool: 是否可见
+        """
+        try:
+            if station_id not in self.ground_stations or sat_id not in self.satellites:
+                return False
+
+            # 转换时间戳为datetime对象
+            dt = datetime.fromtimestamp(time, tz=timezone.utc)
+            t = self.ts.from_datetime(dt)
+
+            # 获取地面站位置
+            lat, lon, height = self.ground_stations[station_id]
+            station = wgs84.latlon(lat, lon, height)
+            
+            # 获取卫星位置
+            satellite = self.satellites[sat_id]
+            
+            # 计算卫星相对于地面站的方位角和仰角
+            difference = satellite - station
+            topocentric = difference.at(t)
+            alt, az, distance = topocentric.altaz()
+            
+            # 检查是否满足最小仰角要求
+            is_visible = alt.degrees >= min_elevation
+            
+            if is_visible:
+                self.logger.debug(f"地面站 {station_id} 可见卫星 {sat_id}, "
+                               f"仰角: {alt.degrees:.2f}°")
+            
+            return is_visible
+            
+        except Exception as e:
+            self.logger.error(f"检查地面站可见性时出错: {str(e)}")
+            return False

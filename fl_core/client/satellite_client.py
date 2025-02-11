@@ -64,23 +64,53 @@ class SatelliteClient:
         Returns:
             训练统计信息
         """
+        # 1. 初始检查
+        if not self._check_training_prerequisites():
+            return self._get_empty_stats()
+        
+        # 2. 准备训练
+        train_loader = self._prepare_data_loader()
+        if not train_loader:
+            return self._get_empty_stats()
+        
+        # 3. 初始化训练统计
+        stats = self._init_training_stats()
+        
+        # 4. 执行训练
+        self.model.train()
+        start_time = datetime.now()
+        
+        for epoch in range(self.config.local_epochs):
+            epoch_stats = self._train_one_epoch(epoch, train_loader, stats)
+            if not epoch_stats['completed']:
+                break
+        
+        # 5. 完成训练
+        stats = self._finalize_training_stats(stats, start_time)
+        
+        # 6. 记录结果
+        self._log_training_results(stats)
+        
+        return stats
+
+    def _check_training_prerequisites(self) -> bool:
+        """检查训练前提条件"""
         if not self.dataset:
             raise ValueError("Dataset not set")
             
         if len(self.dataset) == 0:
             print(f"Client {self.client_id}: 数据集为空，跳过训练")
-            return self._get_empty_stats()
+            return False
             
-        self.current_round = round_number
-        self.is_training = True
-        
-        # 检查能量状态
         estimated_energy = self._estimate_training_energy()
         if not self.energy_manager.can_consume(estimated_energy):
             print(f"Client {self.client_id}: 能量不足，跳过训练")
-            return self._get_empty_stats()
-        
-        # 创建数据加载器
+            return False
+            
+        return True
+
+    def _prepare_data_loader(self) -> Optional[DataLoader]:
+        """准备数据加载器"""
         train_loader = DataLoader(
             self.dataset,
             batch_size=min(self.config.batch_size, len(self.dataset)),
@@ -89,110 +119,141 @@ class SatelliteClient:
         
         if len(train_loader) == 0:
             print(f"Client {self.client_id}: 没有可训练的批次，跳过训练")
-            return self._get_empty_stats()
-        
-        # 训练统计
-        stats = {
-            'train_loss': [],
-            'train_accuracy': [],
-            'batch_losses': [],  # 记录每个batch的loss
-            'energy_consumption': 0.0,
-            'compute_time': 0.0,
-            'total_samples': len(self.dataset),
-            'processed_samples': 0,
-            'completed_epochs': 0
+            return None
+            
+        return train_loader
+
+    def _init_training_stats(self) -> Dict:
+        """初始化训练统计信息"""
+        return {
+            'summary': {
+                'train_loss': [],
+                'train_accuracy': [],
+                'energy_consumption': 0.0,
+                'compute_time': 0.0,
+                'completed_epochs': 0
+            },
+            'details': {
+                'batch_losses': [],
+                'total_samples': len(self.dataset),
+                'processed_samples': 0,
+                'model_updates': None
+            }
+        }
+
+    def _train_one_epoch(self, epoch: int, train_loader: DataLoader, stats: Dict) -> Dict:
+        """训练一个epoch"""
+        epoch_stats = {
+            'loss': 0.0,
+            'correct': 0,
+            'total': 0,
+            'completed': True
         }
         
-        # 训练循环
-        self.model.train()
-        start_time = datetime.now()
-        
-        for epoch in range(self.config.local_epochs):
-            epoch_loss = 0.0
-            epoch_correct = 0
-            epoch_total = 0
+        for batch_idx, (data, target) in enumerate(train_loader):
+            # 检查中断条件
+            if self._should_interrupt_training():
+                print(f"Client {self.client_id}: 训练被中断")
+                epoch_stats['completed'] = False
+                break
+                
+            # 检查能量
+            batch_energy = self._estimate_batch_energy()
+            if not self.energy_manager.can_consume(batch_energy):
+                print(f"Client {self.client_id}: 能量不足，中断训练")
+                epoch_stats['completed'] = False
+                break
+                
+            # 训练一个batch
+            batch_stats = self._train_one_batch(data, target, batch_energy)
+            if not batch_stats:
+                continue
+                
+            # 更新统计信息
+            epoch_stats['loss'] += batch_stats['loss']
+            epoch_stats['correct'] += batch_stats['correct']
+            epoch_stats['total'] += batch_stats['total']
             
-            for batch_idx, (data, target) in enumerate(train_loader):
-                # 检查是否需要中断训练
-                if self._should_interrupt_training():
-                    print(f"Client {self.client_id}: 训练被中断")
-                    break
-                
-                # 计算批次能耗
-                batch_energy = self._estimate_batch_energy()
-                if not self.energy_manager.can_consume(batch_energy):
-                    print(f"Client {self.client_id}: 能量不足，中断训练")
-                    break
-                
-                try:
-                    # 前向传播
-                    output = self.model(data)
-                    loss = nn.functional.cross_entropy(output, target)
-                    
-                    # 反向传播
-                    self.optimizer.zero_grad()
-                    loss.backward()
-                    self.optimizer.step()
-                    
-                    # 计算准确率
-                    _, predicted = output.max(1)
-                    batch_total = target.size(0)
-                    batch_correct = predicted.eq(target).sum().item()
-                    
-                    # 更新统计信息
-                    batch_loss = loss.item()
-                    epoch_loss += batch_loss
-                    epoch_correct += batch_correct
-                    epoch_total += batch_total
-                    
-                    # 记录batch统计
-                    stats['batch_losses'].append(batch_loss)
-                    stats['processed_samples'] += batch_total
-                    # 在batch训练后添加验证
-                    model_stats = self._verify_model_update()
-                    stats['model_updates'] = model_stats
-                    
-                    # 记录能耗
-                    self.energy_manager.consume_energy(self.client_id, batch_energy)
-                    stats['energy_consumption'] += batch_energy
-                    
-                    print(f"Client {self.client_id}: Epoch {epoch+1}/{self.config.local_epochs}, "
-                        f"Batch {batch_idx+1}/{len(train_loader)}, "
-                        f"Loss: {batch_loss:.4f}, "
-                        f"Accuracy: {100.0 * batch_correct / batch_total:.2f}%")
-                    
-                except Exception as e:
-                    print(f"Client {self.client_id}: 训练过程出错: {str(e)}")
-                    continue
+            # 更新全局统计信息
+            stats['details']['batch_losses'].append(batch_stats['loss'])
+            stats['details']['processed_samples'] += batch_stats['total']
+            stats['details']['model_updates'] = batch_stats['model_updates']
+            stats['summary']['energy_consumption'] += batch_energy
             
-            # 记录每轮统计信息
-            if epoch_total > 0:
-                avg_loss = epoch_loss / len(train_loader)
-                accuracy = 100.0 * epoch_correct / epoch_total
-                stats['train_loss'].append(avg_loss)
-                stats['train_accuracy'].append(accuracy)
-                stats['completed_epochs'] += 1
-                
-                print(f"Client {self.client_id}: Epoch {epoch+1} 完成, "
-                    f"Loss: {avg_loss:.4f}, "
-                    f"Accuracy: {accuracy:.2f}%")
+            # 输出进度
+            if (batch_idx + 1) % 10 == 0:
+                print(f"Client {self.client_id}: Epoch {epoch+1}, "
+                    f"Batch {batch_idx+1}/{len(train_loader)}")
         
-        # 记录计算时间
-        stats['compute_time'] = (datetime.now() - start_time).total_seconds()
+        # 计算epoch统计信息
+        if epoch_stats['total'] > 0:
+            avg_loss = epoch_stats['loss'] / len(train_loader)
+            accuracy = 100.0 * epoch_stats['correct'] / epoch_stats['total']
+            stats['summary']['train_loss'].append(avg_loss)
+            stats['summary']['train_accuracy'].append(accuracy)
+            stats['summary']['completed_epochs'] += 1
         
+        return epoch_stats
+
+    def _train_one_batch(self, data: torch.Tensor, target: torch.Tensor, 
+                        batch_energy: float) -> Optional[Dict]:
+        """训练一个batch"""
+        try:
+            # 前向传播
+            output = self.model(data)
+            loss = nn.functional.cross_entropy(output, target)
+            
+            # 反向传播
+            self.optimizer.zero_grad()
+            loss.backward()
+            self.optimizer.step()
+            
+            # 计算准确率
+            _, predicted = output.max(1)
+            batch_total = target.size(0)
+            batch_correct = predicted.eq(target).sum().item()
+            
+            # 记录能耗
+            self.energy_manager.consume_energy(self.client_id, batch_energy)
+            
+            return {
+                'loss': loss.item(),
+                'correct': batch_correct,
+                'total': batch_total,
+                'model_updates': self._verify_model_update()
+            }
+            
+        except Exception as e:
+            print(f"Client {self.client_id}: 训练过程出错: {str(e)}")
+            return None
+
+    def _finalize_training_stats(self, stats: Dict, start_time: datetime) -> Dict:
+        """完成训练统计"""
+        # 更新训练时间
+        compute_time = (datetime.now() - start_time).total_seconds()
+        stats['summary']['compute_time'] = compute_time
+        
+        # 更新最终指标
+        if stats['summary']['train_loss']:
+            stats['summary'].update({
+                'final_loss': stats['summary']['train_loss'][-1],
+                'final_accuracy': stats['summary']['train_accuracy'][-1]
+            })
+        
+        # 更新训练状态
         self.is_training = False
         self.train_stats.append(stats)
         
-        # 打印训练总结
-        print(f"\nClient {self.client_id} 训练完成:")
-        print(f"处理样本数: {stats['processed_samples']}/{stats['total_samples']}")
-        print(f"完成轮次: {stats['completed_epochs']}/{self.config.local_epochs}")
-        print(f"最终loss: {stats['train_loss'][-1] if stats['train_loss'] else 'N/A'}")
-        print(f"最终准确率: {stats['train_accuracy'][-1] if stats['train_accuracy'] else 'N/A'}%")
-        print(f"能量消耗: {stats['energy_consumption']:.4f} Wh")
-        print(f"计算时间: {stats['compute_time']:.4f} s\n")
-        
         return stats
+
+    def _log_training_results(self, stats: Dict):
+        """记录训练结果"""
+        print(f"\nClient {self.client_id} 训练完成: "
+            f"轮次: {stats['summary']['completed_epochs']}/{self.config.local_epochs} | "
+            f"Loss: {stats['summary']['final_loss']:.4f} | "
+            f"Acc: {stats['summary']['final_accuracy']:.2f}% | "
+            f"能耗: {stats['summary']['energy_consumption']:.4f}Wh | "
+            f"耗时: {stats['summary']['compute_time']:.3f}s")
         
     def get_model_update(self) -> Tuple[Dict[str, torch.Tensor], Dict]:
         """

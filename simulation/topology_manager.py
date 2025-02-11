@@ -40,6 +40,7 @@ class TopologyManager:
         self.routing_table = {}  # 路由表
         self.topology_graph = nx.Graph()  # 网络拓扑图
         self.link_states = {}  # 链路状态
+        self.ground_station_links = {}  # 地面站连接
         
     def update_topology(self, current_time: float, window: float = 300):
         """
@@ -131,6 +132,9 @@ class TopologyManager:
         
         # 更新分组
         self._update_groups(satellites, connectivity, quality_matrix)
+
+        # 更新地面站连接
+        self._update_ground_station_links(current_time)
         
         # 更新路由表
         self._update_routing_table()
@@ -351,3 +355,29 @@ class TopologyManager:
                 
         # 重新计算路由表
         self._update_routing_table()
+
+    def _update_ground_station_links(self, current_time: float):
+        """更新地面站连接"""
+        self.ground_station_links.clear()
+        
+        # 检查每个地面站与其负责轨道卫星的可见性
+        for station_id, station_pos in self.network_model.ground_stations.items():
+            visible_satellites = []
+            
+            for sat_id in self.network_model.satellites.keys():
+                if self.network_model.check_ground_station_visibility(
+                    station_id, sat_id, current_time
+                ):
+                    visible_satellites.append(sat_id)
+                    
+            if visible_satellites:
+                self.ground_station_links[station_id] = visible_satellites
+                print(f"地面站 {station_id} 可见卫星: {visible_satellites}")
+
+    def check_visibility(self, src: str, dst: str, time: float) -> bool:
+        """检查两个节点是否可见"""
+        try:
+            return self.network_model.check_visibility(src, dst, time)
+        except Exception as e:
+            self.logger.error(f"拓扑管理器可见性检查出错: {str(e)}")
+            return False
