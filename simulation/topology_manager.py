@@ -1,3 +1,4 @@
+import logging
 from typing import List, Dict, Set, Tuple
 import numpy as np
 from dataclasses import dataclass
@@ -41,6 +42,7 @@ class TopologyManager:
         self.topology_graph = nx.Graph()  # 网络拓扑图
         self.link_states = {}  # 链路状态
         self.ground_station_links = {}  # 地面站连接
+        self.logger = logging.getLogger(__name__)
         
     def update_topology(self, current_time: float, window: float = 300):
         """

@@ -196,13 +196,14 @@ class SatelliteNetwork:
     #         return False
 
     def _check_visibility(self, src: str, dst: str, time: float) -> bool:
-        """检查源节点和目标节点之间的可见性"""
+        """
+        检查源节点和目标节点之间是否可见
+        """
         try:
             # 如果包含地面站
             if src.startswith('station_') or dst.startswith('station_'):
                 station_id = src if src.startswith('station_') else dst
                 sat_id = dst if dst.startswith('satellite_') else src
-                # 地面站与卫星的可见性判断
                 return self.check_ground_station_visibility(station_id, sat_id, time)
                 
             # 卫星间可见性检查 - 只考虑同轨道内相邻卫星
@@ -213,12 +214,16 @@ class SatelliteNetwork:
             if src_orbit != dst_orbit:
                 return False
                 
-            # 检查是否相邻或首尾相连
+            # 检查是否相邻
             sat_diff = abs(src_num - dst_num)
-            return sat_diff == 1 or sat_diff == 10  # 11颗卫星时，1和11是相连的
+            if sat_diff == 1 or sat_diff == 10:  # 相邻或首尾相连（11颗卫星时）
+                self.logger.debug(f"卫星 {src}({src_orbit}-{src_num}) 与 {dst}({dst_orbit}-{dst_num}) 可见")
+                return True
+                
+            return False
             
         except Exception as e:
-            self.logger.error(f"可见性检查出错 ({src}-{dst}): {str(e)}")
+            self.logger.error(f"可见性检查错误 ({src}-{dst}): {str(e)}")
             return False
         
     def _parse_satellite_id(self, sat_id: str) -> Tuple[int, int]:
@@ -321,10 +326,10 @@ class SatelliteNetwork:
         try:
             # 获取地面站位置（示例位置，根据实际情况设置）
             station_positions = {
-                'station_0': (0.0, 0.0, 0.0),      # 赤道0度
-                'station_1': (0.0, 120.0, 0.0),    # 赤道120度
-                'station_2': (0.0, -120.0, 0.0)    # 赤道-120度
-            }
+            'station_0': (70.0, 30.0, 0.1),      # 北纬70度，东经30度（负责轨道1、2）
+            'station_1': (70.0, 150.0, 0.1),     # 北纬70度，东经150度（负责轨道3、4）
+            'station_2': (70.0, -90.0, 0.1)      # 北纬70度，西经90度（负责轨道5、6）
+        }
             
             # 获取卫星轨道和编号
             orbit_num, sat_num = self._parse_satellite_id(sat_id)

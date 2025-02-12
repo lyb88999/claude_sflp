@@ -1,4 +1,5 @@
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 from simulation.network_manager import NetworkManager
@@ -49,6 +50,7 @@ class BaselineExperiment:
         
         # 初始化组件
         self._init_components()
+        self.max_workers = 6
         
     def _setup_logging(self):
         """设置日志"""
@@ -222,166 +224,60 @@ class BaselineExperiment:
     def train(self):
         """执行训练过程"""
         current_time = datetime.now().timestamp()
+        self.current_round = 0
 
         for round_num in range(self.config['fl']['num_rounds']):
-            self.logger.info(f"\n{'='*50}")
-            self.logger.info(f"开始第 {round_num + 1} 轮训练")
-            self.logger.info(f"{'='*50}")
+            self.current_round = round_num
+            self.logger.info(f"\n=== 开始第 {round_num + 1} 轮训练 ===")
 
-            # 1. 地面站独立处理各自负责的轨道
-            self.logger.info("\n=== 阶段1: 地面站分发初始参数 ===")
-            
-            # 记录每个轨道的状态
-            orbit_status = defaultdict(lambda: {
-                'coordinator': None,           # 协调者卫星
-                'params_distributed': False,   # 是否已分发参数
-                'training_completed': False,   # 轨道内训练是否完成
-                'orbit_aggregated': False,     # 轨道内聚合是否完成
-                'model_sent_to_station': False # 是否已将模型发送给地面站
-            })
-
-            # 每个地面站处理其负责的轨道
-            for station_id, station in self.ground_stations.items():
-                self.logger.info(f"\n处理地面站 {station_id}:")
-                
-                # 处理每个负责的轨道
-                for orbit_id in station.responsible_orbits:
-                    self.logger.info(f"处理轨道 {orbit_id}:")
-                    
-                    # 等待直到找到可见的卫星作为协调者
-                    coordinator = None
-                    while not coordinator:
-                        orbit_satellites = self._get_orbit_satellites(orbit_id)
-                        for sat_id in orbit_satellites:
-                            if self.network_model._check_visibility(station_id, sat_id, current_time):
-                                coordinator = sat_id
-                                break
-                        if not coordinator:
-                            self.logger.info(f"轨道 {orbit_id} 当前无可见卫星，等待60秒...")
-                            current_time += 60
-                            self.topology_manager.update_topology(current_time)
-
-                    self.logger.info(f"轨道 {orbit_id} 选择 {coordinator} 作为协调者")
-                    orbit_status[orbit_id]['coordinator'] = coordinator
-
-                    # 分发初始参数给协调者
-                    model_state = self.model.state_dict()
-                    self.clients[coordinator].apply_model_update(model_state)
-                    orbit_status[orbit_id]['params_distributed'] = True
-                    self.logger.info(f"成功将参数分发给协调者 {coordinator}")
-
-                    # 2. 协调者向轨道内其他卫星分发参数并开始训练
-                    self.logger.info(f"\n=== 阶段2: 轨道 {orbit_id} 内参数分发 ===")
-                    orbit_satellites = self._get_orbit_satellites(orbit_id)
-                    self._distribute_orbit_params(coordinator, orbit_satellites, model_state, current_time)
-
-                    # 3. 轨道内训练
-                    self.logger.info(f"\n=== 阶段3: 轨道 {orbit_id} 训练 ===")
-                    trained_satellites = set()
-                    for sat_id in orbit_satellites:
-                        stats = self.clients[sat_id].train(round_num)
-                        
-                        # 检查训练是否成功完成
-                        if (stats['summary']['train_loss'] and 
-                            len(stats['summary']['train_loss']) > 0 and 
-                            stats['summary']['completed_epochs'] > 0):
-                            # 训练成功完成
-                            trained_satellites.add(sat_id)
-                            self.logger.info(f"卫星 {sat_id} 完成训练: "
-                                        f"Loss={stats['summary']['train_loss'][-1]:.4f}, "
-                                        f"Acc={stats['summary']['train_accuracy'][-1]:.2f}%, "
-                                        f"能耗={stats['summary']['energy_consumption']:.4f}Wh, "
-                                        f"Epochs={stats['summary']['completed_epochs']}")
-                        else:
-                            # 训练未完成或被跳过
-                            reason = "能量不足" if stats['summary']['energy_consumption'] == 0.0 else "训练未完成"
-                            self.logger.info(f"卫星 {sat_id} {reason}")
-                            continue  # 继续处理下一个卫星
-
-                    # 检查是否有足够的卫星完成训练
-                    if len(trained_satellites) == 0:
-                        self.logger.warning(f"轨道 {orbit_id} 没有卫星成功完成训练，跳过聚合")
-                        continue  # 继续处理下一个轨道
-
-                    # 4. 轨道内聚合
-                    if len(trained_satellites) >= self.config['aggregation']['min_updates']:  # 确保有足够的更新
-                        self.logger.info(f"\n=== 阶段4: 轨道 {orbit_id} 聚合 ===")
-                        self.logger.info(f"参与聚合的卫星: {trained_satellites}")
-                        
-                        aggregator = self.intra_orbit_aggregators.get(orbit_id)
-                        if not aggregator:
-                            aggregator = IntraOrbitAggregator(AggregationConfig(**self.config['aggregation']))
-                            self.intra_orbit_aggregators[orbit_id] = aggregator
-
-                        # 只聚合成功训练的卫星
-                        for sat_id in trained_satellites:
-                            model_diff, _ = self.clients[sat_id].get_model_update()
-                            self.logger.info(f"收集卫星 {sat_id} 的模型更新")
-                            aggregator.receive_update(sat_id, round_num, model_diff, current_time)
-
-                            # 5. 将聚合后的模型发送给地面站
-                            self.logger.info(f"\n=== 阶段5: 轨道 {orbit_id} 发送模型到地面站 ===")
-                            while not self.network_model._check_visibility(station_id, coordinator, current_time):
-                                current_time += 60
-                                self.topology_manager.update_topology(current_time)
-
-                            model_diff, _ = self.clients[coordinator].get_model_update()
-                            success = station.receive_orbit_update(
-                                str(orbit_id),  # 确保 orbit_id 是字符串
-                                round_num,
-                                model_diff,
-                                len(orbit_satellites),
-                                priority=1  # 添加优先级参数
-                            )
-
-                            if success:
-                                self.logger.info(f"轨道 {orbit_id} 成功将模型发送给地面站 {station_id}")
-                            else:
-                                self.logger.error(f"轨道 {orbit_id} 向地面站 {station_id} 发送模型失败")
-                                self.logger.debug(f"模型大小: {sum(param.nelement() * param.element_size() for param in model_diff.values()) / (1024 * 1024):.2f}MB")
-                                self.logger.debug(f"地面站存储使用: {station.storage_usage:.2f}MB/{station.config.storage_limit}MB")
-                                self.logger.debug(f"地面站带宽使用: {station._get_current_bandwidth_usage():.2f}Mbps/{station.config.bandwidth_limit}Mbps")
-
-            # 6. 地面站聚合
-            self.logger.info("\n=== 阶段6: 地面站聚合 ===")
-            station_aggregated = []
-            for station_id, station in self.ground_stations.items():
-                responsible_orbits = station.responsible_orbits
-                received_orbits = [orbit_id for orbit_id in responsible_orbits 
-                                if orbit_status[orbit_id]['model_sent_to_station']]
-                
-                self.logger.info(f"地面站 {station_id} 已收到轨道: {received_orbits}")
-                
-                if len(received_orbits) == len(responsible_orbits):
-                    aggregated_update = station.get_aggregated_update(round_num)
-                    if aggregated_update:
-                        self.logger.info(f"地面站 {station_id} 完成聚合")
-                        self.ground_station_aggregator.receive_station_update(
+            # 使用线程池并行处理每个地面站的轨道
+            with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+                # 创建所有任务
+                future_to_orbit = {}
+                for station_id, station in self.ground_stations.items():
+                    for orbit_id in station.responsible_orbits:
+                        future = executor.submit(
+                            self._handle_orbit_training,
                             station_id,
-                            round_num,
-                            aggregated_update,
-                            station.get_aggregation_stats()
+                            orbit_id,
+                            current_time
                         )
-                        station_aggregated.append(station_id)
+                        future_to_orbit[future] = (station_id, orbit_id)
 
-            # 7. 全局聚合
-            if len(station_aggregated) == len(self.ground_stations):
-                self.logger.info("\n=== 阶段7: 全局聚合 ===")
-                global_update = self.ground_station_aggregator.get_aggregated_update(round_num)
-                if global_update:
-                    self.logger.info(f"完成第 {round_num + 1} 轮全局聚合")
-                    # 更新所有卫星的模型
-                    for client in self.clients.values():
-                        client.apply_model_update(global_update)
-                    
-                    accuracy = self.evaluate()
-                    self.logger.info(f"全局聚合后测试准确率: {accuracy:.4f}")
-                else:
-                    self.logger.warning("全局聚合失败")
-            else:
-                self.logger.warning(f"只有部分地面站完成聚合: {station_aggregated}")
+                # 等待所有任务完成
+                for future in as_completed(future_to_orbit):
+                    station_id, orbit_id = future_to_orbit[future]
+                    try:
+                        success = future.result()
+                        if success:
+                            self.logger.info(f"轨道 {orbit_id} 成功完成训练并发送模型到地面站 {station_id}")
+                        else:
+                            self.logger.warning(f"轨道 {orbit_id} 训练或发送模型失败")
+                    except Exception as e:
+                        self.logger.error(f"处理轨道 {orbit_id} 时出错: {str(e)}")
 
-            # 更新时间
+            # 地面站聚合
+            self.logger.info("\n=== 地面站聚合阶段 ===")
+            station_results = []
+            with ThreadPoolExecutor(max_workers=3) as executor:
+                future_to_station = {
+                    executor.submit(self._station_aggregation, station_id, station): station_id
+                    for station_id, station in self.ground_stations.items()
+                }
+                
+                for future in as_completed(future_to_station):
+                    station_id = future_to_station[future]
+                    try:
+                        result = future.result()
+                        if result:
+                            station_results.append(station_id)
+                    except Exception as e:
+                        self.logger.error(f"地面站 {station_id} 聚合出错: {str(e)}")
+
+            # 全局聚合
+            if len(station_results) == len(self.ground_stations):
+                self._perform_global_aggregation(round_num)
+
             current_time += self.config['fl']['round_interval']
 
     def _distribute_orbit_params(self, coordinator: str, orbit_satellites: List[str], model_state: Dict, current_time: float):
@@ -406,6 +302,179 @@ class BaselineExperiment:
             self.clients[next_sat].apply_model_update(model_state)
             
             current_sat = next_sat
+
+    def _handle_orbit_training(self, station_id: str, orbit_id: int, current_time: float):
+        """
+        处理单个轨道的训练过程
+        Args:
+            station_id: 地面站ID
+            orbit_id: 轨道ID
+            current_time: 当前时间戳
+        Returns:
+            bool: 训练过程是否成功完成
+        """
+        try:
+            station = self.ground_stations[station_id]
+            self.logger.info(f"\n处理轨道 {orbit_id}:")
+            
+            # 1. 等待并选择可见卫星作为协调者
+            coordinator = None
+            orbit_satellites = self._get_orbit_satellites(orbit_id)
+            max_wait_time = current_time + self.config['fl']['round_interval']
+            
+            while not coordinator and current_time < max_wait_time:
+                for sat_id in orbit_satellites:
+                    if self.network_model._check_visibility(station_id, sat_id, current_time):
+                        coordinator = sat_id
+                        break
+                if not coordinator:
+                    self.logger.info(f"轨道 {orbit_id} 当前无可见卫星，等待60秒...")
+                    current_time += 60
+                    self.topology_manager.update_topology(current_time)
+
+            if not coordinator:
+                self.logger.warning(f"轨道 {orbit_id} 在指定时间内未找到可见卫星")
+                return False
+
+            self.logger.info(f"轨道 {orbit_id} 选择 {coordinator} 作为协调者")
+
+            # 2. 分发初始参数给协调者
+            model_state = self.model.state_dict()
+            self.clients[coordinator].apply_model_update(model_state)
+            self.logger.info(f"成功将参数分发给协调者 {coordinator}")
+
+            # 3. 协调者向轨道内其他卫星分发参数
+            self.logger.info(f"\n=== 轨道 {orbit_id} 内参数分发 ===")
+            orbit_satellites = self._get_orbit_satellites(orbit_id)
+            parameters_distributed = False  # 添加标志来跟踪是否有参数分发
+
+            for sat_id in orbit_satellites:
+                if sat_id != coordinator:
+                    try:
+                        # 等待直到卫星可见
+                        wait_start_time = current_time
+                        # 使用拓扑检查来验证两个卫星是否可以通信
+                        # topology_manager 中使用的是卫星间直接通信的检查，不依赖于复杂的可见性计算
+                        while not self.network_model._check_visibility(coordinator, sat_id, current_time):
+                            if current_time - wait_start_time > 300:  # 设置最大等待时间（5分钟）
+                                self.logger.warning(f"轨道 {orbit_id}: {sat_id} 等待与协调者 {coordinator} 的连接超时")
+                                break
+                            current_time += 60
+                            self.topology_manager.update_topology(current_time)
+                        
+                        # 检查是否建立了连接
+                        if self.network_model._check_visibility(coordinator, sat_id, current_time):
+                            # 分发参数
+                            self.clients[sat_id].apply_model_update(model_state)
+                            self.logger.info(f"轨道 {orbit_id}: 协调者 {coordinator} 成功将参数分发给 {sat_id}")
+                            parameters_distributed = True
+                        else:
+                            self.logger.warning(f"轨道 {orbit_id}: 无法建立协调者 {coordinator} 与 {sat_id} 的连接")
+                    except Exception as e:
+                        self.logger.error(f"轨道 {orbit_id}: 参数分发过程出错 ({coordinator} -> {sat_id}): {str(e)}")
+                        self.logger.error(f"异常详情: {str(e)}")
+
+            # 记录参数分发的最终状态
+            if parameters_distributed:
+                self.logger.info(f"轨道 {orbit_id}: 参数分发阶段完成")
+            else:
+                self.logger.warning(f"轨道 {orbit_id}: 在当前轮次中未能成功完成参数分发")
+
+            # 4. 轨道内训练
+            self.logger.info(f"\n=== 轨道 {orbit_id} 训练 ===")
+            trained_satellites = set()
+            for sat_id in orbit_satellites:
+                stats = self.clients[sat_id].train(self.current_round)
+                if stats['summary']['train_loss']:
+                    trained_satellites.add(sat_id)
+                    self.logger.info(f"卫星 {sat_id} 完成训练: "
+                                f"Loss={stats['summary']['train_loss'][-1]:.4f}, "
+                                f"Acc={stats['summary']['train_accuracy'][-1]:.2f}%, "
+                                f"能耗={stats['summary']['energy_consumption']:.4f}Wh")
+                else:
+                    self.logger.warning(f"卫星 {sat_id} 训练未产生有效结果")
+
+            # 5. 轨道内聚合
+            if len(trained_satellites) >= self.config['aggregation']['min_updates']:
+                self.logger.info(f"\n=== 轨道 {orbit_id} 聚合 ===")
+                aggregator = self.intra_orbit_aggregators.get(orbit_id)
+                if not aggregator:
+                    aggregator = IntraOrbitAggregator(AggregationConfig(**self.config['aggregation']))
+                    self.intra_orbit_aggregators[orbit_id] = aggregator
+
+                # 收集更新并聚合
+                for sat_id in trained_satellites:
+                    model_diff, _ = self.clients[sat_id].get_model_update()
+                    self.logger.info(f"收集卫星 {sat_id} 的模型更新")
+                    aggregator.receive_update(sat_id, self.current_round, model_diff, current_time)
+
+                orbit_update = aggregator.get_aggregated_update(self.current_round)
+                if orbit_update:
+                    self.logger.info(f"轨道 {orbit_id} 完成聚合")
+                    # 更新所有卫星的模型
+                    for sat_id in orbit_satellites:
+                        self.clients[sat_id].apply_model_update(orbit_update)
+                        self.logger.info(f"更新卫星 {sat_id} 的模型参数")
+
+                    # 6. 等待可见性并发送模型回地面站
+                    while not self.network_model._check_visibility(station_id, coordinator, current_time):
+                        current_time += 60
+                        self.topology_manager.update_topology(current_time)
+
+                    # 7. 发送模型到地面站
+                    model_diff, _ = self.clients[coordinator].get_model_update()
+                    success = station.receive_orbit_update(
+                        str(orbit_id),
+                        self.current_round,
+                        model_diff,
+                        len(trained_satellites)
+                    )
+
+                    if success:
+                        self.logger.info(f"轨道 {orbit_id} 的模型成功发送给地面站 {station_id}")
+                        return True
+                    else:
+                        self.logger.warning(f"轨道 {orbit_id} 向地面站 {station_id} 发送模型失败")
+                        return False
+                else:
+                    self.logger.warning(f"轨道 {orbit_id} 聚合失败")
+                    return False
+            else:
+                self.logger.warning(f"轨道 {orbit_id} 训练的卫星数量不足")
+                return False
+
+        except Exception as e:
+            self.logger.error(f"处理轨道 {orbit_id} 时出错: {str(e)}")
+            return False
+        
+    def _station_aggregation(self, station_id: str, station) -> bool:
+        """
+        执行地面站聚合
+        Args:
+            station_id: 地面站ID
+            station: 地面站实例
+        Returns:
+            bool: 聚合是否成功
+        """
+        try:
+            aggregated_update = station.get_aggregated_update(self.current_round)
+            if aggregated_update:
+                self.logger.info(f"地面站 {station_id} 完成聚合")
+                # 将聚合结果发送到全局聚合器
+                self.ground_station_aggregator.receive_station_update(
+                    station_id,
+                    self.current_round,
+                    aggregated_update,
+                    station.get_aggregation_stats()
+                )
+                return True
+            else:
+                self.logger.warning(f"地面站 {station_id} 聚合失败")
+                return False
+        except Exception as e:
+            self.logger.error(f"地面站 {station_id} 聚合出错: {str(e)}")
+            return False
+
             
     def _get_orbit_satellites(self, orbit_id: int) -> List[str]:
         """获取轨道内的所有卫星"""
@@ -501,6 +570,35 @@ class BaselineExperiment:
                 for client in self.clients.values():
                     client.apply_model_update(global_update)
                     
+    def _perform_global_aggregation(self, round_num: int) -> bool:
+        """
+        执行全局聚合
+        Args:
+            round_num: 当前轮次
+        Returns:
+            bool: 聚合是否成功
+        """
+        try:
+            self.logger.info("\n=== 全局聚合阶段 ===")
+            global_update = self.ground_station_aggregator.get_aggregated_update(round_num)
+            if global_update:
+                self.logger.info(f"完成第 {round_num + 1} 轮全局聚合")
+                # 更新所有卫星的模型
+                for client in self.clients.values():
+                    client.apply_model_update(global_update)
+                
+                # 评估全局模型
+                accuracy = self.evaluate()
+                self.logger.info(f"全局聚合后测试准确率: {accuracy:.4f}")
+                return True
+            else:
+                self.logger.warning("全局聚合失败")
+                return False
+        except Exception as e:
+            self.logger.error(f"全局聚合出错: {str(e)}")
+            return False
+        
+
     def evaluate(self) -> float:
         """评估全局模型性能"""
         self.model.eval()
