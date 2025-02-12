@@ -96,14 +96,16 @@ class SatelliteClient:
     def _check_training_prerequisites(self) -> bool:
         """检查训练前提条件"""
         if not self.dataset:
-            raise ValueError("Dataset not set")
+            print(f"Client {self.client_id}: 数据集未设置")
+            return False
             
         if len(self.dataset) == 0:
-            print(f"Client {self.client_id}: 数据集为空，跳过训练")
+            print(f"Client {self.client_id}: 数据集为空")
             return False
             
         estimated_energy = self._estimate_training_energy()
-        if not self.energy_manager.can_consume(estimated_energy):
+        # 修改这里：添加 client_id 参数
+        if not self.energy_manager.can_consume(self.client_id, estimated_energy):
             print(f"Client {self.client_id}: 能量不足，跳过训练")
             return False
             
@@ -151,42 +153,53 @@ class SatelliteClient:
         }
         
         for batch_idx, (data, target) in enumerate(train_loader):
-            # 检查中断条件
-            if self._should_interrupt_training():
-                print(f"Client {self.client_id}: 训练被中断")
-                epoch_stats['completed'] = False
-                break
-                
-            # 检查能量
+            # 批次能量检查
             batch_energy = self._estimate_batch_energy()
-            if not self.energy_manager.can_consume(batch_energy):
+            # 修改这里：添加 client_id 参数
+            if not self.energy_manager.can_consume(self.client_id, batch_energy):
                 print(f"Client {self.client_id}: 能量不足，中断训练")
                 epoch_stats['completed'] = False
                 break
+            
+            try:
+                # 前向传播
+                output = self.model(data)
+                loss = nn.functional.cross_entropy(output, target)
                 
-            # 训练一个batch
-            batch_stats = self._train_one_batch(data, target, batch_energy)
-            if not batch_stats:
+                # 反向传播
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
+                
+                # 计算准确率
+                _, predicted = output.max(1)
+                batch_total = target.size(0)
+                batch_correct = predicted.eq(target).sum().item()
+                
+                # 更新统计信息
+                batch_loss = loss.item()
+                epoch_stats['loss'] += batch_loss
+                epoch_stats['correct'] += batch_correct
+                epoch_stats['total'] += batch_total
+                
+                # 记录batch统计
+                stats['details']['batch_losses'].append(batch_loss)
+                stats['details']['processed_samples'] += batch_total
+                
+                # 记录能耗，同样修改这里
+                self.energy_manager.consume_energy(self.client_id, batch_energy)
+                stats['summary']['energy_consumption'] += batch_energy
+                
+                if (batch_idx + 1) % 10 == 0:
+                    print(f"Client {self.client_id}: Epoch {epoch+1}, "
+                        f"Batch {batch_idx+1}/{len(train_loader)}")
+                    
+            except Exception as e:
+                print(f"Client {self.client_id}: 训练过程出错: {str(e)}")
                 continue
-                
-            # 更新统计信息
-            epoch_stats['loss'] += batch_stats['loss']
-            epoch_stats['correct'] += batch_stats['correct']
-            epoch_stats['total'] += batch_stats['total']
-            
-            # 更新全局统计信息
-            stats['details']['batch_losses'].append(batch_stats['loss'])
-            stats['details']['processed_samples'] += batch_stats['total']
-            stats['details']['model_updates'] = batch_stats['model_updates']
-            stats['summary']['energy_consumption'] += batch_energy
-            
-            # 输出进度
-            if (batch_idx + 1) % 10 == 0:
-                print(f"Client {self.client_id}: Epoch {epoch+1}, "
-                    f"Batch {batch_idx+1}/{len(train_loader)}")
         
         # 计算epoch统计信息
-        if epoch_stats['total'] > 0:
+        if epoch_stats['total'] > 0 and epoch_stats['completed']:
             avg_loss = epoch_stats['loss'] / len(train_loader)
             accuracy = 100.0 * epoch_stats['correct'] / epoch_stats['total']
             stats['summary']['train_loss'].append(avg_loss)
@@ -324,37 +337,33 @@ class SatelliteClient:
         """估算完整训练过程的能量消耗"""
         if not self.dataset:
             return 0.0
-            
+                
         num_batches = len(self.dataset) // self.config.batch_size
         if len(self.dataset) % self.config.batch_size > 0:
             num_batches += 1
-            
-        # 每个batch的能耗
-        batch_energy = self._estimate_batch_energy()
+                
+        # 调整能量估算参数
+        base_computation_energy = 0.001  # 每个batch的基础计算能耗(Wh)
+        communication_energy = 0.0005   # 每个batch的通信能耗(Wh)
+        
+        # 每个batch的总能耗
+        batch_energy = base_computation_energy + communication_energy
         
         # 总能耗
         total_energy = batch_energy * num_batches * self.config.local_epochs
         
-        # 考虑计算能力的影响
-        return total_energy / self.config.compute_capacity
+        return total_energy
         
     def _estimate_batch_energy(self) -> float:
         """估算处理一个批次数据的能量消耗"""
-        # 基于批次大小估算计算时间（秒）
-        compute_time = 0.05 + 0.001 * self.config.batch_size  # 基础时间 + 每样本处理时间
-        
-        # CPU能耗(Wh)
-        cpu_energy = (self.config.compute_capacity * 15.0 * compute_time) / 3600
+        # 基础计算能耗
+        base_computation_energy = 0.001  # Wh
         
         # 通信能耗（基于模型大小）
         model_size_mb = sum(p.nelement() * p.element_size() for p in self.model.parameters()) / (1024 * 1024)
-        comm_time = model_size_mb / 50.0  # 假设50Mbps的传输速率
-        comm_energy = (20.0 * comm_time) / 3600  # 20W的传输功率
+        communication_energy = 0.0005 * model_size_mb  # Wh
         
-        # 总能耗
-        total_energy = cpu_energy + comm_energy
-        
-        return total_energy
+        return base_computation_energy + communication_energy
         
     def _should_interrupt_training(self) -> bool:
         """检查是否需要中断训练"""
@@ -408,4 +417,22 @@ class SatelliteClient:
             'energy_level': self.energy_manager.get_energy_level(),
             'network_connected': self.network_manager.is_connected(),
             'compute_capacity': self.config.compute_capacity
+        }
+    
+    def _get_empty_stats(self) -> Dict:
+        """返回空的训练统计信息"""
+        return {
+            'summary': {
+                'train_loss': [],
+                'train_accuracy': [],
+                'energy_consumption': 0.0,
+                'compute_time': 0.0,
+                'completed_epochs': 0
+            },
+            'details': {
+                'batch_losses': [],
+                'total_samples': 0,
+                'processed_samples': 0,
+                'model_updates': None
+            }
         }

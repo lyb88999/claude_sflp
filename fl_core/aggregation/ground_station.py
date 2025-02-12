@@ -9,11 +9,15 @@ import heapq
 @dataclass
 class GroundStationConfig:
     """地面站配置"""
-    bandwidth_limit: float = 100.0  # Mbps
-    storage_limit: float = 1000.0  # GB
+    bandwidth_limit: float = 1000.0  # Mbps
+    storage_limit: float = 10000.0  # MB
     priority_levels: int = 3
-    batch_size: int = 5  # 批处理大小
+    batch_size: int = 10  # 批处理大小
     aggregation_interval: float = 60.0  # 聚合间隔(秒)
+    min_updates: int = 2  # 最小更新数量
+    max_staleness: float = 300.0  # 最大容忍延迟(秒)
+    timeout: float = 600.0  # 聚合超时时间(秒)
+    weighted_average: bool = True  # 是否使用加权平均
 
 @dataclass
 class OrbitUpdate:
@@ -33,6 +37,8 @@ class GroundStationAggregator:
         Args:
             config: 地面站配置
         """
+        if isinstance(config, dict):
+            config = GroundStationConfig(**config)
         self.config = config
         self.orbit_weights = {}  # orbit_id -> weight
         self.pending_updates = defaultdict(dict)  # round -> {orbit_id: OrbitUpdate}
@@ -41,6 +47,7 @@ class GroundStationAggregator:
         self.bandwidth_usage = defaultdict(float)  # timestamp -> usage
         self.storage_usage = 0.0
         self.last_aggregation_time = datetime.now().timestamp()
+        self.responsible_orbits = []  # 负责的轨道
         
     def add_orbit(self, orbit_id: str, weight: float = 1.0):
         """添加轨道"""
@@ -51,10 +58,11 @@ class GroundStationAggregator:
         self.orbit_weights.pop(orbit_id, None)
         
     def receive_orbit_update(self, orbit_id: str, round_number: int,
-                       model_update: Dict[str, torch.Tensor],
-                       num_clients: int, priority: int = 1) -> bool:
+                   model_update: Dict[str, torch.Tensor],
+                   num_clients: int, priority: int = 1) -> bool:
         """接收轨道更新"""
-        if orbit_id not in self.orbit_weights:
+        if orbit_id not in [str(x) for x in self.responsible_orbits]:
+            self.logger.warning(f"轨道 {orbit_id} 不在负责范围内")
             return False
             
         # 计算更新大小（MB）
@@ -63,19 +71,34 @@ class GroundStationAggregator:
                 
         # 检查存储容量
         if self.storage_usage + size > self.config.storage_limit:
-            print(f"Storage limit exceeded: {self.storage_usage + size} > {self.config.storage_limit}")
+            self.logger.warning(f"存储不足: 当前{self.storage_usage:.2f}MB + 需要{size:.2f}MB > 限制{self.config.storage_limit}MB")
             return False
             
         # 检查带宽使用
         current_bandwidth = self._get_current_bandwidth_usage()
         required_bandwidth = size * 8  # 转换为Mbits
         if current_bandwidth + required_bandwidth > self.config.bandwidth_limit:
-            print(f"Bandwidth limit exceeded: {current_bandwidth + required_bandwidth} > {self.config.bandwidth_limit}")
+            self.logger.warning(f"带宽不足: 当前{current_bandwidth:.2f}Mbps + 需要{required_bandwidth:.2f}Mbps > 限制{self.config.bandwidth_limit}Mbps")
             return False
             
         # 更新资源使用
         self.storage_usage += size
         self._update_bandwidth_usage(size)
+        
+        # 创建更新对象
+        update = OrbitUpdate(
+            orbit_id=orbit_id,
+            round_number=round_number,
+            model_update=model_update,
+            timestamp=datetime.now().timestamp(),
+            priority=priority,
+            size=size,
+            num_clients=num_clients
+        )
+        
+        # 存储更新
+        self.pending_updates[round_number][orbit_id] = update
+        heapq.heappush(self.update_queue, (-priority, update.timestamp, update))
         
         return True
         

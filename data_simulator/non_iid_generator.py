@@ -32,19 +32,21 @@ class NonIIDGenerator:
         self.random_state = np.random.RandomState(42)
         
     def generate_data(self, total_samples: int,
-                     dirichlet_alpha: float = 0.5,
-                     mean_samples_per_satellite: int = 1000,
-                     std_samples: int = 200) -> Dict[str, SatelliteDataset]:
+                 dirichlet_alpha: float = 0.5,
+                 mean_samples_per_satellite: int = 1000,
+                 std_samples: int = 200,
+                 num_satellites: int = None) -> Dict[str, SatelliteDataset]:
         """
         生成非独立同分布的数据
         Args:
             total_samples: 总样本数
-            dirichlet_alpha: Dirichlet分布的alpha参数(较小的值会产生更不平衡的分布)
+            dirichlet_alpha: Dirichlet分布的alpha参数
             mean_samples_per_satellite: 每个卫星平均样本数
             std_samples: 样本数的标准差
-        Returns:
-            Dict[str, Dataset]: 每个卫星的数据集
+            num_satellites: 指定卫星数量（如果不指定则使用self.num_satellites）
         """
+        if num_satellites is not None:
+            self.num_satellites = num_satellites
         # 生成基础数据
         features, labels = self._generate_base_data(total_samples)
         
@@ -134,4 +136,11 @@ class NonIIDGenerator:
         return SatelliteDataset(
             torch.FloatTensor(features),
             torch.LongTensor(labels)
+        )
+    
+    def generate_empty_dataset(self) -> SatelliteDataset:
+        """生成空数据集"""
+        return SatelliteDataset(
+            features=torch.FloatTensor(0, self.feature_dim),
+            labels=torch.LongTensor(0)
         )

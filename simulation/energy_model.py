@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, List, Tuple
 import numpy as np
 from datetime import datetime
@@ -8,13 +9,13 @@ from skyfield.api import utc
 @dataclass
 class SatelliteEnergyConfig:
     """卫星能源配置"""
-    battery_capacity: float  # 电池容量 (Wh)
-    solar_panel_area: float  # 太阳能板面积 (m²)
-    solar_efficiency: float  # 太阳能转换效率
-    cpu_power: float        # CPU功耗 (W)
-    radio_power_idle: float # 通信模块空闲功耗 (W)
-    radio_power_tx: float   # 通信模块发送功耗 (W)
-    radio_power_rx: float   # 通信模块接收功耗 (W)
+    battery_capacity: float = 1000.0    # 电池容量 (Wh)
+    solar_panel_area: float = 2.5       # 太阳能板面积 (m²)
+    solar_efficiency: float = 0.3       # 太阳能转换效率
+    cpu_power: float = 5.0             # CPU功耗 (W) - 降低功耗
+    radio_power_idle: float = 1.0      # 通信模块空闲功耗 (W)
+    radio_power_tx: float = 10.0       # 通信模块发送功耗 (W)
+    radio_power_rx: float = 5.0        # 通信模块接收功耗 (W)
 
 class EnergyModel:
     def __init__(self, network_model, config_file: str):
@@ -29,11 +30,14 @@ class EnergyModel:
         self.battery_levels = {}  # 电池电量状态
         self.energy_usage = {}    # 能量使用记录
         self.solar_intensity = 1361.0  # 太阳常数 (W/m²)
+        self.current_satellite = None  # 添加当前卫星属性
         
         # 初始化天文数据
         self.ts = load.timescale()
         self.sun = load('de421.bsp')['sun']
         self.earth = load('de421.bsp')['earth']
+
+        self.logger = logging.getLogger(__name__)
         
     def _load_configs(self, config_file: str) -> Dict[str, SatelliteEnergyConfig]:
         """加载卫星能源配置"""
@@ -58,7 +62,7 @@ class EnergyModel:
         """初始化卫星电池电量"""
         config = self.get_satellite_config(satellite)
         self.battery_levels[satellite] = config.battery_capacity * initial_level
-        print(f"已初始化卫星 {satellite} 电池电量: {self.battery_levels[satellite]:.2f} Wh")
+        self.logger.info(f"已初始化卫星 {satellite} 电池电量: {self.battery_levels[satellite]:.2f} Wh")
         
     def calculate_solar_power(self, sat_name: str, time: float) -> float:
         """
@@ -260,26 +264,25 @@ class EnergyModel:
             'current_battery_level': self.get_battery_level(sat_name)
         }
     
-    def can_consume(self, amount: float) -> bool:
+    def can_consume(self, satellite_id: str, amount: float) -> bool:
         """
         检查是否有足够的能量消耗
         Args:
-            amount: 所需能量(Wh)
-        Returns:
-            bool: 是否有足够能量
+            satellite_id: 卫星ID
+            amount: 需要消耗的能量(Wh)
         """
-        # 检查卫星是否初始化
-        if not self.battery_levels:
-            return False
+        if amount <= 0:
+            return True
             
-        # 计算当前可用能量
-        current_level = min(self.battery_levels.values())  # 使用最低电量作为判断依据
+        # 降低能量检查的阈值
+        min_level = 0.1  # 电池最低电量阈值降低到10%
         
-        # 确保保留一定的能量余量（20%）
-        min_level = max(self.configs.values(),
-                       key=lambda x: x.battery_capacity).battery_capacity * 0.2
-                       
-        return (current_level - amount) >= min_level
+        # 确保卫星有电池电量记录
+        if satellite_id not in self.battery_levels:
+            self.initialize_battery(satellite_id)
+            
+        current_level = self.battery_levels.get(satellite_id, 0)
+        return current_level - amount >= current_level * min_level
         
     def has_minimum_energy(self, satellite: str) -> bool:
         """检查是否有最小运行能量"""
@@ -296,14 +299,14 @@ class EnergyModel:
         
         return has_energy
     
-    def consume_energy(self, satellite: str, amount: float):
+    def consume_energy(self, satellite_id: str, amount: float):
         """
         消耗能量
         Args:
-            satellite: 卫星名称
+            satellite_id: 卫星ID
             amount: 消耗的能量(Wh)
         """
-        if satellite not in self.battery_levels:
-            self.initialize_battery(satellite)
+        if satellite_id not in self.battery_levels:
+            self.initialize_battery(satellite_id)
             
-        self.battery_levels[satellite] -= amount
+        self.battery_levels[satellite_id] -= amount

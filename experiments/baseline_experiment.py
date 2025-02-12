@@ -1,6 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from simulation.network_manager import NetworkManager
 import torch
 import torch.nn as nn
@@ -18,7 +18,7 @@ from simulation.topology_manager import TopologyManager
 from data_simulator.non_iid_generator import NonIIDGenerator
 from fl_core.client.satellite_client import SatelliteClient, ClientConfig
 from fl_core.aggregation.intra_orbit import IntraOrbitAggregator, AggregationConfig
-from fl_core.aggregation.ground_station import GroundStationAggregator
+from fl_core.aggregation.ground_station import GroundStationAggregator, GroundStationConfig
 
 class SimpleModel(nn.Module):
     """简单的神经网络模型"""
@@ -113,28 +113,54 @@ class BaselineExperiment:
         
         # 初始化聚合器
         self.intra_orbit_aggregators = {}
-        self.ground_station_aggregator = GroundStationAggregator(self.config['aggregation'])
+        ground_station_config = GroundStationConfig(
+            bandwidth_limit=1000.0,
+            storage_limit=10000.0,
+            priority_levels=3,
+            batch_size=10,
+            aggregation_interval=60.0,
+            min_updates=self.config['aggregation']['min_updates'],
+            max_staleness=self.config['aggregation']['max_staleness'],
+            timeout=self.config['aggregation']['timeout'],
+            weighted_average=self.config['aggregation']['weighted_average']
+        )
+        self.ground_station_aggregator = GroundStationAggregator(ground_station_config)
 
         # 初始化地面站
         self.ground_stations = {}
         self.setup_ground_stations()
-        self.logger.info("=== 初始化地面站 ===")
-        for station_id, station in self.ground_stations.items():
-            self.logger.info(f"地面站 {station_id} 负责轨道: {station.responsible_orbits}")
         
     def prepare_data(self):
         """准备训练数据"""
-        # 生成训练数据
-        self.satellite_datasets = self.data_generator.generate_data(
+        # 生成训练数据，为66个卫星分配数据
+        total_satellites = 66  # 6轨道 × 11卫星
+        self.satellite_datasets = {}
+        
+        # 生成基础数据
+        all_datasets = self.data_generator.generate_data(
             total_samples=self.config['data']['total_samples'],
             dirichlet_alpha=self.config['data']['dirichlet_alpha'],
-            mean_samples_per_satellite=self.config['data']['mean_samples_per_satellite']
+            mean_samples_per_satellite=self.config['data']['mean_samples_per_satellite'],
+            num_satellites=total_satellites  # 确保只生成66个数据集
         )
+        
+        # 为每个卫星分配数据集
+        dataset_idx = 0
+        for orbit_num in range(1, 7):  # 6个轨道
+            for sat_num in range(1, 12):  # 每轨道11颗卫星
+                sat_id = f"satellite_{orbit_num}-{sat_num}"
+                if dataset_idx < len(all_datasets):
+                    self.satellite_datasets[sat_id] = list(all_datasets.values())[dataset_idx]
+                    dataset_idx += 1
         
         # 生成测试数据
         self.test_dataset = self.data_generator.generate_test_data(
             self.config['data']['test_samples']
         )
+        
+        # 记录数据分配情况
+        for sat_id, dataset in self.satellite_datasets.items():
+            self.logger.debug(f"卫星 {sat_id} 数据集大小: {len(dataset)}")
         
         self.logger.info(f"数据生成完成，共{len(self.satellite_datasets)}个卫星节点")
         
@@ -142,38 +168,56 @@ class BaselineExperiment:
         """设置卫星客户端"""
         client_config = ClientConfig(**self.config['client'])
         
-        for sat_id, dataset in self.satellite_datasets.items():
-            # 创建客户端
-            client = SatelliteClient(
-                sat_id,
-                self.model,
-                client_config,
-                self.network_manager,  # 使用网络管理器
-                self.energy_model
-            )
-            client.set_dataset(dataset)
-            self.clients[sat_id] = client
-            
-        self.logger.info(f"客户端设置完成，共{len(self.clients)}个客户端")
+        # 为每个轨道创建卫星
+        for orbit in range(1, 7):  # 6个轨道
+            for sat in range(1, 12):  # 每轨道11颗卫星
+                sat_id = f"satellite_{orbit}-{sat}"  # 使用 satellite_X-X 格式
+                
+                # 创建客户端
+                client = SatelliteClient(
+                    sat_id,
+                    self.model,
+                    client_config,
+                    self.network_manager,
+                    self.energy_model
+                )
+                
+                # 设置数据集
+                if sat_id in self.satellite_datasets:
+                    client.set_dataset(self.satellite_datasets[sat_id])
+                else:
+                    self.logger.warning(f"卫星 {sat_id} 没有对应的数据集")
+                    # 设置空数据集
+                    client.set_dataset(self.data_generator.generate_empty_dataset())
+                
+                self.clients[sat_id] = client
 
     def setup_ground_stations(self):
         """初始化地面站"""
         for i in range(3):
-            config = self.config['aggregation'].copy()
-            config['station_id'] = f"station_{i}"
-            station = GroundStationAggregator(config)
+            ground_station_config = GroundStationConfig(
+                bandwidth_limit=1000.0,
+                storage_limit=10000.0,
+                priority_levels=3,
+                batch_size=10,
+                aggregation_interval=60.0,
+                min_updates=self.config['aggregation']['min_updates'],
+                max_staleness=self.config['aggregation']['max_staleness'],
+                timeout=self.config['aggregation']['timeout'],
+                weighted_average=self.config['aggregation']['weighted_average']
+            )
             
-            # 设置负责的轨道
-            responsible_orbits = [i*2, i*2+1]
-            station.responsible_orbits = responsible_orbits
+            station = GroundStationAggregator(ground_station_config)
+            station.responsible_orbits = [i*2, i*2+1]  # 每个地面站负责两个轨道
             
             # 为每个负责的轨道设置权重
-            for orbit_id in responsible_orbits:
-                sat_name = f"satellite_{orbit_id + 1}"  # 使用 satellite_1 格式
-                station.add_orbit(sat_name, 1.0)
+            for orbit_id in station.responsible_orbits:
+                for sat_num in range(1, 12):  # 每个轨道11颗卫星
+                    sat_name = f"satellite_{orbit_id+1}-{sat_num}"
+                    station.add_orbit(sat_name, 1.0)
                 
             self.ground_stations[f"station_{i}"] = station
-            self.logger.info(f"地面站 {i} 初始化完成: 负责卫星 {[f'satellite_{j+1}' for j in responsible_orbits]}")
+            self.logger.info(f"地面站 {i} 初始化完成: 负责轨道={station.responsible_orbits}")
         
     def train(self):
         """执行训练过程"""
@@ -209,7 +253,7 @@ class BaselineExperiment:
                     while not coordinator:
                         orbit_satellites = self._get_orbit_satellites(orbit_id)
                         for sat_id in orbit_satellites:
-                            if self.network_model.check_visibility(station_id, sat_id, current_time):
+                            if self.network_model._check_visibility(station_id, sat_id, current_time):
                                 coordinator = sat_id
                                 break
                         if not coordinator:
@@ -229,74 +273,74 @@ class BaselineExperiment:
                     # 2. 协调者向轨道内其他卫星分发参数并开始训练
                     self.logger.info(f"\n=== 阶段2: 轨道 {orbit_id} 内参数分发 ===")
                     orbit_satellites = self._get_orbit_satellites(orbit_id)
-                    for sat_id in orbit_satellites:
-                        if sat_id != coordinator:
-                            # 等待直到卫星可见
-                            while not self.topology_manager.check_visibility(coordinator, sat_id, current_time):
-                                current_time += 60
-                                self.topology_manager.update_topology(current_time)
-                            
-                            # 分发参数
-                            self.clients[sat_id].apply_model_update(model_state)
-                            self.logger.info(f"协调者 {coordinator} 将参数分发给 {sat_id}")
+                    self._distribute_orbit_params(coordinator, orbit_satellites, model_state, current_time)
 
                     # 3. 轨道内训练
                     self.logger.info(f"\n=== 阶段3: 轨道 {orbit_id} 训练 ===")
                     trained_satellites = set()
                     for sat_id in orbit_satellites:
                         stats = self.clients[sat_id].train(round_num)
-                        trained_satellites.add(sat_id)
-                        if stats['summary']['train_loss']:
+                        
+                        # 检查训练是否成功完成
+                        if (stats['summary']['train_loss'] and 
+                            len(stats['summary']['train_loss']) > 0 and 
+                            stats['summary']['completed_epochs'] > 0):
+                            # 训练成功完成
+                            trained_satellites.add(sat_id)
                             self.logger.info(f"卫星 {sat_id} 完成训练: "
                                         f"Loss={stats['summary']['train_loss'][-1]:.4f}, "
                                         f"Acc={stats['summary']['train_accuracy'][-1]:.2f}%, "
-                                        f"能耗={stats['summary']['energy_consumption']:.4f}Wh")
+                                        f"能耗={stats['summary']['energy_consumption']:.4f}Wh, "
+                                        f"Epochs={stats['summary']['completed_epochs']}")
                         else:
-                            self.logger.warning(f"卫星 {sat_id} 训练未产生有效结果")
-                    
-                    orbit_status[orbit_id]['training_completed'] = True
+                            # 训练未完成或被跳过
+                            reason = "能量不足" if stats['summary']['energy_consumption'] == 0.0 else "训练未完成"
+                            self.logger.info(f"卫星 {sat_id} {reason}")
+                            continue  # 继续处理下一个卫星
+
+                    # 检查是否有足够的卫星完成训练
+                    if len(trained_satellites) == 0:
+                        self.logger.warning(f"轨道 {orbit_id} 没有卫星成功完成训练，跳过聚合")
+                        continue  # 继续处理下一个轨道
 
                     # 4. 轨道内聚合
-                    self.logger.info(f"\n=== 阶段4: 轨道 {orbit_id} 聚合 ===")
-                    if len(trained_satellites) == len(orbit_satellites):
+                    if len(trained_satellites) >= self.config['aggregation']['min_updates']:  # 确保有足够的更新
+                        self.logger.info(f"\n=== 阶段4: 轨道 {orbit_id} 聚合 ===")
+                        self.logger.info(f"参与聚合的卫星: {trained_satellites}")
+                        
                         aggregator = self.intra_orbit_aggregators.get(orbit_id)
                         if not aggregator:
                             aggregator = IntraOrbitAggregator(AggregationConfig(**self.config['aggregation']))
                             self.intra_orbit_aggregators[orbit_id] = aggregator
 
-                        # 收集更新并聚合
-                        for sat_id in orbit_satellites:
+                        # 只聚合成功训练的卫星
+                        for sat_id in trained_satellites:
                             model_diff, _ = self.clients[sat_id].get_model_update()
                             self.logger.info(f"收集卫星 {sat_id} 的模型更新")
                             aggregator.receive_update(sat_id, round_num, model_diff, current_time)
 
-                        orbit_update = aggregator.get_aggregated_update(round_num)
-                        if orbit_update:
-                            self.logger.info(f"轨道 {orbit_id} 完成聚合")
-                            # 更新所有卫星的模型
-                            for sat_id in orbit_satellites:
-                                self.clients[sat_id].apply_model_update(orbit_update)
-                                self.logger.info(f"更新卫星 {sat_id} 的模型参数")
-                            orbit_status[orbit_id]['orbit_aggregated'] = True
-
-                            # 5. 协调者将聚合后的模型发送给地面站
+                            # 5. 将聚合后的模型发送给地面站
                             self.logger.info(f"\n=== 阶段5: 轨道 {orbit_id} 发送模型到地面站 ===")
-                            while not self.network_model.check_visibility(station_id, coordinator, current_time):
+                            while not self.network_model._check_visibility(station_id, coordinator, current_time):
                                 current_time += 60
                                 self.topology_manager.update_topology(current_time)
 
                             model_diff, _ = self.clients[coordinator].get_model_update()
                             success = station.receive_orbit_update(
-                                str(orbit_id),
+                                str(orbit_id),  # 确保 orbit_id 是字符串
                                 round_num,
                                 model_diff,
-                                len(orbit_satellites)
+                                len(orbit_satellites),
+                                priority=1  # 添加优先级参数
                             )
+
                             if success:
-                                orbit_status[orbit_id]['model_sent_to_station'] = True
-                                self.logger.info(f"轨道 {orbit_id} 的模型已发送给地面站 {station_id}")
+                                self.logger.info(f"轨道 {orbit_id} 成功将模型发送给地面站 {station_id}")
                             else:
-                                self.logger.warning(f"轨道 {orbit_id} 向地面站 {station_id} 发送模型失败")
+                                self.logger.error(f"轨道 {orbit_id} 向地面站 {station_id} 发送模型失败")
+                                self.logger.debug(f"模型大小: {sum(param.nelement() * param.element_size() for param in model_diff.values()) / (1024 * 1024):.2f}MB")
+                                self.logger.debug(f"地面站存储使用: {station.storage_usage:.2f}MB/{station.config.storage_limit}MB")
+                                self.logger.debug(f"地面站带宽使用: {station._get_current_bandwidth_usage():.2f}Mbps/{station.config.bandwidth_limit}Mbps")
 
             # 6. 地面站聚合
             self.logger.info("\n=== 阶段6: 地面站聚合 ===")
@@ -340,16 +384,45 @@ class BaselineExperiment:
             # 更新时间
             current_time += self.config['fl']['round_interval']
 
+    def _distribute_orbit_params(self, coordinator: str, orbit_satellites: List[str], model_state: Dict, current_time: float):
+        """
+        在轨道内传递参数
+        使用链式传递: 1->2->3->...->11
+        """
+        self.logger.info(f"开始轨道内参数传递, 协调者: {coordinator}")
+        _, coord_num = self._parse_satellite_id(coordinator)
+        
+        # 按序号排序轨道内卫星
+        sorted_satellites = sorted(orbit_satellites, 
+                                key=lambda x: int(self._parse_satellite_id(x)[1]))
+        
+        # 从协调者开始，向后传递
+        current_sat = coordinator
+        for i in range(len(sorted_satellites)):
+            next_idx = (sorted_satellites.index(current_sat) + 1) % len(sorted_satellites)
+            next_sat = sorted_satellites[next_idx]
+            
+            self.logger.info(f"参数传递: {current_sat} -> {next_sat}")
+            self.clients[next_sat].apply_model_update(model_state)
+            
+            current_sat = next_sat
             
     def _get_orbit_satellites(self, orbit_id: int) -> List[str]:
         """获取轨道内的所有卫星"""
         satellites = []
-        # satellite_1 格式
-        sat_num = orbit_id + 1
-        sat_name = f"satellite_{sat_num}"
-        if sat_name in self.clients:
-            satellites.append(sat_name)
+        orbit_num = orbit_id + 1  # 轨道编号从1开始
+        # 每个轨道11颗卫星
+        for i in range(1, 12):
+            sat_name = f"satellite_{orbit_num}-{i}"  # 使用 satellite_X-X 格式
+            if sat_name in self.clients:
+                satellites.append(sat_name)
         return satellites
+    
+    def _parse_satellite_id(self, sat_id: str) -> Tuple[int, int]:
+        """解析卫星ID获取轨道号和卫星序号"""
+        # satellite_1-1 -> (1, 1)
+        orbit_num, sat_num = sat_id.split('_')[1].split('-')
+        return int(orbit_num), int(sat_num)
 
     def _get_orbit_number(self, satellite_id: str) -> int:
         """从卫星ID获取轨道编号"""
@@ -368,7 +441,7 @@ class BaselineExperiment:
         # 检查卫星与地面站的可见性
         visible_satellites = []
         for sat_id in orbit_satellites:
-            is_visible = self.network_model.check_visibility(station_id, sat_id, current_time)
+            is_visible = self.network_model._check_visibility(station_id, sat_id, current_time)
             self.logger.debug(f"检查可见性: {station_id} -> {sat_id}: {is_visible}")
             if is_visible:
                 visible_satellites.append(sat_id)

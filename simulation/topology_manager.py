@@ -78,7 +78,7 @@ class TopologyManager:
                 quality_sum = 0.0
                 
                 for t in sample_times:
-                    if self.network_model.check_visibility(sat1, sat2, t):
+                    if self.network_model._check_visibility(sat1, sat2, t):
                         visible_count += 1
                         pos1_t = self.network_model.compute_position(sat1, t)
                         pos2_t = self.network_model.compute_position(sat2, t)

@@ -1,6 +1,6 @@
 # 网络配置
 network:
-  tle_file: "configs/iridium_constellation.txt"
+  tle_file: "configs/Iridium_TLEs.txt"
   max_distance: 4000.0  # km
 
 # 能源配置
@@ -9,7 +9,9 @@ energy:
   
 # 联邦学习配置
 fl:
-  num_satellites: 6
+  num_satellites: 66  # 总卫星数量
+  satellites_per_orbit: 11  # 每轨道卫星数
+  num_orbits: 6  # 轨道数量
   num_rounds: 20
   round_interval: 300  # 每轮训练间隔(秒)
   
@@ -17,10 +19,10 @@ fl:
 data:
   feature_dim: 10
   num_classes: 2
-  total_samples: 10000
+  total_samples: 66000  # 增加总样本数以适应更多卫星
   test_samples: 1000
   dirichlet_alpha: 0.5
-  mean_samples_per_satellite: 1000
+  mean_samples_per_satellite: 1000  # 每个卫星的平均样本数
   
 # 模型配置
 model:
@@ -41,3 +43,11 @@ aggregation:
   max_staleness: 300.0
   timeout: 600.0
   weighted_average: true
+
+# 地面站配置
+ground_station:
+  bandwidth_limit: 1000.0  # Mbps
+  storage_limit: 10000.0   # MB
+  priority_levels: 3
+  batch_size: 10
+  aggregation_interval: 60.0
