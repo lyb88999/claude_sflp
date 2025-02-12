@@ -25,6 +25,12 @@ class SimpleModel(nn.Module):
     """简单的神经网络模型"""
     def __init__(self, input_dim: int = 10, hidden_dim: int = 20, num_classes: int = 2):
         super().__init__()
+        self.__init__args__ = (input_dim,)
+        self.__init__kwargs__ = {
+            'hidden_dim': hidden_dim,
+            'num_classes': num_classes
+        }
+        
         self.fc1 = nn.Linear(input_dim, hidden_dim)
         self.fc2 = nn.Linear(hidden_dim, num_classes)
         self.relu = nn.ReLU()
@@ -170,15 +176,33 @@ class BaselineExperiment:
         """设置卫星客户端"""
         client_config = ClientConfig(**self.config['client'])
         
+        # 基础模型定义
+        base_model = SimpleModel(
+            input_dim=self.config['data']['feature_dim'],
+            hidden_dim=self.config['model']['hidden_dim'],
+            num_classes=self.config['data']['num_classes']
+        )
+        
+        # 保存基础模型参数
+        base_state_dict = base_model.state_dict()
+        
         # 为每个轨道创建卫星
         for orbit in range(1, 7):  # 6个轨道
             for sat in range(1, 12):  # 每轨道11颗卫星
-                sat_id = f"satellite_{orbit}-{sat}"  # 使用 satellite_X-X 格式
+                sat_id = f"satellite_{orbit}-{sat}"
+                
+                # 创建新的模型实例
+                model = SimpleModel(
+                    input_dim=self.config['data']['feature_dim'],
+                    hidden_dim=self.config['model']['hidden_dim'],
+                    num_classes=self.config['data']['num_classes']
+                )
+                model.load_state_dict(base_state_dict)
                 
                 # 创建客户端
                 client = SatelliteClient(
                     sat_id,
-                    self.model,
+                    model,
                     client_config,
                     self.network_manager,
                     self.energy_model
@@ -189,7 +213,6 @@ class BaselineExperiment:
                     client.set_dataset(self.satellite_datasets[sat_id])
                 else:
                     self.logger.warning(f"卫星 {sat_id} 没有对应的数据集")
-                    # 设置空数据集
                     client.set_dataset(self.data_generator.generate_empty_dataset())
                 
                 self.clients[sat_id] = client
@@ -280,28 +303,117 @@ class BaselineExperiment:
 
             current_time += self.config['fl']['round_interval']
 
+    # def _distribute_orbit_params(self, coordinator: str, orbit_satellites: List[str], model_state: Dict, current_time: float):
+    #     """
+    #     在轨道内传递参数
+    #     使用链式传递: 1->2->3->...->11
+    #     """
+    #     self.logger.info(f"开始轨道内参数传递, 协调者: {coordinator}")
+    #     _, coord_num = self._parse_satellite_id(coordinator)
+        
+    #     # 按序号排序轨道内卫星
+    #     sorted_satellites = sorted(orbit_satellites, 
+    #                             key=lambda x: int(self._parse_satellite_id(x)[1]))
+        
+    #     # 从协调者开始，向后传递
+    #     current_sat = coordinator
+    #     for i in range(len(sorted_satellites)):
+    #         next_idx = (sorted_satellites.index(current_sat) + 1) % len(sorted_satellites)
+    #         next_sat = sorted_satellites[next_idx]
+            
+    #         self.logger.info(f"参数传递: {current_sat} -> {next_sat}")
+    #         self.clients[next_sat].apply_model_update(model_state)
+            
+    #         current_sat = next_sat
+
     def _distribute_orbit_params(self, coordinator: str, orbit_satellites: List[str], model_state: Dict, current_time: float):
         """
-        在轨道内传递参数
-        使用链式传递: 1->2->3->...->11
+        在轨道内采用洪泛式传递参数
+        Args:
+            coordinator: 协调者卫星ID
+            orbit_satellites: 轨道内所有卫星
+            model_state: 模型参数
+            current_time: 当前时间戳
         """
-        self.logger.info(f"开始轨道内参数传递, 协调者: {coordinator}")
-        _, coord_num = self._parse_satellite_id(coordinator)
+        self.logger.info(f"\n开始轨道内洪泛式参数传递, 协调者: {coordinator}")
         
-        # 按序号排序轨道内卫星
+        # 按照序号排序卫星
+        orbit_num, coord_num = self._parse_satellite_id(coordinator)
         sorted_satellites = sorted(orbit_satellites, 
                                 key=lambda x: int(self._parse_satellite_id(x)[1]))
         
-        # 从协调者开始，向后传递
-        current_sat = coordinator
-        for i in range(len(sorted_satellites)):
-            next_idx = (sorted_satellites.index(current_sat) + 1) % len(sorted_satellites)
-            next_sat = sorted_satellites[next_idx]
+        # 记录已接收参数的卫星
+        received_params = {coordinator}
+        # 记录每个卫星的传播时间
+        distribution_times = {coordinator: current_time}
+        
+        # 从协调者开始，向两个方向传播
+        max_retries = 3
+        transmission_interval = 60  # 传输间隔（秒）
+        
+        def propagate_direction(start_idx: int, direction: int):
+            """向指定方向传播参数"""
+            current_idx = start_idx
+            retries = 0
+            local_time = current_time
             
-            self.logger.info(f"参数传递: {current_sat} -> {next_sat}")
-            self.clients[next_sat].apply_model_update(model_state)
+            while retries < max_retries:
+                next_idx = (current_idx + direction) % len(sorted_satellites)
+                current_sat = sorted_satellites[current_idx]
+                next_sat = sorted_satellites[next_idx]
+                
+                # 如果下一个卫星已经收到参数，停止在这个方向的传播
+                if next_sat in received_params:
+                    break
+                    
+                try:
+                    # 等待直到相邻卫星可见
+                    wait_time = 0
+                    max_wait = 120
+                    while not self.network_model._check_visibility(current_sat, next_sat, local_time + wait_time):
+                        if wait_time >= max_wait:
+                            break
+                        wait_time += 10
+                    
+                    if wait_time < max_wait:
+                        # 传递参数
+                        self.clients[next_sat].apply_model_update(model_state)
+                        received_params.add(next_sat)
+                        distribution_times[next_sat] = local_time + wait_time
+                        self.logger.info(f"参数传递链: {current_sat} -> {next_sat} 成功")
+                        
+                        # 更新索引和时间
+                        current_idx = next_idx
+                        local_time += wait_time + transmission_interval
+                        retries = 0  # 重置重试次数
+                    else:
+                        retries += 1
+                        local_time += transmission_interval
+                        self.logger.warning(f"尝试传递参数 {current_sat}->{next_sat} 失败，重试 {retries}/{max_retries}")
+                
+                except Exception as e:
+                    self.logger.error(f"参数传递出错 {current_sat}->{next_sat}: {str(e)}")
+                    retries += 1
+                    local_time += transmission_interval
+
             
-            current_sat = next_sat
+        
+        # 获取协调者在排序列表中的索引
+        coord_idx = sorted_satellites.index(coordinator)
+        
+        # 向两个方向传播
+        propagate_direction(coord_idx, 1)  # 向后传播
+        propagate_direction(coord_idx, -1)  # 向前传播
+        
+        # 检查传播结果
+        missing_satellites = set(orbit_satellites) - received_params
+        if missing_satellites:
+            self.logger.warning(f"以下卫星未收到参数: {missing_satellites}")
+        else:
+            self.logger.info("所有卫星已成功接收参数")
+            
+        # 返回最后一个卫星的传播时间
+        return max(distribution_times.values()) if distribution_times else current_time
 
     def _handle_orbit_training(self, station_id: str, orbit_id: int, current_time: float):
         """
@@ -340,53 +452,28 @@ class BaselineExperiment:
 
             # 2. 分发初始参数给协调者
             model_state = self.model.state_dict()
-            self.clients[coordinator].apply_model_update(model_state)
-            self.logger.info(f"成功将参数分发给协调者 {coordinator}")
+            # self.clients[coordinator].apply_model_update(model_state)
+            # self.logger.info(f"成功将参数分发给协调者 {coordinator}")
+            current_time = self._distribute_orbit_params(coordinator, orbit_satellites, model_state, current_time)
+
 
             # 3. 协调者向轨道内其他卫星分发参数
             self.logger.info(f"\n=== 轨道 {orbit_id} 内参数分发 ===")
             orbit_satellites = self._get_orbit_satellites(orbit_id)
-            parameters_distributed = False  # 添加标志来跟踪是否有参数分发
+            current_time = self._distribute_orbit_params(coordinator, orbit_satellites, model_state, current_time)
 
-            for sat_id in orbit_satellites:
-                if sat_id != coordinator:
-                    try:
-                        # 等待直到卫星可见
-                        wait_start_time = current_time
-                        # 使用拓扑检查来验证两个卫星是否可以通信
-                        # topology_manager 中使用的是卫星间直接通信的检查，不依赖于复杂的可见性计算
-                        while not self.network_model._check_visibility(coordinator, sat_id, current_time):
-                            if current_time - wait_start_time > 300:  # 设置最大等待时间（5分钟）
-                                self.logger.warning(f"轨道 {orbit_id}: {sat_id} 等待与协调者 {coordinator} 的连接超时")
-                                break
-                            current_time += 60
-                            self.topology_manager.update_topology(current_time)
-                        
-                        # 检查是否建立了连接
-                        if self.network_model._check_visibility(coordinator, sat_id, current_time):
-                            # 分发参数
-                            self.clients[sat_id].apply_model_update(model_state)
-                            self.logger.info(f"轨道 {orbit_id}: 协调者 {coordinator} 成功将参数分发给 {sat_id}")
-                            parameters_distributed = True
-                        else:
-                            self.logger.warning(f"轨道 {orbit_id}: 无法建立协调者 {coordinator} 与 {sat_id} 的连接")
-                    except Exception as e:
-                        self.logger.error(f"轨道 {orbit_id}: 参数分发过程出错 ({coordinator} -> {sat_id}): {str(e)}")
-                        self.logger.error(f"异常详情: {str(e)}")
 
-            # 记录参数分发的最终状态
-            if parameters_distributed:
-                self.logger.info(f"轨道 {orbit_id}: 参数分发阶段完成")
-            else:
-                self.logger.warning(f"轨道 {orbit_id}: 在当前轮次中未能成功完成参数分发")
 
             # 4. 轨道内训练
             self.logger.info(f"\n=== 轨道 {orbit_id} 训练 ===")
             trained_satellites = set()
+            training_stats = {}  # 记录每个卫星的训练状态
+
             for sat_id in orbit_satellites:
                 stats = self.clients[sat_id].train(self.current_round)
                 if stats['summary']['train_loss']:
                     trained_satellites.add(sat_id)
+                    training_stats[sat_id] = stats
                     self.logger.info(f"卫星 {sat_id} 完成训练: "
                                 f"Loss={stats['summary']['train_loss'][-1]:.4f}, "
                                 f"Acc={stats['summary']['train_accuracy'][-1]:.2f}%, "
@@ -395,7 +482,10 @@ class BaselineExperiment:
                     self.logger.warning(f"卫星 {sat_id} 训练未产生有效结果")
 
             # 5. 轨道内聚合
-            if len(trained_satellites) >= self.config['aggregation']['min_updates']:
+            min_updates_required = self.config['aggregation']['min_updates']
+            self.logger.info(f"需要至少 {min_updates_required} 个卫星更新，当前有 {len(trained_satellites)} 个")
+
+            if len(trained_satellites) >= min_updates_required:
                 self.logger.info(f"\n=== 轨道 {orbit_id} 聚合 ===")
                 aggregator = self.intra_orbit_aggregators.get(orbit_id)
                 if not aggregator:
@@ -403,48 +493,77 @@ class BaselineExperiment:
                     self.intra_orbit_aggregators[orbit_id] = aggregator
 
                 # 收集更新并聚合
+                updates_collected = 0
                 for sat_id in trained_satellites:
-                    model_diff, _ = self.clients[sat_id].get_model_update()
-                    self.logger.info(f"收集卫星 {sat_id} 的模型更新")
-                    aggregator.receive_update(sat_id, self.current_round, model_diff, current_time)
+                    try:
+                        model_diff, stats = self.clients[sat_id].get_model_update()
+                        if model_diff:
+                            self.logger.info(f"收集卫星 {sat_id} 的模型更新")
+                            aggregator.receive_update(sat_id, self.current_round, model_diff, current_time)
+                            updates_collected += 1
+                        else:
+                            self.logger.warning(f"卫星 {sat_id} 的模型更新为空")
+                    except Exception as e:
+                        self.logger.error(f"收集卫星 {sat_id} 更新时出错: {str(e)}")
+
+                self.logger.info(f"成功收集了 {updates_collected} 个卫星的更新")
 
                 orbit_update = aggregator.get_aggregated_update(self.current_round)
                 if orbit_update:
                     self.logger.info(f"轨道 {orbit_id} 完成聚合")
-                    # 更新所有卫星的模型
+                     # 更新所有卫星的模型
+                    update_success = 0
                     for sat_id in orbit_satellites:
-                        self.clients[sat_id].apply_model_update(orbit_update)
-                        self.logger.info(f"更新卫星 {sat_id} 的模型参数")
+                        try:
+                            self.clients[sat_id].apply_model_update(orbit_update)
+                            update_success += 1
+                            self.logger.info(f"更新卫星 {sat_id} 的模型参数")
+                        except Exception as e:
+                            self.logger.error(f"更新卫星 {sat_id} 模型时出错: {str(e)}")
+
+                    self.logger.info(f"成功更新了 {update_success} 个卫星的模型")
 
                     # 6. 等待可见性并发送模型回地面站
+                    visibility_wait_start = current_time
+                    max_visibility_wait = 300  # 5分钟最大等待时间
+                    
                     while not self.network_model._check_visibility(station_id, coordinator, current_time):
+                        if current_time - visibility_wait_start > max_visibility_wait:
+                            self.logger.warning(f"等待地面站 {station_id} 可见性超时")
+                            return False
                         current_time += 60
                         self.topology_manager.update_topology(current_time)
 
                     # 7. 发送模型到地面站
-                    model_diff, _ = self.clients[coordinator].get_model_update()
-                    success = station.receive_orbit_update(
-                        str(orbit_id),
-                        self.current_round,
-                        model_diff,
-                        len(trained_satellites)
-                    )
-
-                    if success:
-                        self.logger.info(f"轨道 {orbit_id} 的模型成功发送给地面站 {station_id}")
-                        return True
-                    else:
-                        self.logger.warning(f"轨道 {orbit_id} 向地面站 {station_id} 发送模型失败")
-                        return False
+                    try:
+                        model_diff, _ = self.clients[coordinator].get_model_update()
+                        if model_diff:
+                            success = station.receive_orbit_update(
+                                str(orbit_id),
+                                self.current_round,
+                                model_diff,
+                                len(trained_satellites)
+                            )
+                            if success:
+                                self.logger.info(f"轨道 {orbit_id} 的模型成功发送给地面站 {station_id}")
+                                return True
+                            else:
+                                self.logger.error(f"地面站 {station_id} 拒绝接收轨道 {orbit_id} 的更新")
+                        else:
+                            self.logger.error(f"协调者 {coordinator} 无法获取有效的模型更新")
+                    except Exception as e:
+                        self.logger.error(f"发送模型到地面站时出错: {str(e)}")
                 else:
-                    self.logger.warning(f"轨道 {orbit_id} 聚合失败")
-                    return False
+                    self.logger.error(f"轨道 {orbit_id} 聚合失败: 无法获取有效的聚合结果")
             else:
-                self.logger.warning(f"轨道 {orbit_id} 训练的卫星数量不足")
-                return False
+                self.logger.warning(f"轨道 {orbit_id} 训练的卫星数量不足: {len(trained_satellites)} < {min_updates_required}")
+
+            return False
 
         except Exception as e:
             self.logger.error(f"处理轨道 {orbit_id} 时出错: {str(e)}")
+            import traceback
+            self.logger.error(traceback.format_exc())
             return False
         
     def _station_aggregation(self, station_id: str, station) -> bool:

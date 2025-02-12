@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, List, Tuple, Optional
 import numpy as np
 import torch
@@ -26,6 +27,8 @@ class IntraOrbitAggregator:
         self.update_timestamps = defaultdict(dict)  # round -> {client_id: timestamp}
         self.client_weights = {}  # client_id -> weight
         self.aggregation_state = {}  # round -> state
+        self.logger = logging.getLogger(__name__)  # 添加logger
+
         
     def add_client(self, client_id: str, weight: float = 1.0):
         """
@@ -43,50 +46,118 @@ class IntraOrbitAggregator:
     def receive_update(self, client_id: str, round_number: int,
                       model_update: Dict[str, torch.Tensor],
                       timestamp: float) -> bool:
-        """
-        接收客户端更新
-        Args:
-            client_id: 客户端ID
-            round_number: 轮次
-            model_update: 模型更新
-            timestamp: 时间戳
-        Returns:
-            是否成功接收更新
-        """
-        if client_id not in self.client_weights:
+        """接收客户端更新"""
+        try:
+            # 验证更新内容
+            if not model_update:
+                self.logger.warning(f"客户端 {client_id} 提供了空的更新")
+                return False
+                
+            # 检查参数是否为tensor
+            for param_name, param in model_update.items():
+                if not isinstance(param, torch.Tensor):
+                    self.logger.error(f"客户端 {client_id} 的参数 {param_name} 不是tensor")
+                    return False
+                    
+            # 存储更新
+            self.pending_updates[round_number][client_id] = {
+                name: param.clone().detach() 
+                for name, param in model_update.items()
+            }
+            self.update_timestamps[round_number][client_id] = timestamp
+            
+            self.logger.info(f"成功接收客户端 {client_id} 的更新，轮次 {round_number}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"接收更新时出错: {str(e)}")
             return False
-            
-        # 检查更新是否过期
-        current_time = datetime.now().timestamp()
-        if current_time - timestamp > self.config.max_staleness:
-            return False
-            
-        # 存储更新
-        self.pending_updates[round_number][client_id] = model_update
-        self.update_timestamps[round_number][client_id] = timestamp
-        
-        # 检查是否可以进行聚合
-        if self._should_aggregate(round_number):
-            self._aggregate_round(round_number)
-            
-        return True
         
     def get_aggregated_update(self, round_number: int) -> Optional[Dict[str, torch.Tensor]]:
-        """
-        获取聚合后的更新
-        Args:
-            round_number: 轮次
-        Returns:
-            聚合后的模型更新
-        """
-        if round_number not in self.aggregation_state:
+        """获取聚合后的更新"""
+        self.logger.info(f"尝试获取轮次 {round_number} 的聚合结果")
+        
+        if round_number not in self.pending_updates:
+            self.logger.warning(f"轮次 {round_number} 没有待处理的更新")
             return None
             
-        state = self.aggregation_state[round_number]
-        if not state.get('completed', False):
+        updates = self.pending_updates[round_number]
+        if len(updates) < self.config.min_updates:
+            self.logger.warning(f"更新数量不足: {len(updates)} < {self.config.min_updates}")
             return None
             
-        return state.get('result')
+        try:
+            # 计算权重
+            weights = {}
+            total_weight = 0.0
+            
+            for client_id in updates.keys():
+                if self.config.weighted_average:
+                    # 基于时间戳的权重计算
+                    current_time = datetime.now().timestamp()
+                    staleness = current_time - self.update_timestamps[round_number][client_id]
+                    time_factor = np.exp(-staleness / self.config.max_staleness)
+                    weight = time_factor
+                else:
+                    weight = 1.0
+                    
+                weights[client_id] = weight
+                total_weight += weight
+            
+            # 归一化权重
+            if total_weight > 0:
+                for client_id in weights:
+                    weights[client_id] /= total_weight
+            else:
+                self.logger.error("权重总和为0，无法进行聚合")
+                return None
+                
+            # 聚合更新
+            aggregated_update = {}
+            self.logger.info(f"开始聚合 {len(updates)} 个更新")
+            
+            # 获取参数名列表
+            param_names = next(iter(updates.values())).keys()
+            
+            for param_name in param_names:
+                weighted_sum = None
+                param_updates_available = True
+                
+                for client_id, update in updates.items():
+                    if param_name not in update:
+                        self.logger.error(f"客户端 {client_id} 缺少参数 {param_name}")
+                        param_updates_available = False
+                        break
+                        
+                    try:
+                        weighted_update = update[param_name] * weights[client_id]
+                        if weighted_sum is None:
+                            weighted_sum = weighted_update
+                        else:
+                            weighted_sum += weighted_update
+                    except Exception as e:
+                        self.logger.error(f"处理参数 {param_name} 时出错: {str(e)}")
+                        param_updates_available = False
+                        break
+                
+                if not param_updates_available:
+                    self.logger.error("参数聚合失败")
+                    return None
+                    
+                aggregated_update[param_name] = weighted_sum
+            
+            # 清理已完成的更新
+            self.pending_updates.pop(round_number, None)
+            self.update_timestamps.pop(round_number, None)
+            
+            self.logger.info("聚合完成")
+            return aggregated_update
+            
+        except Exception as e:
+            self.logger.error(f"聚合过程出错: {str(e)}")
+            import traceback
+            self.logger.error(traceback.format_exc())
+            return None
         
     def _should_aggregate(self, round_number: int) -> bool:
         """检查是否应该进行聚合"""

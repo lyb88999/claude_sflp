@@ -33,7 +33,8 @@ class SatelliteClient:
             energy_manager: 能源管理器实例
         """
         self.client_id = client_id
-        self.model = model
+        self.model = type(model)(*model.__init__args__, **model.__init__kwargs__)
+        self.model.load_state_dict(model.state_dict())
         self.config = config
         self.network_manager = network_manager
         self.energy_manager = energy_manager
@@ -51,6 +52,7 @@ class SatelliteClient:
             lr=config.learning_rate,
             momentum=config.momentum
         )
+        torch.autograd.set_detect_anomaly(True)
         
     def set_dataset(self, dataset: Dataset):
         """设置本地数据集"""
@@ -209,35 +211,41 @@ class SatelliteClient:
         return epoch_stats
 
     def _train_one_batch(self, data: torch.Tensor, target: torch.Tensor, 
-                        batch_energy: float) -> Optional[Dict]:
+                     batch_energy: float) -> Optional[Dict]:
         """训练一个batch"""
         try:
+            # 确保数据是独立的副本
+            data = data.clone().detach()
+            target = target.clone().detach()
+            
+            # 清除之前的梯度
+            self.optimizer.zero_grad()
+            
             # 前向传播
             output = self.model(data)
             loss = nn.functional.cross_entropy(output, target)
             
             # 反向传播
-            self.optimizer.zero_grad()
             loss.backward()
+            
+            # 梯度裁剪
+            torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
+            
+            # 更新参数
             self.optimizer.step()
             
-            # 计算准确率
-            _, predicted = output.max(1)
-            batch_total = target.size(0)
-            batch_correct = predicted.eq(target).sum().item()
-            
-            # 记录能耗
-            self.energy_manager.consume_energy(self.client_id, batch_energy)
-            
+            with torch.no_grad():
+                _, predicted = output.max(1)
+                correct = predicted.eq(target).sum().item()
+                
             return {
                 'loss': loss.item(),
-                'correct': batch_correct,
-                'total': batch_total,
-                'model_updates': self._verify_model_update()
+                'correct': correct,
+                'total': target.size(0)
             }
             
         except Exception as e:
-            print(f"Client {self.client_id}: 训练过程出错: {str(e)}")
+            self.logger.error(f"Client {self.client_id}: 训练过程出错: {str(e)}")
             return None
 
     def _finalize_training_stats(self, stats: Dict, start_time: datetime) -> Dict:
@@ -284,15 +292,22 @@ class SatelliteClient:
         return model_diff, self.train_stats[-1]
         
     def apply_model_update(self, model_update: Dict[str, torch.Tensor]):
-        """
-        应用模型更新
-        Args:
-            model_update: 模型参数更新
-        """
+        """应用模型更新"""
         with torch.no_grad():
-            for name, param in self.model.named_parameters():
-                if name in model_update:
-                    param.copy_(model_update[name])
+            # 创建参数的深度复制
+            new_state_dict = {}
+            for name, param in model_update.items():
+                new_state_dict[name] = param.clone().detach()
+            
+            # 更新模型参数
+            self.model.load_state_dict(new_state_dict)
+            
+            # 重新初始化优化器
+            self.optimizer = torch.optim.SGD(
+                self.model.parameters(),
+                lr=self.config.learning_rate,
+                momentum=self.config.momentum
+            )
                     
     def evaluate(self, test_data: Dataset) -> Dict:
         """
