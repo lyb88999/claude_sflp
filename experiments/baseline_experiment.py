@@ -2,6 +2,7 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
+from fl_core.aggregation.global_aggregator import GlobalAggregator, GlobalConfig
 from simulation.network_manager import NetworkManager
 import torch
 import torch.nn as nn
@@ -57,6 +58,20 @@ class BaselineExperiment:
         # 初始化组件
         self._init_components()
         self.max_workers = 6
+
+        # 添加全局聚合器
+        global_config = GlobalConfig(
+            min_ground_stations=2,
+            consistency_threshold=0.8,
+            max_version_diff=2,
+            aggregation_timeout=1800.0,
+            validation_required=True
+        )
+        self.global_aggregator = GlobalAggregator(global_config)
+        
+        # 为全局聚合器添加地面站
+        for station_id in ['station_0', 'station_1', 'station_2']:
+            self.global_aggregator.add_ground_station(station_id, 1.0)
         
     def _setup_logging(self):
         """设置日志"""
@@ -450,17 +465,21 @@ class BaselineExperiment:
 
             self.logger.info(f"轨道 {orbit_id} 选择 {coordinator} 作为协调者")
 
-            # 2. 分发初始参数给协调者
+            # 2.3. 分发初始参数给协调者
             model_state = self.model.state_dict()
             # self.clients[coordinator].apply_model_update(model_state)
             # self.logger.info(f"成功将参数分发给协调者 {coordinator}")
-            current_time = self._distribute_orbit_params(coordinator, orbit_satellites, model_state, current_time)
-
-
-            # 3. 协调者向轨道内其他卫星分发参数
             self.logger.info(f"\n=== 轨道 {orbit_id} 内参数分发 ===")
-            orbit_satellites = self._get_orbit_satellites(orbit_id)
             current_time = self._distribute_orbit_params(coordinator, orbit_satellites, model_state, current_time)
+            # 如果参数分发失败，提前返回
+            if not current_time:  # 假设_distribute_orbit_params在失败时返回None
+                self.logger.error(f"轨道 {orbit_id} 参数分发失败")
+                return False
+
+            # # 3. 协调者向轨道内其他卫星分发参数
+            # self.logger.info(f"\n=== 轨道 {orbit_id} 内参数分发 ===")
+            # orbit_satellites = self._get_orbit_satellites(orbit_id)
+            # current_time = self._distribute_orbit_params(coordinator, orbit_satellites, model_state, current_time)
 
 
 
@@ -523,15 +542,19 @@ class BaselineExperiment:
 
                     self.logger.info(f"成功更新了 {update_success} 个卫星的模型")
 
-                    # 6. 等待可见性并发送模型回地面站
-                    visibility_wait_start = current_time
-                    max_visibility_wait = 300  # 5分钟最大等待时间
-                    
-                    while not self.network_model._check_visibility(station_id, coordinator, current_time):
-                        if current_time - visibility_wait_start > max_visibility_wait:
-                            self.logger.warning(f"等待地面站 {station_id} 可见性超时")
-                            return False
-                        current_time += 60
+                    # 6. 验证并等待可见性窗口
+                    visibility_start = current_time
+                    best_visibility_time = None
+                    max_search_time = 300  # 5分钟搜索窗口
+
+                    # 先搜索一个最佳的可见性时间点
+                    for check_time in range(int(visibility_start), int(visibility_start + max_search_time), 30):
+                        if self.network_model._check_visibility(station_id, coordinator, check_time):
+                            best_visibility_time = check_time
+                            break
+
+                    if best_visibility_time is not None:
+                        current_time = best_visibility_time
                         self.topology_manager.update_topology(current_time)
 
                     # 7. 发送模型到地面站
@@ -547,10 +570,6 @@ class BaselineExperiment:
                             if success:
                                 self.logger.info(f"轨道 {orbit_id} 的模型成功发送给地面站 {station_id}")
                                 return True
-                            else:
-                                self.logger.error(f"地面站 {station_id} 拒绝接收轨道 {orbit_id} 的更新")
-                        else:
-                            self.logger.error(f"协调者 {coordinator} 无法获取有效的模型更新")
                     except Exception as e:
                         self.logger.error(f"发送模型到地面站时出错: {str(e)}")
                 else:
@@ -576,22 +595,42 @@ class BaselineExperiment:
             bool: 聚合是否成功
         """
         try:
+            self.logger.info(f"\n=== 地面站 {station_id} 聚合开始 ===")
+            # 检查负责的轨道
+            responsible_orbits = station.responsible_orbits
+            self.logger.info(f"地面站 {station_id} 负责轨道: {responsible_orbits}")
+            
+            # 检查收到的更新
+            updates = station.pending_updates.get(self.current_round, {})
+            self.logger.info(f"收到的轨道更新: {list(updates.keys())}")
+
+            # 获取聚合结果
             aggregated_update = station.get_aggregated_update(self.current_round)
             if aggregated_update:
                 self.logger.info(f"地面站 {station_id} 完成聚合")
-                # 将聚合结果发送到全局聚合器
-                self.ground_station_aggregator.receive_station_update(
+                # 修改这里：使用 receive_station_update 而不是 receive_orbit_update
+                # 将聚合结果传递给全局聚合器
+                success = self.global_aggregator.receive_station_update(  # 使用 global_aggregator 而不是 ground_station_aggregator
                     station_id,
                     self.current_round,
                     aggregated_update,
-                    station.get_aggregation_stats()
+                    {'num_orbits': len(updates)},
+                    self.current_round
                 )
-                return True
+                
+                if success:
+                    self.logger.info(f"地面站 {station_id} 的聚合结果已成功发送到全局聚合器")
+                    return True
+                else:
+                    self.logger.error(f"全局聚合器拒绝了地面站 {station_id} 的更新")
+                    return False
             else:
-                self.logger.warning(f"地面站 {station_id} 聚合失败")
+                self.logger.warning(f"地面站 {station_id} 聚合失败，可能是因为没有收到足够的更新")
                 return False
         except Exception as e:
             self.logger.error(f"地面站 {station_id} 聚合出错: {str(e)}")
+            import traceback
+            self.logger.error(traceback.format_exc())
             return False
 
             
@@ -689,22 +728,91 @@ class BaselineExperiment:
                 for client in self.clients.values():
                     client.apply_model_update(global_update)
                     
+    # def _perform_global_aggregation(self, round_num: int) -> bool:
+    #     """
+    #     执行全局聚合
+    #     Args:
+    #         round_num: 当前轮次
+    #     Returns:
+    #         bool: 聚合是否成功
+    #     """
+    #     try:
+    #         self.logger.info("\n=== 全局聚合阶段 ===")
+            
+    #         # 检查每个地面站的状态
+    #         station_updates = {}
+    #         for station_id, station in self.ground_stations.items():
+    #             updates = station.pending_updates.get(round_num, {})
+    #             self.logger.info(f"地面站 {station_id} 收到的更新数: {len(updates)}")
+    #             if updates:
+    #                 station_updates[station_id] = len(updates)
+            
+    #         if not station_updates:
+    #             self.logger.warning("没有地面站提供更新")
+    #             return False
+                
+    #         self.logger.info(f"参与全局聚合的地面站数量: {len(station_updates)}")
+            
+    #         # 获取全局聚合结果
+    #         global_update = self.global_aggregator.get_aggregated_update(round_num)
+            
+    #         if global_update:
+    #             self.logger.info(f"完成第 {round_num + 1} 轮全局聚合")
+                
+    #             # 验证全局更新是否有效
+    #             for name, param in global_update.items():
+    #                 if torch.isnan(param).any() or torch.isinf(param).any():
+    #                     self.logger.error(f"全局更新参数 {name} 包含无效值")
+    #                     return False
+                
+    #             # 更新所有卫星的模型
+    #             update_success = 0
+    #             for client in self.clients.values():
+    #                 try:
+    #                     client.apply_model_update(global_update)
+    #                     update_success += 1
+    #                 except Exception as e:
+    #                     self.logger.error(f"更新客户端 {client.client_id} 时出错: {str(e)}")
+                
+    #             self.logger.info(f"成功更新了 {update_success}/{len(self.clients)} 个卫星的模型")
+                
+    #             # 评估全局模型
+    #             accuracy = self.evaluate()
+    #             self.logger.info(f"全局聚合后测试准确率: {accuracy:.4f}")
+    #             return True
+    #         else:
+    #             self.logger.warning(f"全局聚合失败: 无法获取有效的聚合结果")
+    #             # 输出每个地面站的聚合状态
+    #             for station_id, station in self.ground_stations.items():
+    #                 updates = station.pending_updates.get(round_num, {})
+    #                 self.logger.info(f"地面站 {station_id}: {len(updates)} 个待处理更新")
+    #             return False
+                
+    #     except Exception as e:
+    #         self.logger.error(f"全局聚合出错: {str(e)}")
+    #         import traceback
+    #         self.logger.error(traceback.format_exc())
+    #         return False
+
     def _perform_global_aggregation(self, round_num: int) -> bool:
-        """
-        执行全局聚合
-        Args:
-            round_num: 当前轮次
-        Returns:
-            bool: 聚合是否成功
-        """
         try:
             self.logger.info("\n=== 全局聚合阶段 ===")
-            global_update = self.ground_station_aggregator.get_aggregated_update(round_num)
+            
+            # 获取全局聚合结果
+            global_update = self.global_aggregator.get_aggregated_update(round_num)
             if global_update:
                 self.logger.info(f"完成第 {round_num + 1} 轮全局聚合")
+                
                 # 更新所有卫星的模型
+                update_success = 0
                 for client in self.clients.values():
-                    client.apply_model_update(global_update)
+                    try:
+                        client.apply_model_update(global_update)
+                        update_success += 1
+                    except Exception as e:
+                        self.logger.error(f"更新客户端 {client.client_id} 时出错: {str(e)}")
+                
+                self.logger.info(f"成功更新了 {update_success}/{len(self.clients)} 个卫星的模型")
                 
                 # 评估全局模型
                 accuracy = self.evaluate()
@@ -713,8 +821,11 @@ class BaselineExperiment:
             else:
                 self.logger.warning("全局聚合失败")
                 return False
+                
         except Exception as e:
             self.logger.error(f"全局聚合出错: {str(e)}")
+            import traceback
+            self.logger.error(traceback.format_exc())
             return False
         
 

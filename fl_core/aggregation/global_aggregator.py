@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, List, Tuple, Optional
 import numpy as np
 import torch
@@ -38,6 +39,8 @@ class GlobalAggregator:
         self.model_versions = []  # 版本历史
         self.current_version = 0
         self.validation_results = defaultdict(dict)  # round -> {station_id: metrics}
+        self.logger = logging.getLogger(__name__)
+
         
     def add_ground_station(self, station_id: str, weight: float = 1.0):
         """添加地面站"""
@@ -47,37 +50,40 @@ class GlobalAggregator:
         """移除地面站"""
         self.ground_stations.pop(station_id, None)
         
+
     def receive_station_update(self, station_id: str, round_number: int,
                              model_update: Dict[str, torch.Tensor],
                              metrics: Dict[str, float],
                              base_version: int) -> bool:
         """
         接收地面站更新
-        Args:
-            station_id: 地面站ID
-            round_number: 轮次
-            model_update: 模型更新
-            metrics: 性能指标
-            base_version: 基础版本号
-        Returns:
-            是否成功接收更新
         """
-        if station_id not in self.ground_stations:
+        try:
+            self.logger.info(f"全局聚合器接收到地面站 {station_id} 的更新")
+            
+            if station_id not in self.ground_stations:
+                self.logger.warning(f"未知地面站: {station_id}")
+                return False
+                
+            # 存储更新
+            self.pending_updates[round_number][station_id] = {
+                'update': {k: v.clone() for k, v in model_update.items()},
+                'metrics': metrics,
+                'base_version': base_version,
+                'timestamp': datetime.now().timestamp()
+            }
+            
+            self.logger.info(f"成功存储地面站 {station_id} 的更新，当前轮次 {round_number} 共有 {len(self.pending_updates[round_number])} 个更新")
+            
+            # 检查是否可以进行聚合
+            if self._should_aggregate(round_number):
+                self._aggregate_round(round_number)
+                
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"接收地面站更新时出错: {str(e)}")
             return False
-            
-        # 存储更新
-        self.pending_updates[round_number][station_id] = {
-            'update': model_update,
-            'metrics': metrics,
-            'base_version': base_version,
-            'timestamp': datetime.now().timestamp()
-        }
-        
-        # 检查是否可以进行聚合
-        if self._should_aggregate(round_number):
-            self._aggregate_round(round_number)
-            
-        return True
         
     def submit_validation_result(self, station_id: str, round_number: int,
                           metrics: Dict[str, float]) -> bool:
@@ -293,3 +299,69 @@ class GlobalAggregator:
             'latest_update': self.model_versions[-1].timestamp if self.model_versions else 0,
             'version_history': len(self.model_versions)
         }
+    
+
+    def get_aggregated_update(self, round_number: int) -> Optional[Dict[str, torch.Tensor]]:
+        """
+        获取全局聚合更新
+        Args:
+            round_number: 轮次
+        Returns:
+            聚合后的模型更新
+        """
+        try:
+            self.logger.info(f"尝试获取轮次 {round_number} 的全局聚合结果")
+            
+            if round_number not in self.pending_updates:
+                self.logger.warning(f"轮次 {round_number} 没有待处理的更新")
+                return None
+                
+            updates = self.pending_updates[round_number]
+            self.logger.info(f"当前轮次有 {len(updates)} 个地面站更新")
+            
+            # 检查是否有足够的地面站更新
+            if len(updates) < self.config.min_ground_stations:
+                self.logger.warning(f"地面站更新数量不足: {len(updates)} < {self.config.min_ground_stations}")
+                return None
+                
+            # 计算权重
+            total_orbits = sum(update['metrics']['num_orbits'] for update in updates.values())
+            weights = {
+                station_id: update['metrics']['num_orbits'] / total_orbits 
+                for station_id, update in updates.items()
+            }
+            
+            # 聚合更新
+            aggregated_update = {}
+            first_update = next(iter(updates.values()))['update']
+            
+            for param_name in first_update.keys():
+                weighted_sum = None
+                
+                for station_id, update in updates.items():
+                    if param_name not in update['update']:
+                        continue
+                        
+                    param = update['update'][param_name] * weights[station_id]
+                    if weighted_sum is None:
+                        weighted_sum = param
+                    else:
+                        weighted_sum += param
+                        
+                if weighted_sum is not None:
+                    aggregated_update[param_name] = weighted_sum
+                    
+            # 验证聚合结果
+            for name, param in aggregated_update.items():
+                if torch.isnan(param).any() or torch.isinf(param).any():
+                    self.logger.error(f"参数 {name} 包含无效值")
+                    return None
+                    
+            self.logger.info("全局聚合成功完成")
+            return aggregated_update
+            
+        except Exception as e:
+            self.logger.error(f"全局聚合过程出错: {str(e)}")
+            import traceback
+            self.logger.error(traceback.format_exc())
+            return None

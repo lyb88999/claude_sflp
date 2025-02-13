@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, List, Tuple, Optional
 import numpy as np
 import torch
@@ -48,6 +49,7 @@ class GroundStationAggregator:
         self.storage_usage = 0.0
         self.last_aggregation_time = datetime.now().timestamp()
         self.responsible_orbits = []  # 负责的轨道
+        self.logger = logging.getLogger(__name__)
         
     def add_orbit(self, orbit_id: str, weight: float = 1.0):
         """添加轨道"""
@@ -98,6 +100,8 @@ class GroundStationAggregator:
         
         # 存储更新
         self.pending_updates[round_number][orbit_id] = update
+        self.logger.info(f"成功存储轨道 {orbit_id} 的更新，待处理更新数: {len(self.pending_updates[round_number])}")
+
         heapq.heappush(self.update_queue, (-priority, update.timestamp, update))
         
         return True
@@ -217,22 +221,128 @@ class GroundStationAggregator:
         # 清理已完成的更新
         self.pending_updates.pop(round_number, None)
         
+    # def get_aggregated_update(self, round_number: int) -> Optional[Dict[str, torch.Tensor]]:
+    #     """获取聚合后的更新"""
+    #     self.logger.info(f"尝试获取轮次 {round_number} 的聚合结果")
+
+    #     if round_number not in self.pending_updates:
+    #         self.logger.warning(f"轮次 {round_number} 没有待处理的更新")
+    #         return None
+            
+    #     updates = self.pending_updates[round_number]
+    #     self.logger.info(f"当前轮次 {round_number} 有 {len(updates)} 个待处理更新")
+        
+    #     if not updates:
+    #         self.logger.warning("没有可用的更新")
+    #         return None
+
+    #     try:
+    #         # 聚合更新
+    #         aggregated_update = {}
+    #         update_weights = {}
+    #         total_clients = 0
+
+    #         # 为每个轨道分配权重
+    #         for orbit_id, update in updates.items():
+    #             update_weights[orbit_id] = update.num_clients
+    #             total_clients += update.num_clients
+
+    #         self.logger.info(f"总计 {total_clients} 个客户端参与更新")
+
+    #         # 归一化权重
+    #         for orbit_id in update_weights:
+    #             update_weights[orbit_id] /= total_clients
+
+    #         # 获取所有参数名
+    #         first_update = next(iter(updates.values())).model_update
+    #         param_names = first_update.keys()
+
+    #         # 聚合每个参数
+    #         for param_name in param_names:
+    #             weighted_sum = None
+    #             for orbit_id, update in updates.items():
+    #                 weight = update_weights[orbit_id]
+    #                 param = update.model_update[param_name]
+                    
+    #                 if weighted_sum is None:
+    #                     weighted_sum = param * weight
+    #                 else:
+    #                     weighted_sum += param * weight
+
+    #             aggregated_update[param_name] = weighted_sum
+
+    #         # 清理已处理的更新
+    #         self.pending_updates.pop(round_number, None)
+    #         self.logger.info("聚合完成")
+    #         return aggregated_update
+
+    #     except Exception as e:
+    #         self.logger.error(f"聚合过程出错: {str(e)}")
+    #         import traceback
+    #         self.logger.error(traceback.format_exc())
+    #         return None
+
     def get_aggregated_update(self, round_number: int) -> Optional[Dict[str, torch.Tensor]]:
-        """
-        获取聚合后的更新
-        Args:
-            round_number: 轮次
-        Returns:
-            聚合后的模型更新
-        """
-        if round_number not in self.aggregation_state:
+        """获取聚合后的更新"""
+        self.logger.info(f"尝试获取轮次 {round_number} 的聚合结果")
+        
+        if round_number not in self.pending_updates:
+            self.logger.warning(f"轮次 {round_number} 没有待处理的更新")
             return None
             
-        state = self.aggregation_state[round_number]
-        if not state.get('completed', False):
-            return None
+        updates = self.pending_updates[round_number]
+        self.logger.info(f"当前轮次 {round_number} 有 {len(updates)} 个待处理更新")
+        
+        try:
+            if len(updates) < self.config.min_updates:
+                self.logger.warning(f"更新数量不足: {len(updates)} < {self.config.min_updates}")
+                return None
+                
+            # 详细记录每个更新的状态
+            for update_id, update in updates.items():
+                self.logger.info(f"更新 {update_id}: {update.size:.2f}MB, "
+                               f"{update.num_clients} 个客户端")
+                
+            # 聚合参数
+            first_update = next(iter(updates.values())).model_update
+            aggregated_update = {}
             
-        return state.get('result')
+            for param_name, param in first_update.items():
+                # 初始化为零张量
+                aggregated_param = torch.zeros_like(param)
+                total_weight = 0.0
+                
+                for update in updates.values():
+                    if param_name not in update.model_update:
+                        self.logger.error(f"参数 {param_name} 在某些更新中缺失")
+                        continue
+                        
+                    weight = update.num_clients
+                    total_weight += weight
+                    aggregated_param += update.model_update[param_name] * weight
+                
+                if total_weight > 0:
+                    aggregated_update[param_name] = aggregated_param / total_weight
+                else:
+                    self.logger.error(f"参数 {param_name} 的总权重为0")
+                    return None
+            
+            # 验证聚合结果
+            for name, param in aggregated_update.items():
+                if torch.isnan(param).any() or torch.isinf(param).any():
+                    self.logger.error(f"聚合结果 {name} 包含无效值")
+                    return None
+            
+            # 清理已处理的更新
+            self.pending_updates.pop(round_number, None)
+            self.logger.info("聚合成功完成")
+            return aggregated_update
+            
+        except Exception as e:
+            self.logger.error(f"聚合过程出错: {str(e)}")
+            import traceback
+            self.logger.error(traceback.format_exc())
+            return None
         
     def get_aggregation_stats(self) -> Dict:
         """获取聚合统计信息"""
