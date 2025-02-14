@@ -12,6 +12,7 @@ setup(
         'pyyaml',
         'networkx',
         'scipy',
-        'torch'
+        'torch',
+        'scikit-learn'
     ],
 )

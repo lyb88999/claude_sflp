@@ -263,12 +263,16 @@ class BaselineExperiment:
         """执行训练过程"""
         current_time = datetime.now().timestamp()
         self.current_round = 0
+        best_accuracy = 0
+        rounds_without_improvement = 0
+        max_rounds_without_improvement = 3
 
         for round_num in range(self.config['fl']['num_rounds']):
             self.current_round = round_num
-            self.logger.info(f"\n=== 开始第 {round_num + 1} 轮训练 ===")
+            self.logger.info(f"=== 开始第 {round_num + 1} 轮训练 === 时间：{datetime.fromtimestamp(current_time)}")
 
             # 使用线程池并行处理每个地面站的轨道
+            orbit_successes = 0
             with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
                 # 创建所有任务
                 future_to_orbit = {}
@@ -288,35 +292,69 @@ class BaselineExperiment:
                     try:
                         success = future.result()
                         if success:
-                            self.logger.info(f"轨道 {orbit_id} 成功完成训练并发送模型到地面站 {station_id}")
+                            orbit_successes += 1
                         else:
                             self.logger.warning(f"轨道 {orbit_id} 训练或发送模型失败")
                     except Exception as e:
                         self.logger.error(f"处理轨道 {orbit_id} 时出错: {str(e)}")
 
             # 地面站聚合
-            self.logger.info("\n=== 地面站聚合阶段 ===")
-            station_results = []
-            with ThreadPoolExecutor(max_workers=3) as executor:
-                future_to_station = {
-                    executor.submit(self._station_aggregation, station_id, station): station_id
-                    for station_id, station in self.ground_stations.items()
-                }
-                
-                for future in as_completed(future_to_station):
-                    station_id = future_to_station[future]
-                    try:
-                        result = future.result()
-                        if result:
-                            station_results.append(station_id)
-                    except Exception as e:
-                        self.logger.error(f"地面站 {station_id} 聚合出错: {str(e)}")
+            if orbit_successes > 0:
+                self.logger.info(f"\n=== 地面站聚合阶段 === ({orbit_successes} 个轨道成功)")
+                station_results = []
+                with ThreadPoolExecutor(max_workers=3) as executor:
+                    future_to_station = {
+                        executor.submit(self._station_aggregation, station_id, station): station_id
+                        for station_id, station in self.ground_stations.items()
+                    }
+                    
+                    for future in as_completed(future_to_station):
+                        station_id = future_to_station[future]
+                        try:
+                            result = future.result()
+                            if result:
+                                station_results.append(station_id)
+                        except Exception as e:
+                            self.logger.error(f"地面站 {station_id} 聚合出错: {str(e)}")
 
-            # 全局聚合
-            if len(station_results) == len(self.ground_stations):
-                self._perform_global_aggregation(round_num)
+                # 全局聚合
+                if len(station_results) == len(self.ground_stations):
+                    self.logger.info("\n=== 全局聚合阶段 ===")
+                    success = self._perform_global_aggregation(round_num)
+                    
+                    if success:
+                        # 评估准确率
+                        accuracy = self.evaluate()
+                        self.logger.info(f"第 {round_num + 1} 轮全局准确率: {accuracy:.4f}")
+                        
+                        if accuracy > best_accuracy:
+                            best_accuracy = accuracy
+                            rounds_without_improvement = 0
+                            self.logger.info(f"找到更好的模型！新的最佳准确率: {accuracy:.4f}")
+                        else:
+                            rounds_without_improvement += 1
+                            self.logger.info(f"准确率未提升，已经 {rounds_without_improvement} 轮没有改进")
+                            
+                        # 检查停止条件
+                        if rounds_without_improvement >= max_rounds_without_improvement:
+                            self.logger.info(f"连续 {max_rounds_without_improvement} 轮准确率未提升，提前结束训练")
+                            break
+                            
+                        if accuracy >= 0.95:
+                            self.logger.info(f"达到目标准确率 {accuracy:.4f}，提前结束训练")
+                            break
+                    else:
+                        self.logger.warning("全局聚合失败")
+                else:
+                    self.logger.warning(f"只有 {len(station_results)}/{len(self.ground_stations)} 个地面站完成聚合，跳过全局聚合")
+            else:
+                self.logger.warning("所有轨道训练失败，跳过聚合阶段")
 
             current_time += self.config['fl']['round_interval']
+            
+        self.logger.info(f"\n=== 训练结束 ===")
+        self.logger.info(f"总轮次: {round_num + 1}")
+        self.logger.info(f"最佳准确率: {best_accuracy:.4f}")
 
     # def _distribute_orbit_params(self, coordinator: str, orbit_satellites: List[str], model_state: Dict, current_time: float):
     #     """
@@ -350,10 +388,13 @@ class BaselineExperiment:
             model_state: 模型参数
             current_time: 当前时间戳
         """
-        self.logger.info(f"\n开始轨道内洪泛式参数传递, 协调者: {coordinator}")
+        
         
         # 按照序号排序卫星
         orbit_num, coord_num = self._parse_satellite_id(coordinator)
+        
+        orbit_prefix = f"[轨道 {orbit_num}]"  # 创建轨道前缀
+        self.logger.info(f"{orbit_prefix} 开始轨道内洪泛式参数传递, 协调者: {coordinator}")
         sorted_satellites = sorted(orbit_satellites, 
                                 key=lambda x: int(self._parse_satellite_id(x)[1]))
         
@@ -423,9 +464,9 @@ class BaselineExperiment:
         # 检查传播结果
         missing_satellites = set(orbit_satellites) - received_params
         if missing_satellites:
-            self.logger.warning(f"以下卫星未收到参数: {missing_satellites}")
+            self.logger.warning(f"{orbit_prefix} 未收到参数的卫星: {missing_satellites}")
         else:
-            self.logger.info("所有卫星已成功接收参数")
+            self.logger.info(f"{orbit_prefix} 所有卫星已成功接收参数")
             
         # 返回最后一个卫星的传播时间
         return max(distribution_times.values()) if distribution_times else current_time
@@ -441,8 +482,9 @@ class BaselineExperiment:
             bool: 训练过程是否成功完成
         """
         try:
+            orbit_prefix = f"[轨道 {orbit_id}]"
             station = self.ground_stations[station_id]
-            self.logger.info(f"\n处理轨道 {orbit_id}:")
+            self.logger.info(f"{orbit_prefix} 开始处理")
             
             # 1. 等待并选择可见卫星作为协调者
             coordinator = None
@@ -467,8 +509,6 @@ class BaselineExperiment:
 
             # 2.3. 分发初始参数给协调者
             model_state = self.model.state_dict()
-            # self.clients[coordinator].apply_model_update(model_state)
-            # self.logger.info(f"成功将参数分发给协调者 {coordinator}")
             self.logger.info(f"\n=== 轨道 {orbit_id} 内参数分发 ===")
             current_time = self._distribute_orbit_params(coordinator, orbit_satellites, model_state, current_time)
             # 如果参数分发失败，提前返回
@@ -476,15 +516,9 @@ class BaselineExperiment:
                 self.logger.error(f"轨道 {orbit_id} 参数分发失败")
                 return False
 
-            # # 3. 协调者向轨道内其他卫星分发参数
-            # self.logger.info(f"\n=== 轨道 {orbit_id} 内参数分发 ===")
-            # orbit_satellites = self._get_orbit_satellites(orbit_id)
-            # current_time = self._distribute_orbit_params(coordinator, orbit_satellites, model_state, current_time)
-
-
 
             # 4. 轨道内训练
-            self.logger.info(f"\n=== 轨道 {orbit_id} 训练 ===")
+            self.logger.info(f"=== 轨道 {orbit_id} 训练 ===")
             trained_satellites = set()
             training_stats = {}  # 记录每个卫星的训练状态
 
@@ -493,10 +527,10 @@ class BaselineExperiment:
                 if stats['summary']['train_loss']:
                     trained_satellites.add(sat_id)
                     training_stats[sat_id] = stats
-                    self.logger.info(f"卫星 {sat_id} 完成训练: "
-                                f"Loss={stats['summary']['train_loss'][-1]:.4f}, "
-                                f"Acc={stats['summary']['train_accuracy'][-1]:.2f}%, "
-                                f"能耗={stats['summary']['energy_consumption']:.4f}Wh")
+                    self.logger.info(f"轨道 {orbit_id} - {sat_id} 完成训练: "  # 添加轨道ID到训练日志
+                            f"Loss={stats['summary']['train_loss'][-1]:.4f}, "
+                            f"Acc={stats['summary']['train_accuracy'][-1]:.2f}%, "
+                            f"能耗={stats['summary']['energy_consumption']:.4f}Wh")
                 else:
                     self.logger.warning(f"卫星 {sat_id} 训练未产生有效结果")
 
@@ -505,7 +539,7 @@ class BaselineExperiment:
             self.logger.info(f"需要至少 {min_updates_required} 个卫星更新，当前有 {len(trained_satellites)} 个")
 
             if len(trained_satellites) >= min_updates_required:
-                self.logger.info(f"\n=== 轨道 {orbit_id} 聚合 ===")
+                self.logger.info(f"=== 轨道 {orbit_id} 聚合 ===")
                 aggregator = self.intra_orbit_aggregators.get(orbit_id)
                 if not aggregator:
                     aggregator = IntraOrbitAggregator(AggregationConfig(**self.config['aggregation']))
