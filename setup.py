@@ -14,6 +14,7 @@ setup(
         'scipy',
         'torch',
         'scikit-learn',
-        'torchvision'
+        'torchvision',
+        'seaborn'
     ],
 )

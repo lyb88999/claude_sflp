@@ -23,6 +23,7 @@ from data_simulator.non_iid_generator import CustomMNISTDataset, NonIIDGenerator
 from fl_core.client.satellite_client import SatelliteClient, ClientConfig
 from fl_core.aggregation.intra_orbit import IntraOrbitAggregator, AggregationConfig
 from fl_core.aggregation.ground_station import GroundStationAggregator, GroundStationConfig
+from visualization.visualization import Visualization
 
 class SimpleModel(nn.Module):
     """简单的神经网络模型"""
@@ -107,6 +108,7 @@ class BaselineExperiment:
         # 为全局聚合器添加地面站
         for station_id in ['station_0', 'station_1', 'station_2']:
             self.global_aggregator.add_ground_station(station_id, 1.0)
+        self.visualizer = Visualization()
         
     def _setup_logging(self):
         """设置日志"""
@@ -354,7 +356,12 @@ class BaselineExperiment:
             self.logger.info(f"地面站 {i} 初始化完成: 负责轨道={station.responsible_orbits}")
         
     def train(self):
-        """执行训练过程"""
+        # 初始化记录列表
+        accuracies = []
+        losses = []
+        energies = []
+        round_stats = []
+
         current_time = datetime.now().timestamp()
         self.current_round = 0
         best_accuracy = 0
@@ -366,6 +373,7 @@ class BaselineExperiment:
         for round_num in range(self.config['fl']['num_rounds']):
             self.current_round = round_num
             self.logger.info(f"=== 开始第 {round_num + 1} 轮训练 === 时间：{datetime.fromtimestamp(current_time)}")
+            round_energy = 0
 
             # 使用线程池并行处理每个地面站的轨道
             orbit_successes = 0
@@ -421,6 +429,21 @@ class BaselineExperiment:
                     if success:
                         # 评估准确率
                         accuracy = self.evaluate()
+                        accuracies.append(accuracy)
+                        # 计算当前轮次的总损失和能耗
+                        round_energy = 0
+                        round_loss = 0
+                        round_stat = {}
+                        for client in self.clients.values():
+                            if client.train_stats:
+                                round_energy += client.train_stats[-1]['summary']['energy_consumption']
+                                round_loss += client.train_stats[-1]['summary']['train_loss'][-1]
+                                round_stat[client.client_id] = client.train_stats[-1]
+                                
+                        energies.append(round_energy)
+                        losses.append(round_loss / len(self.clients))  # 平均损失
+                        round_stats.append(round_stat)
+
                         self.logger.info(f"第 {round_num + 1} 轮全局准确率: {accuracy:.4f}")
                         
                         # 更新最佳准确率和检查提升情况
@@ -454,6 +477,75 @@ class BaselineExperiment:
         self.logger.info(f"\n=== 训练结束 ===")
         self.logger.info(f"总轮次: {round_num + 1}")
         self.logger.info(f"最佳准确率: {best_accuracy:.4f}")
+        # self.plot_training_results(accuracies, energies)
+        # 训练结束后生成可视化
+        self.visualizer.plot_all_metrics(
+            accuracies=accuracies,
+            losses=losses,
+            energies=energies,
+            clients=self.clients,
+            round_stats=round_stats,
+            save_path='training_results.png'
+        )
+        
+        self.visualizer.plot_detailed_energy_analysis(
+            energies=energies,
+            clients=self.clients,
+            save_path='energy_analysis.png'
+        )
+
+    def plot_training_results(self, accuracies: List[float], energies: List[float]):
+        """绘制训练结果图表"""
+        import matplotlib.pyplot as plt
+        # 创建2x2的子图布局
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 10))
+        
+        # 1. 准确率变化（保持原样）
+        rounds = range(1, len(accuracies) + 1)
+        ax1.plot(rounds, accuracies, 'b-', marker='o')
+        ax1.set_title('Accuracy over Training Rounds')
+        ax1.set_xlabel('Round')
+        ax1.set_ylabel('Accuracy (%)')
+        ax1.grid(True)
+        
+        # 2. 每轨道的平均能耗
+        orbit_energies = defaultdict(list)
+        for sat_id, client in self.clients.items():
+            orbit_num = int(sat_id.split('-')[0].split('_')[1])
+            if client.train_stats:
+                orbit_energies[orbit_num].append(client.train_stats[-1]['summary']['energy_consumption'])
+        
+        orbits = sorted(orbit_energies.keys())
+        avg_energies = [np.mean(orbit_energies[orbit]) for orbit in orbits]
+        ax2.bar(orbits, avg_energies)
+        ax2.set_title('Average Energy Consumption per Orbit')
+        ax2.set_xlabel('Orbit Number')
+        ax2.set_ylabel('Average Energy (Wh)')
+        
+        # 3. 每轮每颗卫星的能耗分布（箱线图）
+        round_satellite_energies = []
+        for round_energy in energies:
+            satellite_energies = []
+            for client in self.clients.values():
+                if client.train_stats and len(client.train_stats) > len(round_satellite_energies):
+                    satellite_energies.append(client.train_stats[-1]['summary']['energy_consumption'])
+            round_satellite_energies.append(satellite_energies)
+        
+        ax3.boxplot(round_satellite_energies)
+        ax3.set_title('Energy Distribution per Round')
+        ax3.set_xlabel('Round')
+        ax3.set_ylabel('Energy Consumption (Wh)')
+        
+        # 4. 累计总能耗
+        cumulative_energy = np.cumsum(energies)
+        ax4.plot(rounds, cumulative_energy, 'r-', marker='o')
+        ax4.set_title('Cumulative Energy Consumption')
+        ax4.set_xlabel('Round')
+        ax4.set_ylabel('Total Energy (Wh)')
+        
+        plt.tight_layout()
+        plt.savefig('training_results.png')
+        plt.close()
 
     # def _distribute_orbit_params(self, coordinator: str, orbit_satellites: List[str], model_state: Dict, current_time: float):
     #     """
@@ -492,7 +584,7 @@ class BaselineExperiment:
         # 按照序号排序卫星
         orbit_num, coord_num = self._parse_satellite_id(coordinator)
         
-        orbit_prefix = f"[轨道 {orbit_num}]"  # 创建轨道前缀
+        orbit_prefix = f"[轨道 {orbit_num-1}]"  # 创建轨道前缀
         self.logger.info(f"{orbit_prefix} 开始轨道内洪泛式参数传递, 协调者: {coordinator}")
         sorted_satellites = sorted(orbit_satellites, 
                                 key=lambda x: int(self._parse_satellite_id(x)[1]))
