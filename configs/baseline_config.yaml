@@ -15,18 +15,36 @@ fl:
   num_rounds: 20
   round_interval: 300  # 每轮训练间隔(秒)
   
+# # 数据配置
+# data:
+#   feature_dim: 10
+#   num_classes: 2
+#   total_samples: 66000  # 增加总样本数以适应更多卫星
+#   test_samples: 1000
+#   dirichlet_alpha: 0.5
+#   mean_samples_per_satellite: 1000  # 每个卫星的平均样本数
+
 # 数据配置
 data:
-  feature_dim: 10
-  num_classes: 2
-  total_samples: 66000  # 增加总样本数以适应更多卫星
-  test_samples: 1000
+  dataset: "mnist"  # 新增数据集类型标识
   dirichlet_alpha: 0.5
-  mean_samples_per_satellite: 1000  # 每个卫星的平均样本数
+  mean_samples_per_satellite: 1000
+  test_samples: 10000
+  total_samples: 66000
+  # 删除 feature_dim 和 num_classes，因为 MNIST 是固定的
+
   
+# # 模型配置
+# model:
+#   hidden_dim: 20
+
 # 模型配置
 model:
-  hidden_dim: 20
+  type: "cnn"
+  batch_size: 64
+  learning_rate: 0.01
+  momentum: 0.5
+
   
 # 客户端配置
 client:

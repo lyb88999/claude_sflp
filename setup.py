@@ -13,6 +13,7 @@ setup(
         'networkx',
         'scipy',
         'torch',
-        'scikit-learn'
+        'scikit-learn',
+        'torchvision'
     ],
 )

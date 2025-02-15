@@ -1,9 +1,10 @@
+from collections import defaultdict
 import numpy as np
 import torch
 from torch.utils.data import Dataset, random_split
 from typing import List, Tuple, Dict
 import random
-
+from torchvision import datasets, transforms
 class SatelliteDataset(Dataset):
     """卫星数据集"""
     def __init__(self, features: torch.Tensor, labels: torch.Tensor):
@@ -144,3 +145,70 @@ class NonIIDGenerator:
             features=torch.FloatTensor(0, self.feature_dim),
             labels=torch.LongTensor(0)
         )
+    
+class MNISTDataGenerator:
+    def __init__(self, num_satellites: int):
+        self.num_satellites = num_satellites
+        self.transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.1307,), (0.3081,))
+        ])
+        
+        # 加载MNIST数据集
+        self.train_dataset = datasets.MNIST('../data', train=True, download=True,
+                                        transform=self.transform)
+        self.test_dataset = datasets.MNIST('../data', train=False,
+                                        transform=self.transform)
+
+    def generate_non_iid_data(self, 
+                            dirichlet_alpha: float = 0.5,
+                            mean_samples_per_satellite: int = 1000) -> Dict[str, Dataset]:
+        """生成非独立同分布的MNIST数据"""
+        # 按标签分组数据
+        labels = self.train_dataset.targets.numpy()
+        label_indices = [np.where(labels == i)[0] for i in range(10)]
+
+        # 使用Dirichlet分布生成每个卫星的标签分布
+        label_distribution = np.random.dirichlet([dirichlet_alpha] * 10, 
+                                            size=self.num_satellites)
+
+        # 创建与原代码相同格式的数据集字典
+        satellite_datasets = {}
+        for sat_idx in range(self.num_satellites):
+            target_size = int(mean_samples_per_satellite * 
+                            (0.8 + 0.4 * np.random.random()))  # 随机化数据量
+            
+            sat_indices = []
+            for label, indices in enumerate(label_indices):
+                num_samples = int(target_size * label_distribution[sat_idx][label])
+                if len(indices) > 0:
+                    selected = np.random.choice(indices, 
+                                            size=min(num_samples, len(indices)),
+                                            replace=False)
+                    sat_indices.extend(selected)
+
+            # 创建卫星数据集
+            satellite_datasets[f"satellite_{sat_idx+1}"] = CustomMNISTDataset(
+                [self.train_dataset[i] for i in sat_indices]
+            )
+
+        return satellite_datasets
+
+    def get_test_dataset(self) -> Dataset:
+        """获取测试数据集"""
+        return self.test_dataset
+
+class CustomMNISTDataset(Dataset):
+    def __init__(self, data):
+        self.data = data
+        self.transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.1307,), (0.3081,))
+        ])
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        image, target = self.data[idx]
+        return image, target

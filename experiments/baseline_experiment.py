@@ -12,12 +12,14 @@ import yaml
 import logging
 from pathlib import Path
 import numpy as np
+import torch.nn.functional as F
+from torch.utils.data import DataLoader
 
 from simulation.network_model import SatelliteNetwork
 from simulation.comm_scheduler import CommunicationScheduler
 from simulation.energy_model import EnergyModel
 from simulation.topology_manager import TopologyManager
-from data_simulator.non_iid_generator import NonIIDGenerator
+from data_simulator.non_iid_generator import CustomMNISTDataset, NonIIDGenerator, MNISTDataGenerator
 from fl_core.client.satellite_client import SatelliteClient, ClientConfig
 from fl_core.aggregation.intra_orbit import IntraOrbitAggregator, AggregationConfig
 from fl_core.aggregation.ground_station import GroundStationAggregator, GroundStationConfig
@@ -39,6 +41,39 @@ class SimpleModel(nn.Module):
     def forward(self, x):
         x = self.relu(self.fc1(x))
         return self.fc2(x)
+    
+class MNISTModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # 保存初始化参数
+        self.__init__args__ = ()
+        self.__init__kwargs__ = {}
+        
+        # 模型层定义
+        self.conv1 = nn.Conv2d(1, 32, 3, 1)
+        self.conv2 = nn.Conv2d(32, 64, 3, 1)
+        self.dropout1 = nn.Dropout(0.25)
+        self.dropout2 = nn.Dropout(0.5)
+        self.fc1 = nn.Linear(9216, 128)
+        self.fc2 = nn.Linear(128, 10)
+
+    def forward(self, x):
+        if len(x.shape) == 3:
+            # 如果输入是 [batch_size, height, width]
+            x = x.unsqueeze(1)  # 添加channel维度 [batch_size, 1, height, width]
+            
+        x = self.conv1(x)
+        x = F.relu(x)
+        x = self.conv2(x)
+        x = F.relu(x)
+        x = F.max_pool2d(x, 2)
+        x = self.dropout1(x)
+        x = torch.flatten(x, 1)
+        x = self.fc1(x)
+        x = F.relu(x)
+        x = self.dropout2(x)
+        x = self.fc2(x)
+        return F.log_softmax(x, dim=1)
     
 
 class BaselineExperiment:
@@ -120,19 +155,29 @@ class BaselineExperiment:
         self.network_manager = NetworkManager(self.network_model, self.topology_manager)
         
         # 数据生成
-        self.data_generator = NonIIDGenerator(
-            num_satellites=self.config['fl']['num_satellites'],
-            feature_dim=self.config['data']['feature_dim'],
-            num_classes=self.config['data']['num_classes']
-        )
+        if self.config['data'].get('dataset') == 'mnist':
+            self.data_generator = MNISTDataGenerator(
+                num_satellites=self.config['fl']['num_satellites']
+            )
+        else:
+            self.data_generator = NonIIDGenerator(
+                num_satellites=self.config['fl']['num_satellites'],
+                feature_dim=self.config['data']['feature_dim'],
+                num_classes=self.config['data']['num_classes']
+            )
         
         # 初始化卫星客户端
         self.clients = {}
-        self.model = SimpleModel(
-            input_dim=self.config['data']['feature_dim'],
-            hidden_dim=self.config['model']['hidden_dim'],
-            num_classes=self.config['data']['num_classes']
-        )
+
+        # 根据数据集类型选择模型
+        if self.config['data'].get('dataset') == 'mnist':
+            self.model = MNISTModel()
+        else:
+            self.model = SimpleModel(
+                input_dim=self.config['data']['feature_dim'],
+                hidden_dim=self.config['model']['hidden_dim'],
+                num_classes=self.config['data']['num_classes']
+            )
         
         # 初始化聚合器
         self.intra_orbit_aggregators = {}
@@ -153,18 +198,55 @@ class BaselineExperiment:
         self.ground_stations = {}
         self.setup_ground_stations()
         
+    # def prepare_data(self):
+    #     """准备训练数据"""
+    #     # 生成训练数据，为66个卫星分配数据
+    #     total_satellites = 66  # 6轨道 × 11卫星
+    #     self.satellite_datasets = {}
+        
+    #     # 生成基础数据
+    #     all_datasets = self.data_generator.generate_data(
+    #         total_samples=self.config['data']['total_samples'],
+    #         dirichlet_alpha=self.config['data']['dirichlet_alpha'],
+    #         mean_samples_per_satellite=self.config['data']['mean_samples_per_satellite'],
+    #         num_satellites=total_satellites  # 确保只生成66个数据集
+    #     )
+        
+    #     # 为每个卫星分配数据集
+    #     dataset_idx = 0
+    #     for orbit_num in range(1, 7):  # 6个轨道
+    #         for sat_num in range(1, 12):  # 每轨道11颗卫星
+    #             sat_id = f"satellite_{orbit_num}-{sat_num}"
+    #             if dataset_idx < len(all_datasets):
+    #                 self.satellite_datasets[sat_id] = list(all_datasets.values())[dataset_idx]
+    #                 dataset_idx += 1
+        
+    #     # 生成测试数据
+    #     self.test_dataset = self.data_generator.generate_test_data(
+    #         self.config['data']['test_samples']
+    #     )
+        
+    #     # 记录数据分配情况
+    #     for sat_id, dataset in self.satellite_datasets.items():
+    #         self.logger.debug(f"卫星 {sat_id} 数据集大小: {len(dataset)}")
+        
+    #     self.logger.info(f"数据生成完成，共{len(self.satellite_datasets)}个卫星节点")
+
     def prepare_data(self):
         """准备训练数据"""
-        # 生成训练数据，为66个卫星分配数据
+        self.logger.info("开始准备MNIST数据")
+        
+        # 配置总卫星数
         total_satellites = 66  # 6轨道 × 11卫星
         self.satellite_datasets = {}
         
-        # 生成基础数据
-        all_datasets = self.data_generator.generate_data(
-            total_samples=self.config['data']['total_samples'],
+        # 创建数据生成器
+        self.data_generator = MNISTDataGenerator(total_satellites)
+        
+        # 生成非独立同分布数据
+        all_datasets = self.data_generator.generate_non_iid_data(
             dirichlet_alpha=self.config['data']['dirichlet_alpha'],
-            mean_samples_per_satellite=self.config['data']['mean_samples_per_satellite'],
-            num_satellites=total_satellites  # 确保只生成66个数据集
+            mean_samples_per_satellite=self.config['data']['mean_samples_per_satellite']
         )
         
         # 为每个卫星分配数据集
@@ -176,10 +258,8 @@ class BaselineExperiment:
                     self.satellite_datasets[sat_id] = list(all_datasets.values())[dataset_idx]
                     dataset_idx += 1
         
-        # 生成测试数据
-        self.test_dataset = self.data_generator.generate_test_data(
-            self.config['data']['test_samples']
-        )
+        # 获取测试数据集
+        self.test_dataset = self.data_generator.get_test_dataset()
         
         # 记录数据分配情况
         for sat_id, dataset in self.satellite_datasets.items():
@@ -191,44 +271,58 @@ class BaselineExperiment:
         """设置卫星客户端"""
         client_config = ClientConfig(**self.config['client'])
         
-        # 基础模型定义
-        base_model = SimpleModel(
-            input_dim=self.config['data']['feature_dim'],
-            hidden_dim=self.config['model']['hidden_dim'],
-            num_classes=self.config['data']['num_classes']
-        )
-        
-        # 保存基础模型参数
-        base_state_dict = base_model.state_dict()
+
         
         # 为每个轨道创建卫星
         for orbit in range(1, 7):  # 6个轨道
             for sat in range(1, 12):  # 每轨道11颗卫星
                 sat_id = f"satellite_{orbit}-{sat}"
-                
-                # 创建新的模型实例
-                model = SimpleModel(
-                    input_dim=self.config['data']['feature_dim'],
-                    hidden_dim=self.config['model']['hidden_dim'],
-                    num_classes=self.config['data']['num_classes']
-                )
-                model.load_state_dict(base_state_dict)
-                
                 # 创建客户端
-                client = SatelliteClient(
-                    sat_id,
-                    model,
-                    client_config,
-                    self.network_manager,
-                    self.energy_model
-                )
+                if self.config['data'].get('dataset') == 'mnist':
+                    # 对于MNIST，使用预先创建的CNN模型
+                    client = SatelliteClient(
+                        sat_id,
+                        MNISTModel(),  # 创建新的CNN模型实例
+                        client_config,
+                        self.network_manager,
+                        self.energy_model
+                    )
+                else:
+                    # 基础模型定义
+                    base_model = SimpleModel(
+                        input_dim=self.config['data']['feature_dim'],
+                        hidden_dim=self.config['model']['hidden_dim'],
+                        num_classes=self.config['data']['num_classes']
+                    )
+                    
+                    # 保存基础模型参数
+                    base_state_dict = base_model.state_dict()
+                    # 创建新的模型实例
+                    model = SimpleModel(
+                        input_dim=self.config['data']['feature_dim'],
+                        hidden_dim=self.config['model']['hidden_dim'],
+                        num_classes=self.config['data']['num_classes']
+                    )
+                    model.load_state_dict(base_state_dict)
+                    client = SatelliteClient(
+                        sat_id,
+                        model,
+                        client_config,
+                        self.network_manager,
+                        self.energy_model
+                    )
                 
                 # 设置数据集
                 if sat_id in self.satellite_datasets:
                     client.set_dataset(self.satellite_datasets[sat_id])
                 else:
                     self.logger.warning(f"卫星 {sat_id} 没有对应的数据集")
-                    client.set_dataset(self.data_generator.generate_empty_dataset())
+                    if self.config['data'].get('dataset') == 'mnist':
+                        # 为MNIST创建空数据集
+                        client.set_dataset(CustomMNISTDataset([]))
+                    else:
+                        # 原有的空数据集
+                        client.set_dataset(self.data_generator.generate_empty_dataset())
                 
                 self.clients[sat_id] = client
 
@@ -265,7 +359,9 @@ class BaselineExperiment:
         self.current_round = 0
         best_accuracy = 0
         rounds_without_improvement = 0
-        max_rounds_without_improvement = 3
+        max_rounds_without_improvement = 3  # 连续3轮没有提升就停止
+        min_rounds = 5  # 最少训练轮数
+        accuracy_threshold = 95.0  # 提高准确率阈值到95%
 
         for round_num in range(self.config['fl']['num_rounds']):
             self.current_round = round_num
@@ -327,6 +423,7 @@ class BaselineExperiment:
                         accuracy = self.evaluate()
                         self.logger.info(f"第 {round_num + 1} 轮全局准确率: {accuracy:.4f}")
                         
+                        # 更新最佳准确率和检查提升情况
                         if accuracy > best_accuracy:
                             best_accuracy = accuracy
                             rounds_without_improvement = 0
@@ -334,15 +431,17 @@ class BaselineExperiment:
                         else:
                             rounds_without_improvement += 1
                             self.logger.info(f"准确率未提升，已经 {rounds_without_improvement} 轮没有改进")
-                            
-                        # 检查停止条件
-                        if rounds_without_improvement >= max_rounds_without_improvement:
-                            self.logger.info(f"连续 {max_rounds_without_improvement} 轮准确率未提升，提前结束训练")
-                            break
-                            
-                        if accuracy >= 0.95:
-                            self.logger.info(f"达到目标准确率 {accuracy:.4f}，提前结束训练")
-                            break
+
+                        # 检查是否满足停止条件
+                        if round_num + 1 >= min_rounds:  # 已达到最小轮数
+                            if accuracy >= accuracy_threshold:
+                                self.logger.info(f"达到目标准确率 {accuracy:.4f}，停止训练")
+                                break
+                            elif rounds_without_improvement >= max_rounds_without_improvement:
+                                self.logger.info(f"连续 {max_rounds_without_improvement} 轮准确率未提升，停止训练")
+                                break
+
+                        current_time += self.config['fl']['round_interval']
                     else:
                         self.logger.warning("全局聚合失败")
                 else:
@@ -831,11 +930,17 @@ class BaselineExperiment:
     def _perform_global_aggregation(self, round_num: int) -> bool:
         try:
             self.logger.info("\n=== 全局聚合阶段 ===")
-            
-            # 获取全局聚合结果
             global_update = self.global_aggregator.get_aggregated_update(round_num)
+            
             if global_update:
                 self.logger.info(f"完成第 {round_num + 1} 轮全局聚合")
+                
+                # 检查全局更新的参数
+                for name, param in global_update.items():
+                    if torch.isnan(param).any():
+                        self.logger.error(f"Parameter {name} contains NaN values")
+                        return False
+                    self.logger.debug(f"Parameter {name} mean: {param.mean():.4f}")
                 
                 # 更新所有卫星的模型
                 update_success = 0
@@ -846,11 +951,15 @@ class BaselineExperiment:
                     except Exception as e:
                         self.logger.error(f"更新客户端 {client.client_id} 时出错: {str(e)}")
                 
+                # 更新评估用的模型
+                self.model.load_state_dict(global_update)
+                
                 self.logger.info(f"成功更新了 {update_success}/{len(self.clients)} 个卫星的模型")
                 
                 # 评估全局模型
                 accuracy = self.evaluate()
-                self.logger.info(f"全局聚合后测试准确率: {accuracy:.4f}")
+                self.logger.info(f"第 {round_num + 1} 轮全局准确率: {accuracy:.4f}")
+                
                 return True
             else:
                 self.logger.warning("全局聚合失败")
@@ -863,26 +972,70 @@ class BaselineExperiment:
             return False
         
 
+    # def evaluate(self) -> float:
+    #     """评估全局模型性能"""
+    #     self.model.eval()
+    #     correct = 0
+    #     total = 0
+        
+    #     # 使用第一个客户端的模型进行评估
+    #     test_model = next(iter(self.clients.values())).model
+        
+    #     with torch.no_grad():
+    #         for features, labels in torch.utils.data.DataLoader(
+    #             self.test_dataset,
+    #             batch_size=100
+    #         ):
+    #             outputs = test_model(features)
+    #             _, predicted = torch.max(outputs.data, 1)
+    #             total += labels.size(0)
+    #             correct += (predicted == labels).sum().item()
+                
+    #     accuracy = correct / total
+    #     return accuracy
+
     def evaluate(self) -> float:
         """评估全局模型性能"""
-        self.model.eval()
+        self.model.eval()  # 确保模型在评估模式
+        test_loss = 0
         correct = 0
-        total = 0
         
-        # 使用第一个客户端的模型进行评估
-        test_model = next(iter(self.clients.values())).model
+        # 使用较大的batch size加速评估
+        test_loader = DataLoader(
+            self.test_dataset, 
+            batch_size=1000,
+            shuffle=False  # 评估时不需要打乱数据
+        )
         
         with torch.no_grad():
-            for features, labels in torch.utils.data.DataLoader(
-                self.test_dataset,
-                batch_size=100
-            ):
-                outputs = test_model(features)
-                _, predicted = torch.max(outputs.data, 1)
-                total += labels.size(0)
-                correct += (predicted == labels).sum().item()
+            for batch_idx, (data, target) in enumerate(test_loader):
+                # 确保输入数据格式正确
+                if len(data.shape) == 3:
+                    data = data.unsqueeze(1)  # 添加channel维度
+                    
+                output = self.model(data)
+                # 使用 nll_loss，因为模型输出是 log_softmax
+                test_loss += F.nll_loss(output, target, reduction='sum').item()
+                pred = output.argmax(dim=1)  # 获取预测结果
+                correct += pred.eq(target).sum().item()
                 
-        accuracy = correct / total
+                # 打印每个batch的结果，帮助调试
+                if batch_idx == 0:  # 只打印第一个batch的详细信息
+                    self.logger.debug(f"Sample predictions: {pred[:10]}")
+                    self.logger.debug(f"Sample targets: {target[:10]}")
+
+        test_loss /= len(test_loader.dataset)
+        accuracy = 100. * correct / len(test_loader.dataset)
+        
+        # 添加更详细的日志
+        self.logger.info(
+            f'测试结果:'
+            f'\n总样本数: {len(test_loader.dataset)}'
+            f'\n正确预测数: {correct}'
+            f'\n平均损失: {test_loss:.4f}'
+            f'\n准确率: {accuracy:.2f}%'
+        )
+        
         return accuracy
         
     def run(self):
