@@ -1,0 +1,52 @@
+# 网络配置
+network:
+  tle_file: "configs/Iridium_TLEs.txt"
+  max_distance: 4000.0  # km
+
+# 能源配置
+energy:
+  config_file: "configs/energy_config.yaml"
+  
+# 联邦学习配置
+fl:
+  num_satellites: 66  # 总卫星数量
+  satellites_per_orbit: 11  # 每轨道卫星数
+  num_orbits: 6  # 轨道数量
+  num_rounds: 20
+  round_interval: 600  # 增加轮次间隔到10分钟
+  
+# 数据配置
+data:
+  dataset: "mnist"
+  dirichlet_alpha: 0.5
+  mean_samples_per_satellite: 1000
+  test_samples: 10000
+
+# 客户端配置
+client:
+  batch_size: 32
+  local_epochs: 5
+  learning_rate: 0.01
+  momentum: 0.9
+  compute_capacity: 1.0
+  storage_capacity: 1000.0
+  
+# 聚合配置
+aggregation:
+  min_updates: 2
+  max_staleness: 300.0
+  timeout: 600.0
+  weighted_average: true
+
+# 地面站配置
+ground_station:
+  bandwidth_limit: 1000.0  # Mbps
+  storage_limit: 10000.0   # MB
+  priority_levels: 3
+  batch_size: 10
+  aggregation_interval: 60.0
+
+# 分组配置（新增）
+group:
+  size: 3                # 每组卫星数量
+  switch_interval: 5     # 每5轮切换一次代表节点

@@ -115,16 +115,25 @@ class BaselineExperiment:
         log_dir = Path("logs")
         log_dir.mkdir(exist_ok=True)
         
-        # 定义两个不同的处理器
+        # 获取logger
+        self.logger = logging.getLogger(__name__)
+        
+        # 如果logger已经有处理器，说明已经配置过，直接返回
+        if self.logger.handlers:
+            return
+            
+        # 设置日志级别
+        self.logger.setLevel(logging.DEBUG)
+        
         # 1. 文件处理器 - 记录详细日志
         file_handler = logging.FileHandler(
             f"logs/baseline_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
         )
-        file_handler.setLevel(logging.DEBUG)  # 文件记录详细信息
+        file_handler.setLevel(logging.DEBUG)
         
         # 2. 控制台处理器 - 只显示简要信息
         console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.INFO)  # 控制台只显示重要信息
+        console_handler.setLevel(logging.INFO)
         
         # 为不同处理器设置不同的格式
         file_formatter = logging.Formatter(
@@ -137,9 +146,7 @@ class BaselineExperiment:
         file_handler.setFormatter(file_formatter)
         console_handler.setFormatter(console_formatter)
         
-        # 配置logger
-        self.logger = logging.getLogger(__name__)
-        self.logger.setLevel(logging.DEBUG)
+        # 添加处理器
         self.logger.addHandler(file_handler)
         self.logger.addHandler(console_handler)
         
@@ -359,8 +366,17 @@ class BaselineExperiment:
         # 初始化记录列表
         accuracies = []
         losses = []
-        energies = []
-        round_stats = []
+        # 初始化统计信息
+        energy_stats = {
+            'training_energy': [],   # 每轮训练能耗
+            'communication_energy': [],  # 每轮通信能耗
+            'total_energy': []      # 每轮总能耗
+        }
+        satellite_stats = {
+            'training_satellites': [],   # 每轮训练的卫星数
+            'receiving_satellites': [],  # 每轮接收参数的卫星数
+            'total_active': []          # 每轮总活跃卫星数
+        }
 
         current_time = datetime.now().timestamp()
         self.current_round = 0
@@ -377,6 +393,11 @@ class BaselineExperiment:
 
             # 使用线程池并行处理每个地面站的轨道
             orbit_successes = 0
+            # 收集所有轨道的统计信息
+            round_training_energy = 0
+            round_comm_energy = 0
+            round_training_sats = set()
+            round_receiving_sats = set()
             with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
                 # 创建所有任务
                 future_to_orbit = {}
@@ -394,13 +415,28 @@ class BaselineExperiment:
                 for future in as_completed(future_to_orbit):
                     station_id, orbit_id = future_to_orbit[future]
                     try:
-                        success = future.result()
-                        if success:
-                            orbit_successes += 1
+                        result = future.result()  # result 是一个元组 (success, orbit_stats)
+                        if isinstance(result, tuple) and len(result) == 2:
+                            success, orbit_stats = result
+                            if success:
+                                orbit_successes += 1
+                            if orbit_stats:  # 如果有统计信息就收集
+                                round_training_energy += orbit_stats['training_energy']
+                                round_comm_energy += orbit_stats['communication_energy']
+                                round_training_sats.update(orbit_stats['training_satellites'])
+                                round_receiving_sats.update(orbit_stats['receiving_satellites'])
                         else:
-                            self.logger.warning(f"轨道 {orbit_id} 训练或发送模型失败")
+                            self.logger.warning(f"轨道 {orbit_id} 返回的结果格式不正确")
                     except Exception as e:
                         self.logger.error(f"处理轨道 {orbit_id} 时出错: {str(e)}")
+            # 记录本轮统计信息
+            energy_stats['training_energy'].append(round_training_energy)
+            energy_stats['communication_energy'].append(round_comm_energy)
+            energy_stats['total_energy'].append(round_training_energy + round_comm_energy)
+            
+            satellite_stats['training_satellites'].append(len(round_training_sats))
+            satellite_stats['receiving_satellites'].append(len(round_receiving_sats))
+            satellite_stats['total_active'].append(len(round_training_sats | round_receiving_sats))
 
             # 地面站聚合
             if orbit_successes > 0:
@@ -440,9 +476,9 @@ class BaselineExperiment:
                                 round_loss += client.train_stats[-1]['summary']['train_loss'][-1]
                                 round_stat[client.client_id] = client.train_stats[-1]
                                 
-                        energies.append(round_energy)
+                        # energies.append(round_energy)
                         losses.append(round_loss / len(self.clients))  # 平均损失
-                        round_stats.append(round_stat)
+                        # round_stats.append(round_stat)
 
                         self.logger.info(f"第 {round_num + 1} 轮全局准确率: {accuracy:.4f}")
                         
@@ -465,6 +501,7 @@ class BaselineExperiment:
                                 break
 
                         current_time += self.config['fl']['round_interval']
+                        
                     else:
                         self.logger.warning("全局聚合失败")
                 else:
@@ -478,21 +515,61 @@ class BaselineExperiment:
         self.logger.info(f"总轮次: {round_num + 1}")
         self.logger.info(f"最佳准确率: {best_accuracy:.4f}")
         # self.plot_training_results(accuracies, energies)
-        # 训练结束后生成可视化
-        self.visualizer.plot_all_metrics(
-            accuracies=accuracies,
-            losses=losses,
-            energies=energies,
-            clients=self.clients,
-            round_stats=round_stats,
-            save_path='training_results.png'
+        # 收集所有统计信息
+        stats = {
+            'accuracies': accuracies,
+            'losses': losses,
+            'energy_stats': {
+                'training_energy': energy_stats['training_energy'],
+                'communication_energy': energy_stats['communication_energy'],
+                'total_energy': energy_stats['total_energy']
+            },
+            'satellite_stats': {
+                'training_satellites': satellite_stats['training_satellites'],
+                'receiving_satellites': satellite_stats['receiving_satellites'],
+                'total_active': satellite_stats['total_active']
+            }
+        }
+
+        # 生成可视化
+        self.visualizer.plot_training_metrics(
+            accuracies=stats['accuracies'],
+            losses=stats['losses'],
+            energy_stats=stats['energy_stats'],
+            satellite_stats=stats['satellite_stats'],
+            save_path='training_metrics.png'
         )
+
+        return stats
+
+    def collect_stats(self, accuracies, losses, energies, round_stats):
+        """收集实验统计信息"""
+        stats = {
+            'accuracies': accuracies,
+            'losses': losses,
+            'energies': energies,
+            'final_accuracy': accuracies[-1] if accuracies else 0,
+            'best_accuracy': max(accuracies) if accuracies else 0,
+            'total_energy': sum(energies) if energies else 0,
+            'avg_round_energy': np.mean(energies) if energies else 0,
+            'convergence_round': len(accuracies),
+            'training_time': 0,
+            'active_satellites_per_round': []
+        }
         
-        self.visualizer.plot_detailed_energy_analysis(
-            energies=energies,
-            clients=self.clients,
-            save_path='energy_analysis.png'
-        )
+        # 计算每轮参与训练的卫星数
+        for round_stat in round_stats:
+            active_sats = len(round_stat.keys())
+            stats['active_satellites_per_round'].append(active_sats)
+        
+        # 计算训练时间
+        for round_stat in round_stats:
+            max_time = 0
+            for sat_stats in round_stat.values():
+                max_time = max(max_time, sat_stats['summary']['compute_time'])
+            stats['training_time'] += max_time
+        
+        return stats
 
     def plot_training_results(self, accuracies: List[float], energies: List[float]):
         """绘制训练结果图表"""
@@ -676,6 +753,15 @@ class BaselineExperiment:
             orbit_prefix = f"[轨道 {orbit_id}]"
             station = self.ground_stations[station_id]
             self.logger.info(f"{orbit_prefix} 开始处理")
+
+            # 记录本轮轨道的统计信息
+            orbit_stats = {
+                'training_energy': 0,  # 训练能耗
+                'communication_energy': 0,  # 通信能耗
+                'training_satellites': set(),  # 训练的卫星
+                'receiving_satellites': set()  # 接收参数的卫星
+            }
+            trained_satellites = set()
             
             # 1. 等待并选择可见卫星作为协调者
             coordinator = None
@@ -701,11 +787,15 @@ class BaselineExperiment:
             # 2.3. 分发初始参数给协调者
             model_state = self.model.state_dict()
             self.logger.info(f"\n=== 轨道 {orbit_id} 内参数分发 ===")
+            pre_comm_energy = self.energy_model.get_battery_level(coordinator)
             current_time = self._distribute_orbit_params(coordinator, orbit_satellites, model_state, current_time)
+            post_comm_energy = self.energy_model.get_battery_level(coordinator)
             # 如果参数分发失败，提前返回
             if not current_time:  # 假设_distribute_orbit_params在失败时返回None
                 self.logger.error(f"轨道 {orbit_id} 参数分发失败")
                 return False
+            orbit_stats['communication_energy'] += (pre_comm_energy - post_comm_energy)
+            orbit_stats['receiving_satellites'].update(orbit_satellites)
 
 
             # 4. 轨道内训练
@@ -714,8 +804,12 @@ class BaselineExperiment:
             training_stats = {}  # 记录每个卫星的训练状态
 
             for sat_id in orbit_satellites:
+                pre_train_energy = self.energy_model.get_battery_level(sat_id)
                 stats = self.clients[sat_id].train(self.current_round)
                 if stats['summary']['train_loss']:
+                    post_train_energy = self.energy_model.get_battery_level(sat_id)
+                    orbit_stats['training_energy'] += (pre_train_energy - post_train_energy)
+                    orbit_stats['training_satellites'].add(sat_id)
                     trained_satellites.add(sat_id)
                     training_stats[sat_id] = stats
                     self.logger.info(f"轨道 {orbit_id} - {sat_id} 完成训练: "  # 添加轨道ID到训练日志
@@ -794,7 +888,7 @@ class BaselineExperiment:
                             )
                             if success:
                                 self.logger.info(f"轨道 {orbit_id} 的模型成功发送给地面站 {station_id}")
-                                return True
+                                return True, orbit_stats
                     except Exception as e:
                         self.logger.error(f"发送模型到地面站时出错: {str(e)}")
                 else:
@@ -802,13 +896,13 @@ class BaselineExperiment:
             else:
                 self.logger.warning(f"轨道 {orbit_id} 训练的卫星数量不足: {len(trained_satellites)} < {min_updates_required}")
 
-            return False
+            return False, orbit_stats
 
         except Exception as e:
             self.logger.error(f"处理轨道 {orbit_id} 时出错: {str(e)}")
             import traceback
             self.logger.error(traceback.format_exc())
-            return False
+            return False, orbit_stats
         
     def _station_aggregation(self, station_id: str, station) -> bool:
         """
@@ -1131,7 +1225,7 @@ class BaselineExperiment:
         return accuracy
         
     def run(self):
-        """运行实验"""
+        """运行基准实验"""
         self.logger.info("开始基线实验")
         
         # 准备数据
@@ -1140,10 +1234,13 @@ class BaselineExperiment:
         # 设置客户端
         self.setup_clients()
         
-        # 执行训练
-        self.train()
+        # 执行训练并获取统计信息
+        stats = self.train()
         
         self.logger.info("实验完成")
+        
+        # 返回统计信息供后续比较
+        return stats
         
 def main():
     # 运行基线实验
