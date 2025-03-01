@@ -18,23 +18,27 @@ class ClientConfig:
 
 class SatelliteClient:
     def __init__(self, 
-                 client_id: str,
-                 model: nn.Module,
-                 config: ClientConfig,
-                 network_manager,
-                 energy_manager):
+             client_id: str,
+             model: nn.Module,
+             config: ClientConfig,
+             network_manager,
+             energy_manager):
         """
         初始化卫星客户端
-        Args:
-            client_id: 客户端ID
-            model: 初始模型
-            config: 客户端配置
-            network_manager: 网络管理器实例
-            energy_manager: 能源管理器实例
         """
         self.client_id = client_id
-        self.model = type(model)(*model.__init__args__, **model.__init__kwargs__)
-        self.model.load_state_dict(model.state_dict())
+        
+        # 创建模型的深度复制
+        if hasattr(model, '__init__args__') and hasattr(model, '__init__kwargs__'):
+            # 使用保存的初始化参数创建新实例
+            self.model = type(model)(*model.__init__args__, **model.__init__kwargs__)
+            # 复制参数
+            self.model.load_state_dict({k: v.clone() for k, v in model.state_dict().items()})
+        else:
+            # 无法获取初始化参数，直接使用传入的模型
+            self.logger.warning(f"Client {client_id}: 无法深度复制模型，使用直接引用")
+            self.model = model
+        
         self.config = config
         self.network_manager = network_manager
         self.energy_manager = energy_manager
@@ -52,7 +56,6 @@ class SatelliteClient:
             lr=config.learning_rate,
             momentum=config.momentum
         )
-        torch.autograd.set_detect_anomaly(True)
         
     def set_dataset(self, dataset: Dataset):
         """设置本地数据集"""
@@ -287,7 +290,7 @@ class SatelliteClient:
             
         model_diff = {}
         for name, param in self.model.named_parameters():
-            model_diff[name] = param.data.clone()
+            model_diff[name] = param.data.clone().detach()
             
         return model_diff, self.train_stats[-1]
         
@@ -299,6 +302,12 @@ class SatelliteClient:
             for name, param in model_update.items():
                 new_state_dict[name] = param.clone().detach()
             
+            # 检查参数匹配
+            current_state = self.model.state_dict()
+            for name in new_state_dict:
+                if name not in current_state:
+                    print(f"警告: 参数 {name} 不在模型中")
+            
             # 更新模型参数
             self.model.load_state_dict(new_state_dict)
             
@@ -308,6 +317,10 @@ class SatelliteClient:
                 lr=self.config.learning_rate,
                 momentum=self.config.momentum
             )
+            
+            # 添加调试信息
+            first_param = next(iter(new_state_dict.values()))
+            print(f"卫星 {self.client_id} 应用更新: 第一个参数示例值 {first_param.flatten()[0].item():.4f}")
                     
     def evaluate(self, test_data: Dataset) -> Dict:
         """

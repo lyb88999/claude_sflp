@@ -164,7 +164,14 @@ class BaselineExperiment:
         self.network_manager = NetworkManager(self.network_model, self.topology_manager)
         
         # 数据生成
-        if self.config['data'].get('dataset') == 'mnist':
+        if self.config['data'].get('dataset') == 'network_traffic':
+            from data_simulator.network_traffic_generator import NetworkTrafficGenerator
+            self.data_generator = NetworkTrafficGenerator(
+                num_satellites=self.config['fl']['num_satellites'],
+                num_orbits=self.config['fl']['num_orbits'],
+                satellites_per_orbit=self.config['fl']['satellites_per_orbit']
+            )
+        elif self.config['data'].get('dataset') == 'mnist':
             self.data_generator = MNISTDataGenerator(
                 num_satellites=self.config['fl']['num_satellites']
             )
@@ -179,13 +186,25 @@ class BaselineExperiment:
         self.clients = {}
 
         # 根据数据集类型选择模型
-        if self.config['data'].get('dataset') == 'mnist':
+        dataset_type = self.config['data'].get('dataset')
+        if dataset_type == 'mnist':
             self.model = MNISTModel()
+        elif dataset_type == 'network_traffic':
+            try:
+                from fl_core.models.traffic_model import SimpleTrafficModel
+                self.model = SimpleTrafficModel(
+                    input_dim=10,  # 流量特征维度
+                    hidden_dim=self.config['model'].get('hidden_dim', 20),
+                    num_classes=2  # 二分类
+                )
+            except ImportError:
+                self.logger.error("无法导入 SimpleTrafficModel，请确保已添加该文件")
+                raise
         else:
             self.model = SimpleModel(
-                input_dim=self.config['data']['feature_dim'],
-                hidden_dim=self.config['model']['hidden_dim'],
-                num_classes=self.config['data']['num_classes']
+                input_dim=self.config['data'].get('feature_dim', 10),  # 提供默认值
+                hidden_dim=self.config['model'].get('hidden_dim', 20),
+                num_classes=self.config['data'].get('num_classes', 2)
             )
         
         # 初始化聚合器
@@ -243,38 +262,60 @@ class BaselineExperiment:
 
     def prepare_data(self):
         """准备训练数据"""
-        self.logger.info("开始准备MNIST数据")
-        
-        # 配置总卫星数
-        total_satellites = 66  # 6轨道 × 11卫星
-        self.satellite_datasets = {}
-        
-        # 创建数据生成器
-        self.data_generator = MNISTDataGenerator(total_satellites)
-        
-        # 生成非独立同分布数据
-        all_datasets = self.data_generator.generate_non_iid_data(
-            dirichlet_alpha=self.config['data']['dirichlet_alpha'],
-            mean_samples_per_satellite=self.config['data']['mean_samples_per_satellite']
-        )
-        
-        # 为每个卫星分配数据集
-        dataset_idx = 0
-        for orbit_num in range(1, 7):  # 6个轨道
-            for sat_num in range(1, 12):  # 每轨道11颗卫星
-                sat_id = f"satellite_{orbit_num}-{sat_num}"
-                if dataset_idx < len(all_datasets):
-                    self.satellite_datasets[sat_id] = list(all_datasets.values())[dataset_idx]
-                    dataset_idx += 1
-        
-        # 获取测试数据集
-        self.test_dataset = self.data_generator.get_test_dataset()
-        
-        # 记录数据分配情况
-        for sat_id, dataset in self.satellite_datasets.items():
-            self.logger.debug(f"卫星 {sat_id} 数据集大小: {len(dataset)}")
-        
-        self.logger.info(f"数据生成完成，共{len(self.satellite_datasets)}个卫星节点")
+        if self.config['data'].get('dataset') == 'network_traffic':
+            self.logger.info("开始准备网络流量数据")
+            
+            # 使用新的生成器创建数据
+            self.satellite_datasets = self.data_generator.generate_data(
+                total_samples=self.config['data']['total_samples'],
+                malicious_ratio=self.config['data'].get('malicious_ratio', 0.3),
+                orbit_similarity=self.config['data'].get('orbit_similarity', 0.7),
+                position_similarity=self.config['data'].get('position_similarity', 0.8)
+            )
+            
+            # 获取测试数据集
+            self.test_dataset = self.data_generator.generate_test_data(
+                self.config['data']['test_samples']
+            )
+            
+            # 记录数据分配情况
+            for sat_id, dataset in self.satellite_datasets.items():
+                self.logger.debug(f"卫星 {sat_id} 数据集大小: {len(dataset)}")
+            
+            self.logger.info(f"数据生成完成，共{len(self.satellite_datasets)}个卫星节点")
+        elif self.config['data'].get('dataset') == 'mnist':
+            self.logger.info("开始准备MNIST数据")
+            
+            # 配置总卫星数
+            total_satellites = 66  # 6轨道 × 11卫星
+            self.satellite_datasets = {}
+            
+            # 创建数据生成器
+            self.data_generator = MNISTDataGenerator(total_satellites)
+            
+            # 生成非独立同分布数据
+            all_datasets = self.data_generator.generate_non_iid_data(
+                dirichlet_alpha=self.config['data']['dirichlet_alpha'],
+                mean_samples_per_satellite=self.config['data']['mean_samples_per_satellite']
+            )
+            
+            # 为每个卫星分配数据集
+            dataset_idx = 0
+            for orbit_num in range(1, 7):  # 6个轨道
+                for sat_num in range(1, 12):  # 每轨道11颗卫星
+                    sat_id = f"satellite_{orbit_num}-{sat_num}"
+                    if dataset_idx < len(all_datasets):
+                        self.satellite_datasets[sat_id] = list(all_datasets.values())[dataset_idx]
+                        dataset_idx += 1
+            
+            # 获取测试数据集
+            self.test_dataset = self.data_generator.get_test_dataset()
+            
+            # 记录数据分配情况
+            for sat_id, dataset in self.satellite_datasets.items():
+                self.logger.debug(f"卫星 {sat_id} 数据集大小: {len(dataset)}")
+            
+            self.logger.info(f"数据生成完成，共{len(self.satellite_datasets)}个卫星节点")
         
     def setup_clients(self):
         """设置卫星客户端"""
@@ -287,35 +328,43 @@ class BaselineExperiment:
             for sat in range(1, 12):  # 每轨道11颗卫星
                 sat_id = f"satellite_{orbit}-{sat}"
                 # 创建客户端
-                if self.config['data'].get('dataset') == 'mnist':
+                if self.config['data'].get('dataset') == 'network_traffic':
+                    from fl_core.models.traffic_model import SimpleTrafficModel
+                    model_copy = SimpleTrafficModel(
+                        input_dim=10,
+                        hidden_dim=self.config['model'].get('hidden_dim', 20),
+                        num_classes=2
+                    )
+                    model_copy.load_state_dict(self.model.state_dict())  # 复制参数
+                    client = SatelliteClient(
+                        sat_id,
+                        model_copy,
+                        client_config,
+                        self.network_manager,
+                        self.energy_model
+                    )
+                elif self.config['data'].get('dataset') == 'mnist':
+                    model_copy = MNISTModel()  # 创建新实例
+                    model_copy.load_state_dict(self.model.state_dict())  # 复制参数
                     # 对于MNIST，使用预先创建的CNN模型
                     client = SatelliteClient(
                         sat_id,
-                        MNISTModel(),  # 创建新的CNN模型实例
+                        model_copy,  # 创建新的CNN模型实例
                         client_config,
                         self.network_manager,
                         self.energy_model
                     )
                 else:
-                    # 基础模型定义
+                    # 基础模型
                     base_model = SimpleModel(
-                        input_dim=self.config['data']['feature_dim'],
-                        hidden_dim=self.config['model']['hidden_dim'],
-                        num_classes=self.config['data']['num_classes']
+                        input_dim=self.config['data'].get('feature_dim', 10),
+                        hidden_dim=self.config['model'].get('hidden_dim', 20),
+                        num_classes=self.config['data'].get('num_classes', 2)
                     )
-                    
-                    # 保存基础模型参数
-                    base_state_dict = base_model.state_dict()
-                    # 创建新的模型实例
-                    model = SimpleModel(
-                        input_dim=self.config['data']['feature_dim'],
-                        hidden_dim=self.config['model']['hidden_dim'],
-                        num_classes=self.config['data']['num_classes']
-                    )
-                    model.load_state_dict(base_state_dict)
+                    base_model.load_state_dict(self.model.state_dict())  # 复制参数
                     client = SatelliteClient(
                         sat_id,
-                        model,
+                        base_model,
                         client_config,
                         self.network_manager,
                         self.energy_model
@@ -647,22 +696,126 @@ class BaselineExperiment:
             
     #         current_sat = next_sat
 
+    # def _distribute_orbit_params(self, coordinator: str, orbit_satellites: List[str], model_state: Dict, current_time: float):
+    #     """
+    #     在轨道内采用洪泛式传递参数
+    #     Args:
+    #         coordinator: 协调者卫星ID
+    #         orbit_satellites: 轨道内所有卫星
+    #         model_state: 模型参数
+    #         current_time: 当前时间戳
+    #     """
+        
+        
+    #     # 按照序号排序卫星
+    #     orbit_num, coord_num = self._parse_satellite_id(coordinator)
+        
+    #     orbit_prefix = f"[轨道 {orbit_num-1}]"  # 创建轨道前缀
+    #     self.logger.info(f"{orbit_prefix} 开始轨道内洪泛式参数传递, 协调者: {coordinator}")
+    #     sorted_satellites = sorted(orbit_satellites, 
+    #                             key=lambda x: int(self._parse_satellite_id(x)[1]))
+        
+    #     # 记录已接收参数的卫星
+    #     received_params = {coordinator}
+    #     # 记录每个卫星的传播时间
+    #     distribution_times = {coordinator: current_time}
+        
+    #     # 从协调者开始，向两个方向传播
+    #     max_retries = 3
+    #     transmission_interval = 60  # 传输间隔（秒）
+        
+    #     def propagate_direction(start_idx: int, direction: int):
+    #         """向指定方向传播参数"""
+    #         current_idx = start_idx
+    #         retries = 0
+    #         local_time = current_time
+            
+    #         while retries < max_retries:
+    #             next_idx = (current_idx + direction) % len(sorted_satellites)
+    #             current_sat = sorted_satellites[current_idx]
+    #             next_sat = sorted_satellites[next_idx]
+                
+    #             # 如果下一个卫星已经收到参数，停止在这个方向的传播
+    #             if next_sat in received_params:
+    #                 break
+                    
+    #             try:
+    #                 # 等待直到相邻卫星可见
+    #                 wait_time = 0
+    #                 max_wait = 120
+    #                 while not self.network_model._check_visibility(current_sat, next_sat, local_time + wait_time):
+    #                     if wait_time >= max_wait:
+    #                         break
+    #                     wait_time += 10
+                    
+    #                 if wait_time < max_wait:
+    #                     # 传递参数
+    #                     self.clients[next_sat].apply_model_update(model_state)
+    #                     received_params.add(next_sat)
+    #                     distribution_times[next_sat] = local_time + wait_time
+    #                     self.logger.info(f"参数传递链: {current_sat} -> {next_sat} 成功")
+                        
+    #                     # 更新索引和时间
+    #                     current_idx = next_idx
+    #                     local_time += wait_time + transmission_interval
+    #                     retries = 0  # 重置重试次数
+    #                 else:
+    #                     retries += 1
+    #                     local_time += transmission_interval
+    #                     self.logger.warning(f"尝试传递参数 {current_sat}->{next_sat} 失败，重试 {retries}/{max_retries}")
+                
+    #             except Exception as e:
+    #                 self.logger.error(f"参数传递出错 {current_sat}->{next_sat}: {str(e)}")
+    #                 retries += 1
+    #                 local_time += transmission_interval
+
+            
+        
+    #     # 获取协调者在排序列表中的索引
+    #     coord_idx = sorted_satellites.index(coordinator)
+        
+    #     # 向两个方向传播
+    #     propagate_direction(coord_idx, 1)  # 向后传播
+    #     propagate_direction(coord_idx, -1)  # 向前传播
+        
+    #     # 检查传播结果
+    #     missing_satellites = set(orbit_satellites) - received_params
+    #     if missing_satellites:
+    #         self.logger.warning(f"{orbit_prefix} 未收到参数的卫星: {missing_satellites}")
+    #     else:
+    #         self.logger.info(f"{orbit_prefix} 所有卫星已成功接收参数")
+            
+    #     # 返回最后一个卫星的传播时间
+    #     return max(distribution_times.values()) if distribution_times else current_time
+
     def _distribute_orbit_params(self, coordinator: str, orbit_satellites: List[str], model_state: Dict, current_time: float):
         """
-        在轨道内采用洪泛式传递参数
+        在轨道内采用洪泛式传递参数 - 符合FedAvg算法
         Args:
             coordinator: 协调者卫星ID
             orbit_satellites: 轨道内所有卫星
             model_state: 模型参数
             current_time: 当前时间戳
         """
-        
-        
         # 按照序号排序卫星
         orbit_num, coord_num = self._parse_satellite_id(coordinator)
         
         orbit_prefix = f"[轨道 {orbit_num-1}]"  # 创建轨道前缀
-        self.logger.info(f"{orbit_prefix} 开始轨道内洪泛式参数传递, 协调者: {coordinator}")
+        self.logger.info(f"{orbit_prefix} 轮次{self.current_round}: 开始轨道内洪泛式参数传递, 协调者: {coordinator}")
+        
+        # 检查初始参数示例值
+        param_example = list(model_state.values())[0][0][0].item()
+        self.logger.info(f"{orbit_prefix} 全局参数示例值: {param_example:.4f}")
+        
+        # 记录几个卫星在接收全局参数前的本地模型参数
+        for sat_id in orbit_satellites[:2]:  # 只检查前两个卫星
+            if sat_id in self.clients:
+                try:
+                    sat_param = list(self.clients[sat_id].model.state_dict().values())[0][0][0].item()
+                    self.logger.info(f"参数分发前 {sat_id} 当前参数示例: {sat_param:.4f}")
+                except Exception as e:
+                    self.logger.error(f"获取卫星参数出错: {str(e)}")
+        
         sorted_satellites = sorted(orbit_satellites, 
                                 key=lambda x: int(self._parse_satellite_id(x)[1]))
         
@@ -700,11 +853,19 @@ class BaselineExperiment:
                         wait_time += 10
                     
                     if wait_time < max_wait:
+                        # 传递参数前记录参数
+                        if next_sat in self.clients:
+                            pre_param = list(self.clients[next_sat].model.state_dict().values())[0][0][0].item()
+                        
                         # 传递参数
                         self.clients[next_sat].apply_model_update(model_state)
                         received_params.add(next_sat)
                         distribution_times[next_sat] = local_time + wait_time
-                        self.logger.info(f"参数传递链: {current_sat} -> {next_sat} 成功")
+                        
+                        # 验证参数是否真的改变了
+                        if next_sat in self.clients:
+                            post_param = list(self.clients[next_sat].model.state_dict().values())[0][0][0].item()
+                            self.logger.info(f"参数传递: {current_sat} -> {next_sat} 成功. 参数变化: {pre_param:.4f} -> {post_param:.4f}")
                         
                         # 更新索引和时间
                         current_idx = next_idx
@@ -719,8 +880,6 @@ class BaselineExperiment:
                     self.logger.error(f"参数传递出错 {current_sat}->{next_sat}: {str(e)}")
                     retries += 1
                     local_time += transmission_interval
-
-            
         
         # 获取协调者在排序列表中的索引
         coord_idx = sorted_satellites.index(coordinator)
@@ -736,6 +895,14 @@ class BaselineExperiment:
         else:
             self.logger.info(f"{orbit_prefix} 所有卫星已成功接收参数")
             
+        # 检查卫星的训练配置，确保优化器和学习率正确设置
+        for sat_id in orbit_satellites[:2]:  # 只检查前两个卫星
+            if sat_id in self.clients:
+                client = self.clients[sat_id]
+                if hasattr(client, 'optimizer') and client.optimizer is not None:
+                    opt_params = next(iter(client.optimizer.param_groups))
+                    self.logger.info(f"卫星 {sat_id} 优化器学习率: {opt_params['lr']}")
+        
         # 返回最后一个卫星的传播时间
         return max(distribution_times.values()) if distribution_times else current_time
 
@@ -804,6 +971,8 @@ class BaselineExperiment:
             training_stats = {}  # 记录每个卫星的训练状态
 
             for sat_id in orbit_satellites:
+                model_state = self.clients[sat_id].model.state_dict()
+                self.logger.info(f"卫星 {sat_id} 参数示例: {list(model_state.values())[0][0][0].item():.4f}")
                 pre_train_energy = self.energy_model.get_battery_level(sat_id)
                 stats = self.clients[sat_id].train(self.current_round)
                 if stats['summary']['train_loss']:
@@ -819,6 +988,49 @@ class BaselineExperiment:
                 else:
                     self.logger.warning(f"卫星 {sat_id} 训练未产生有效结果")
 
+            # # 添加如下检查
+            # self.logger.info(f"=== 轨道 {orbit_id} 训练后、聚合前参数检查 ===")
+            # model_params = {}
+            # for sat_id in trained_satellites:
+            #     try:
+            #         # 保存第一个参数的前几个值作为指纹
+            #         param = next(iter(self.clients[sat_id].model.parameters()))
+            #         model_params[sat_id] = param[:3, :3].detach().numpy().flatten()
+            #         self.logger.info(f"卫星 {sat_id} 参数指纹: {model_params[sat_id]}")
+            #     except Exception as e:
+            #         self.logger.error(f"获取卫星 {sat_id} 参数时出错: {str(e)}")
+
+            # # 比较参数是否相同
+            # if len(model_params) >= 2:
+            #     param_ids = list(model_params.keys())
+            #     same_params = True
+            #     for i in range(1, len(param_ids)):
+            #         diff = np.abs(model_params[param_ids[0]] - model_params[param_ids[i]]).mean()
+            #         if diff > 1e-6:
+            #             same_params = False
+            #             self.logger.info(f"卫星 {param_ids[0]} 和 {param_ids[i]} 参数不同，差异: {diff:.8f}")
+                
+            #     if same_params:
+            #         self.logger.warning("警告: 所有卫星训练后参数仍然相同!")
+
+
+            # 创建一个字典存储轨道训练后的模型
+            if not hasattr(self, 'orbit_trained_models'):
+                self.orbit_trained_models = {}
+            
+            # 在轨道内聚合前，收集训练后的模型状态
+            if trained_satellites:
+                # 只选一个卫星的模型来代表整个轨道
+                representative_sat = list(trained_satellites)[0]
+                self.logger.info(f"使用 {representative_sat} 作为轨道 {orbit_id} 的代表模型")
+                
+                # 保存该卫星的模型状态
+                model_state = {}
+                for name, param in self.clients[representative_sat].model.named_parameters():
+                    model_state[name] = param.data.clone()
+                
+                # 存储模型状态
+                self.orbit_trained_models[orbit_id] = model_state
             # 5. 轨道内聚合
             min_updates_required = self.config['aggregation']['min_updates']
             self.logger.info(f"需要至少 {min_updates_required} 个卫星更新，当前有 {len(trained_satellites)} 个")
@@ -1115,6 +1327,7 @@ class BaselineExperiment:
 
     def _perform_global_aggregation(self, round_num: int) -> bool:
         try:
+            orbit_accuracies = self.evaluate_orbit_models()
             self.logger.info("\n=== 全局聚合阶段 ===")
             global_update = self.global_aggregator.get_aggregated_update(round_num)
             
@@ -1136,6 +1349,10 @@ class BaselineExperiment:
                         update_success += 1
                     except Exception as e:
                         self.logger.error(f"更新客户端 {client.client_id} 时出错: {str(e)}")
+                for client_id, client in self.clients.items():
+                    if client_id.startswith("satellite_1-"):  # 只检查第一轨道的几个卫星
+                        if client_id in ["satellite_1-1", "satellite_1-5", "satellite_1-11"]:  # 选择几个关键位置
+                            self.logger.info(f"更新后 {client_id} 参数示例: {list(client.model.state_dict().values())[0][0][0].item():.4f}")
                 
                 # 更新评估用的模型
                 self.model.load_state_dict(global_update)
@@ -1143,9 +1360,13 @@ class BaselineExperiment:
                 self.logger.info(f"成功更新了 {update_success}/{len(self.clients)} 个卫星的模型")
                 
                 # 评估全局模型
-                accuracy = self.evaluate()
-                self.logger.info(f"第 {round_num + 1} 轮全局准确率: {accuracy:.4f}")
-                
+                global_accuracy = self.evaluate()
+                self.logger.info(f"第 {round_num + 1} 轮全局准确率: {global_accuracy:.4f}")
+                # 对比轨道模型和全局模型
+                self.logger.info("\n=== 轨道模型 vs 全局模型性能对比 ===")
+                for orbit_id, accuracy in orbit_accuracies.items():
+                    diff = accuracy - global_accuracy
+                    self.logger.info(f"轨道 {orbit_id}: {accuracy:.2f}% (与全局差异: {diff:+.2f}%)")
                 return True
             else:
                 self.logger.warning("全局聚合失败")
@@ -1180,40 +1401,66 @@ class BaselineExperiment:
     #     accuracy = correct / total
     #     return accuracy
 
+    # def evaluate(self) -> float:
+    #     """评估全局模型性能"""
+    #     self.model.eval()  # 确保模型在评估模式
+    #     test_loss = 0
+    #     correct = 0
+        
+    #     test_loader = DataLoader(
+    #         self.test_dataset, 
+    #         batch_size=1000,
+    #         shuffle=False
+    #     )
+        
+    #     with torch.no_grad():
+    #         for data, target in test_loader:
+    #             output = self.model(data)
+                
+    #             # 使用交叉熵损失（确保模型输出是原始分数）
+    #             test_loss += F.cross_entropy(output, target, reduction='sum').item()
+                
+    #             # 或者如果模型已经输出log-softmax，则使用nll_loss
+    #             # test_loss += F.nll_loss(output, target, reduction='sum').item()
+                
+    #             pred = output.argmax(dim=1)  # 获取预测结果
+    #             correct += pred.eq(target).sum().item()
+        
+    #     test_loss /= len(test_loader.dataset)
+    #     accuracy = 100. * correct / len(test_loader.dataset)
+        
+    #     self.logger.info(
+    #         f'测试结果:'
+    #         f'\n总样本数: {len(test_loader.dataset)}'
+    #         f'\n正确预测数: {correct}'
+    #         f'\n平均损失: {test_loss:.4f}'
+    #         f'\n准确率: {accuracy:.2f}%'
+    #     )
+        
+    #     return accuracy
+
     def evaluate(self) -> float:
         """评估全局模型性能"""
-        self.model.eval()  # 确保模型在评估模式
+        self.model.eval()
         test_loss = 0
         correct = 0
         
-        # 使用较大的batch size加速评估
         test_loader = DataLoader(
             self.test_dataset, 
             batch_size=1000,
-            shuffle=False  # 评估时不需要打乱数据
+            shuffle=False
         )
         
         with torch.no_grad():
-            for batch_idx, (data, target) in enumerate(test_loader):
-                # 确保输入数据格式正确
-                if len(data.shape) == 3:
-                    data = data.unsqueeze(1)  # 添加channel维度
-                    
+            for data, target in test_loader:
                 output = self.model(data)
-                # 使用 nll_loss，因为模型输出是 log_softmax
-                test_loss += F.nll_loss(output, target, reduction='sum').item()
-                pred = output.argmax(dim=1)  # 获取预测结果
+                test_loss += F.cross_entropy(output, target, reduction='sum').item()
+                pred = output.argmax(dim=1)
                 correct += pred.eq(target).sum().item()
-                
-                # 打印每个batch的结果，帮助调试
-                if batch_idx == 0:  # 只打印第一个batch的详细信息
-                    self.logger.debug(f"Sample predictions: {pred[:10]}")
-                    self.logger.debug(f"Sample targets: {target[:10]}")
-
+        
         test_loss /= len(test_loader.dataset)
         accuracy = 100. * correct / len(test_loader.dataset)
         
-        # 添加更详细的日志
         self.logger.info(
             f'测试结果:'
             f'\n总样本数: {len(test_loader.dataset)}'
@@ -1223,6 +1470,54 @@ class BaselineExperiment:
         )
         
         return accuracy
+
+    # 添加新的辅助方法来获取轨道模型和评估模型
+    def _get_orbit_model(self, orbit: int):
+        """获取指定轨道的模型"""
+        try:
+            # 选择轨道中的最后一个卫星(应该包含了轨道内聚合的结果)
+            sat_id = f"satellite_{orbit}-{self.config['fl']['satellites_per_orbit']}"
+            if sat_id in self.clients:
+                # 创建一个新模型并加载参数
+                if self.config['data'].get('dataset') == 'network_traffic':
+                    from data_simulator.network_traffic_generator import SimpleTrafficModel
+                    orbit_model = SimpleTrafficModel(
+                        input_dim=10,
+                        hidden_dim=self.config['model'].get('hidden_dim', 20),
+                        num_classes=2
+                    )
+                else:
+                    # 其他模型类型
+                    orbit_model = type(self.model)(*self.model.__init__args__, **self.model.__init__kwargs__)
+                
+                # 加载卫星的模型参数
+                orbit_model.load_state_dict(self.clients[sat_id].model.state_dict())
+                return orbit_model
+            return None
+        except Exception as e:
+            self.logger.error(f"获取轨道 {orbit} 模型时出错: {str(e)}")
+            return None
+
+    def _evaluate_model(self, model, dataset) -> float:
+        """评估特定模型在数据集上的准确率"""
+        model.eval()
+        correct = 0
+        total = 0
+        
+        test_loader = DataLoader(
+            dataset, 
+            batch_size=1000,
+            shuffle=False
+        )
+        
+        with torch.no_grad():
+            for data, target in test_loader:
+                output = model(data)
+                pred = output.argmax(dim=1)
+                total += target.size(0)
+                correct += pred.eq(target).sum().item()
+        
+        return 100. * correct / total
         
     def run(self):
         """运行基准实验"""
@@ -1242,9 +1537,67 @@ class BaselineExperiment:
         # 返回统计信息供后续比较
         return stats
         
+    def evaluate_orbit_models(self) -> Dict[int, float]:
+        """评估每个轨道的训练模型性能"""
+        self.logger.info("\n=== 各轨道训练后模型单独评估 ===")
+        
+        results = {}
+        
+        if not hasattr(self, 'orbit_trained_models') or not self.orbit_trained_models:
+            self.logger.warning("没有找到保存的轨道模型")
+            return results
+        
+        for orbit_id, model_state in self.orbit_trained_models.items():
+            try:
+                # 创建一个新模型实例
+                if self.config['data'].get('dataset') == 'network_traffic':
+                    from data_simulator.network_traffic_generator import SimpleTrafficModel
+                    orbit_model = SimpleTrafficModel(
+                        input_dim=10,
+                        hidden_dim=self.config['model'].get('hidden_dim', 20),
+                        num_classes=2
+                    )
+                else:
+                    # 其他模型类型
+                    orbit_model = type(self.model)(*self.model.__init__args__, **self.model.__init__kwargs__)
+                
+                # 加载保存的参数
+                orbit_model.load_state_dict(model_state)
+                
+                # 评估模型
+                orbit_model.eval()
+                correct = 0
+                total = 0
+                
+                test_loader = DataLoader(
+                    self.test_dataset, 
+                    batch_size=1000,
+                    shuffle=False
+                )
+                
+                with torch.no_grad():
+                    for data, target in test_loader:
+                        output = orbit_model(data)
+                        pred = output.argmax(dim=1)
+                        total += target.size(0)
+                        correct += pred.eq(target).sum().item()
+                
+                accuracy = 100. * correct / total
+                results[orbit_id] = accuracy
+                self.logger.info(f"轨道 {orbit_id} 训练后模型准确率: {accuracy:.2f}%")
+                
+            except Exception as e:
+                self.logger.error(f"评估轨道 {orbit_id} 模型时出错: {str(e)}")
+                import traceback
+                self.logger.error(traceback.format_exc())
+        
+        return results
+
+
 def main():
     # 运行基线实验
     experiment = BaselineExperiment()
+
     experiment.run()
     
 if __name__ == "__main__":

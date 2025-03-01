@@ -25,13 +25,23 @@ fl:
 #   mean_samples_per_satellite: 1000  # 每个卫星的平均样本数
 
 # 数据配置
+# data:
+#   dataset: "mnist"  # 新增数据集类型标识
+#   dirichlet_alpha: 0.5
+#   mean_samples_per_satellite: 1000
+#   test_samples: 10000
+#   total_samples: 66000
+
 data:
-  dataset: "mnist"  # 新增数据集类型标识
-  dirichlet_alpha: 0.5
+  dataset: "network_traffic"  # 新数据集类型
+  dirichlet_alpha: 0.5  # 保留兼容性
   mean_samples_per_satellite: 1000
   test_samples: 10000
   total_samples: 66000
-  # 删除 feature_dim 和 num_classes，因为 MNIST 是固定的
+  malicious_ratio: 0.3  # 恶意流量比例
+  orbit_similarity: 0.7  # 轨道内数据相似度
+  position_similarity: 0.8  # 位置相似度
+
 
   
 # # 模型配置
@@ -39,8 +49,14 @@ data:
 #   hidden_dim: 20
 
 # 模型配置
+# model:
+#   type: "cnn"
+#   batch_size: 64
+#   learning_rate: 0.01
+#   momentum: 0.5
 model:
-  type: "cnn"
+  type: "traffic_classifier"  # 新模型类型
+  hidden_dim: 20
   batch_size: 64
   learning_rate: 0.01
   momentum: 0.5
