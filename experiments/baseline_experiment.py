@@ -196,7 +196,23 @@ class BaselineExperiment:
         self.network_manager = NetworkManager(self.network_model, self.topology_manager)
         
         # 数据生成
-        if self.config['data'].get('dataset') == 'network_traffic':
+        if self.config['data'].get('dataset') == 'real_traffic':
+            from fl_core.models.real_traffic_model import RealTrafficModel
+            from data_simulator.real_traffic_generator import RealTrafficGenerator
+            self.data_generator = RealTrafficGenerator(
+            num_satellites=self.config['fl']['num_satellites'],
+            num_orbits=self.config['fl']['num_orbits'],
+            satellites_per_orbit=self.config['fl']['satellites_per_orbit']
+        )
+            # 加载单个CSV文件（从配置中获取路径）
+            csv_path = self.config['data'].get('csv_path', 'merged_traffic.csv')
+            feature_dim, num_classes = self.data_generator.load_and_preprocess_data(csv_path)
+            
+            # 更新模型配置
+            self.config['model']['feature_dim'] = feature_dim
+            self.config['model']['num_classes'] = num_classes
+        
+        elif self.config['data'].get('dataset') == 'network_traffic':
             from data_simulator.network_traffic_generator import NetworkTrafficGenerator
             self.data_generator = NetworkTrafficGenerator(
                 num_satellites=self.config['fl']['num_satellites'],
@@ -219,7 +235,14 @@ class BaselineExperiment:
 
         # 根据数据集类型选择模型
         dataset_type = self.config['data'].get('dataset')
-        if dataset_type == 'mnist':
+        if dataset_type == 'real_traffic':
+            self.model = RealTrafficModel(
+                input_dim=feature_dim,
+                hidden_dim=self.config['model'].get('hidden_dim', 64),
+                num_classes=num_classes
+            )
+            self.logger.info(f"创建RealTrafficModel: 输入维度={feature_dim}, 类别数={num_classes}")
+        elif dataset_type == 'mnist':
             self.model = MNISTModel()
         elif dataset_type == 'network_traffic':
             try:
@@ -294,7 +317,48 @@ class BaselineExperiment:
 
     def prepare_data(self):
         """准备训练数据"""
-        if self.config['data'].get('dataset') == 'network_traffic':
+        if self.config['data'].get('dataset') == 'real_traffic':
+            self.logger.info("开始准备真实网络流量数据")
+            
+            # 使用IID或非IID分布分配给卫星
+            self.satellite_datasets = self.data_generator.generate_data(
+                iid=self.config['data'].get('iid', True),            # 是否使用IID分布
+                alpha=self.config['data'].get('alpha', 1.0)          # Dirichlet参数(仅在non-iid时使用)
+            )
+            
+            # 获取测试数据集
+            self.test_dataset = self.data_generator.generate_test_data()
+            
+            # 记录数据分配情况
+            total_samples = 0
+            benign_samples = 0
+            malicious_samples = 0
+            
+            for sat_id, dataset in self.satellite_datasets.items():
+                self.logger.debug(f"卫星 {sat_id} 数据集大小: {len(dataset)}")
+                total_samples += len(dataset)
+                
+                # 统计每个卫星的良性/恶意流量比例
+                labels = dataset.labels.numpy()
+                sat_benign = np.sum(labels == 1)  # 假设1是benign
+                sat_malicious = np.sum(labels == 0)  # 假设0是malicious
+                
+                benign_samples += sat_benign
+                malicious_samples += sat_malicious
+                
+                # 输出每个卫星的标签分布
+                benign_ratio = sat_benign / len(dataset) * 100 if len(dataset) > 0 else 0
+                self.logger.debug(f"卫星 {sat_id} 标签分布: 良性={benign_ratio:.1f}%, "
+                                f"恶意={(100-benign_ratio):.1f}%")
+            
+            # 输出整体统计信息
+            self.logger.info(f"数据分配完成:")
+            self.logger.info(f"  总样本数: {total_samples}")
+            self.logger.info(f"  良性样本: {benign_samples} ({benign_samples/total_samples*100:.1f}%)")
+            self.logger.info(f"  恶意样本: {malicious_samples} ({malicious_samples/total_samples*100:.1f}%)")
+            self.logger.info(f"  卫星节点: {len(self.satellite_datasets)}")
+
+        elif self.config['data'].get('dataset') == 'network_traffic':
             self.logger.info("开始准备网络流量数据")
             
             # 使用新的生成器创建数据
@@ -360,7 +424,27 @@ class BaselineExperiment:
             for sat in range(1, 12):  # 每轨道11颗卫星
                 sat_id = f"satellite_{orbit}-{sat}"
                 # 创建客户端
-                if self.config['data'].get('dataset') == 'network_traffic':
+                if self.config['data'].get('dataset') == 'real_traffic':
+                    from fl_core.models.real_traffic_model import RealTrafficModel
+                    
+                    # 使用与全局模型相同的参数创建新实例
+                    model_copy = RealTrafficModel(
+                        input_dim=self.config['model']['feature_dim'],
+                        hidden_dim=self.config['model'].get('hidden_dim', 64),
+                        num_classes=self.config['model'].get('num_classes', 2)
+                    )
+                    
+                    # 加载全局模型参数
+                    model_copy.load_state_dict(self.model.state_dict())
+                    
+                    client = SatelliteClient(
+                        sat_id,
+                        model_copy,
+                        client_config,
+                        self.network_manager,
+                        self.energy_model
+                    )
+                elif self.config['data'].get('dataset') == 'network_traffic':
                     from fl_core.models.traffic_model import SimpleTrafficModel
                     model_copy = SimpleTrafficModel(
                         input_dim=10,
