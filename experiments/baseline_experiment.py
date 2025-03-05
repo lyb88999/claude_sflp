@@ -112,11 +112,28 @@ class BaselineExperiment:
         
     def _setup_logging(self):
         """设置日志"""
-        log_dir = Path("logs")
-        log_dir.mkdir(exist_ok=True)
+        # 获取实验类型名称
+        experiment_type = self.__class__.__name__.lower().replace('experiment', '')
+        
+        # 创建顶级日志目录
+        log_root_dir = Path("logs")
+        log_root_dir.mkdir(exist_ok=True)
+        
+        # 创建实验类型目录
+        experiment_dir = log_root_dir / experiment_type
+        experiment_dir.mkdir(exist_ok=True)
+        
+        # 创建当前实验的时间戳目录
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        experiment_run_dir = experiment_dir / timestamp
+        experiment_run_dir.mkdir(exist_ok=True)
+        
+        # 保存实验配置到日志目录
+        with open(experiment_run_dir / "config.yaml", "w") as f:
+            yaml.dump(self.config, f)
         
         # 获取logger
-        self.logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger(f"{experiment_type}_{timestamp}")
         
         # 如果logger已经有处理器，说明已经配置过，直接返回
         if self.logger.handlers:
@@ -125,13 +142,19 @@ class BaselineExperiment:
         # 设置日志级别
         self.logger.setLevel(logging.DEBUG)
         
-        # 1. 文件处理器 - 记录详细日志
+        # 1. 文件处理器 - 详细日志
         file_handler = logging.FileHandler(
-            f"logs/baseline_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+            experiment_run_dir / "experiment.log"
         )
         file_handler.setLevel(logging.DEBUG)
         
-        # 2. 控制台处理器 - 只显示简要信息
+        # 2. 单独的错误日志文件
+        error_handler = logging.FileHandler(
+            experiment_run_dir / "errors.log"
+        )
+        error_handler.setLevel(logging.ERROR)
+        
+        # 3. 控制台处理器 - 只显示简要信息
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.INFO)
         
@@ -139,16 +162,25 @@ class BaselineExperiment:
         file_formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
+        error_formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s'
+        )
         console_formatter = logging.Formatter(
-            '%(message)s'  # 控制台输出简化，只显示消息
+            '[%(levelname)s] %(message)s'  # 控制台输出简化
         )
         
         file_handler.setFormatter(file_formatter)
+        error_handler.setFormatter(error_formatter)
         console_handler.setFormatter(console_formatter)
         
         # 添加处理器
         self.logger.addHandler(file_handler)
+        self.logger.addHandler(error_handler)
         self.logger.addHandler(console_handler)
+        
+        # 保存实验目录路径
+        self.log_dir = experiment_run_dir
+        self.logger.info(f"日志保存在: {self.log_dir}")
         
     def _init_components(self):
         """初始化系统组件"""
@@ -586,7 +618,7 @@ class BaselineExperiment:
             losses=stats['losses'],
             energy_stats=stats['energy_stats'],
             satellite_stats=stats['satellite_stats'],
-            save_path='training_metrics.png'
+            save_path=self.log_dir / 'training_metrics.png'  # 保存在实验日志目录
         )
 
         return stats

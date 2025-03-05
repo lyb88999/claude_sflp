@@ -1,0 +1,40 @@
+aggregation:
+  max_staleness: 300.0
+  min_updates: 2
+  timeout: 600.0
+  weighted_average: true
+client:
+  batch_size: 32
+  compute_capacity: 1.0
+  learning_rate: 0.01
+  local_epochs: 5
+  momentum: 0.9
+  storage_capacity: 1000.0
+data:
+  dataset: network_traffic
+  dirichlet_alpha: 0.5
+  malicious_ratio: 0.3
+  mean_samples_per_satellite: 1000
+  orbit_similarity: 0.7
+  position_similarity: 0.8
+  test_samples: 10000
+  total_samples: 66000
+energy:
+  config_file: configs/energy_config.yaml
+fedavg:
+  participation_rate: 0.3
+fl:
+  num_orbits: 6
+  num_rounds: 20
+  num_satellites: 66
+  round_interval: 300
+  satellites_per_orbit: 11
+model:
+  batch_size: 64
+  hidden_dim: 20
+  learning_rate: 0.01
+  momentum: 0.5
+  type: traffic_classifier
+network:
+  max_distance: 4000.0
+  tle_file: configs/Iridium_TLEs.txt

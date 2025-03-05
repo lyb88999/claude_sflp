@@ -15,53 +15,43 @@ fl:
   num_rounds: 20
   round_interval: 300  # 每轮训练间隔(秒)
   
+# FedAvg特定配置
+fedavg:
+  participation_rate: 0.3  # 每轮参与比例
+  
 # # 数据配置
 # data:
-#   feature_dim: 10
-#   num_classes: 2
-#   total_samples: 66000  # 增加总样本数以适应更多卫星
-#   test_samples: 1000
-#   dirichlet_alpha: 0.5
-#   mean_samples_per_satellite: 1000  # 每个卫星的平均样本数
-
-# 数据配置
-# data:
-#   dataset: "mnist"  # 新增数据集类型标识
+#   dataset: "network_traffic"  # 使用与主实验相同的数据集
 #   dirichlet_alpha: 0.5
 #   mean_samples_per_satellite: 1000
 #   test_samples: 10000
 #   total_samples: 66000
+#   malicious_ratio: 0.3
+#   orbit_similarity: 0.7
+#   position_similarity: 0.8
 
+# 数据配置
 data:
-  dataset: "network_traffic"  # 新数据集类型
-  dirichlet_alpha: 0.5  # 保留兼容性
+  dataset: "mnist"  # 新增数据集类型标识
+  dirichlet_alpha: 0.5
   mean_samples_per_satellite: 1000
   test_samples: 10000
   total_samples: 66000
-  malicious_ratio: 0.3  # 恶意流量比例
-  orbit_similarity: 0.7  # 轨道内数据相似度
-  position_similarity: 0.8  # 位置相似度
 
-
-  
 # # 模型配置
 # model:
+#   type: "traffic_classifier"
 #   hidden_dim: 20
-
-# 模型配置
-# model:
-#   type: "cnn"
 #   batch_size: 64
 #   learning_rate: 0.01
 #   momentum: 0.5
 
+# 模型配置
 model:
-  type: "traffic_classifier"  # 新模型类型
-  hidden_dim: 20
+  type: "cnn"
   batch_size: 64
   learning_rate: 0.01
   momentum: 0.5
-
   
 # 客户端配置
 client:
@@ -71,18 +61,10 @@ client:
   momentum: 0.9
   compute_capacity: 1.0
   storage_capacity: 1000.0
-  
+
 # 聚合配置
 aggregation:
   min_updates: 2
   max_staleness: 300.0
   timeout: 600.0
   weighted_average: true
-
-# 地面站配置
-ground_station:
-  bandwidth_limit: 1000.0  # Mbps
-  storage_limit: 10000.0   # MB
-  priority_levels: 3
-  batch_size: 10
-  aggregation_interval: 60.0
