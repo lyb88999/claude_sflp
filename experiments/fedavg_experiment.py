@@ -131,8 +131,15 @@ class FedAvgExperiment(BaselineExperiment):
                         else:
                             weighted_sum += weighted_param
                     aggregated_update[param_name] = weighted_sum
-                
-                # 6. 更新全局模型
+
+                # 6. 更新全局模型 - 修改后的代码
+                current_state_dict = self.model.state_dict()
+                for name, param in current_state_dict.items():
+                    # 如果是BatchNorm层的运行统计数据，保留原值
+                    if 'running_mean' in name or 'running_var' in name or 'num_batches_tracked' in name:
+                        aggregated_update[name] = param
+
+                # 然后再更新模型
                 self.model.load_state_dict(aggregated_update)
                 
                 # 7. 评估全局模型

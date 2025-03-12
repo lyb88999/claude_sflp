@@ -307,6 +307,12 @@ class SatelliteClient:
             for name in new_state_dict:
                 if name not in current_state:
                     print(f"警告: 参数 {name} 不在模型中")
+
+            # 保留批量归一化层的统计数据
+            for name, param in current_state.items():
+                if 'running_mean' in name or 'running_var' in name or 'num_batches_tracked' in name:
+                    if name not in new_state_dict:
+                        new_state_dict[name] = param
             
             # 更新模型参数
             self.model.load_state_dict(new_state_dict)

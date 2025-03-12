@@ -1457,6 +1457,12 @@ class BaselineExperiment:
                         return False
                     self.logger.debug(f"Parameter {name} mean: {param.mean():.4f}")
                 
+                # 关键修改：保留批量归一化层的统计数据
+                current_state_dict = self.model.state_dict()
+                for name, param in current_state_dict.items():
+                    if 'running_mean' in name or 'running_var' in name or 'num_batches_tracked' in name:
+                        global_update[name] = param
+                
                 # 更新所有卫星的模型
                 update_success = 0
                 for client in self.clients.values():
@@ -1677,8 +1683,15 @@ class BaselineExperiment:
                     # 其他模型类型
                     orbit_model = type(self.model)(*self.model.__init__args__, **self.model.__init__kwargs__)
                 
+                 # 关键修改：先获取完整的模型状态以保留批量归一化层的统计数据
+                complete_state_dict = orbit_model.state_dict()
+                
+                # 合并保存的参数与初始状态字典
+                for name, param in model_state.items():
+                    if name in complete_state_dict:
+                        complete_state_dict[name] = param
                 # 加载保存的参数
-                orbit_model.load_state_dict(model_state)
+                orbit_model.load_state_dict(complete_state_dict)
                 
                 # 评估模型
                 orbit_model.eval()

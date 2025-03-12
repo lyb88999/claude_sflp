@@ -36,7 +36,7 @@ data:
   csv_path: "/Users/lyb/Downloads/gitProjects/STI/merged_traffic_data_20250305_111338.csv"
   test_size: 0.2                     # 测试集比例
   iid: false                          # 是否使用IID分布
-  alpha: 1.0                         # Dirichlet参数（仅在non-iid时使用）
+  alpha: 0.6                         # Dirichlet参数（仅在non-iid时使用）
 
 
 # # 模型配置
@@ -52,7 +52,7 @@ model:
   type: "traffic_classifier"
   hidden_dim: 64
   batch_size: 32
-  learning_rate: 0.01
+  learning_rate: 0.001
   momentum: 0.9
   
 # 客户端配置
