@@ -431,261 +431,567 @@ class SimilarityGroupingExperiment(BaselineExperiment):
             
         return groups
 
+    # def perform_grouping(self, orbit_id: int):
+    #     """
+    #     执行轨道内卫星分组 - 改进的基于相似度分组实现
+        
+    #     Args:
+    #         orbit_id: 轨道ID
+    #     """
+    #     self.logger.info(f"\n=== 开始轨道 {orbit_id} 的分组过程 ===")
+        
+    #     # 确保轨道已初始化
+    #     self._init_orbit_structures(orbit_id)
+        
+    #     # 重置访问状态
+    #     for sat_id in self.orbit_visited[orbit_id]:
+    #         self.orbit_visited[orbit_id][sat_id] = False
+        
+    #     # 获取协调者节点
+    #     coordinator = self.orbit_coordinators[orbit_id]
+    #     self.logger.info(f"协调者: {coordinator}")
+        
+    #     # 更新模型缓存
+    #     self._update_model_cache(orbit_id)
+        
+    #     # 获取轨道内所有卫星ID并按序号排序
+    #     satellites = sorted(list(self.orbit_visited[orbit_id].keys()), 
+    #                     key=lambda x: int(x.split('-')[1]))
+        
+    #     # 第一轮训练或者计算相似度矩阵为空时，采用位置分组
+    #     use_position_grouping = (self.current_round == 0)
+        
+    #     # 若缓存不足或相似度计算失败，则使用位置分组
+    #     if not use_position_grouping:
+    #         # 计算所有卫星对之间的相似度
+    #         similarity_matrix = {}
+    #         for i, sat1 in enumerate(satellites):
+    #             if sat1 not in self.satellite_model_cache:
+    #                 use_position_grouping = True
+    #                 self.logger.warning(f"卫星 {sat1} 缺少模型缓存，将使用位置分组")
+    #                 break
+                    
+    #             for j, sat2 in enumerate(satellites):
+    #                 if i < j:  # 只计算上三角矩阵
+    #                     if sat2 not in self.satellite_model_cache:
+    #                         use_position_grouping = True
+    #                         self.logger.warning(f"卫星 {sat2} 缺少模型缓存，将使用位置分组")
+    #                         break
+                            
+    #                     try:
+    #                         sim = self.compute_similarity(
+    #                             self.satellite_model_cache[sat1],
+    #                             self.satellite_model_cache[sat2]
+    #                         )
+    #                         similarity_matrix[(sat1, sat2)] = sim
+    #                         similarity_matrix[(sat2, sat1)] = sim  # 对称性
+                            
+    #                         # 调试输出
+    #                         self.logger.info(f"卫星 {sat1} 和 {sat2} 相似度: {sim:.4f}")
+    #                     except Exception as e:
+    #                         self.logger.error(f"计算相似度时出错: {str(e)}")
+    #                         use_position_grouping = True
+    #                         break
+                            
+    #             if use_position_grouping:
+    #                 break
+        
+    #     # 如果使用位置分组
+    #     if use_position_grouping:
+    #         self.logger.info(f"轨道 {orbit_id} 使用基于位置的分组策略")
+    #         return self._perform_position_grouping(orbit_id, satellites)
+        
+    #     # 使用相似度分组
+    #     self.logger.info(f"轨道 {orbit_id} 使用基于相似度的分组策略")
+        
+    #     # 全新的相似度分组逻辑
+    #     # 1. 降低相似度阈值，使用动态阈值
+    #     # 2. 采用贪婪聚类方法
+        
+    #     # 初始相似度阈值
+    #     threshold = 0.3  # 使用较低的初始阈值
+        
+    #     # 已经分组的卫星集合
+    #     grouped = set()
+        
+    #     # 分组结果
+    #     groups = {}
+    #     group_counter = 0
+        
+    #     # 记录每个卫星对应的组ID
+    #     satellite_to_group = {}
+        
+    #     # 贪婪地选择相似度高的卫星对进行分组
+    #     while len(grouped) < len(satellites):
+    #         # 找出未分组的卫星
+    #         remaining = [s for s in satellites if s not in grouped]
+    #         if not remaining:
+    #             break
+                
+    #         # 如果只剩一个卫星，将其单独分为一组
+    #         if len(remaining) == 1:
+    #             group_id = f"group_{orbit_id}-{group_counter}"
+    #             groups[group_id] = [remaining[0]]
+    #             satellite_to_group[remaining[0]] = group_id
+    #             grouped.add(remaining[0])
+                
+    #             # 设置代表节点
+    #             self.orbit_groups[orbit_id][remaining[0]] = group_id
+    #             self.orbit_visited[orbit_id][remaining[0]] = True
+    #             self.orbit_representatives[orbit_id][group_id] = remaining[0]
+                
+    #             group_counter += 1
+    #             continue
+            
+    #         # 找出所有未分组卫星对中相似度最高的一对
+    #         best_pair = None
+    #         best_sim = -1
+            
+    #         for i, sat1 in enumerate(remaining):
+    #             for j, sat2 in enumerate(remaining):
+    #                 if i < j:
+    #                     pair = (sat1, sat2)
+    #                     if pair in similarity_matrix and similarity_matrix[pair] > best_sim:
+    #                         best_sim = similarity_matrix[pair]
+    #                         best_pair = pair
+            
+    #         # 如果找不到满足阈值的卫星对，降低阈值
+    #         if best_pair is None or best_sim < threshold:
+    #             # 如果阈值已经很低，则将剩余卫星各自分为一组
+    #             if threshold < 0.2:
+    #                 for sat in remaining:
+    #                     group_id = f"group_{orbit_id}-{group_counter}"
+    #                     groups[group_id] = [sat]
+    #                     satellite_to_group[sat] = group_id
+    #                     grouped.add(sat)
+                        
+    #                     # 设置代表节点
+    #                     self.orbit_groups[orbit_id][sat] = group_id
+    #                     self.orbit_visited[orbit_id][sat] = True
+    #                     self.orbit_representatives[orbit_id][group_id] = sat
+                        
+    #                     group_counter += 1
+    #                 break
+    #             else:
+    #                 # 降低阈值并继续
+    #                 threshold -= 0.1
+    #                 self.logger.info(f"降低相似度阈值到 {threshold:.2f}")
+    #                 continue
+            
+    #         # 创建新组
+    #         group_id = f"group_{orbit_id}-{group_counter}"
+    #         sat1, sat2 = best_pair
+    #         groups[group_id] = [sat1, sat2]
+    #         satellite_to_group[sat1] = group_id
+    #         satellite_to_group[sat2] = group_id
+    #         grouped.add(sat1)
+    #         grouped.add(sat2)
+            
+    #         # 设置代表节点
+    #         self.orbit_groups[orbit_id][sat1] = group_id
+    #         self.orbit_groups[orbit_id][sat2] = group_id
+    #         self.orbit_visited[orbit_id][sat1] = True
+    #         self.orbit_visited[orbit_id][sat2] = True
+    #         self.orbit_representatives[orbit_id][group_id] = sat1
+            
+    #         self.logger.info(f"创建组 {group_id} 初始成员: {groups[group_id]}")
+            
+    #         # 尝试将其他相似的卫星添加到这个组
+    #         # 直到组达到最大大小或没有满足条件的卫星
+    #         while len(groups[group_id]) < self.max_group_size:
+    #             candidates = []
+    #             for sat in remaining:
+    #                 if sat not in grouped:
+    #                     # 计算与组内所有卫星的平均相似度
+    #                     avg_sim = 0
+    #                     for member in groups[group_id]:
+    #                         pair = (sat, member)
+    #                         if pair in similarity_matrix:
+    #                             avg_sim += similarity_matrix[pair]
+                        
+    #                     avg_sim /= len(groups[group_id])
+                        
+    #                     if avg_sim > threshold:
+    #                         candidates.append((sat, avg_sim))
+                
+    #             # 找不到满足条件的卫星
+    #             if not candidates:
+    #                 break
+                    
+    #             # 添加相似度最高的卫星
+    #             candidates.sort(key=lambda x: x[1], reverse=True)
+    #             best_candidate, _ = candidates[0]
+                
+    #             groups[group_id].append(best_candidate)
+    #             satellite_to_group[best_candidate] = group_id
+    #             grouped.add(best_candidate)
+                
+    #             # 更新卫星状态
+    #             self.orbit_groups[orbit_id][best_candidate] = group_id
+    #             self.orbit_visited[orbit_id][best_candidate] = True
+                
+    #             self.logger.info(f"将卫星 {best_candidate} 添加到组 {group_id}")
+            
+    #         group_counter += 1
+        
+    #     # 检查是否有太小的组（只有1个卫星），尝试合并
+    #     small_groups = [gid for gid, members in groups.items() if len(members) == 1]
+    #     if len(small_groups) > 1:
+    #         self.logger.info(f"发现 {len(small_groups)} 个小组，尝试合并")
+            
+    #         # 按距离合并小组
+    #         while len(small_groups) > 1:
+    #             g1 = small_groups.pop(0)
+    #             g2 = small_groups.pop(0)
+                
+    #             # 合并两个小组
+    #             merged_id = g1  # 保留第一个组的ID
+    #             merged_members = groups[g1] + groups[g2]
+                
+    #             # 更新组和成员映射
+    #             groups[merged_id] = merged_members
+    #             for member in groups[g2]:
+    #                 self.orbit_groups[orbit_id][member] = merged_id
+    #                 satellite_to_group[member] = merged_id
+                
+    #             # 删除被合并的组
+    #             del groups[g2]
+    #             if g2 in self.orbit_representatives[orbit_id]:
+    #                 del self.orbit_representatives[orbit_id][g2]
+                
+    #             self.logger.info(f"合并小组 {g1} 和 {g2} 为 {merged_id}")
+        
+    #     # 更新轨道分组信息
+    #     for sat_id in satellites:
+    #         # 确保每个卫星都被分配到一个组
+    #         if sat_id not in satellite_to_group:
+    #             self.logger.warning(f"卫星 {sat_id} 未被分组，分配到新组")
+    #             group_id = f"group_{orbit_id}-{group_counter}"
+    #             groups[group_id] = [sat_id]
+    #             self.orbit_groups[orbit_id][sat_id] = group_id
+    #             self.orbit_visited[orbit_id][sat_id] = True
+    #             self.orbit_representatives[orbit_id][group_id] = sat_id
+    #             group_counter += 1
+        
+    #     # 验证分组结果
+    #     validation_groups = {}
+    #     for sat_id, group_id in self.orbit_groups[orbit_id].items():
+    #         if group_id not in validation_groups:
+    #             validation_groups[group_id] = []
+    #         validation_groups[group_id].append(sat_id)
+        
+    #     # 总结分组结果
+    #     self.logger.info(f"轨道 {orbit_id} 分组结果:")
+    #     for group_id, members in validation_groups.items():
+    #         self.logger.info(f"  组 {group_id}: {members}")
+        
+    #     return validation_groups
+
+    def compute_enhanced_similarity(self, sat1_id: str, sat2_id: str) -> float:
+        """
+        增强的相似度计算，综合考虑多个维度的相似性
+        
+        Args:
+            sat1_id: 第一个卫星ID
+            sat2_id: 第二个卫星ID
+            
+        Returns:
+            float: 综合相似度值(0-1)
+        """
+        try:
+            if sat1_id not in self.clients or sat2_id not in self.clients:
+                return 0.0
+                
+            client1 = self.clients[sat1_id]
+            client2 = self.clients[sat2_id]
+            
+            # 1. 模型参数相似度 (权重: 0.4)
+            if sat1_id in self.satellite_model_cache and sat2_id in self.satellite_model_cache:
+                model1 = self.satellite_model_cache[sat1_id]
+                model2 = self.satellite_model_cache[sat2_id]
+                param_similarity = self._compute_parameter_similarity(model1, model2)
+            else:
+                param_similarity = 0.0
+                
+            # 2. 训练损失曲线相似度 (权重: 0.3)
+            loss_similarity = self._compute_loss_curve_similarity(client1, client2)
+            
+            # 3. 预测行为相似度 (权重: 0.3)
+            prediction_similarity = self._compute_prediction_similarity(client1, client2)
+            
+            # 综合计算最终相似度
+            final_similarity = (0.4 * param_similarity + 
+                            0.3 * loss_similarity + 
+                            0.3 * prediction_similarity)
+            
+            self.logger.debug(f"卫星 {sat1_id}-{sat2_id} 相似度: 参数={param_similarity:.4f}, " +
+                            f"损失曲线={loss_similarity:.4f}, 预测={prediction_similarity:.4f}, " +
+                            f"最终={final_similarity:.4f}")
+            
+            return final_similarity
+            
+        except Exception as e:
+            self.logger.error(f"计算增强相似度时出错: {str(e)}")
+            import traceback
+            self.logger.error(traceback.format_exc())
+            return 0.0
+
+    def _compute_parameter_similarity(self, model1, model2):
+        """计算模型参数相似度，考虑层的重要性"""
+        try:
+            # 只选择重要的权重参数
+            important_keys = [k for k in model1.keys() 
+                            if ("weight" in k or "bias" in k) and 
+                            not any(x in k for x in ["running_mean", "running_var", "num_batches"])]
+            
+            # 分层计算相似度
+            layer_similarities = []
+            layer_weights = []
+            
+            for i, name in enumerate(important_keys):
+                if name in model1 and name in model2:
+                    param1 = model1[name].flatten()
+                    param2 = model2[name].flatten()
+                    
+                    if param1.shape == param2.shape and param1.shape[0] > 0:
+                        # 规范化向量
+                        norm1 = torch.norm(param1)
+                        norm2 = torch.norm(param2)
+                        
+                        if norm1 > 0 and norm2 > 0:
+                            param1 = param1 / norm1
+                            param2 = param2 / norm2
+                            
+                            # 计算余弦相似度
+                            cos_sim = torch.sum(param1 * param2).item()
+                            sim = (cos_sim + 1) / 2  # 映射到[0,1]范围
+                            
+                            # 后面的层通常更重要，给予更高权重
+                            weight = 1.0 + i * 0.1
+                            
+                            layer_similarities.append(sim)
+                            layer_weights.append(weight)
+            
+            if not layer_similarities:
+                return 0.5  # 默认中等相似度
+                
+            # 加权平均
+            total_weight = sum(layer_weights)
+            weighted_sim = sum(s * w for s, w in zip(layer_similarities, layer_weights)) / total_weight
+            
+            return weighted_sim ** 0.8  # 增强中等相似度的区分度
+        except Exception as e:
+            self.logger.error(f"计算参数相似度出错: {str(e)}")
+            return 0.5  # 出错时返回中等相似度
+
+    def _compute_loss_curve_similarity(self, client1, client2):
+        """比较两个卫星的训练收敛模式相似度"""
+        try:
+            # 获取训练损失历史
+            if not hasattr(client1, 'train_stats') or not hasattr(client2, 'train_stats'):
+                return 0.5
+            
+            if not client1.train_stats or not client2.train_stats:
+                return 0.5
+            
+            # 提取最后一次训练的损失曲线
+            loss1 = client1.train_stats[-1]['summary'].get('train_loss', [])
+            loss2 = client2.train_stats[-1]['summary'].get('train_loss', [])
+            
+            # 数据不足时返回默认值
+            if len(loss1) < 2 or len(loss2) < 2:
+                return 0.5
+            
+            # 计算损失下降趋势
+            trend1 = [(loss1[i] - loss1[i+1]) for i in range(len(loss1)-1)]
+            trend2 = [(loss2[i] - loss2[i+1]) for i in range(len(loss2)-1)]
+            
+            # 计算两个趋势的相关系数
+            import numpy as np
+            correlation = np.corrcoef(trend1, trend2)[0, 1]
+            
+            # 处理NaN值
+            if np.isnan(correlation):
+                return 0.5
+            
+            # 映射到[0,1]范围
+            return (correlation + 1) / 2
+        except Exception as e:
+            self.logger.error(f"计算损失曲线相似度出错: {str(e)}")
+            return 0.5
+
+    def _compute_prediction_similarity(self, client1, client2):
+        """通过比较卫星在同样输入上的预测结果来评估相似度"""
+        try:
+            # 如果没有数据集，返回默认值
+            if not hasattr(client1, 'dataset') or not hasattr(client2, 'dataset'):
+                return 0.5
+            
+            if client1.dataset is None or client2.dataset is None:
+                return 0.5
+            
+            if len(client1.dataset) == 0 or len(client2.dataset) == 0:
+                return 0.5
+            
+            # 从两个数据集中采样共同的数据点
+            import numpy as np
+            import torch
+            from torch.utils.data import DataLoader
+            
+            # 创建一个小的评估集（从客户端1的数据集采样）
+            sample_size = min(10, len(client1.dataset))
+            indices = np.random.choice(len(client1.dataset), sample_size, replace=False)
+            eval_data = [client1.dataset[i][0] for i in indices]  # 只取特征，不取标签
+            
+            # 将评估数据转换为batch
+            eval_tensor = torch.stack(eval_data)
+            
+            # 获取两个模型的预测
+            with torch.no_grad():
+                client1.model.eval()
+                client2.model.eval()
+                
+                pred1 = client1.model(eval_tensor).softmax(dim=1)
+                pred2 = client2.model(eval_tensor).softmax(dim=1)
+            
+            # 计算预测分布的相似度 (Jensen-Shannon距离)
+            def js_distance(p, q):
+                m = (p + q) / 2
+                return 0.5 * (F.kl_div(p.log(), m, reduction='batchmean') + 
+                            F.kl_div(q.log(), m, reduction='batchmean'))
+            
+            js_div = js_distance(pred1, pred2).item()
+            
+            # 将JS距离映射到相似度
+            similarity = np.exp(-js_div * 5)  # 调整指数衰减速率
+            
+            return similarity
+        except Exception as e:
+            self.logger.error(f"计算预测相似度出错: {str(e)}")
+            return 0.5
     def perform_grouping(self, orbit_id: int):
         """
-        执行轨道内卫星分组 - 改进的基于相似度分组实现
+        执行轨道内卫星分组 - 使用改进的相似度和谱聚类
         
         Args:
             orbit_id: 轨道ID
         """
         self.logger.info(f"\n=== 开始轨道 {orbit_id} 的分组过程 ===")
         
-        # 确保轨道已初始化
+        # 初始化轨道结构
         self._init_orbit_structures(orbit_id)
         
-        # 重置访问状态
-        for sat_id in self.orbit_visited[orbit_id]:
-            self.orbit_visited[orbit_id][sat_id] = False
-        
-        # 获取协调者节点
-        coordinator = self.orbit_coordinators[orbit_id]
-        self.logger.info(f"协调者: {coordinator}")
-        
-        # 更新模型缓存
-        self._update_model_cache(orbit_id)
-        
-        # 获取轨道内所有卫星ID并按序号排序
+        # 获取卫星列表并排序
         satellites = sorted(list(self.orbit_visited[orbit_id].keys()), 
                         key=lambda x: int(x.split('-')[1]))
         
-        # 第一轮训练或者计算相似度矩阵为空时，采用位置分组
-        use_position_grouping = (self.current_round == 0)
-        
-        # 若缓存不足或相似度计算失败，则使用位置分组
-        if not use_position_grouping:
-            # 计算所有卫星对之间的相似度
-            similarity_matrix = {}
-            for i, sat1 in enumerate(satellites):
-                if sat1 not in self.satellite_model_cache:
-                    use_position_grouping = True
-                    self.logger.warning(f"卫星 {sat1} 缺少模型缓存，将使用位置分组")
-                    break
-                    
-                for j, sat2 in enumerate(satellites):
-                    if i < j:  # 只计算上三角矩阵
-                        if sat2 not in self.satellite_model_cache:
-                            use_position_grouping = True
-                            self.logger.warning(f"卫星 {sat2} 缺少模型缓存，将使用位置分组")
-                            break
-                            
-                        try:
-                            sim = self.compute_similarity(
-                                self.satellite_model_cache[sat1],
-                                self.satellite_model_cache[sat2]
-                            )
-                            similarity_matrix[(sat1, sat2)] = sim
-                            similarity_matrix[(sat2, sat1)] = sim  # 对称性
-                            
-                            # 调试输出
-                            self.logger.info(f"卫星 {sat1} 和 {sat2} 相似度: {sim:.4f}")
-                        except Exception as e:
-                            self.logger.error(f"计算相似度时出错: {str(e)}")
-                            use_position_grouping = True
-                            break
-                            
-                if use_position_grouping:
-                    break
-        
-        # 如果使用位置分组
-        if use_position_grouping:
-            self.logger.info(f"轨道 {orbit_id} 使用基于位置的分组策略")
+        # 第一轮或模型缓存为空时使用位置分组
+        if self.current_round == 0:
+            self.logger.info(f"轨道 {orbit_id}: 第一轮使用基于位置的分组策略")
             return self._perform_position_grouping(orbit_id, satellites)
         
-        # 使用相似度分组
-        self.logger.info(f"轨道 {orbit_id} 使用基于相似度的分组策略")
+        # 如果不是刷新周期，保持当前分组
+        if self.current_round % self.similarity_refresh_rounds != 0 and self.current_round > 0:
+            self.logger.info(f"轨道 {orbit_id}: 保持当前分组 (当前轮次 {self.current_round})")
+            groups = {}
+            for sat_id, group_id in self.orbit_groups[orbit_id].items():
+                if group_id not in groups:
+                    groups[group_id] = []
+                groups[group_id].append(sat_id)
+            return groups
         
-        # 全新的相似度分组逻辑
-        # 1. 降低相似度阈值，使用动态阈值
-        # 2. 采用贪婪聚类方法
+        # 更新模型缓存并检查状态
+        self._update_model_cache(orbit_id)
         
-        # 初始相似度阈值
-        threshold = 0.5  # 使用较低的初始阈值
+        # 检查模型缓存状态
+        if not all(sat in self.satellite_model_cache for sat in satellites):
+            missing = [sat for sat in satellites if sat not in self.satellite_model_cache]
+            self.logger.warning(f"轨道 {orbit_id}: 模型缓存不完整，缺少 {len(missing)} 个卫星")
+            self.logger.info(f"轨道 {orbit_id}: 使用基于位置的分组策略")
+            return self._perform_position_grouping(orbit_id, satellites)
         
-        # 已经分组的卫星集合
-        grouped = set()
+        # 记录开始使用基于相似度的分组策略
+        self.logger.info(f"轨道 {orbit_id}: 使用基于相似度的分组策略")
         
-        # 分组结果
-        groups = {}
-        group_counter = 0
+        # 计算相似度矩阵
+        n = len(satellites)
+        similarity_matrix = np.zeros((n, n))
         
-        # 记录每个卫星对应的组ID
-        satellite_to_group = {}
+        # 填充相似度矩阵
+        for i in range(n):
+            similarity_matrix[i, i] = 1.0  # 自己和自己的相似度为1
+            for j in range(i+1, n):
+                sim = self.compute_enhanced_similarity(satellites[i], satellites[j])
+                similarity_matrix[i, j] = similarity_matrix[j, i] = sim
         
-        # 贪婪地选择相似度高的卫星对进行分组
-        while len(grouped) < len(satellites):
-            # 找出未分组的卫星
-            remaining = [s for s in satellites if s not in grouped]
-            if not remaining:
-                break
-                
-            # 如果只剩一个卫星，将其单独分为一组
-            if len(remaining) == 1:
-                group_id = f"group_{orbit_id}-{group_counter}"
-                groups[group_id] = [remaining[0]]
-                satellite_to_group[remaining[0]] = group_id
-                grouped.add(remaining[0])
-                
-                # 设置代表节点
-                self.orbit_groups[orbit_id][remaining[0]] = group_id
-                self.orbit_visited[orbit_id][remaining[0]] = True
-                self.orbit_representatives[orbit_id][group_id] = remaining[0]
-                
-                group_counter += 1
-                continue
+        # 使用谱聚类进行分组
+        try:
+            from sklearn.cluster import SpectralClustering
             
-            # 找出所有未分组卫星对中相似度最高的一对
-            best_pair = None
-            best_sim = -1
+            # 计算合适的分组数
+            n_clusters = max(2, min(n // 3, n // self.max_group_size + 1))
             
-            for i, sat1 in enumerate(remaining):
-                for j, sat2 in enumerate(remaining):
-                    if i < j:
-                        pair = (sat1, sat2)
-                        if pair in similarity_matrix and similarity_matrix[pair] > best_sim:
-                            best_sim = similarity_matrix[pair]
-                            best_pair = pair
+            # 使用谱聚类
+            clustering = SpectralClustering(
+                n_clusters=n_clusters,
+                affinity='precomputed',  # 使用提供的相似度矩阵
+                assign_labels='kmeans',
+                random_state=42
+            ).fit(similarity_matrix)
             
-            # 如果找不到满足阈值的卫星对，降低阈值
-            if best_pair is None or best_sim < threshold:
-                # 如果阈值已经很低，则将剩余卫星各自分为一组
-                if threshold < 0.2:
-                    for sat in remaining:
-                        group_id = f"group_{orbit_id}-{group_counter}"
-                        groups[group_id] = [sat]
-                        satellite_to_group[sat] = group_id
-                        grouped.add(sat)
-                        
-                        # 设置代表节点
-                        self.orbit_groups[orbit_id][sat] = group_id
-                        self.orbit_visited[orbit_id][sat] = True
-                        self.orbit_representatives[orbit_id][group_id] = sat
-                        
-                        group_counter += 1
-                    break
-                else:
-                    # 降低阈值并继续
-                    threshold -= 0.1
-                    self.logger.info(f"降低相似度阈值到 {threshold:.2f}")
-                    continue
+            labels = clustering.labels_
             
-            # 创建新组
-            group_id = f"group_{orbit_id}-{group_counter}"
-            sat1, sat2 = best_pair
-            groups[group_id] = [sat1, sat2]
-            satellite_to_group[sat1] = group_id
-            satellite_to_group[sat2] = group_id
-            grouped.add(sat1)
-            grouped.add(sat2)
-            
-            # 设置代表节点
-            self.orbit_groups[orbit_id][sat1] = group_id
-            self.orbit_groups[orbit_id][sat2] = group_id
-            self.orbit_visited[orbit_id][sat1] = True
-            self.orbit_visited[orbit_id][sat2] = True
-            self.orbit_representatives[orbit_id][group_id] = sat1
-            
-            self.logger.info(f"创建组 {group_id} 初始成员: {groups[group_id]}")
-            
-            # 尝试将其他相似的卫星添加到这个组
-            # 直到组达到最大大小或没有满足条件的卫星
-            while len(groups[group_id]) < self.max_group_size:
-                candidates = []
-                for sat in remaining:
-                    if sat not in grouped:
-                        # 计算与组内所有卫星的平均相似度
-                        avg_sim = 0
-                        for member in groups[group_id]:
-                            pair = (sat, member)
-                            if pair in similarity_matrix:
-                                avg_sim += similarity_matrix[pair]
-                        
-                        avg_sim /= len(groups[group_id])
-                        
-                        if avg_sim > threshold:
-                            candidates.append((sat, avg_sim))
-                
-                # 找不到满足条件的卫星
-                if not candidates:
-                    break
-                    
-                # 添加相似度最高的卫星
-                candidates.sort(key=lambda x: x[1], reverse=True)
-                best_candidate, _ = candidates[0]
-                
-                groups[group_id].append(best_candidate)
-                satellite_to_group[best_candidate] = group_id
-                grouped.add(best_candidate)
+            # 创建分组
+            groups = {}
+            for i, label in enumerate(labels):
+                group_id = f"group_{orbit_id}-{label}"
+                if group_id not in groups:
+                    groups[group_id] = []
+                groups[group_id].append(satellites[i])
                 
                 # 更新卫星状态
-                self.orbit_groups[orbit_id][best_candidate] = group_id
-                self.orbit_visited[orbit_id][best_candidate] = True
-                
-                self.logger.info(f"将卫星 {best_candidate} 添加到组 {group_id}")
+                self.orbit_groups[orbit_id][satellites[i]] = group_id
+                self.orbit_visited[orbit_id][satellites[i]] = True
             
-            group_counter += 1
-        
-        # 检查是否有太小的组（只有1个卫星），尝试合并
-        small_groups = [gid for gid, members in groups.items() if len(members) == 1]
-        if len(small_groups) > 1:
-            self.logger.info(f"发现 {len(small_groups)} 个小组，尝试合并")
+            # 选择代表节点
+            for group_id, members in groups.items():
+                if members:
+                    # 选择组内相似度中心性最高的卫星作为代表
+                    best_member = None
+                    max_centrality = -1
+                    
+                    for sat in members:
+                        idx = satellites.index(sat)
+                        # 计算与组内其他成员的平均相似度
+                        centrality = 0
+                        for other in members:
+                            if sat != other:
+                                other_idx = satellites.index(other)
+                                centrality += similarity_matrix[idx, other_idx]
+                        
+                        if len(members) > 1:
+                            centrality /= (len(members) - 1)
+                            
+                        if centrality > max_centrality:
+                            max_centrality = centrality
+                            best_member = sat
+                    
+                    self.orbit_representatives[orbit_id][group_id] = best_member or members[0]
             
-            # 按距离合并小组
-            while len(small_groups) > 1:
-                g1 = small_groups.pop(0)
-                g2 = small_groups.pop(0)
-                
-                # 合并两个小组
-                merged_id = g1  # 保留第一个组的ID
-                merged_members = groups[g1] + groups[g2]
-                
-                # 更新组和成员映射
-                groups[merged_id] = merged_members
-                for member in groups[g2]:
-                    self.orbit_groups[orbit_id][member] = merged_id
-                    satellite_to_group[member] = merged_id
-                
-                # 删除被合并的组
-                del groups[g2]
-                if g2 in self.orbit_representatives[orbit_id]:
-                    del self.orbit_representatives[orbit_id][g2]
-                
-                self.logger.info(f"合并小组 {g1} 和 {g2} 为 {merged_id}")
-        
-        # 更新轨道分组信息
-        for sat_id in satellites:
-            # 确保每个卫星都被分配到一个组
-            if sat_id not in satellite_to_group:
-                self.logger.warning(f"卫星 {sat_id} 未被分组，分配到新组")
-                group_id = f"group_{orbit_id}-{group_counter}"
-                groups[group_id] = [sat_id]
-                self.orbit_groups[orbit_id][sat_id] = group_id
-                self.orbit_visited[orbit_id][sat_id] = True
-                self.orbit_representatives[orbit_id][group_id] = sat_id
-                group_counter += 1
-        
-        # 验证分组结果
-        validation_groups = {}
-        for sat_id, group_id in self.orbit_groups[orbit_id].items():
-            if group_id not in validation_groups:
-                validation_groups[group_id] = []
-            validation_groups[group_id].append(sat_id)
-        
-        # 总结分组结果
-        self.logger.info(f"轨道 {orbit_id} 分组结果:")
-        for group_id, members in validation_groups.items():
-            self.logger.info(f"  组 {group_id}: {members}")
-        
-        return validation_groups
+            # 输出分组结果
+            self.logger.info(f"轨道 {orbit_id} 分组结果:")
+            for group_id, members in groups.items():
+                rep = self.orbit_representatives[orbit_id].get(group_id, "未设置")
+                self.logger.info(f"  组 {group_id}: {len(members)} 成员, 代表: {rep}")
+            
+            return groups
+            
+        except Exception as e:
+            self.logger.error(f"谱聚类分组失败: {str(e)}")
+            import traceback
+            self.logger.error(traceback.format_exc())
+            self.logger.info(f"轨道 {orbit_id}: 回退到基于位置的分组策略")
+            return self._perform_position_grouping(orbit_id, satellites)
     
     def _update_model_cache(self, orbit_id: int):
         """
@@ -817,13 +1123,15 @@ class SimilarityGroupingExperiment(BaselineExperiment):
                 'receiving_satellites': set()  # 接收参数的卫星
             }
             
-            # 1. 根据相似度分组（每N轮重新分组一次）
-            if self.current_round % self.similarity_refresh_rounds == 0:
-                groups = self.perform_grouping(orbit_num)
-                # 分配初始代表节点
+            # 此轮使用上一轮计算的分组
+            # 获取已有分组或使用默认位置分组
+            if self.current_round == 0 or orbit_num not in self.orbit_groups:
+                # 第一轮使用位置分组
+                orbit_satellites = self._get_orbit_satellites(orbit_id)
+                groups = self._perform_position_grouping(orbit_num, orbit_satellites)
                 self.assign_representatives(orbit_num, groups)
             else:
-                # 获取已有分组
+                # 否则使用已有分组
                 groups = {}
                 for sat_id, group_id in self.orbit_groups[orbit_num].items():
                     if group_id not in groups:
@@ -933,6 +1241,28 @@ class SimilarityGroupingExperiment(BaselineExperiment):
                                     self.logger.error(f"分发模型参数给 {member} 时出错: {str(e)}")
                 except Exception as e:
                     self.logger.error(f"处理代表节点 {rep_id} 时出错: {str(e)}")
+            
+            # 关键修改: 训练后更新模型缓存
+            self._update_model_cache(orbit_num)
+            
+            # 关键修改: 训练后执行下一轮的分组，如果满足刷新条件
+            if self.current_round % self.similarity_refresh_rounds == 0:
+                self.logger.info(f"轨道 {orbit_num}: 基于训练后的模型参数计算下一轮分组")
+                next_groups = self.perform_grouping(orbit_num)
+                # 保存新的分组结果，但不立即使用
+                self.assign_representatives(orbit_num, next_groups)
+                
+                # 调试: 打印几个卫星的相似度矩阵
+                debug_sats = orbit_satellites[:min(3, len(orbit_satellites))]
+                for i, sat1 in enumerate(debug_sats):
+                    for sat2 in debug_sats[i+1:]:
+                        try:
+                            if sat1 in self.satellite_model_cache and sat2 in self.satellite_model_cache:
+                                sim = self.compute_similarity(self.satellite_model_cache[sat1], 
+                                                            self.satellite_model_cache[sat2])
+                                self.logger.info(f"训练后相似度: {sat1}-{sat2} = {sim:.4f}")
+                        except Exception as e:
+                            self.logger.error(f"计算相似度出错: {str(e)}")
             
             # 5. 轨道内聚合
             min_updates_required = self.config['aggregation']['min_updates']
@@ -1050,7 +1380,7 @@ class SimilarityGroupingExperiment(BaselineExperiment):
         best_accuracy = 0
         rounds_without_improvement = 0
         max_rounds_without_improvement = 3  # 连续3轮没有提升就停止
-        min_rounds = 5  # 最少训练轮数
+        min_rounds = 10  # 最少训练轮数
         accuracy_threshold = 95.0  # 提高准确率阈值到95%
 
         # 初始化所有轨道的分组和代表节点
