@@ -146,7 +146,7 @@ class BaselineExperiment:
         file_handler = logging.FileHandler(
             experiment_run_dir / "experiment.log"
         )
-        file_handler.setLevel(logging.DEBUG)
+        file_handler.setLevel(logging.INFO)
         
         # 2. 单独的错误日志文件
         error_handler = logging.FileHandler(

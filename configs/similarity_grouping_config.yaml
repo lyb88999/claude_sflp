@@ -18,9 +18,9 @@ fl:
 # 数据配置
 data:
   dataset: "real_traffic"  # 使用真实网络流量数据
-  csv_path: "/Users/lyb/Downloads/gitProjects/STI/merged_traffic_data_20250305_111338.csv"
+  csv_path: "/Users/yuboli/Downloads/merged_traffic_data_20250305_111338.csv"
   test_size: 0.2  # 测试集比例
-  iid: false  # 独立同分布
+  iid: true  # 独立同分布
   alpha: 0.6  # Dirichlet参数(较小值使分布更不均匀)
 
 # 模型配置
@@ -62,3 +62,10 @@ group:
   similarity_threshold: 0.5  # 初始相似度阈值
   max_group_size_threshold: 4  # 触发相似度阈值调整的组大小
   similarity_refresh_rounds: 5  # 每多少轮重新计算分组
+
+
+early_stopping:
+  enabled: false
+  min_rounds: 20
+  max_rounds_without_improvement: 100
+  accuracy_threshold: 100.0

@@ -1,0 +1,82 @@
+# 有限传播FedAvg配置文件
+# 基于相似度分组配置，添加了传播相关参数
+
+# 网络配置
+network:
+  tle_file: "configs/Iridium_TLEs.txt"
+  max_distance: 4000.0  # km
+
+# 能源配置
+energy:
+  config_file: "configs/energy_config.yaml"
+  
+# 联邦学习配置
+fl:
+  num_satellites: 66  # 总卫星数量
+  satellites_per_orbit: 11  # 每轨道卫星数
+  num_orbits: 6  # 轨道数量
+  num_rounds: 20
+  round_interval: 600  # 每轮训练间隔(秒)
+
+# FedAvg特定配置
+fedavg:
+  participation_rate: 1  # 参与率（默认选择大约22颗卫星）
+  min_satellite_per_orbit: 3  # 每个轨道至少选择的卫星数量
+  selection_method: "random"  # 卫星选择方法
+
+# 传播配置 - 新增的部分
+propagation:
+  hops: 3  # 传播跳数，表示模型可以传播多少跳
+  max_satellites: 22  # 最大传播卫星数量
+  relay_selection: "nearest"  # 中继选择策略，可选：nearest, random, energy_aware
+  intra_orbit_links: true  # 是否允许轨道内链接
+  inter_orbit_links: true  # 是否允许跨轨道链接
+  link_reliability: 0.95  # 链接可靠性（0-1）
+  propagation_delay: 10  # 每跳传播延迟(毫秒)
+  energy_per_hop: 0.05  # 每跳传播的能量消耗(Wh)
+
+# 数据配置
+data:
+  dataset: "real_traffic"  # 使用真实网络流量数据
+  csv_path: "/Users/yuboli/Downloads/merged_traffic_data_20250305_111338.csv"
+  test_size: 0.2  # 测试集比例
+  iid: true  # 独立同分布
+  alpha: 0.6  # Dirichlet参数(较小值使分布更不均匀)
+
+# 模型配置
+model:
+  type: "traffic_classifier"
+  hidden_dim: 64
+  batch_size: 32
+  learning_rate: 0.01
+  momentum: 0.9
+
+# 客户端配置
+client:
+  batch_size: 32
+  local_epochs: 5
+  learning_rate: 0.01
+  momentum: 0.9
+  compute_capacity: 1.0
+  storage_capacity: 1000.0
+  
+# 聚合配置
+aggregation:
+  min_updates: 2
+  max_staleness: 300.0
+  timeout: 600.0
+  weighted_average: true
+
+# 地面站配置
+ground_station:
+  bandwidth_limit: 1000.0  # Mbps
+  storage_limit: 10000.0   # MB
+  priority_levels: 3
+  batch_size: 10
+  aggregation_interval: 60.0
+
+# 执行配置
+execution:
+  max_workers: 8  # 最大工作线程数
+  random_seed: 42  # 随机种子
+  log_level: "INFO"  # 日志级别

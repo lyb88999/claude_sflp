@@ -1,4 +1,5 @@
 import os
+from experiments.propagation_fedavg_experiment import LimitedPropagationFedAvg
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
@@ -21,15 +22,35 @@ def run_comparison():
     plt.rcParams['font.family'] = 'sans-serif'
     plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans']
     
-    # 运行FedAvg
-    print("=== Running FedAvg Experiment ===")
-    fedavg_exp = FedAvgExperiment("configs/fedavg_config.yaml")
-    fedavg_stats = fedavg_exp.run()
-    
-    # 运行相似度分组
+    # 首先运行相似度分组实验
     print("=== Running Similarity Grouping Experiment ===")
     similarity_exp = SimilarityGroupingExperiment("configs/similarity_grouping_config.yaml")
     similarity_stats = similarity_exp.run()
+    
+    # 计算相似度分组使用的平均卫星数
+    similarity_avg_sats = np.mean(similarity_stats['satellite_stats']['training_satellites'])
+    print(f"相似度分组平均使用卫星数: {similarity_avg_sats:.2f}")
+    
+    # 创建有限传播FedAvg配置，目标使用类似数量的卫星
+    target_sats = int(np.ceil(similarity_avg_sats))
+    print(f"配置有限传播FedAvg目标卫星数: {target_sats}")
+    
+    # 运行有限传播FedAvg
+    print("=== Running Limited Propagation FedAvg Experiment ===")
+    # 使用正确的配置文件
+    fedavg_exp = LimitedPropagationFedAvg("configs/propagation_fedavg_config.yaml")
+    
+    # 打印配置信息
+    print(f"FedAvg参数传播配置:")
+    print(f"- 跳数: {fedavg_exp.propagation_hops}")
+    print(f"- 最大卫星数: {fedavg_exp.max_propagation_satellites}")
+    
+    # 运行实验
+    fedavg_stats = fedavg_exp.run()
+    
+    # 打印实际使用的卫星数
+    fedavg_avg_sats = np.mean(fedavg_stats['satellite_stats']['training_satellites'])
+    print(f"有限传播FedAvg平均使用卫星数: {fedavg_avg_sats:.2f}")
     
     # 绘制对比图表
     plot_comparison(fedavg_stats, similarity_stats)
@@ -180,14 +201,14 @@ def generate_summary_report(fedavg_stats, similarity_stats):
         f.write("## Resource Utilization\n")
         f.write(f"- FedAvg Avg. Training Satellites: {fedavg_avg_sats:.2f}\n")
         f.write(f"- Similarity Grouping Avg. Training Satellites: {similarity_avg_sats:.2f}\n")
-        f.write(f"- Satellite Utilization Saving: {sat_saving:.2f}%\n\n")
-        
-        f.write("## Key Advantages of Similarity Grouping\n")
-        f.write("1. **Intelligent Selection**: Instead of random selection in FedAvg, similarity grouping intelligently selects representative satellites based on data characteristics.\n\n")
-        f.write("2. **Resource Efficiency**: Similarity grouping achieves comparable accuracy while using fewer satellites for training, resulting in significant energy savings.\n\n")
-        f.write("3. **Communication Overhead Reduction**: By limiting training to representative satellites, similarity grouping reduces overall communication requirements.\n\n")
-        f.write("4. **Improved Energy Efficiency**: The energy-to-accuracy ratio is better in similarity grouping, showing more efficient resource utilization.\n\n")
-        f.write("5. **Scalability**: As system size increases, similarity grouping becomes increasingly advantageous by organizing satellite resources more effectively.\n")
+
+        sat_diff_percent = ((similarity_avg_sats - fedavg_avg_sats) / fedavg_avg_sats) * 100
+
+        # 修改这一行，使用中性描述
+        if sat_diff_percent > 0:
+            f.write(f"- Satellite Utilization Difference: Similarity uses {sat_diff_percent:.2f}% more satellites\n\n")
+        else:
+            f.write(f"- Satellite Utilization Difference: Similarity uses {-sat_diff_percent:.2f}% fewer satellites\n\n")
     
     print("Summary report generated at comparison_results/summary_report.txt")
 

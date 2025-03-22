@@ -1,0 +1,1816 @@
+2025-03-22 00:04:15,403 - similaritygrouping_20250322_000415 - INFO - 日志保存在: logs/similaritygrouping/20250322_000415
+2025-03-22 00:04:18,779 - similaritygrouping_20250322_000415 - INFO - 创建RealTrafficModel: 输入维度=21, 类别数=2
+2025-03-22 00:04:18,779 - similaritygrouping_20250322_000415 - INFO - 地面站 0 初始化完成: 负责轨道=[0, 1]
+2025-03-22 00:04:18,779 - similaritygrouping_20250322_000415 - INFO - 地面站 1 初始化完成: 负责轨道=[2, 3]
+2025-03-22 00:04:18,779 - similaritygrouping_20250322_000415 - INFO - 地面站 2 初始化完成: 负责轨道=[4, 5]
+2025-03-22 00:04:18,780 - similaritygrouping_20250322_000415 - INFO - 初始化基于数据相似度分组的联邦学习实验
+2025-03-22 00:04:18,780 - similaritygrouping_20250322_000415 - INFO - 开始基于数据相似度的分组实验
+2025-03-22 00:04:18,780 - similaritygrouping_20250322_000415 - INFO - 开始准备真实网络流量数据
+2025-03-22 00:04:19,163 - similaritygrouping_20250322_000415 - INFO - 数据分配完成:
+2025-03-22 00:04:19,163 - similaritygrouping_20250322_000415 - INFO -   总样本数: 1697857
+2025-03-22 00:04:19,163 - similaritygrouping_20250322_000415 - INFO -   良性样本: 1155037 (68.0%)
+2025-03-22 00:04:19,163 - similaritygrouping_20250322_000415 - INFO -   恶意样本: 542820 (32.0%)
+2025-03-22 00:04:19,163 - similaritygrouping_20250322_000415 - INFO -   卫星节点: 66
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 轨道 1 数据结构初始化完成，协调者: satellite_1-1
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 轨道 2 数据结构初始化完成，协调者: satellite_2-1
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 轨道 3 数据结构初始化完成，协调者: satellite_3-1
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 轨道 4 数据结构初始化完成，协调者: satellite_4-1
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 轨道 5 数据结构初始化完成，协调者: satellite_5-1
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 轨道 6 数据结构初始化完成，协调者: satellite_6-1
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 
+=== 开始第 1 轮训练 === 时间：2025-03-22 00:04:19.192178
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 1 ===
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 2 ===
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 轨道 1 执行基于位置分组
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 3 ===
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 轨道 3 执行基于位置分组
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 创建组 group_1-0 包含 3 个卫星: ['satellite_1-1', 'satellite_1-2', 'satellite_1-3']
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 4 ===
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 轨道 2 执行基于位置分组
+2025-03-22 00:04:19,192 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 5 ===
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_3-0 包含 3 个卫星: ['satellite_3-1', 'satellite_3-2', 'satellite_3-3']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 6 ===
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_1-1 包含 3 个卫星: ['satellite_1-4', 'satellite_1-5', 'satellite_1-6']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 轨道 4 执行基于位置分组
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_2-0 包含 3 个卫星: ['satellite_2-1', 'satellite_2-2', 'satellite_2-3']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 轨道 5 执行基于位置分组
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_3-1 包含 3 个卫星: ['satellite_3-4', 'satellite_3-5', 'satellite_3-6']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 轨道 6 执行基于位置分组
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_1-2 包含 3 个卫星: ['satellite_1-7', 'satellite_1-8', 'satellite_1-9']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_4-0 包含 3 个卫星: ['satellite_4-1', 'satellite_4-2', 'satellite_4-3']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_2-1 包含 3 个卫星: ['satellite_2-4', 'satellite_2-5', 'satellite_2-6']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_5-0 包含 3 个卫星: ['satellite_5-1', 'satellite_5-2', 'satellite_5-3']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_3-2 包含 3 个卫星: ['satellite_3-7', 'satellite_3-8', 'satellite_3-9']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_5-1 包含 3 个卫星: ['satellite_5-4', 'satellite_5-5', 'satellite_5-6']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_1-3 包含 2 个卫星: ['satellite_1-10', 'satellite_1-11']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_4-1 包含 3 个卫星: ['satellite_4-4', 'satellite_4-5', 'satellite_4-6']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_2-2 包含 3 个卫星: ['satellite_2-7', 'satellite_2-8', 'satellite_2-9']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_6-0 包含 3 个卫星: ['satellite_6-1', 'satellite_6-2', 'satellite_6-3']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_3-3 包含 2 个卫星: ['satellite_3-10', 'satellite_3-11']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_5-2 包含 3 个卫星: ['satellite_5-7', 'satellite_5-8', 'satellite_5-9']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 轨道 1 分组结果:
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_4-2 包含 3 个卫星: ['satellite_4-7', 'satellite_4-8', 'satellite_4-9']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_2-3 包含 2 个卫星: ['satellite_2-10', 'satellite_2-11']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_6-1 包含 3 个卫星: ['satellite_6-4', 'satellite_6-5', 'satellite_6-6']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 轨道 3 分组结果:
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_5-3 包含 2 个卫星: ['satellite_5-10', 'satellite_5-11']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO -   组 group_1-0: ['satellite_1-1', 'satellite_1-2', 'satellite_1-3']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_4-3 包含 2 个卫星: ['satellite_4-10', 'satellite_4-11']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 轨道 2 分组结果:
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 创建组 group_6-2 包含 3 个卫星: ['satellite_6-7', 'satellite_6-8', 'satellite_6-9']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO -   组 group_3-0: ['satellite_3-1', 'satellite_3-2', 'satellite_3-3']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 轨道 5 分组结果:
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO -   组 group_1-1: ['satellite_1-4', 'satellite_1-5', 'satellite_1-6']
+2025-03-22 00:04:19,193 - similaritygrouping_20250322_000415 - INFO - 轨道 4 分组结果:
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_2-0: ['satellite_2-1', 'satellite_2-2', 'satellite_2-3']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 创建组 group_6-3 包含 2 个卫星: ['satellite_6-10', 'satellite_6-11']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_3-1: ['satellite_3-4', 'satellite_3-5', 'satellite_3-6']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_5-0: ['satellite_5-1', 'satellite_5-2', 'satellite_5-3']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_1-2: ['satellite_1-7', 'satellite_1-8', 'satellite_1-9']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_4-0: ['satellite_4-1', 'satellite_4-2', 'satellite_4-3']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_2-1: ['satellite_2-4', 'satellite_2-5', 'satellite_2-6']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 轨道 6 分组结果:
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_3-2: ['satellite_3-7', 'satellite_3-8', 'satellite_3-9']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_6-0: ['satellite_6-1', 'satellite_6-2', 'satellite_6-3']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_1-3: ['satellite_1-10', 'satellite_1-11']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_4-1: ['satellite_4-4', 'satellite_4-5', 'satellite_4-6']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_2-2: ['satellite_2-7', 'satellite_2-8', 'satellite_2-9']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_3-3: ['satellite_3-10', 'satellite_3-11']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_5-1: ['satellite_5-4', 'satellite_5-5', 'satellite_5-6']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_6-1: ['satellite_6-4', 'satellite_6-5', 'satellite_6-6']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 为轨道 1 分配初始代表节点
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_4-2: ['satellite_4-7', 'satellite_4-8', 'satellite_4-9']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 为轨道 3 分配初始代表节点
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_2-3: ['satellite_2-10', 'satellite_2-11']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_5-2: ['satellite_5-7', 'satellite_5-8', 'satellite_5-9']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 为轨道 2 分配初始代表节点
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_6-2: ['satellite_6-7', 'satellite_6-8', 'satellite_6-9']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_4-3: ['satellite_4-10', 'satellite_4-11']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 组 group_3-0 的初始代表节点: satellite_3-1
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 组 group_1-0 的初始代表节点: satellite_1-1
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_5-3: ['satellite_5-10', 'satellite_5-11']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 组 group_2-0 的初始代表节点: satellite_2-1
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO -   组 group_6-3: ['satellite_6-10', 'satellite_6-11']
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 为轨道 4 分配初始代表节点
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 组 group_3-1 的初始代表节点: satellite_3-4
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 组 group_1-1 的初始代表节点: satellite_1-4
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 为轨道 5 分配初始代表节点
+2025-03-22 00:04:19,194 - similaritygrouping_20250322_000415 - INFO - 组 group_2-1 的初始代表节点: satellite_2-4
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 为轨道 6 分配初始代表节点
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_4-0 的初始代表节点: satellite_4-1
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_3-2 的初始代表节点: satellite_3-7
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_1-2 的初始代表节点: satellite_1-7
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_5-0 的初始代表节点: satellite_5-1
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_2-2 的初始代表节点: satellite_2-7
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_6-0 的初始代表节点: satellite_6-1
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_4-1 的初始代表节点: satellite_4-4
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_3-3 的初始代表节点: satellite_3-10
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_1-3 的初始代表节点: satellite_1-10
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_5-1 的初始代表节点: satellite_5-4
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_2-3 的初始代表节点: satellite_2-10
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_6-1 的初始代表节点: satellite_6-4
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_4-2 的初始代表节点: satellite_4-7
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 轨道 3 选择 satellite_3-2 作为协调者
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 轨道 1 选择 satellite_1-5 作为协调者
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_5-2 的初始代表节点: satellite_5-7
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 轨道 2 选择 satellite_2-3 作为协调者
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_6-2 的初始代表节点: satellite_6-7
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_4-3 的初始代表节点: satellite_4-10
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 组 group_5-3 的初始代表节点: satellite_5-10
+2025-03-22 00:04:19,195 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 内参数分发 ===
+2025-03-22 00:04:19,196 - similaritygrouping_20250322_000415 - INFO - 组 group_6-3 的初始代表节点: satellite_6-10
+2025-03-22 00:04:19,196 - similaritygrouping_20250322_000415 - INFO - 轨道 4 选择 satellite_4-1 作为协调者
+2025-03-22 00:04:19,196 - similaritygrouping_20250322_000415 - INFO - 轨道 5 选择 satellite_5-9 作为协调者
+2025-03-22 00:04:19,196 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 内参数分发 ===
+2025-03-22 00:04:19,196 - similaritygrouping_20250322_000415 - INFO - 轨道 6 选择 satellite_6-7 作为协调者
+2025-03-22 00:04:19,196 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 内参数分发 ===
+2025-03-22 00:04:19,197 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 内参数分发 ===
+2025-03-22 00:04:19,197 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 内参数分发 ===
+2025-03-22 00:04:19,197 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 内参数分发 ===
+2025-03-22 00:04:19,198 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 代表节点训练 ===
+2025-03-22 00:04:19,200 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 代表节点训练 ===
+2025-03-22 00:04:19,200 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 代表节点训练 ===
+2025-03-22 00:04:19,200 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 代表节点训练 ===
+2025-03-22 00:04:19,201 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 代表节点训练 ===
+2025-03-22 00:04:19,201 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 代表节点训练 ===
+2025-03-22 00:04:35,362 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-1 完成训练: Loss=0.0297, Acc=99.24%, 能耗=4.0487Wh
+2025-03-22 00:04:35,365 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-2 接收代表节点 satellite_1-1 的模型参数
+2025-03-22 00:04:35,369 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-3 接收代表节点 satellite_1-1 的模型参数
+2025-03-22 00:04:35,379 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-1 完成训练: Loss=0.0291, Acc=99.29%, 能耗=4.0487Wh
+2025-03-22 00:04:35,383 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-2 接收代表节点 satellite_3-1 的模型参数
+2025-03-22 00:04:35,386 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-1 完成训练: Loss=0.0280, Acc=99.23%, 能耗=4.0487Wh
+2025-03-22 00:04:35,388 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-3 接收代表节点 satellite_3-1 的模型参数
+2025-03-22 00:04:35,391 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-2 接收代表节点 satellite_6-1 的模型参数
+2025-03-22 00:04:35,395 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-3 接收代表节点 satellite_6-1 的模型参数
+2025-03-22 00:04:35,401 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-1 完成训练: Loss=0.0290, Acc=99.23%, 能耗=4.0487Wh
+2025-03-22 00:04:35,404 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-2 接收代表节点 satellite_2-1 的模型参数
+2025-03-22 00:04:35,408 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-3 接收代表节点 satellite_2-1 的模型参数
+2025-03-22 00:04:35,411 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-1 完成训练: Loss=0.0296, Acc=99.20%, 能耗=4.0487Wh
+2025-03-22 00:04:35,413 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-2 接收代表节点 satellite_5-1 的模型参数
+2025-03-22 00:04:35,416 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-3 接收代表节点 satellite_5-1 的模型参数
+2025-03-22 00:04:35,416 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-1 完成训练: Loss=0.0302, Acc=99.25%, 能耗=4.0487Wh
+2025-03-22 00:04:35,420 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-2 接收代表节点 satellite_4-1 的模型参数
+2025-03-22 00:04:35,424 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-3 接收代表节点 satellite_4-1 的模型参数
+2025-03-22 00:04:51,500 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-4 完成训练: Loss=0.0284, Acc=99.28%, 能耗=4.0487Wh
+2025-03-22 00:04:51,504 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-5 接收代表节点 satellite_1-4 的模型参数
+2025-03-22 00:04:51,507 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-6 接收代表节点 satellite_1-4 的模型参数
+2025-03-22 00:04:51,599 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-4 完成训练: Loss=0.0246, Acc=99.35%, 能耗=4.0487Wh
+2025-03-22 00:04:51,604 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-5 接收代表节点 satellite_4-4 的模型参数
+2025-03-22 00:04:51,605 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-4 完成训练: Loss=0.0333, Acc=99.10%, 能耗=4.0487Wh
+2025-03-22 00:04:51,606 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-6 接收代表节点 satellite_4-4 的模型参数
+2025-03-22 00:04:51,610 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-5 接收代表节点 satellite_6-4 的模型参数
+2025-03-22 00:04:51,614 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-6 接收代表节点 satellite_6-4 的模型参数
+2025-03-22 00:04:51,649 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-4 完成训练: Loss=0.0237, Acc=99.34%, 能耗=4.0487Wh
+2025-03-22 00:04:51,652 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-5 接收代表节点 satellite_3-4 的模型参数
+2025-03-22 00:04:51,653 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-4 完成训练: Loss=0.0232, Acc=99.40%, 能耗=4.0487Wh
+2025-03-22 00:04:51,656 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-6 接收代表节点 satellite_3-4 的模型参数
+2025-03-22 00:04:51,657 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-5 接收代表节点 satellite_2-4 的模型参数
+2025-03-22 00:04:51,661 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-6 接收代表节点 satellite_2-4 的模型参数
+2025-03-22 00:04:51,695 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-4 完成训练: Loss=0.0297, Acc=99.17%, 能耗=4.0487Wh
+2025-03-22 00:04:51,698 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-5 接收代表节点 satellite_5-4 的模型参数
+2025-03-22 00:04:51,699 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-6 接收代表节点 satellite_5-4 的模型参数
+2025-03-22 00:05:07,645 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-7 完成训练: Loss=0.0266, Acc=99.24%, 能耗=4.0487Wh
+2025-03-22 00:05:07,649 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-8 接收代表节点 satellite_1-7 的模型参数
+2025-03-22 00:05:07,653 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-9 接收代表节点 satellite_1-7 的模型参数
+2025-03-22 00:05:07,731 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-7 完成训练: Loss=0.0253, Acc=99.33%, 能耗=4.0487Wh
+2025-03-22 00:05:07,736 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-8 接收代表节点 satellite_4-7 的模型参数
+2025-03-22 00:05:07,740 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-9 接收代表节点 satellite_4-7 的模型参数
+2025-03-22 00:05:07,826 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-7 完成训练: Loss=0.0242, Acc=99.31%, 能耗=4.0487Wh
+2025-03-22 00:05:07,828 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-8 接收代表节点 satellite_2-7 的模型参数
+2025-03-22 00:05:07,832 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-9 接收代表节点 satellite_2-7 的模型参数
+2025-03-22 00:05:07,852 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-7 完成训练: Loss=0.0330, Acc=99.16%, 能耗=4.0487Wh
+2025-03-22 00:05:07,856 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-8 接收代表节点 satellite_6-7 的模型参数
+2025-03-22 00:05:07,857 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-9 接收代表节点 satellite_6-7 的模型参数
+2025-03-22 00:05:07,861 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-7 完成训练: Loss=0.0259, Acc=99.31%, 能耗=4.0487Wh
+2025-03-22 00:05:07,867 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-8 接收代表节点 satellite_3-7 的模型参数
+2025-03-22 00:05:07,869 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-9 接收代表节点 satellite_3-7 的模型参数
+2025-03-22 00:05:07,928 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-7 完成训练: Loss=0.0265, Acc=99.28%, 能耗=4.0487Wh
+2025-03-22 00:05:07,930 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-8 接收代表节点 satellite_5-7 的模型参数
+2025-03-22 00:05:07,934 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-9 接收代表节点 satellite_5-7 的模型参数
+2025-03-22 00:05:23,831 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-10 完成训练: Loss=0.0226, Acc=99.48%, 能耗=4.0487Wh
+2025-03-22 00:05:23,834 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-11 接收代表节点 satellite_1-10 的模型参数
+2025-03-22 00:05:23,835 - similaritygrouping_20250322_000415 - INFO - 更新轨道 1 的模型缓存
+2025-03-22 00:05:23,850 - similaritygrouping_20250322_000415 - INFO - 缓存了 11 个卫星模型
+2025-03-22 00:05:23,850 - similaritygrouping_20250322_000415 - INFO - 轨道 1: 基于训练后的模型参数计算下一轮分组
+2025-03-22 00:05:23,850 - similaritygrouping_20250322_000415 - INFO - 
+=== 开始轨道 1 的分组过程 ===
+2025-03-22 00:05:23,850 - similaritygrouping_20250322_000415 - INFO - 轨道 1 数据结构初始化完成，协调者: satellite_1-5
+2025-03-22 00:05:23,850 - similaritygrouping_20250322_000415 - INFO - 轨道 1: 第一轮使用基于位置的分组策略
+2025-03-22 00:05:23,851 - similaritygrouping_20250322_000415 - INFO - 轨道 1 执行基于位置分组
+2025-03-22 00:05:23,851 - similaritygrouping_20250322_000415 - INFO - 创建组 group_1-0 包含 3 个卫星: ['satellite_1-1', 'satellite_1-2', 'satellite_1-3']
+2025-03-22 00:05:23,851 - similaritygrouping_20250322_000415 - INFO - 创建组 group_1-1 包含 3 个卫星: ['satellite_1-4', 'satellite_1-5', 'satellite_1-6']
+2025-03-22 00:05:23,851 - similaritygrouping_20250322_000415 - INFO - 创建组 group_1-2 包含 3 个卫星: ['satellite_1-7', 'satellite_1-8', 'satellite_1-9']
+2025-03-22 00:05:23,851 - similaritygrouping_20250322_000415 - INFO - 创建组 group_1-3 包含 2 个卫星: ['satellite_1-10', 'satellite_1-11']
+2025-03-22 00:05:23,852 - similaritygrouping_20250322_000415 - INFO - 轨道 1 分组结果:
+2025-03-22 00:05:23,852 - similaritygrouping_20250322_000415 - INFO -   组 group_1-0: ['satellite_1-1', 'satellite_1-2', 'satellite_1-3']
+2025-03-22 00:05:23,852 - similaritygrouping_20250322_000415 - INFO -   组 group_1-1: ['satellite_1-4', 'satellite_1-5', 'satellite_1-6']
+2025-03-22 00:05:23,852 - similaritygrouping_20250322_000415 - INFO -   组 group_1-2: ['satellite_1-7', 'satellite_1-8', 'satellite_1-9']
+2025-03-22 00:05:23,852 - similaritygrouping_20250322_000415 - INFO -   组 group_1-3: ['satellite_1-10', 'satellite_1-11']
+2025-03-22 00:05:23,852 - similaritygrouping_20250322_000415 - INFO - 为轨道 1 分配初始代表节点
+2025-03-22 00:05:23,853 - similaritygrouping_20250322_000415 - INFO - 组 group_1-0 的初始代表节点: satellite_1-1
+2025-03-22 00:05:23,853 - similaritygrouping_20250322_000415 - INFO - 组 group_1-1 的初始代表节点: satellite_1-4
+2025-03-22 00:05:23,853 - similaritygrouping_20250322_000415 - INFO - 组 group_1-2 的初始代表节点: satellite_1-7
+2025-03-22 00:05:23,853 - similaritygrouping_20250322_000415 - INFO - 组 group_1-3 的初始代表节点: satellite_1-10
+2025-03-22 00:05:23,858 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_1-1-satellite_1-2 = 1.0000
+2025-03-22 00:05:23,864 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_1-1-satellite_1-3 = 1.0000
+2025-03-22 00:05:23,870 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_1-2-satellite_1-3 = 1.0000
+2025-03-22 00:05:23,871 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:05:23,871 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 聚合 ===
+2025-03-22 00:05:23,872 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-4 的模型更新
+2025-03-22 00:05:23,873 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-10 的模型更新
+2025-03-22 00:05:23,874 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-1 的模型更新
+2025-03-22 00:05:23,876 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-7 的模型更新
+2025-03-22 00:05:23,877 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:05:23,880 - similaritygrouping_20250322_000415 - INFO - 轨道 1 完成聚合
+2025-03-22 00:05:23,883 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-1 的模型参数
+2025-03-22 00:05:23,884 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-2 的模型参数
+2025-03-22 00:05:23,886 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-3 的模型参数
+2025-03-22 00:05:23,889 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-4 的模型参数
+2025-03-22 00:05:23,890 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-5 的模型参数
+2025-03-22 00:05:23,893 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-6 的模型参数
+2025-03-22 00:05:23,895 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-7 的模型参数
+2025-03-22 00:05:23,896 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-8 的模型参数
+2025-03-22 00:05:23,899 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-9 的模型参数
+2025-03-22 00:05:23,900 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-10 的模型参数
+2025-03-22 00:05:23,902 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-11 的模型参数
+2025-03-22 00:05:23,903 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:05:23,947 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-10 完成训练: Loss=0.0243, Acc=99.41%, 能耗=4.0487Wh
+2025-03-22 00:05:23,954 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-11 接收代表节点 satellite_4-10 的模型参数
+2025-03-22 00:05:23,954 - similaritygrouping_20250322_000415 - INFO - 更新轨道 4 的模型缓存
+2025-03-22 00:05:23,976 - similaritygrouping_20250322_000415 - INFO - 缓存了 22 个卫星模型
+2025-03-22 00:05:23,976 - similaritygrouping_20250322_000415 - INFO - 轨道 4: 基于训练后的模型参数计算下一轮分组
+2025-03-22 00:05:23,976 - similaritygrouping_20250322_000415 - INFO - 
+=== 开始轨道 4 的分组过程 ===
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO - 轨道 4 数据结构初始化完成，协调者: satellite_4-1
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO - 轨道 4: 第一轮使用基于位置的分组策略
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO - 轨道 4 执行基于位置分组
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO - 创建组 group_4-0 包含 3 个卫星: ['satellite_4-1', 'satellite_4-2', 'satellite_4-3']
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO - 创建组 group_4-1 包含 3 个卫星: ['satellite_4-4', 'satellite_4-5', 'satellite_4-6']
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO - 创建组 group_4-2 包含 3 个卫星: ['satellite_4-7', 'satellite_4-8', 'satellite_4-9']
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO - 创建组 group_4-3 包含 2 个卫星: ['satellite_4-10', 'satellite_4-11']
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO - 轨道 4 分组结果:
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO -   组 group_4-0: ['satellite_4-1', 'satellite_4-2', 'satellite_4-3']
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO -   组 group_4-1: ['satellite_4-4', 'satellite_4-5', 'satellite_4-6']
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO -   组 group_4-2: ['satellite_4-7', 'satellite_4-8', 'satellite_4-9']
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO -   组 group_4-3: ['satellite_4-10', 'satellite_4-11']
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO - 为轨道 4 分配初始代表节点
+2025-03-22 00:05:23,977 - similaritygrouping_20250322_000415 - INFO - 组 group_4-0 的初始代表节点: satellite_4-1
+2025-03-22 00:05:23,978 - similaritygrouping_20250322_000415 - INFO - 组 group_4-1 的初始代表节点: satellite_4-4
+2025-03-22 00:05:23,978 - similaritygrouping_20250322_000415 - INFO - 组 group_4-2 的初始代表节点: satellite_4-7
+2025-03-22 00:05:23,978 - similaritygrouping_20250322_000415 - INFO - 组 group_4-3 的初始代表节点: satellite_4-10
+2025-03-22 00:05:23,988 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_4-1-satellite_4-2 = 1.0000
+2025-03-22 00:05:24,000 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_4-1-satellite_4-3 = 1.0000
+2025-03-22 00:05:24,010 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_4-2-satellite_4-3 = 1.0000
+2025-03-22 00:05:24,010 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:05:24,011 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 聚合 ===
+2025-03-22 00:05:24,012 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-10 的模型更新
+2025-03-22 00:05:24,015 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-4 的模型更新
+2025-03-22 00:05:24,019 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-1 的模型更新
+2025-03-22 00:05:24,023 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-7 的模型更新
+2025-03-22 00:05:24,025 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:05:24,030 - similaritygrouping_20250322_000415 - INFO - 轨道 4 完成聚合
+2025-03-22 00:05:24,036 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-1 的模型参数
+2025-03-22 00:05:24,039 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-2 的模型参数
+2025-03-22 00:05:24,043 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-3 的模型参数
+2025-03-22 00:05:24,047 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-4 的模型参数
+2025-03-22 00:05:24,051 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-5 的模型参数
+2025-03-22 00:05:24,055 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-6 的模型参数
+2025-03-22 00:05:24,058 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-7 的模型参数
+2025-03-22 00:05:24,061 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-8 的模型参数
+2025-03-22 00:05:24,065 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-9 的模型参数
+2025-03-22 00:05:24,068 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-10 的模型参数
+2025-03-22 00:05:24,071 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-11 的模型参数
+2025-03-22 00:05:24,071 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:05:24,181 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-10 完成训练: Loss=0.0250, Acc=99.36%, 能耗=4.0487Wh
+2025-03-22 00:05:24,183 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-10 完成训练: Loss=0.0258, Acc=99.34%, 能耗=4.0487Wh
+2025-03-22 00:05:24,186 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-11 接收代表节点 satellite_3-10 的模型参数
+2025-03-22 00:05:24,186 - similaritygrouping_20250322_000415 - INFO - 更新轨道 3 的模型缓存
+2025-03-22 00:05:24,187 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-11 接收代表节点 satellite_5-10 的模型参数
+2025-03-22 00:05:24,187 - similaritygrouping_20250322_000415 - INFO - 更新轨道 5 的模型缓存
+2025-03-22 00:05:24,201 - similaritygrouping_20250322_000415 - INFO - 缓存了 42 个卫星模型
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO - 轨道 3: 基于训练后的模型参数计算下一轮分组
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO - 
+=== 开始轨道 3 的分组过程 ===
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO - 轨道 3 数据结构初始化完成，协调者: satellite_3-2
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO - 轨道 3: 第一轮使用基于位置的分组策略
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO - 轨道 3 执行基于位置分组
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO - 创建组 group_3-0 包含 3 个卫星: ['satellite_3-1', 'satellite_3-2', 'satellite_3-3']
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO - 创建组 group_3-1 包含 3 个卫星: ['satellite_3-4', 'satellite_3-5', 'satellite_3-6']
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO - 创建组 group_3-2 包含 3 个卫星: ['satellite_3-7', 'satellite_3-8', 'satellite_3-9']
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO - 创建组 group_3-3 包含 2 个卫星: ['satellite_3-10', 'satellite_3-11']
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO - 轨道 3 分组结果:
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO -   组 group_3-0: ['satellite_3-1', 'satellite_3-2', 'satellite_3-3']
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO -   组 group_3-1: ['satellite_3-4', 'satellite_3-5', 'satellite_3-6']
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO -   组 group_3-2: ['satellite_3-7', 'satellite_3-8', 'satellite_3-9']
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO -   组 group_3-3: ['satellite_3-10', 'satellite_3-11']
+2025-03-22 00:05:24,202 - similaritygrouping_20250322_000415 - INFO - 为轨道 3 分配初始代表节点
+2025-03-22 00:05:24,203 - similaritygrouping_20250322_000415 - INFO - 组 group_3-0 的初始代表节点: satellite_3-1
+2025-03-22 00:05:24,203 - similaritygrouping_20250322_000415 - INFO - 组 group_3-1 的初始代表节点: satellite_3-4
+2025-03-22 00:05:24,203 - similaritygrouping_20250322_000415 - INFO - 组 group_3-2 的初始代表节点: satellite_3-7
+2025-03-22 00:05:24,203 - similaritygrouping_20250322_000415 - INFO - 组 group_3-3 的初始代表节点: satellite_3-10
+2025-03-22 00:05:24,205 - similaritygrouping_20250322_000415 - INFO - 缓存了 44 个卫星模型
+2025-03-22 00:05:24,205 - similaritygrouping_20250322_000415 - INFO - 轨道 5: 基于训练后的模型参数计算下一轮分组
+2025-03-22 00:05:24,205 - similaritygrouping_20250322_000415 - INFO - 
+=== 开始轨道 5 的分组过程 ===
+2025-03-22 00:05:24,206 - similaritygrouping_20250322_000415 - INFO - 轨道 5 数据结构初始化完成，协调者: satellite_5-9
+2025-03-22 00:05:24,206 - similaritygrouping_20250322_000415 - INFO - 轨道 5: 第一轮使用基于位置的分组策略
+2025-03-22 00:05:24,206 - similaritygrouping_20250322_000415 - INFO - 轨道 5 执行基于位置分组
+2025-03-22 00:05:24,206 - similaritygrouping_20250322_000415 - INFO - 创建组 group_5-0 包含 3 个卫星: ['satellite_5-1', 'satellite_5-2', 'satellite_5-3']
+2025-03-22 00:05:24,206 - similaritygrouping_20250322_000415 - INFO - 创建组 group_5-1 包含 3 个卫星: ['satellite_5-4', 'satellite_5-5', 'satellite_5-6']
+2025-03-22 00:05:24,206 - similaritygrouping_20250322_000415 - INFO - 创建组 group_5-2 包含 3 个卫星: ['satellite_5-7', 'satellite_5-8', 'satellite_5-9']
+2025-03-22 00:05:24,206 - similaritygrouping_20250322_000415 - INFO - 创建组 group_5-3 包含 2 个卫星: ['satellite_5-10', 'satellite_5-11']
+2025-03-22 00:05:24,206 - similaritygrouping_20250322_000415 - INFO - 轨道 5 分组结果:
+2025-03-22 00:05:24,206 - similaritygrouping_20250322_000415 - INFO -   组 group_5-0: ['satellite_5-1', 'satellite_5-2', 'satellite_5-3']
+2025-03-22 00:05:24,206 - similaritygrouping_20250322_000415 - INFO -   组 group_5-1: ['satellite_5-4', 'satellite_5-5', 'satellite_5-6']
+2025-03-22 00:05:24,207 - similaritygrouping_20250322_000415 - INFO -   组 group_5-2: ['satellite_5-7', 'satellite_5-8', 'satellite_5-9']
+2025-03-22 00:05:24,207 - similaritygrouping_20250322_000415 - INFO -   组 group_5-3: ['satellite_5-10', 'satellite_5-11']
+2025-03-22 00:05:24,207 - similaritygrouping_20250322_000415 - INFO - 为轨道 5 分配初始代表节点
+2025-03-22 00:05:24,207 - similaritygrouping_20250322_000415 - INFO - 组 group_5-0 的初始代表节点: satellite_5-1
+2025-03-22 00:05:24,207 - similaritygrouping_20250322_000415 - INFO - 组 group_5-1 的初始代表节点: satellite_5-4
+2025-03-22 00:05:24,207 - similaritygrouping_20250322_000415 - INFO - 组 group_5-2 的初始代表节点: satellite_5-7
+2025-03-22 00:05:24,207 - similaritygrouping_20250322_000415 - INFO - 组 group_5-3 的初始代表节点: satellite_5-10
+2025-03-22 00:05:24,210 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-10 完成训练: Loss=0.0249, Acc=99.32%, 能耗=4.0487Wh
+2025-03-22 00:05:24,211 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_3-1-satellite_3-2 = 1.0000
+2025-03-22 00:05:24,214 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-11 接收代表节点 satellite_6-10 的模型参数
+2025-03-22 00:05:24,214 - similaritygrouping_20250322_000415 - INFO - 更新轨道 6 的模型缓存
+2025-03-22 00:05:24,214 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_5-1-satellite_5-2 = 1.0000
+2025-03-22 00:05:24,218 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_3-1-satellite_3-3 = 1.0000
+2025-03-22 00:05:24,222 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_5-1-satellite_5-3 = 1.0000
+2025-03-22 00:05:24,226 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_3-2-satellite_3-3 = 1.0000
+2025-03-22 00:05:24,226 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:05:24,226 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 聚合 ===
+2025-03-22 00:05:24,227 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-10 完成训练: Loss=0.0230, Acc=99.34%, 能耗=4.0487Wh
+2025-03-22 00:05:24,227 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-1 的模型更新
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-7 的模型更新
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_5-2-satellite_5-3 = 1.0000
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 聚合 ===
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 缓存了 55 个卫星模型
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 轨道 6: 基于训练后的模型参数计算下一轮分组
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 
+=== 开始轨道 6 的分组过程 ===
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 轨道 6 数据结构初始化完成，协调者: satellite_6-7
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 轨道 6: 第一轮使用基于位置的分组策略
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 轨道 6 执行基于位置分组
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 创建组 group_6-0 包含 3 个卫星: ['satellite_6-1', 'satellite_6-2', 'satellite_6-3']
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 创建组 group_6-1 包含 3 个卫星: ['satellite_6-4', 'satellite_6-5', 'satellite_6-6']
+2025-03-22 00:05:24,230 - similaritygrouping_20250322_000415 - INFO - 创建组 group_6-2 包含 3 个卫星: ['satellite_6-7', 'satellite_6-8', 'satellite_6-9']
+2025-03-22 00:05:24,231 - similaritygrouping_20250322_000415 - INFO - 创建组 group_6-3 包含 2 个卫星: ['satellite_6-10', 'satellite_6-11']
+2025-03-22 00:05:24,231 - similaritygrouping_20250322_000415 - INFO - 轨道 6 分组结果:
+2025-03-22 00:05:24,231 - similaritygrouping_20250322_000415 - INFO -   组 group_6-0: ['satellite_6-1', 'satellite_6-2', 'satellite_6-3']
+2025-03-22 00:05:24,231 - similaritygrouping_20250322_000415 - INFO -   组 group_6-1: ['satellite_6-4', 'satellite_6-5', 'satellite_6-6']
+2025-03-22 00:05:24,231 - similaritygrouping_20250322_000415 - INFO -   组 group_6-2: ['satellite_6-7', 'satellite_6-8', 'satellite_6-9']
+2025-03-22 00:05:24,231 - similaritygrouping_20250322_000415 - INFO -   组 group_6-3: ['satellite_6-10', 'satellite_6-11']
+2025-03-22 00:05:24,231 - similaritygrouping_20250322_000415 - INFO - 为轨道 6 分配初始代表节点
+2025-03-22 00:05:24,231 - similaritygrouping_20250322_000415 - INFO - 组 group_6-0 的初始代表节点: satellite_6-1
+2025-03-22 00:05:24,231 - similaritygrouping_20250322_000415 - INFO - 组 group_6-1 的初始代表节点: satellite_6-4
+2025-03-22 00:05:24,231 - similaritygrouping_20250322_000415 - INFO - 组 group_6-2 的初始代表节点: satellite_6-7
+2025-03-22 00:05:24,231 - similaritygrouping_20250322_000415 - INFO - 组 group_6-3 的初始代表节点: satellite_6-10
+2025-03-22 00:05:24,232 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-10 的模型更新
+2025-03-22 00:05:24,232 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-11 接收代表节点 satellite_2-10 的模型参数
+2025-03-22 00:05:24,232 - similaritygrouping_20250322_000415 - INFO - 更新轨道 2 的模型缓存
+2025-03-22 00:05:24,232 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-10 的模型更新
+2025-03-22 00:05:24,234 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-4 的模型更新
+2025-03-22 00:05:24,235 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-7 的模型更新
+2025-03-22 00:05:24,235 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:05:24,237 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-4 的模型更新
+2025-03-22 00:05:24,239 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_6-1-satellite_6-2 = 1.0000
+2025-03-22 00:05:24,240 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-1 的模型更新
+2025-03-22 00:05:24,240 - similaritygrouping_20250322_000415 - INFO - 轨道 3 完成聚合
+2025-03-22 00:05:24,240 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:05:24,244 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-1 的模型参数
+2025-03-22 00:05:24,246 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_6-1-satellite_6-3 = 1.0000
+2025-03-22 00:05:24,246 - similaritygrouping_20250322_000415 - INFO - 轨道 5 完成聚合
+2025-03-22 00:05:24,247 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-2 的模型参数
+2025-03-22 00:05:24,248 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-1 的模型参数
+2025-03-22 00:05:24,249 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-3 的模型参数
+2025-03-22 00:05:24,249 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:05:24,249 - similaritygrouping_20250322_000415 - INFO - 轨道 2: 基于训练后的模型参数计算下一轮分组
+2025-03-22 00:05:24,249 - similaritygrouping_20250322_000415 - INFO - 
+=== 开始轨道 2 的分组过程 ===
+2025-03-22 00:05:24,249 - similaritygrouping_20250322_000415 - INFO - 轨道 2 数据结构初始化完成，协调者: satellite_2-3
+2025-03-22 00:05:24,249 - similaritygrouping_20250322_000415 - INFO - 轨道 2: 第一轮使用基于位置的分组策略
+2025-03-22 00:05:24,249 - similaritygrouping_20250322_000415 - INFO - 轨道 2 执行基于位置分组
+2025-03-22 00:05:24,249 - similaritygrouping_20250322_000415 - INFO - 创建组 group_2-0 包含 3 个卫星: ['satellite_2-1', 'satellite_2-2', 'satellite_2-3']
+2025-03-22 00:05:24,249 - similaritygrouping_20250322_000415 - INFO - 创建组 group_2-1 包含 3 个卫星: ['satellite_2-4', 'satellite_2-5', 'satellite_2-6']
+2025-03-22 00:05:24,249 - similaritygrouping_20250322_000415 - INFO - 创建组 group_2-2 包含 3 个卫星: ['satellite_2-7', 'satellite_2-8', 'satellite_2-9']
+2025-03-22 00:05:24,249 - similaritygrouping_20250322_000415 - INFO - 创建组 group_2-3 包含 2 个卫星: ['satellite_2-10', 'satellite_2-11']
+2025-03-22 00:05:24,250 - similaritygrouping_20250322_000415 - INFO - 轨道 2 分组结果:
+2025-03-22 00:05:24,250 - similaritygrouping_20250322_000415 - INFO -   组 group_2-0: ['satellite_2-1', 'satellite_2-2', 'satellite_2-3']
+2025-03-22 00:05:24,250 - similaritygrouping_20250322_000415 - INFO -   组 group_2-1: ['satellite_2-4', 'satellite_2-5', 'satellite_2-6']
+2025-03-22 00:05:24,250 - similaritygrouping_20250322_000415 - INFO -   组 group_2-2: ['satellite_2-7', 'satellite_2-8', 'satellite_2-9']
+2025-03-22 00:05:24,251 - similaritygrouping_20250322_000415 - INFO -   组 group_2-3: ['satellite_2-10', 'satellite_2-11']
+2025-03-22 00:05:24,251 - similaritygrouping_20250322_000415 - INFO - 为轨道 2 分配初始代表节点
+2025-03-22 00:05:24,251 - similaritygrouping_20250322_000415 - INFO - 组 group_2-0 的初始代表节点: satellite_2-1
+2025-03-22 00:05:24,251 - similaritygrouping_20250322_000415 - INFO - 组 group_2-1 的初始代表节点: satellite_2-4
+2025-03-22 00:05:24,251 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-2 的模型参数
+2025-03-22 00:05:24,251 - similaritygrouping_20250322_000415 - INFO - 组 group_2-2 的初始代表节点: satellite_2-7
+2025-03-22 00:05:24,252 - similaritygrouping_20250322_000415 - INFO - 组 group_2-3 的初始代表节点: satellite_2-10
+2025-03-22 00:05:24,252 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-4 的模型参数
+2025-03-22 00:05:24,253 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_6-2-satellite_6-3 = 1.0000
+2025-03-22 00:05:24,253 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:05:24,254 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 聚合 ===
+2025-03-22 00:05:24,254 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-3 的模型参数
+2025-03-22 00:05:24,255 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-7 的模型更新
+2025-03-22 00:05:24,256 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-5 的模型参数
+2025-03-22 00:05:24,256 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-4 的模型参数
+2025-03-22 00:05:24,257 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-10 的模型更新
+2025-03-22 00:05:24,259 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-4 的模型更新
+2025-03-22 00:05:24,259 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_2-1-satellite_2-2 = 1.0000
+2025-03-22 00:05:24,260 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-6 的模型参数
+2025-03-22 00:05:24,260 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-5 的模型参数
+2025-03-22 00:05:24,260 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-1 的模型更新
+2025-03-22 00:05:24,261 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:05:24,262 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-6 的模型参数
+2025-03-22 00:05:24,262 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-7 的模型参数
+2025-03-22 00:05:24,265 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-8 的模型参数
+2025-03-22 00:05:24,265 - similaritygrouping_20250322_000415 - INFO - 轨道 6 完成聚合
+2025-03-22 00:05:24,266 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_2-1-satellite_2-3 = 1.0000
+2025-03-22 00:05:24,267 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-7 的模型参数
+2025-03-22 00:05:24,268 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-9 的模型参数
+2025-03-22 00:05:24,269 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-1 的模型参数
+2025-03-22 00:05:24,270 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-8 的模型参数
+2025-03-22 00:05:24,270 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-10 的模型参数
+2025-03-22 00:05:24,272 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-2 的模型参数
+2025-03-22 00:05:24,272 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-9 的模型参数
+2025-03-22 00:05:24,273 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-11 的模型参数
+2025-03-22 00:05:24,273 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:05:24,274 - similaritygrouping_20250322_000415 - INFO - 训练后相似度: satellite_2-2-satellite_2-3 = 1.0000
+2025-03-22 00:05:24,274 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:05:24,274 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 聚合 ===
+2025-03-22 00:05:24,275 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-3 的模型参数
+2025-03-22 00:05:24,275 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-10 的模型参数
+2025-03-22 00:05:24,275 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-4 的模型更新
+2025-03-22 00:05:24,277 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-7 的模型更新
+2025-03-22 00:05:24,277 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-4 的模型参数
+2025-03-22 00:05:24,277 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-11 的模型参数
+2025-03-22 00:05:24,277 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:05:24,278 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-5 的模型参数
+2025-03-22 00:05:24,278 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-10 的模型更新
+2025-03-22 00:05:24,279 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-1 的模型更新
+2025-03-22 00:05:24,279 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-6 的模型参数
+2025-03-22 00:05:24,279 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:05:24,280 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-7 的模型参数
+2025-03-22 00:05:24,281 - similaritygrouping_20250322_000415 - INFO - 轨道 2 完成聚合
+2025-03-22 00:05:24,281 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-8 的模型参数
+2025-03-22 00:05:24,282 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-9 的模型参数
+2025-03-22 00:05:24,283 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-1 的模型参数
+2025-03-22 00:05:24,283 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-10 的模型参数
+2025-03-22 00:05:24,284 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-2 的模型参数
+2025-03-22 00:05:24,285 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-3 的模型参数
+2025-03-22 00:05:24,286 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-11 的模型参数
+2025-03-22 00:05:24,286 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:05:24,286 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-4 的模型参数
+2025-03-22 00:05:24,286 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-5 的模型参数
+2025-03-22 00:05:24,287 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-6 的模型参数
+2025-03-22 00:05:24,287 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-7 的模型参数
+2025-03-22 00:05:24,288 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-8 的模型参数
+2025-03-22 00:05:24,289 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-9 的模型参数
+2025-03-22 00:05:24,290 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-10 的模型参数
+2025-03-22 00:05:24,291 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-11 的模型参数
+2025-03-22 00:05:24,291 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:05:25,103 - similaritygrouping_20250322_000415 - INFO - 轨道 4 的模型成功发送给地面站 station_1
+2025-03-22 00:05:25,291 - similaritygrouping_20250322_000415 - INFO - 轨道 6 的模型成功发送给地面站 station_2
+2025-03-22 00:05:25,304 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站聚合阶段 === (2 个轨道成功)
+2025-03-22 00:05:25,304 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_0 聚合开始 ===
+2025-03-22 00:05:25,304 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_1 聚合开始 ===
+2025-03-22 00:05:25,304 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 负责轨道: [0, 1]
+2025-03-22 00:05:25,304 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_2 聚合开始 ===
+2025-03-22 00:05:25,304 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 负责轨道: [2, 3]
+2025-03-22 00:05:25,305 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: []
+2025-03-22 00:05:25,305 - similaritygrouping_20250322_000415 - INFO - 地面站 station_2 负责轨道: [4, 5]
+2025-03-22 00:05:25,305 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['3']
+2025-03-22 00:05:25,305 - similaritygrouping_20250322_000415 - WARNING - 地面站 station_0 聚合失败，可能是因为没有收到足够的更新
+2025-03-22 00:05:25,305 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['5']
+2025-03-22 00:05:25,305 - similaritygrouping_20250322_000415 - WARNING - 地面站 station_1 聚合失败，可能是因为没有收到足够的更新
+2025-03-22 00:05:25,305 - similaritygrouping_20250322_000415 - WARNING - 地面站 station_2 聚合失败，可能是因为没有收到足够的更新
+2025-03-22 00:05:25,305 - similaritygrouping_20250322_000415 - WARNING - 只有 0/3 个地面站完成聚合，跳过全局聚合
+2025-03-22 00:05:25,305 - similaritygrouping_20250322_000415 - INFO - 
+=== 开始第 2 轮训练 === 时间：2025-03-22 00:14:19.192178
+2025-03-22 00:05:25,305 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 1 ===
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 2 ===
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 为轨道 1 轮换代表节点
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 3 ===
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 为轨道 2 轮换代表节点
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 4 ===
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 组 group_1-0 的代表节点从 satellite_1-1 轮换为 satellite_1-2
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 5 ===
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 为轨道 3 轮换代表节点
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 6 ===
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 组 group_2-0 的代表节点从 satellite_2-1 轮换为 satellite_2-2
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 为轨道 4 轮换代表节点
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 组 group_1-1 的代表节点从 satellite_1-4 轮换为 satellite_1-5
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 为轨道 5 轮换代表节点
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 组 group_3-0 的代表节点从 satellite_3-1 轮换为 satellite_3-2
+2025-03-22 00:05:25,306 - similaritygrouping_20250322_000415 - INFO - 为轨道 6 轮换代表节点
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_2-1 的代表节点从 satellite_2-4 轮换为 satellite_2-5
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_2-2 的代表节点从 satellite_2-7 轮换为 satellite_2-8
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_1-2 的代表节点从 satellite_1-7 轮换为 satellite_1-8
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_5-0 的代表节点从 satellite_5-1 轮换为 satellite_5-2
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_3-1 的代表节点从 satellite_3-4 轮换为 satellite_3-5
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_6-0 的代表节点从 satellite_6-1 轮换为 satellite_6-2
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_4-0 的代表节点从 satellite_4-1 轮换为 satellite_4-2
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_2-3 的代表节点从 satellite_2-10 轮换为 satellite_2-11
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_1-3 的代表节点从 satellite_1-10 轮换为 satellite_1-11
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_5-1 的代表节点从 satellite_5-4 轮换为 satellite_5-5
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_3-2 的代表节点从 satellite_3-7 轮换为 satellite_3-8
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_6-1 的代表节点从 satellite_6-4 轮换为 satellite_6-5
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 组 group_4-1 的代表节点从 satellite_4-4 轮换为 satellite_4-5
+2025-03-22 00:05:25,307 - similaritygrouping_20250322_000415 - INFO - 轨道 2 选择 satellite_2-2 作为协调者
+2025-03-22 00:05:25,308 - similaritygrouping_20250322_000415 - INFO - 轨道 1 选择 satellite_1-4 作为协调者
+2025-03-22 00:05:25,308 - similaritygrouping_20250322_000415 - INFO - 组 group_5-2 的代表节点从 satellite_5-7 轮换为 satellite_5-8
+2025-03-22 00:05:25,308 - similaritygrouping_20250322_000415 - INFO - 组 group_3-3 的代表节点从 satellite_3-10 轮换为 satellite_3-11
+2025-03-22 00:05:25,308 - similaritygrouping_20250322_000415 - INFO - 组 group_6-2 的代表节点从 satellite_6-7 轮换为 satellite_6-8
+2025-03-22 00:05:25,308 - similaritygrouping_20250322_000415 - INFO - 组 group_4-2 的代表节点从 satellite_4-7 轮换为 satellite_4-8
+2025-03-22 00:05:25,308 - similaritygrouping_20250322_000415 - INFO - 组 group_5-3 的代表节点从 satellite_5-10 轮换为 satellite_5-11
+2025-03-22 00:05:25,308 - similaritygrouping_20250322_000415 - INFO - 轨道 3 选择 satellite_3-1 作为协调者
+2025-03-22 00:05:25,308 - similaritygrouping_20250322_000415 - INFO - 组 group_6-3 的代表节点从 satellite_6-10 轮换为 satellite_6-11
+2025-03-22 00:05:25,308 - similaritygrouping_20250322_000415 - INFO - 组 group_4-3 的代表节点从 satellite_4-10 轮换为 satellite_4-11
+2025-03-22 00:05:25,309 - similaritygrouping_20250322_000415 - INFO - 轨道 5 选择 satellite_5-8 作为协调者
+2025-03-22 00:05:25,309 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 内参数分发 ===
+2025-03-22 00:05:25,309 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 内参数分发 ===
+2025-03-22 00:05:25,309 - similaritygrouping_20250322_000415 - INFO - 轨道 6 选择 satellite_6-6 作为协调者
+2025-03-22 00:05:25,310 - similaritygrouping_20250322_000415 - INFO - 轨道 4 选择 satellite_4-10 作为协调者
+2025-03-22 00:05:25,310 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 内参数分发 ===
+2025-03-22 00:05:25,311 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 内参数分发 ===
+2025-03-22 00:05:25,311 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 内参数分发 ===
+2025-03-22 00:05:25,311 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 内参数分发 ===
+2025-03-22 00:05:25,317 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 代表节点训练 ===
+2025-03-22 00:05:25,317 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 代表节点训练 ===
+2025-03-22 00:05:25,317 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 代表节点训练 ===
+2025-03-22 00:05:25,317 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 代表节点训练 ===
+2025-03-22 00:05:25,318 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 代表节点训练 ===
+2025-03-22 00:05:25,319 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 代表节点训练 ===
+2025-03-22 00:05:39,320 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-2 完成训练: Loss=0.0276, Acc=99.30%, 能耗=4.0487Wh
+2025-03-22 00:05:39,324 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-1 接收代表节点 satellite_6-2 的模型参数
+2025-03-22 00:05:39,325 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-3 接收代表节点 satellite_6-2 的模型参数
+2025-03-22 00:05:39,404 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-2 完成训练: Loss=0.0265, Acc=99.32%, 能耗=4.0487Wh
+2025-03-22 00:05:39,408 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-1 接收代表节点 satellite_4-2 的模型参数
+2025-03-22 00:05:39,410 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-3 接收代表节点 satellite_4-2 的模型参数
+2025-03-22 00:05:39,424 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-2 完成训练: Loss=0.0330, Acc=99.13%, 能耗=4.0487Wh
+2025-03-22 00:05:39,427 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-1 接收代表节点 satellite_2-2 的模型参数
+2025-03-22 00:05:39,429 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-3 接收代表节点 satellite_2-2 的模型参数
+2025-03-22 00:05:39,454 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-2 完成训练: Loss=0.0312, Acc=99.19%, 能耗=4.0487Wh
+2025-03-22 00:05:39,456 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-1 接收代表节点 satellite_1-2 的模型参数
+2025-03-22 00:05:39,457 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-2 完成训练: Loss=0.0321, Acc=99.11%, 能耗=4.0487Wh
+2025-03-22 00:05:39,459 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-3 接收代表节点 satellite_1-2 的模型参数
+2025-03-22 00:05:39,462 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-1 接收代表节点 satellite_5-2 的模型参数
+2025-03-22 00:05:39,466 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-3 接收代表节点 satellite_5-2 的模型参数
+2025-03-22 00:05:39,475 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-2 完成训练: Loss=0.0270, Acc=99.23%, 能耗=4.0487Wh
+2025-03-22 00:05:39,478 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-1 接收代表节点 satellite_3-2 的模型参数
+2025-03-22 00:05:39,481 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-3 接收代表节点 satellite_3-2 的模型参数
+2025-03-22 00:05:53,363 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-5 完成训练: Loss=0.0302, Acc=99.23%, 能耗=4.0487Wh
+2025-03-22 00:05:53,365 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-4 接收代表节点 satellite_6-5 的模型参数
+2025-03-22 00:05:53,368 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-6 接收代表节点 satellite_6-5 的模型参数
+2025-03-22 00:05:53,504 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-5 完成训练: Loss=0.0359, Acc=99.03%, 能耗=4.0487Wh
+2025-03-22 00:05:53,507 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-4 接收代表节点 satellite_4-5 的模型参数
+2025-03-22 00:05:53,507 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-6 接收代表节点 satellite_4-5 的模型参数
+2025-03-22 00:05:53,546 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-5 完成训练: Loss=0.0215, Acc=99.45%, 能耗=4.0487Wh
+2025-03-22 00:05:53,549 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-4 接收代表节点 satellite_2-5 的模型参数
+2025-03-22 00:05:53,552 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-6 接收代表节点 satellite_2-5 的模型参数
+2025-03-22 00:05:53,583 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-5 完成训练: Loss=0.0325, Acc=99.15%, 能耗=4.0487Wh
+2025-03-22 00:05:53,586 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-4 接收代表节点 satellite_1-5 的模型参数
+2025-03-22 00:05:53,590 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-6 接收代表节点 satellite_1-5 的模型参数
+2025-03-22 00:05:53,624 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-5 完成训练: Loss=0.0302, Acc=99.28%, 能耗=4.0487Wh
+2025-03-22 00:05:53,626 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-4 接收代表节点 satellite_5-5 的模型参数
+2025-03-22 00:05:53,630 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-6 接收代表节点 satellite_5-5 的模型参数
+2025-03-22 00:05:53,656 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-5 完成训练: Loss=0.0250, Acc=99.34%, 能耗=4.0487Wh
+2025-03-22 00:05:53,659 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-4 接收代表节点 satellite_3-5 的模型参数
+2025-03-22 00:05:53,661 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-6 接收代表节点 satellite_3-5 的模型参数
+2025-03-22 00:06:07,505 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-8 完成训练: Loss=0.0235, Acc=99.46%, 能耗=4.0487Wh
+2025-03-22 00:06:07,508 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-7 接收代表节点 satellite_6-8 的模型参数
+2025-03-22 00:06:07,511 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-9 接收代表节点 satellite_6-8 的模型参数
+2025-03-22 00:06:07,643 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-8 完成训练: Loss=0.0277, Acc=99.24%, 能耗=4.0487Wh
+2025-03-22 00:06:07,647 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-7 接收代表节点 satellite_4-8 的模型参数
+2025-03-22 00:06:07,648 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-9 接收代表节点 satellite_4-8 的模型参数
+2025-03-22 00:06:07,693 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-8 完成训练: Loss=0.0243, Acc=99.31%, 能耗=4.0487Wh
+2025-03-22 00:06:07,697 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-7 接收代表节点 satellite_2-8 的模型参数
+2025-03-22 00:06:07,699 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-9 接收代表节点 satellite_2-8 的模型参数
+2025-03-22 00:06:07,711 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-8 完成训练: Loss=0.0312, Acc=99.13%, 能耗=4.0487Wh
+2025-03-22 00:06:07,715 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-7 接收代表节点 satellite_1-8 的模型参数
+2025-03-22 00:06:07,717 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-9 接收代表节点 satellite_1-8 的模型参数
+2025-03-22 00:06:07,758 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-8 完成训练: Loss=0.0290, Acc=99.26%, 能耗=4.0487Wh
+2025-03-22 00:06:07,761 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-7 接收代表节点 satellite_5-8 的模型参数
+2025-03-22 00:06:07,763 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-9 接收代表节点 satellite_5-8 的模型参数
+2025-03-22 00:06:07,857 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-8 完成训练: Loss=0.0255, Acc=99.36%, 能耗=4.0487Wh
+2025-03-22 00:06:07,859 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-7 接收代表节点 satellite_3-8 的模型参数
+2025-03-22 00:06:07,862 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-9 接收代表节点 satellite_3-8 的模型参数
+2025-03-22 00:06:21,538 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-11 完成训练: Loss=0.0242, Acc=99.41%, 能耗=4.0487Wh
+2025-03-22 00:06:21,542 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-10 接收代表节点 satellite_6-11 的模型参数
+2025-03-22 00:06:21,542 - similaritygrouping_20250322_000415 - INFO - 更新轨道 6 的模型缓存
+2025-03-22 00:06:21,559 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:06:21,559 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:06:21,559 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 聚合 ===
+2025-03-22 00:06:21,560 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-5 的模型更新
+2025-03-22 00:06:21,561 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-11 的模型更新
+2025-03-22 00:06:21,563 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-2 的模型更新
+2025-03-22 00:06:21,563 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-8 的模型更新
+2025-03-22 00:06:21,563 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:06:21,567 - similaritygrouping_20250322_000415 - INFO - 轨道 6 完成聚合
+2025-03-22 00:06:21,569 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-1 的模型参数
+2025-03-22 00:06:21,571 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-2 的模型参数
+2025-03-22 00:06:21,573 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-3 的模型参数
+2025-03-22 00:06:21,575 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-4 的模型参数
+2025-03-22 00:06:21,577 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-5 的模型参数
+2025-03-22 00:06:21,578 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-6 的模型参数
+2025-03-22 00:06:21,580 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-7 的模型参数
+2025-03-22 00:06:21,583 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-8 的模型参数
+2025-03-22 00:06:21,585 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-9 的模型参数
+2025-03-22 00:06:21,588 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-10 的模型参数
+2025-03-22 00:06:21,589 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-11 的模型参数
+2025-03-22 00:06:21,589 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:06:21,807 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-11 完成训练: Loss=0.0301, Acc=99.18%, 能耗=4.0487Wh
+2025-03-22 00:06:21,812 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-10 接收代表节点 satellite_4-11 的模型参数
+2025-03-22 00:06:21,812 - similaritygrouping_20250322_000415 - INFO - 更新轨道 4 的模型缓存
+2025-03-22 00:06:21,849 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:06:21,850 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:06:21,850 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 聚合 ===
+2025-03-22 00:06:21,851 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-2 的模型更新
+2025-03-22 00:06:21,854 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-5 的模型更新
+2025-03-22 00:06:21,856 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-8 的模型更新
+2025-03-22 00:06:21,859 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-11 的模型更新
+2025-03-22 00:06:21,859 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:06:21,864 - similaritygrouping_20250322_000415 - INFO - 轨道 4 完成聚合
+2025-03-22 00:06:21,865 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-1 的模型参数
+2025-03-22 00:06:21,870 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-2 的模型参数
+2025-03-22 00:06:21,872 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-3 的模型参数
+2025-03-22 00:06:21,874 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-4 的模型参数
+2025-03-22 00:06:21,877 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-5 的模型参数
+2025-03-22 00:06:21,879 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-6 的模型参数
+2025-03-22 00:06:21,881 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-7 的模型参数
+2025-03-22 00:06:21,884 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-8 的模型参数
+2025-03-22 00:06:21,887 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-9 的模型参数
+2025-03-22 00:06:21,890 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-10 的模型参数
+2025-03-22 00:06:21,893 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-11 的模型参数
+2025-03-22 00:06:21,893 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:06:21,976 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-11 完成训练: Loss=0.0217, Acc=99.44%, 能耗=4.0487Wh
+2025-03-22 00:06:21,983 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-10 接收代表节点 satellite_2-11 的模型参数
+2025-03-22 00:06:21,983 - similaritygrouping_20250322_000415 - INFO - 更新轨道 2 的模型缓存
+2025-03-22 00:06:22,022 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:06:22,022 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:06:22,022 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 聚合 ===
+2025-03-22 00:06:22,024 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-2 的模型更新
+2025-03-22 00:06:22,029 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-5 的模型更新
+2025-03-22 00:06:22,033 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-8 的模型更新
+2025-03-22 00:06:22,037 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-11 的模型更新
+2025-03-22 00:06:22,038 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:06:22,046 - similaritygrouping_20250322_000415 - INFO - 轨道 2 完成聚合
+2025-03-22 00:06:22,053 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-1 的模型参数
+2025-03-22 00:06:22,058 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-2 的模型参数
+2025-03-22 00:06:22,062 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-3 的模型参数
+2025-03-22 00:06:22,067 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-4 的模型参数
+2025-03-22 00:06:22,072 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-5 的模型参数
+2025-03-22 00:06:22,075 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-11 完成训练: Loss=0.0280, Acc=99.25%, 能耗=4.0487Wh
+2025-03-22 00:06:22,079 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-6 的模型参数
+2025-03-22 00:06:22,081 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-10 接收代表节点 satellite_1-11 的模型参数
+2025-03-22 00:06:22,081 - similaritygrouping_20250322_000415 - INFO - 更新轨道 1 的模型缓存
+2025-03-22 00:06:22,082 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-7 的模型参数
+2025-03-22 00:06:22,084 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-8 的模型参数
+2025-03-22 00:06:22,088 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-9 的模型参数
+2025-03-22 00:06:22,090 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-10 的模型参数
+2025-03-22 00:06:22,092 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-11 的模型参数
+2025-03-22 00:06:22,093 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:06:22,098 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:06:22,098 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:06:22,098 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 聚合 ===
+2025-03-22 00:06:22,099 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-11 的模型更新
+2025-03-22 00:06:22,101 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-5 的模型更新
+2025-03-22 00:06:22,102 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-2 的模型更新
+2025-03-22 00:06:22,103 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-8 的模型更新
+2025-03-22 00:06:22,104 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:06:22,105 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-11 完成训练: Loss=0.0253, Acc=99.29%, 能耗=4.0487Wh
+2025-03-22 00:06:22,106 - similaritygrouping_20250322_000415 - INFO - 轨道 1 完成聚合
+2025-03-22 00:06:22,107 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-10 接收代表节点 satellite_5-11 的模型参数
+2025-03-22 00:06:22,107 - similaritygrouping_20250322_000415 - INFO - 更新轨道 5 的模型缓存
+2025-03-22 00:06:22,108 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-1 的模型参数
+2025-03-22 00:06:22,109 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-2 的模型参数
+2025-03-22 00:06:22,110 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-3 的模型参数
+2025-03-22 00:06:22,111 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-4 的模型参数
+2025-03-22 00:06:22,113 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-5 的模型参数
+2025-03-22 00:06:22,116 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-6 的模型参数
+2025-03-22 00:06:22,116 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-7 的模型参数
+2025-03-22 00:06:22,118 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-8 的模型参数
+2025-03-22 00:06:22,119 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-9 的模型参数
+2025-03-22 00:06:22,121 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-10 的模型参数
+2025-03-22 00:06:22,122 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:06:22,123 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-11 的模型参数
+2025-03-22 00:06:22,123 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:06:22,123 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:06:22,123 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 聚合 ===
+2025-03-22 00:06:22,123 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-5 的模型更新
+2025-03-22 00:06:22,124 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-8 的模型更新
+2025-03-22 00:06:22,125 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-2 的模型更新
+2025-03-22 00:06:22,125 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-11 的模型更新
+2025-03-22 00:06:22,126 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:06:22,127 - similaritygrouping_20250322_000415 - INFO - 轨道 5 完成聚合
+2025-03-22 00:06:22,128 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-1 的模型参数
+2025-03-22 00:06:22,129 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-2 的模型参数
+2025-03-22 00:06:22,130 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-3 的模型参数
+2025-03-22 00:06:22,131 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-4 的模型参数
+2025-03-22 00:06:22,132 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-5 的模型参数
+2025-03-22 00:06:22,133 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-6 的模型参数
+2025-03-22 00:06:22,134 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-7 的模型参数
+2025-03-22 00:06:22,135 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-8 的模型参数
+2025-03-22 00:06:22,137 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-9 的模型参数
+2025-03-22 00:06:22,137 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-10 的模型参数
+2025-03-22 00:06:22,138 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-11 的模型参数
+2025-03-22 00:06:22,138 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:06:22,196 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-11 完成训练: Loss=0.0251, Acc=99.32%, 能耗=4.0487Wh
+2025-03-22 00:06:22,197 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-10 接收代表节点 satellite_3-11 的模型参数
+2025-03-22 00:06:22,197 - similaritygrouping_20250322_000415 - INFO - 更新轨道 3 的模型缓存
+2025-03-22 00:06:22,200 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:06:22,200 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:06:22,200 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 聚合 ===
+2025-03-22 00:06:22,200 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-8 的模型更新
+2025-03-22 00:06:22,201 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-11 的模型更新
+2025-03-22 00:06:22,201 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-2 的模型更新
+2025-03-22 00:06:22,201 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-5 的模型更新
+2025-03-22 00:06:22,202 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:06:22,202 - similaritygrouping_20250322_000415 - INFO - 轨道 3 完成聚合
+2025-03-22 00:06:22,203 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-1 的模型参数
+2025-03-22 00:06:22,204 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-2 的模型参数
+2025-03-22 00:06:22,205 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-3 的模型参数
+2025-03-22 00:06:22,205 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-4 的模型参数
+2025-03-22 00:06:22,206 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-5 的模型参数
+2025-03-22 00:06:22,206 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-6 的模型参数
+2025-03-22 00:06:22,207 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-7 的模型参数
+2025-03-22 00:06:22,207 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-8 的模型参数
+2025-03-22 00:06:22,208 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-9 的模型参数
+2025-03-22 00:06:22,208 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-10 的模型参数
+2025-03-22 00:06:22,209 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-11 的模型参数
+2025-03-22 00:06:22,209 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:06:22,321 - similaritygrouping_20250322_000415 - INFO - 轨道 4 的模型成功发送给地面站 station_1
+2025-03-22 00:06:22,681 - similaritygrouping_20250322_000415 - INFO - 轨道 2 的模型成功发送给地面站 station_0
+2025-03-22 00:06:22,743 - similaritygrouping_20250322_000415 - INFO - 轨道 1 的模型成功发送给地面站 station_0
+2025-03-22 00:06:22,747 - similaritygrouping_20250322_000415 - INFO - 轨道 5 的模型成功发送给地面站 station_2
+2025-03-22 00:06:22,755 - similaritygrouping_20250322_000415 - INFO - 轨道 3 的模型成功发送给地面站 station_1
+2025-03-22 00:06:22,755 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站聚合阶段 === (5 个轨道成功)
+2025-03-22 00:06:22,755 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_0 聚合开始 ===
+2025-03-22 00:06:22,755 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_1 聚合开始 ===
+2025-03-22 00:06:22,755 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 负责轨道: [0, 1]
+2025-03-22 00:06:22,755 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_2 聚合开始 ===
+2025-03-22 00:06:22,755 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 负责轨道: [2, 3]
+2025-03-22 00:06:22,756 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['1', '0']
+2025-03-22 00:06:22,756 - similaritygrouping_20250322_000415 - INFO - 地面站 station_2 负责轨道: [4, 5]
+2025-03-22 00:06:22,756 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['3', '2']
+2025-03-22 00:06:22,756 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['4']
+2025-03-22 00:06:22,756 - similaritygrouping_20250322_000415 - WARNING - 地面站 station_2 聚合失败，可能是因为没有收到足够的更新
+2025-03-22 00:06:22,756 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 完成聚合
+2025-03-22 00:06:22,756 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 完成聚合
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 的聚合结果已成功发送到全局聚合器
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 的聚合结果已成功发送到全局聚合器
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - WARNING - 只有 2/3 个地面站完成聚合，跳过全局聚合
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 
+=== 开始第 3 轮训练 === 时间：2025-03-22 00:24:19.192178
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 1 ===
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 2 ===
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 为轨道 1 轮换代表节点
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 3 ===
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 4 ===
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 为轨道 2 轮换代表节点
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 5 ===
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 组 group_1-0 的代表节点从 satellite_1-2 轮换为 satellite_1-3
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 为轨道 3 轮换代表节点
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 为轨道 4 轮换代表节点
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 6 ===
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 组 group_2-0 的代表节点从 satellite_2-2 轮换为 satellite_2-3
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 为轨道 5 轮换代表节点
+2025-03-22 00:06:22,757 - similaritygrouping_20250322_000415 - INFO - 组 group_1-1 的代表节点从 satellite_1-5 轮换为 satellite_1-6
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_3-0 的代表节点从 satellite_3-2 轮换为 satellite_3-3
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_4-0 的代表节点从 satellite_4-2 轮换为 satellite_4-3
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 为轨道 6 轮换代表节点
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_2-1 的代表节点从 satellite_2-5 轮换为 satellite_2-6
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_5-0 的代表节点从 satellite_5-2 轮换为 satellite_5-3
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_3-1 的代表节点从 satellite_3-5 轮换为 satellite_3-6
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_4-1 的代表节点从 satellite_4-5 轮换为 satellite_4-6
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_1-2 的代表节点从 satellite_1-8 轮换为 satellite_1-9
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_6-0 的代表节点从 satellite_6-2 轮换为 satellite_6-3
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_2-2 的代表节点从 satellite_2-8 轮换为 satellite_2-9
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_5-1 的代表节点从 satellite_5-5 轮换为 satellite_5-6
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_3-2 的代表节点从 satellite_3-8 轮换为 satellite_3-9
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_4-2 的代表节点从 satellite_4-8 轮换为 satellite_4-9
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_1-3 的代表节点从 satellite_1-11 轮换为 satellite_1-10
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_6-1 的代表节点从 satellite_6-5 轮换为 satellite_6-6
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_2-3 的代表节点从 satellite_2-11 轮换为 satellite_2-10
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_5-2 的代表节点从 satellite_5-8 轮换为 satellite_5-9
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_3-3 的代表节点从 satellite_3-11 轮换为 satellite_3-10
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_4-3 的代表节点从 satellite_4-11 轮换为 satellite_4-10
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 轨道 1 选择 satellite_1-2 作为协调者
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_6-2 的代表节点从 satellite_6-8 轮换为 satellite_6-9
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 轨道 2 选择 satellite_2-1 作为协调者
+2025-03-22 00:06:22,758 - similaritygrouping_20250322_000415 - INFO - 组 group_5-3 的代表节点从 satellite_5-11 轮换为 satellite_5-10
+2025-03-22 00:06:22,759 - similaritygrouping_20250322_000415 - INFO - 轨道 3 选择 satellite_3-11 作为协调者
+2025-03-22 00:06:22,759 - similaritygrouping_20250322_000415 - INFO - 轨道 4 选择 satellite_4-9 作为协调者
+2025-03-22 00:06:22,759 - similaritygrouping_20250322_000415 - INFO - 组 group_6-3 的代表节点从 satellite_6-11 轮换为 satellite_6-10
+2025-03-22 00:06:22,760 - similaritygrouping_20250322_000415 - INFO - 轨道 5 选择 satellite_5-7 作为协调者
+2025-03-22 00:06:22,760 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 内参数分发 ===
+2025-03-22 00:06:22,760 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 内参数分发 ===
+2025-03-22 00:06:22,760 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 内参数分发 ===
+2025-03-22 00:06:22,760 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 内参数分发 ===
+2025-03-22 00:06:22,760 - similaritygrouping_20250322_000415 - INFO - 轨道 6 选择 satellite_6-5 作为协调者
+2025-03-22 00:06:22,760 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 内参数分发 ===
+2025-03-22 00:06:22,761 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 内参数分发 ===
+2025-03-22 00:06:22,764 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 代表节点训练 ===
+2025-03-22 00:06:22,764 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 代表节点训练 ===
+2025-03-22 00:06:22,765 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 代表节点训练 ===
+2025-03-22 00:06:22,765 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 代表节点训练 ===
+2025-03-22 00:06:22,766 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 代表节点训练 ===
+2025-03-22 00:06:22,766 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 代表节点训练 ===
+2025-03-22 00:06:36,838 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-3 完成训练: Loss=0.0284, Acc=99.28%, 能耗=4.0487Wh
+2025-03-22 00:06:36,841 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-1 接收代表节点 satellite_2-3 的模型参数
+2025-03-22 00:06:36,842 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-2 接收代表节点 satellite_2-3 的模型参数
+2025-03-22 00:06:36,861 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-3 完成训练: Loss=0.0257, Acc=99.35%, 能耗=4.0487Wh
+2025-03-22 00:06:36,864 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-1 接收代表节点 satellite_5-3 的模型参数
+2025-03-22 00:06:36,867 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-2 接收代表节点 satellite_5-3 的模型参数
+2025-03-22 00:06:36,897 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-3 完成训练: Loss=0.0271, Acc=99.24%, 能耗=4.0487Wh
+2025-03-22 00:06:36,899 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-3 完成训练: Loss=0.0285, Acc=99.28%, 能耗=4.0487Wh
+2025-03-22 00:06:36,901 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-1 接收代表节点 satellite_1-3 的模型参数
+2025-03-22 00:06:36,902 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-1 接收代表节点 satellite_3-3 的模型参数
+2025-03-22 00:06:36,903 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-2 接收代表节点 satellite_1-3 的模型参数
+2025-03-22 00:06:36,904 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-2 接收代表节点 satellite_3-3 的模型参数
+2025-03-22 00:06:36,920 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-3 完成训练: Loss=0.0262, Acc=99.37%, 能耗=4.0487Wh
+2025-03-22 00:06:36,924 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-1 接收代表节点 satellite_4-3 的模型参数
+2025-03-22 00:06:36,927 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-2 接收代表节点 satellite_4-3 的模型参数
+2025-03-22 00:06:36,932 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-3 完成训练: Loss=0.0294, Acc=99.27%, 能耗=4.0487Wh
+2025-03-22 00:06:36,934 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-1 接收代表节点 satellite_6-3 的模型参数
+2025-03-22 00:06:36,936 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-2 接收代表节点 satellite_6-3 的模型参数
+2025-03-22 00:06:50,944 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-6 完成训练: Loss=0.0237, Acc=99.43%, 能耗=4.0487Wh
+2025-03-22 00:06:50,947 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-4 接收代表节点 satellite_2-6 的模型参数
+2025-03-22 00:06:50,950 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-5 接收代表节点 satellite_2-6 的模型参数
+2025-03-22 00:06:50,965 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-6 完成训练: Loss=0.0250, Acc=99.34%, 能耗=4.0487Wh
+2025-03-22 00:06:50,968 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-4 接收代表节点 satellite_5-6 的模型参数
+2025-03-22 00:06:50,971 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-5 接收代表节点 satellite_5-6 的模型参数
+2025-03-22 00:06:50,980 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-6 完成训练: Loss=0.0318, Acc=99.26%, 能耗=4.0487Wh
+2025-03-22 00:06:50,984 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-4 接收代表节点 satellite_6-6 的模型参数
+2025-03-22 00:06:50,987 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-5 接收代表节点 satellite_6-6 的模型参数
+2025-03-22 00:06:51,033 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-6 完成训练: Loss=0.0259, Acc=99.34%, 能耗=4.0487Wh
+2025-03-22 00:06:51,037 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-4 接收代表节点 satellite_4-6 的模型参数
+2025-03-22 00:06:51,040 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-5 接收代表节点 satellite_4-6 的模型参数
+2025-03-22 00:06:51,046 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-6 完成训练: Loss=0.0210, Acc=99.40%, 能耗=4.0487Wh
+2025-03-22 00:06:51,048 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-4 接收代表节点 satellite_1-6 的模型参数
+2025-03-22 00:06:51,050 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-5 接收代表节点 satellite_1-6 的模型参数
+2025-03-22 00:06:51,068 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-6 完成训练: Loss=0.0264, Acc=99.30%, 能耗=4.0487Wh
+2025-03-22 00:06:51,072 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-4 接收代表节点 satellite_3-6 的模型参数
+2025-03-22 00:06:51,074 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-5 接收代表节点 satellite_3-6 的模型参数
+2025-03-22 00:07:05,104 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-9 完成训练: Loss=0.0304, Acc=99.20%, 能耗=4.0487Wh
+2025-03-22 00:07:05,107 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-7 接收代表节点 satellite_5-9 的模型参数
+2025-03-22 00:07:05,109 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-8 接收代表节点 satellite_5-9 的模型参数
+2025-03-22 00:07:05,155 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-9 完成训练: Loss=0.0226, Acc=99.42%, 能耗=4.0487Wh
+2025-03-22 00:07:05,158 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-7 接收代表节点 satellite_2-9 的模型参数
+2025-03-22 00:07:05,160 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-8 接收代表节点 satellite_2-9 的模型参数
+2025-03-22 00:07:05,160 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-9 完成训练: Loss=0.0264, Acc=99.29%, 能耗=4.0487Wh
+2025-03-22 00:07:05,164 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-7 接收代表节点 satellite_6-9 的模型参数
+2025-03-22 00:07:05,165 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-8 接收代表节点 satellite_6-9 的模型参数
+2025-03-22 00:07:05,202 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-9 完成训练: Loss=0.0303, Acc=99.16%, 能耗=4.0487Wh
+2025-03-22 00:07:05,205 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-7 接收代表节点 satellite_4-9 的模型参数
+2025-03-22 00:07:05,208 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-8 接收代表节点 satellite_4-9 的模型参数
+2025-03-22 00:07:05,241 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-9 完成训练: Loss=0.0287, Acc=99.25%, 能耗=4.0487Wh
+2025-03-22 00:07:05,245 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-7 接收代表节点 satellite_3-9 的模型参数
+2025-03-22 00:07:05,248 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-8 接收代表节点 satellite_3-9 的模型参数
+2025-03-22 00:07:05,262 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-9 完成训练: Loss=0.0216, Acc=99.48%, 能耗=4.0487Wh
+2025-03-22 00:07:05,265 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-7 接收代表节点 satellite_1-9 的模型参数
+2025-03-22 00:07:05,268 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-8 接收代表节点 satellite_1-9 的模型参数
+2025-03-22 00:07:19,362 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-10 完成训练: Loss=0.0247, Acc=99.36%, 能耗=4.0487Wh
+2025-03-22 00:07:19,365 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-11 接收代表节点 satellite_5-10 的模型参数
+2025-03-22 00:07:19,365 - similaritygrouping_20250322_000415 - INFO - 更新轨道 5 的模型缓存
+2025-03-22 00:07:19,382 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:07:19,382 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:07:19,383 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 聚合 ===
+2025-03-22 00:07:19,383 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-3 的模型更新
+2025-03-22 00:07:19,384 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-6 的模型更新
+2025-03-22 00:07:19,387 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-9 的模型更新
+2025-03-22 00:07:19,389 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-10 的模型更新
+2025-03-22 00:07:19,389 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:07:19,393 - similaritygrouping_20250322_000415 - INFO - 轨道 5 完成聚合
+2025-03-22 00:07:19,394 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-1 的模型参数
+2025-03-22 00:07:19,395 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-2 的模型参数
+2025-03-22 00:07:19,397 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-3 的模型参数
+2025-03-22 00:07:19,399 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-4 的模型参数
+2025-03-22 00:07:19,400 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-5 的模型参数
+2025-03-22 00:07:19,404 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-6 的模型参数
+2025-03-22 00:07:19,405 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-7 的模型参数
+2025-03-22 00:07:19,407 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-8 的模型参数
+2025-03-22 00:07:19,409 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-9 的模型参数
+2025-03-22 00:07:19,410 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-10 的模型参数
+2025-03-22 00:07:19,413 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-11 的模型参数
+2025-03-22 00:07:19,413 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:07:19,444 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-10 完成训练: Loss=0.0226, Acc=99.41%, 能耗=4.0487Wh
+2025-03-22 00:07:19,450 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-11 接收代表节点 satellite_6-10 的模型参数
+2025-03-22 00:07:19,450 - similaritygrouping_20250322_000415 - INFO - 更新轨道 6 的模型缓存
+2025-03-22 00:07:19,478 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:07:19,478 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:07:19,478 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 聚合 ===
+2025-03-22 00:07:19,479 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-6 的模型更新
+2025-03-22 00:07:19,483 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-10 的模型更新
+2025-03-22 00:07:19,488 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-9 的模型更新
+2025-03-22 00:07:19,491 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-3 的模型更新
+2025-03-22 00:07:19,493 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:07:19,494 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-10 完成训练: Loss=0.0229, Acc=99.37%, 能耗=4.0487Wh
+2025-03-22 00:07:19,499 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-11 接收代表节点 satellite_2-10 的模型参数
+2025-03-22 00:07:19,499 - similaritygrouping_20250322_000415 - INFO - 更新轨道 2 的模型缓存
+2025-03-22 00:07:19,500 - similaritygrouping_20250322_000415 - INFO - 轨道 6 完成聚合
+2025-03-22 00:07:19,504 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-1 的模型参数
+2025-03-22 00:07:19,508 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-2 的模型参数
+2025-03-22 00:07:19,513 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-3 的模型参数
+2025-03-22 00:07:19,517 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-4 的模型参数
+2025-03-22 00:07:19,520 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-5 的模型参数
+2025-03-22 00:07:19,523 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-6 的模型参数
+2025-03-22 00:07:19,527 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-7 的模型参数
+2025-03-22 00:07:19,529 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-8 的模型参数
+2025-03-22 00:07:19,532 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-9 的模型参数
+2025-03-22 00:07:19,536 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:07:19,536 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:07:19,536 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 聚合 ===
+2025-03-22 00:07:19,537 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-10 的模型更新
+2025-03-22 00:07:19,537 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-10 的模型参数
+2025-03-22 00:07:19,541 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-11 的模型参数
+2025-03-22 00:07:19,541 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-6 的模型更新
+2025-03-22 00:07:19,541 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:07:19,543 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-9 的模型更新
+2025-03-22 00:07:19,546 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-3 的模型更新
+2025-03-22 00:07:19,547 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:07:19,551 - similaritygrouping_20250322_000415 - INFO - 轨道 2 完成聚合
+2025-03-22 00:07:19,552 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-1 的模型参数
+2025-03-22 00:07:19,553 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-2 的模型参数
+2025-03-22 00:07:19,555 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-3 的模型参数
+2025-03-22 00:07:19,557 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-4 的模型参数
+2025-03-22 00:07:19,559 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-5 的模型参数
+2025-03-22 00:07:19,561 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-6 的模型参数
+2025-03-22 00:07:19,563 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-7 的模型参数
+2025-03-22 00:07:19,565 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-8 的模型参数
+2025-03-22 00:07:19,567 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-9 的模型参数
+2025-03-22 00:07:19,569 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-10 的模型参数
+2025-03-22 00:07:19,571 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-11 的模型参数
+2025-03-22 00:07:19,571 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:07:19,578 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-10 完成训练: Loss=0.0235, Acc=99.37%, 能耗=4.0487Wh
+2025-03-22 00:07:19,579 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-11 接收代表节点 satellite_4-10 的模型参数
+2025-03-22 00:07:19,579 - similaritygrouping_20250322_000415 - INFO - 更新轨道 4 的模型缓存
+2025-03-22 00:07:19,588 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:07:19,588 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:07:19,588 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 聚合 ===
+2025-03-22 00:07:19,589 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-9 的模型更新
+2025-03-22 00:07:19,590 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-10 的模型更新
+2025-03-22 00:07:19,591 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-3 的模型更新
+2025-03-22 00:07:19,591 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-6 的模型更新
+2025-03-22 00:07:19,592 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:07:19,595 - similaritygrouping_20250322_000415 - INFO - 轨道 4 完成聚合
+2025-03-22 00:07:19,596 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-1 的模型参数
+2025-03-22 00:07:19,597 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-2 的模型参数
+2025-03-22 00:07:19,599 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-3 的模型参数
+2025-03-22 00:07:19,600 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-4 的模型参数
+2025-03-22 00:07:19,602 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-5 的模型参数
+2025-03-22 00:07:19,603 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-6 的模型参数
+2025-03-22 00:07:19,605 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-7 的模型参数
+2025-03-22 00:07:19,607 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-8 的模型参数
+2025-03-22 00:07:19,608 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-9 的模型参数
+2025-03-22 00:07:19,609 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-10 的模型参数
+2025-03-22 00:07:19,611 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-11 的模型参数
+2025-03-22 00:07:19,611 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:07:19,618 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-10 完成训练: Loss=0.0298, Acc=99.27%, 能耗=4.0487Wh
+2025-03-22 00:07:19,620 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-11 接收代表节点 satellite_3-10 的模型参数
+2025-03-22 00:07:19,620 - similaritygrouping_20250322_000415 - INFO - 更新轨道 3 的模型缓存
+2025-03-22 00:07:19,626 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:07:19,626 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:07:19,626 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 聚合 ===
+2025-03-22 00:07:19,626 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-9 的模型更新
+2025-03-22 00:07:19,626 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-6 的模型更新
+2025-03-22 00:07:19,627 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-10 的模型更新
+2025-03-22 00:07:19,627 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-3 的模型更新
+2025-03-22 00:07:19,628 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:07:19,629 - similaritygrouping_20250322_000415 - INFO - 轨道 3 完成聚合
+2025-03-22 00:07:19,630 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-1 的模型参数
+2025-03-22 00:07:19,632 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-2 的模型参数
+2025-03-22 00:07:19,633 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-3 的模型参数
+2025-03-22 00:07:19,634 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-4 的模型参数
+2025-03-22 00:07:19,635 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-5 的模型参数
+2025-03-22 00:07:19,636 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-6 的模型参数
+2025-03-22 00:07:19,637 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-7 的模型参数
+2025-03-22 00:07:19,638 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-8 的模型参数
+2025-03-22 00:07:19,638 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-9 的模型参数
+2025-03-22 00:07:19,639 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-10 的模型参数
+2025-03-22 00:07:19,640 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-11 的模型参数
+2025-03-22 00:07:19,640 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:07:19,653 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-10 完成训练: Loss=0.0244, Acc=99.39%, 能耗=4.0487Wh
+2025-03-22 00:07:19,654 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-11 接收代表节点 satellite_1-10 的模型参数
+2025-03-22 00:07:19,654 - similaritygrouping_20250322_000415 - INFO - 更新轨道 1 的模型缓存
+2025-03-22 00:07:19,657 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:07:19,657 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:07:19,657 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 聚合 ===
+2025-03-22 00:07:19,658 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-3 的模型更新
+2025-03-22 00:07:19,658 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-10 的模型更新
+2025-03-22 00:07:19,658 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-9 的模型更新
+2025-03-22 00:07:19,658 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-6 的模型更新
+2025-03-22 00:07:19,659 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:07:19,660 - similaritygrouping_20250322_000415 - INFO - 轨道 1 完成聚合
+2025-03-22 00:07:19,660 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-1 的模型参数
+2025-03-22 00:07:19,661 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-2 的模型参数
+2025-03-22 00:07:19,661 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-3 的模型参数
+2025-03-22 00:07:19,661 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-4 的模型参数
+2025-03-22 00:07:19,662 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-5 的模型参数
+2025-03-22 00:07:19,662 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-6 的模型参数
+2025-03-22 00:07:19,663 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-7 的模型参数
+2025-03-22 00:07:19,664 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-8 的模型参数
+2025-03-22 00:07:19,665 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-9 的模型参数
+2025-03-22 00:07:19,665 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-10 的模型参数
+2025-03-22 00:07:19,666 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-11 的模型参数
+2025-03-22 00:07:19,666 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:07:19,933 - similaritygrouping_20250322_000415 - INFO - 轨道 5 的模型成功发送给地面站 station_2
+2025-03-22 00:07:20,274 - similaritygrouping_20250322_000415 - INFO - 轨道 2 的模型成功发送给地面站 station_0
+2025-03-22 00:07:20,321 - similaritygrouping_20250322_000415 - INFO - 轨道 4 的模型成功发送给地面站 station_1
+2025-03-22 00:07:20,397 - similaritygrouping_20250322_000415 - INFO - 轨道 3 的模型成功发送给地面站 station_1
+2025-03-22 00:07:20,403 - similaritygrouping_20250322_000415 - INFO - 轨道 6 的模型成功发送给地面站 station_2
+2025-03-22 00:07:20,405 - similaritygrouping_20250322_000415 - INFO - 轨道 1 的模型成功发送给地面站 station_0
+2025-03-22 00:07:20,406 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站聚合阶段 === (6 个轨道成功)
+2025-03-22 00:07:20,406 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_0 聚合开始 ===
+2025-03-22 00:07:20,406 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 负责轨道: [0, 1]
+2025-03-22 00:07:20,406 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_1 聚合开始 ===
+2025-03-22 00:07:20,406 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['1', '0']
+2025-03-22 00:07:20,406 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_2 聚合开始 ===
+2025-03-22 00:07:20,406 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 负责轨道: [2, 3]
+2025-03-22 00:07:20,406 - similaritygrouping_20250322_000415 - INFO - 地面站 station_2 负责轨道: [4, 5]
+2025-03-22 00:07:20,406 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['3', '2']
+2025-03-22 00:07:20,406 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['4', '5']
+2025-03-22 00:07:20,407 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 完成聚合
+2025-03-22 00:07:20,407 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 的聚合结果已成功发送到全局聚合器
+2025-03-22 00:07:20,408 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 完成聚合
+2025-03-22 00:07:20,408 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 的聚合结果已成功发送到全局聚合器
+2025-03-22 00:07:20,408 - similaritygrouping_20250322_000415 - INFO - 地面站 station_2 完成聚合
+2025-03-22 00:07:20,408 - similaritygrouping_20250322_000415 - INFO - 地面站 station_2 的聚合结果已成功发送到全局聚合器
+2025-03-22 00:07:20,408 - similaritygrouping_20250322_000415 - INFO - 
+=== 全局聚合阶段 ===
+2025-03-22 00:07:20,408 - similaritygrouping_20250322_000415 - INFO - 
+=== 各轨道训练后模型单独评估 ===
+2025-03-22 00:07:20,408 - similaritygrouping_20250322_000415 - WARNING - 没有找到保存的轨道模型
+2025-03-22 00:07:20,408 - similaritygrouping_20250322_000415 - INFO - 
+=== 全局聚合阶段 ===
+2025-03-22 00:07:20,408 - similaritygrouping_20250322_000415 - INFO - 完成第 3 轮全局聚合
+2025-03-22 00:07:20,421 - similaritygrouping_20250322_000415 - INFO - 更新后 satellite_1-1 参数示例: 0.5231
+2025-03-22 00:07:20,421 - similaritygrouping_20250322_000415 - INFO - 更新后 satellite_1-5 参数示例: 0.5231
+2025-03-22 00:07:20,421 - similaritygrouping_20250322_000415 - INFO - 更新后 satellite_1-11 参数示例: 0.5231
+2025-03-22 00:07:20,421 - similaritygrouping_20250322_000415 - INFO - 成功更新了 66/66 个卫星的模型
+2025-03-22 00:07:21,372 - similaritygrouping_20250322_000415 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 417538
+平均损失: 0.0470
+准确率: 98.37%
+2025-03-22 00:07:21,372 - similaritygrouping_20250322_000415 - INFO - 第 3 轮全局准确率: 98.3681
+2025-03-22 00:07:21,372 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道模型 vs 全局模型性能对比 ===
+2025-03-22 00:07:22,186 - similaritygrouping_20250322_000415 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 417538
+平均损失: 0.0470
+准确率: 98.37%
+2025-03-22 00:07:22,186 - similaritygrouping_20250322_000415 - INFO - 第 3 轮全局准确率: 98.3681
+2025-03-22 00:07:22,186 - similaritygrouping_20250322_000415 - INFO - 找到更好的模型！新的最佳准确率: 98.3681
+2025-03-22 00:07:22,186 - similaritygrouping_20250322_000415 - INFO - 
+=== 开始第 4 轮训练 === 时间：2025-03-22 00:34:19.192178
+2025-03-22 00:07:22,186 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 1 ===
+2025-03-22 00:07:22,186 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 2 ===
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 为轨道 1 轮换代表节点
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 3 ===
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 为轨道 2 轮换代表节点
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_1-0 的代表节点从 satellite_1-3 轮换为 satellite_1-1
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 为轨道 3 轮换代表节点
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_2-0 的代表节点从 satellite_2-3 轮换为 satellite_2-1
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 4 ===
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 5 ===
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_1-1 的代表节点从 satellite_1-6 轮换为 satellite_1-4
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 6 ===
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_3-0 的代表节点从 satellite_3-3 轮换为 satellite_3-1
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_2-1 的代表节点从 satellite_2-6 轮换为 satellite_2-4
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 为轨道 4 轮换代表节点
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 为轨道 5 轮换代表节点
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_1-2 的代表节点从 satellite_1-9 轮换为 satellite_1-7
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 为轨道 6 轮换代表节点
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_3-1 的代表节点从 satellite_3-6 轮换为 satellite_3-4
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_2-2 的代表节点从 satellite_2-9 轮换为 satellite_2-7
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_4-0 的代表节点从 satellite_4-3 轮换为 satellite_4-1
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_5-0 的代表节点从 satellite_5-3 轮换为 satellite_5-1
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_1-3 的代表节点从 satellite_1-10 轮换为 satellite_1-11
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_6-0 的代表节点从 satellite_6-3 轮换为 satellite_6-1
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_3-2 的代表节点从 satellite_3-9 轮换为 satellite_3-7
+2025-03-22 00:07:22,187 - similaritygrouping_20250322_000415 - INFO - 组 group_2-3 的代表节点从 satellite_2-10 轮换为 satellite_2-11
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 组 group_4-1 的代表节点从 satellite_4-6 轮换为 satellite_4-4
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 组 group_5-1 的代表节点从 satellite_5-6 轮换为 satellite_5-4
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 轨道 1 选择 satellite_1-1 作为协调者
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 组 group_6-1 的代表节点从 satellite_6-6 轮换为 satellite_6-4
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 组 group_3-3 的代表节点从 satellite_3-10 轮换为 satellite_3-11
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 轨道 2 选择 satellite_2-10 作为协调者
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 组 group_4-2 的代表节点从 satellite_4-9 轮换为 satellite_4-7
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 组 group_5-2 的代表节点从 satellite_5-9 轮换为 satellite_5-7
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 组 group_6-2 的代表节点从 satellite_6-9 轮换为 satellite_6-7
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 轨道 3 选择 satellite_3-10 作为协调者
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 内参数分发 ===
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 组 group_4-3 的代表节点从 satellite_4-10 轮换为 satellite_4-11
+2025-03-22 00:07:22,188 - similaritygrouping_20250322_000415 - INFO - 组 group_5-3 的代表节点从 satellite_5-10 轮换为 satellite_5-11
+2025-03-22 00:07:22,189 - similaritygrouping_20250322_000415 - INFO - 组 group_6-3 的代表节点从 satellite_6-10 轮换为 satellite_6-11
+2025-03-22 00:07:22,189 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 内参数分发 ===
+2025-03-22 00:07:22,189 - similaritygrouping_20250322_000415 - INFO - 轨道 4 选择 satellite_4-8 作为协调者
+2025-03-22 00:07:22,189 - similaritygrouping_20250322_000415 - INFO - 轨道 5 选择 satellite_5-6 作为协调者
+2025-03-22 00:07:22,189 - similaritygrouping_20250322_000415 - INFO - 轨道 6 选择 satellite_6-4 作为协调者
+2025-03-22 00:07:22,189 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 内参数分发 ===
+2025-03-22 00:07:22,189 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 内参数分发 ===
+2025-03-22 00:07:22,190 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 内参数分发 ===
+2025-03-22 00:07:22,190 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 内参数分发 ===
+2025-03-22 00:07:22,192 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 代表节点训练 ===
+2025-03-22 00:07:22,192 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 代表节点训练 ===
+2025-03-22 00:07:22,193 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 代表节点训练 ===
+2025-03-22 00:07:22,193 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 代表节点训练 ===
+2025-03-22 00:07:22,193 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 代表节点训练 ===
+2025-03-22 00:07:22,194 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 代表节点训练 ===
+2025-03-22 00:07:36,532 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-1 完成训练: Loss=0.0222, Acc=99.40%, 能耗=4.0487Wh
+2025-03-22 00:07:36,534 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-2 接收代表节点 satellite_2-1 的模型参数
+2025-03-22 00:07:36,536 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-3 接收代表节点 satellite_2-1 的模型参数
+2025-03-22 00:07:36,550 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-1 完成训练: Loss=0.0246, Acc=99.37%, 能耗=4.0487Wh
+2025-03-22 00:07:36,552 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-2 接收代表节点 satellite_6-1 的模型参数
+2025-03-22 00:07:36,555 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-1 完成训练: Loss=0.0223, Acc=99.42%, 能耗=4.0487Wh
+2025-03-22 00:07:36,557 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-3 接收代表节点 satellite_6-1 的模型参数
+2025-03-22 00:07:36,558 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-2 接收代表节点 satellite_4-1 的模型参数
+2025-03-22 00:07:36,564 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-3 接收代表节点 satellite_4-1 的模型参数
+2025-03-22 00:07:36,573 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-1 完成训练: Loss=0.0245, Acc=99.32%, 能耗=4.0487Wh
+2025-03-22 00:07:36,576 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-2 接收代表节点 satellite_5-1 的模型参数
+2025-03-22 00:07:36,578 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-3 接收代表节点 satellite_5-1 的模型参数
+2025-03-22 00:07:36,602 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-1 完成训练: Loss=0.0238, Acc=99.38%, 能耗=4.0487Wh
+2025-03-22 00:07:36,606 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-2 接收代表节点 satellite_3-1 的模型参数
+2025-03-22 00:07:36,607 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-3 接收代表节点 satellite_3-1 的模型参数
+2025-03-22 00:07:36,631 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-1 完成训练: Loss=0.0237, Acc=99.41%, 能耗=4.0487Wh
+2025-03-22 00:07:36,633 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-2 接收代表节点 satellite_1-1 的模型参数
+2025-03-22 00:07:36,638 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-3 接收代表节点 satellite_1-1 的模型参数
+2025-03-22 00:07:51,009 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-4 完成训练: Loss=0.0253, Acc=99.30%, 能耗=4.0487Wh
+2025-03-22 00:07:51,012 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-5 接收代表节点 satellite_6-4 的模型参数
+2025-03-22 00:07:51,016 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-6 接收代表节点 satellite_6-4 的模型参数
+2025-03-22 00:07:51,026 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-4 完成训练: Loss=0.0209, Acc=99.48%, 能耗=4.0487Wh
+2025-03-22 00:07:51,029 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-5 接收代表节点 satellite_2-4 的模型参数
+2025-03-22 00:07:51,032 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-6 接收代表节点 satellite_2-4 的模型参数
+2025-03-22 00:07:51,071 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-4 完成训练: Loss=0.0207, Acc=99.44%, 能耗=4.0487Wh
+2025-03-22 00:07:51,074 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-5 接收代表节点 satellite_5-4 的模型参数
+2025-03-22 00:07:51,076 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-6 接收代表节点 satellite_5-4 的模型参数
+2025-03-22 00:07:51,101 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-4 完成训练: Loss=0.0204, Acc=99.45%, 能耗=4.0487Wh
+2025-03-22 00:07:51,104 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-5 接收代表节点 satellite_4-4 的模型参数
+2025-03-22 00:07:51,107 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-6 接收代表节点 satellite_4-4 的模型参数
+2025-03-22 00:07:51,114 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-4 完成训练: Loss=0.0253, Acc=99.32%, 能耗=4.0487Wh
+2025-03-22 00:07:51,118 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-5 接收代表节点 satellite_3-4 的模型参数
+2025-03-22 00:07:51,119 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-6 接收代表节点 satellite_3-4 的模型参数
+2025-03-22 00:07:51,152 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-4 完成训练: Loss=0.0216, Acc=99.44%, 能耗=4.0487Wh
+2025-03-22 00:07:51,157 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-5 接收代表节点 satellite_1-4 的模型参数
+2025-03-22 00:07:51,160 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-6 接收代表节点 satellite_1-4 的模型参数
+2025-03-22 00:08:05,490 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-7 完成训练: Loss=0.0184, Acc=99.48%, 能耗=4.0487Wh
+2025-03-22 00:08:05,493 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-8 接收代表节点 satellite_6-7 的模型参数
+2025-03-22 00:08:05,497 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-9 接收代表节点 satellite_6-7 的模型参数
+2025-03-22 00:08:05,526 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-7 完成训练: Loss=0.0260, Acc=99.33%, 能耗=4.0487Wh
+2025-03-22 00:08:05,528 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-8 接收代表节点 satellite_2-7 的模型参数
+2025-03-22 00:08:05,531 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-9 接收代表节点 satellite_2-7 的模型参数
+2025-03-22 00:08:05,558 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-7 完成训练: Loss=0.0232, Acc=99.39%, 能耗=4.0487Wh
+2025-03-22 00:08:05,561 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-8 接收代表节点 satellite_4-7 的模型参数
+2025-03-22 00:08:05,564 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-9 接收代表节点 satellite_4-7 的模型参数
+2025-03-22 00:08:05,593 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-7 完成训练: Loss=0.0186, Acc=99.56%, 能耗=4.0487Wh
+2025-03-22 00:08:05,596 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-8 接收代表节点 satellite_5-7 的模型参数
+2025-03-22 00:08:05,598 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-9 接收代表节点 satellite_5-7 的模型参数
+2025-03-22 00:08:05,622 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-7 完成训练: Loss=0.0202, Acc=99.41%, 能耗=4.0487Wh
+2025-03-22 00:08:05,625 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-8 接收代表节点 satellite_3-7 的模型参数
+2025-03-22 00:08:05,627 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-9 接收代表节点 satellite_3-7 的模型参数
+2025-03-22 00:08:05,672 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-7 完成训练: Loss=0.0216, Acc=99.41%, 能耗=4.0487Wh
+2025-03-22 00:08:05,675 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-8 接收代表节点 satellite_1-7 的模型参数
+2025-03-22 00:08:05,678 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-9 接收代表节点 satellite_1-7 的模型参数
+2025-03-22 00:08:19,796 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-11 完成训练: Loss=0.0204, Acc=99.41%, 能耗=4.0487Wh
+2025-03-22 00:08:19,799 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-10 接收代表节点 satellite_6-11 的模型参数
+2025-03-22 00:08:19,799 - similaritygrouping_20250322_000415 - INFO - 更新轨道 6 的模型缓存
+2025-03-22 00:08:19,813 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:08:19,814 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:08:19,814 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 聚合 ===
+2025-03-22 00:08:19,815 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-7 的模型更新
+2025-03-22 00:08:19,816 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-11 的模型更新
+2025-03-22 00:08:19,817 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-4 的模型更新
+2025-03-22 00:08:19,819 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-1 的模型更新
+2025-03-22 00:08:19,820 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:08:19,822 - similaritygrouping_20250322_000415 - INFO - 轨道 6 完成聚合
+2025-03-22 00:08:19,824 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-1 的模型参数
+2025-03-22 00:08:19,827 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-2 的模型参数
+2025-03-22 00:08:19,829 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-3 的模型参数
+2025-03-22 00:08:19,830 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-4 的模型参数
+2025-03-22 00:08:19,833 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-5 的模型参数
+2025-03-22 00:08:19,834 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-6 的模型参数
+2025-03-22 00:08:19,837 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-7 的模型参数
+2025-03-22 00:08:19,839 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-8 的模型参数
+2025-03-22 00:08:19,840 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-9 的模型参数
+2025-03-22 00:08:19,842 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-10 的模型参数
+2025-03-22 00:08:19,844 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-11 的模型参数
+2025-03-22 00:08:19,844 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:08:19,942 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-11 完成训练: Loss=0.0202, Acc=99.51%, 能耗=4.0487Wh
+2025-03-22 00:08:19,944 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-10 接收代表节点 satellite_2-11 的模型参数
+2025-03-22 00:08:19,944 - similaritygrouping_20250322_000415 - INFO - 更新轨道 2 的模型缓存
+2025-03-22 00:08:19,974 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:08:19,974 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:08:19,975 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 聚合 ===
+2025-03-22 00:08:19,977 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-4 的模型更新
+2025-03-22 00:08:19,981 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-7 的模型更新
+2025-03-22 00:08:19,983 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-11 的模型更新
+2025-03-22 00:08:19,987 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-1 的模型更新
+2025-03-22 00:08:19,988 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:08:19,994 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-11 完成训练: Loss=0.0229, Acc=99.34%, 能耗=4.0487Wh
+2025-03-22 00:08:19,996 - similaritygrouping_20250322_000415 - INFO - 轨道 2 完成聚合
+2025-03-22 00:08:20,000 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-10 接收代表节点 satellite_4-11 的模型参数
+2025-03-22 00:08:20,001 - similaritygrouping_20250322_000415 - INFO - 更新轨道 4 的模型缓存
+2025-03-22 00:08:20,001 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-1 的模型参数
+2025-03-22 00:08:20,006 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-2 的模型参数
+2025-03-22 00:08:20,009 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-3 的模型参数
+2025-03-22 00:08:20,013 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-4 的模型参数
+2025-03-22 00:08:20,016 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-5 的模型参数
+2025-03-22 00:08:20,021 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-6 的模型参数
+2025-03-22 00:08:20,025 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-7 的模型参数
+2025-03-22 00:08:20,028 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-8 的模型参数
+2025-03-22 00:08:20,033 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-9 的模型参数
+2025-03-22 00:08:20,037 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-10 的模型参数
+2025-03-22 00:08:20,039 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:08:20,040 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:08:20,040 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 聚合 ===
+2025-03-22 00:08:20,041 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-11 的模型更新
+2025-03-22 00:08:20,042 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-11 的模型参数
+2025-03-22 00:08:20,042 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:08:20,043 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-4 的模型更新
+2025-03-22 00:08:20,044 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-1 的模型更新
+2025-03-22 00:08:20,045 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-7 的模型更新
+2025-03-22 00:08:20,046 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:08:20,051 - similaritygrouping_20250322_000415 - INFO - 轨道 4 完成聚合
+2025-03-22 00:08:20,053 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-1 的模型参数
+2025-03-22 00:08:20,056 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-2 的模型参数
+2025-03-22 00:08:20,058 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-3 的模型参数
+2025-03-22 00:08:20,060 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-4 的模型参数
+2025-03-22 00:08:20,063 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-5 的模型参数
+2025-03-22 00:08:20,065 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-6 的模型参数
+2025-03-22 00:08:20,067 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-7 的模型参数
+2025-03-22 00:08:20,069 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-8 的模型参数
+2025-03-22 00:08:20,071 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-9 的模型参数
+2025-03-22 00:08:20,073 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-10 的模型参数
+2025-03-22 00:08:20,075 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-11 的模型参数
+2025-03-22 00:08:20,075 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:08:20,109 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-11 完成训练: Loss=0.0208, Acc=99.44%, 能耗=4.0487Wh
+2025-03-22 00:08:20,111 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-10 接收代表节点 satellite_3-11 的模型参数
+2025-03-22 00:08:20,111 - similaritygrouping_20250322_000415 - INFO - 更新轨道 3 的模型缓存
+2025-03-22 00:08:20,120 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:08:20,120 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:08:20,120 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 聚合 ===
+2025-03-22 00:08:20,121 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-11 的模型更新
+2025-03-22 00:08:20,121 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-1 的模型更新
+2025-03-22 00:08:20,122 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-7 的模型更新
+2025-03-22 00:08:20,123 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-4 的模型更新
+2025-03-22 00:08:20,124 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:08:20,127 - similaritygrouping_20250322_000415 - INFO - 轨道 3 完成聚合
+2025-03-22 00:08:20,128 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-1 的模型参数
+2025-03-22 00:08:20,130 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-2 的模型参数
+2025-03-22 00:08:20,130 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-11 完成训练: Loss=0.0213, Acc=99.38%, 能耗=4.0487Wh
+2025-03-22 00:08:20,131 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-3 的模型参数
+2025-03-22 00:08:20,133 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-10 接收代表节点 satellite_5-11 的模型参数
+2025-03-22 00:08:20,133 - similaritygrouping_20250322_000415 - INFO - 更新轨道 5 的模型缓存
+2025-03-22 00:08:20,134 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-4 的模型参数
+2025-03-22 00:08:20,135 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-5 的模型参数
+2025-03-22 00:08:20,137 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-6 的模型参数
+2025-03-22 00:08:20,137 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-11 完成训练: Loss=0.0249, Acc=99.35%, 能耗=4.0487Wh
+2025-03-22 00:08:20,138 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-7 的模型参数
+2025-03-22 00:08:20,139 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-10 接收代表节点 satellite_1-11 的模型参数
+2025-03-22 00:08:20,139 - similaritygrouping_20250322_000415 - INFO - 更新轨道 1 的模型缓存
+2025-03-22 00:08:20,140 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-8 的模型参数
+2025-03-22 00:08:20,142 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-9 的模型参数
+2025-03-22 00:08:20,143 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-10 的模型参数
+2025-03-22 00:08:20,145 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-11 的模型参数
+2025-03-22 00:08:20,145 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:08:20,145 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:08:20,145 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:08:20,145 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 聚合 ===
+2025-03-22 00:08:20,146 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-7 的模型更新
+2025-03-22 00:08:20,147 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-11 的模型更新
+2025-03-22 00:08:20,147 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-4 的模型更新
+2025-03-22 00:08:20,148 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-1 的模型更新
+2025-03-22 00:08:20,149 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:08:20,150 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:08:20,150 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:08:20,150 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 聚合 ===
+2025-03-22 00:08:20,150 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-4 的模型更新
+2025-03-22 00:08:20,150 - similaritygrouping_20250322_000415 - INFO - 轨道 5 完成聚合
+2025-03-22 00:08:20,151 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-11 的模型更新
+2025-03-22 00:08:20,151 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-1 的模型更新
+2025-03-22 00:08:20,152 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-7 的模型更新
+2025-03-22 00:08:20,152 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-1 的模型参数
+2025-03-22 00:08:20,152 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:08:20,153 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-2 的模型参数
+2025-03-22 00:08:20,154 - similaritygrouping_20250322_000415 - INFO - 轨道 1 完成聚合
+2025-03-22 00:08:20,154 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-3 的模型参数
+2025-03-22 00:08:20,155 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-1 的模型参数
+2025-03-22 00:08:20,155 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-4 的模型参数
+2025-03-22 00:08:20,156 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-2 的模型参数
+2025-03-22 00:08:20,156 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-5 的模型参数
+2025-03-22 00:08:20,157 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-6 的模型参数
+2025-03-22 00:08:20,157 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-3 的模型参数
+2025-03-22 00:08:20,157 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-7 的模型参数
+2025-03-22 00:08:20,158 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-4 的模型参数
+2025-03-22 00:08:20,158 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-8 的模型参数
+2025-03-22 00:08:20,158 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-5 的模型参数
+2025-03-22 00:08:20,159 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-6 的模型参数
+2025-03-22 00:08:20,160 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-9 的模型参数
+2025-03-22 00:08:20,160 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-7 的模型参数
+2025-03-22 00:08:20,160 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-10 的模型参数
+2025-03-22 00:08:20,161 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-11 的模型参数
+2025-03-22 00:08:20,161 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:08:20,161 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-8 的模型参数
+2025-03-22 00:08:20,162 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-9 的模型参数
+2025-03-22 00:08:20,163 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-10 的模型参数
+2025-03-22 00:08:20,163 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-11 的模型参数
+2025-03-22 00:08:20,163 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:08:20,298 - similaritygrouping_20250322_000415 - INFO - 轨道 6 的模型成功发送给地面站 station_2
+2025-03-22 00:08:20,712 - similaritygrouping_20250322_000415 - INFO - 轨道 2 的模型成功发送给地面站 station_0
+2025-03-22 00:08:20,759 - similaritygrouping_20250322_000415 - INFO - 轨道 4 的模型成功发送给地面站 station_1
+2025-03-22 00:08:20,842 - similaritygrouping_20250322_000415 - INFO - 轨道 3 的模型成功发送给地面站 station_1
+2025-03-22 00:08:20,851 - similaritygrouping_20250322_000415 - INFO - 轨道 5 的模型成功发送给地面站 station_2
+2025-03-22 00:08:20,852 - similaritygrouping_20250322_000415 - INFO - 轨道 1 的模型成功发送给地面站 station_0
+2025-03-22 00:08:20,852 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站聚合阶段 === (6 个轨道成功)
+2025-03-22 00:08:20,852 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_0 聚合开始 ===
+2025-03-22 00:08:20,853 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_1 聚合开始 ===
+2025-03-22 00:08:20,853 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 负责轨道: [0, 1]
+2025-03-22 00:08:20,853 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_2 聚合开始 ===
+2025-03-22 00:08:20,853 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 负责轨道: [2, 3]
+2025-03-22 00:08:20,853 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['3', '2']
+2025-03-22 00:08:20,853 - similaritygrouping_20250322_000415 - INFO - 地面站 station_2 负责轨道: [4, 5]
+2025-03-22 00:08:20,853 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['5', '4']
+2025-03-22 00:08:20,853 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['1', '0']
+2025-03-22 00:08:20,854 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 完成聚合
+2025-03-22 00:08:20,854 - similaritygrouping_20250322_000415 - INFO - 地面站 station_2 完成聚合
+2025-03-22 00:08:20,854 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 完成聚合
+2025-03-22 00:08:20,855 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 的聚合结果已成功发送到全局聚合器
+2025-03-22 00:08:20,855 - similaritygrouping_20250322_000415 - INFO - 地面站 station_2 的聚合结果已成功发送到全局聚合器
+2025-03-22 00:08:20,855 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 的聚合结果已成功发送到全局聚合器
+2025-03-22 00:08:20,855 - similaritygrouping_20250322_000415 - INFO - 
+=== 全局聚合阶段 ===
+2025-03-22 00:08:20,855 - similaritygrouping_20250322_000415 - INFO - 
+=== 各轨道训练后模型单独评估 ===
+2025-03-22 00:08:20,855 - similaritygrouping_20250322_000415 - WARNING - 没有找到保存的轨道模型
+2025-03-22 00:08:20,855 - similaritygrouping_20250322_000415 - INFO - 
+=== 全局聚合阶段 ===
+2025-03-22 00:08:20,855 - similaritygrouping_20250322_000415 - INFO - 完成第 4 轮全局聚合
+2025-03-22 00:08:20,867 - similaritygrouping_20250322_000415 - INFO - 更新后 satellite_1-1 参数示例: 0.5524
+2025-03-22 00:08:20,867 - similaritygrouping_20250322_000415 - INFO - 更新后 satellite_1-5 参数示例: 0.5524
+2025-03-22 00:08:20,867 - similaritygrouping_20250322_000415 - INFO - 更新后 satellite_1-11 参数示例: 0.5524
+2025-03-22 00:08:20,867 - similaritygrouping_20250322_000415 - INFO - 成功更新了 66/66 个卫星的模型
+2025-03-22 00:08:21,746 - similaritygrouping_20250322_000415 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 417339
+平均损失: 0.0437
+准确率: 98.32%
+2025-03-22 00:08:21,746 - similaritygrouping_20250322_000415 - INFO - 第 4 轮全局准确率: 98.3212
+2025-03-22 00:08:21,746 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道模型 vs 全局模型性能对比 ===
+2025-03-22 00:08:22,576 - similaritygrouping_20250322_000415 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 417339
+平均损失: 0.0437
+准确率: 98.32%
+2025-03-22 00:08:22,576 - similaritygrouping_20250322_000415 - INFO - 第 4 轮全局准确率: 98.3212
+2025-03-22 00:08:22,576 - similaritygrouping_20250322_000415 - INFO - 准确率未提升，已经 1 轮没有改进
+2025-03-22 00:08:22,576 - similaritygrouping_20250322_000415 - INFO - 
+=== 开始第 5 轮训练 === 时间：2025-03-22 00:44:19.192178
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 1 ===
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 2 ===
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 为轨道 1 轮换代表节点
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 3 ===
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 为轨道 2 轮换代表节点
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 4 ===
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 组 group_1-0 的代表节点从 satellite_1-1 轮换为 satellite_1-2
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 5 ===
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 为轨道 3 轮换代表节点
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 
+=== 处理轨道 6 ===
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 组 group_2-0 的代表节点从 satellite_2-1 轮换为 satellite_2-2
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 为轨道 4 轮换代表节点
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 组 group_1-1 的代表节点从 satellite_1-4 轮换为 satellite_1-5
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 为轨道 5 轮换代表节点
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 组 group_2-1 的代表节点从 satellite_2-4 轮换为 satellite_2-5
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 为轨道 6 轮换代表节点
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 组 group_3-0 的代表节点从 satellite_3-1 轮换为 satellite_3-2
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 组 group_4-0 的代表节点从 satellite_4-1 轮换为 satellite_4-2
+2025-03-22 00:08:22,577 - similaritygrouping_20250322_000415 - INFO - 组 group_1-2 的代表节点从 satellite_1-7 轮换为 satellite_1-8
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_5-0 的代表节点从 satellite_5-1 轮换为 satellite_5-2
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_2-2 的代表节点从 satellite_2-7 轮换为 satellite_2-8
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_6-0 的代表节点从 satellite_6-1 轮换为 satellite_6-2
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_5-1 的代表节点从 satellite_5-4 轮换为 satellite_5-5
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_3-1 的代表节点从 satellite_3-4 轮换为 satellite_3-5
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_1-3 的代表节点从 satellite_1-11 轮换为 satellite_1-10
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_2-3 的代表节点从 satellite_2-11 轮换为 satellite_2-10
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_4-1 的代表节点从 satellite_4-4 轮换为 satellite_4-5
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_6-1 的代表节点从 satellite_6-4 轮换为 satellite_6-5
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_5-2 的代表节点从 satellite_5-7 轮换为 satellite_5-8
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_3-2 的代表节点从 satellite_3-7 轮换为 satellite_3-8
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 轨道 1 选择 satellite_1-1 作为协调者
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 轨道 2 选择 satellite_2-9 作为协调者
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_4-2 的代表节点从 satellite_4-7 轮换为 satellite_4-8
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_6-2 的代表节点从 satellite_6-7 轮换为 satellite_6-8
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_5-3 的代表节点从 satellite_5-11 轮换为 satellite_5-10
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_3-3 的代表节点从 satellite_3-11 轮换为 satellite_3-10
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_4-3 的代表节点从 satellite_4-11 轮换为 satellite_4-10
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 内参数分发 ===
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 内参数分发 ===
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 组 group_6-3 的代表节点从 satellite_6-11 轮换为 satellite_6-10
+2025-03-22 00:08:22,578 - similaritygrouping_20250322_000415 - INFO - 轨道 5 选择 satellite_5-5 作为协调者
+2025-03-22 00:08:22,579 - similaritygrouping_20250322_000415 - INFO - 轨道 3 选择 satellite_3-9 作为协调者
+2025-03-22 00:08:22,579 - similaritygrouping_20250322_000415 - INFO - 轨道 4 选择 satellite_4-7 作为协调者
+2025-03-22 00:08:22,579 - similaritygrouping_20250322_000415 - INFO - 轨道 6 选择 satellite_6-3 作为协调者
+2025-03-22 00:08:22,579 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 内参数分发 ===
+2025-03-22 00:08:22,579 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 内参数分发 ===
+2025-03-22 00:08:22,580 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 内参数分发 ===
+2025-03-22 00:08:22,580 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 内参数分发 ===
+2025-03-22 00:08:22,582 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 代表节点训练 ===
+2025-03-22 00:08:22,583 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 代表节点训练 ===
+2025-03-22 00:08:22,583 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 代表节点训练 ===
+2025-03-22 00:08:22,583 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 代表节点训练 ===
+2025-03-22 00:08:22,583 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 代表节点训练 ===
+2025-03-22 00:08:22,583 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 代表节点训练 ===
+2025-03-22 00:08:37,007 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-2 完成训练: Loss=0.0191, Acc=99.53%, 能耗=4.0487Wh
+2025-03-22 00:08:37,010 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-1 接收代表节点 satellite_6-2 的模型参数
+2025-03-22 00:08:37,011 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-3 接收代表节点 satellite_6-2 的模型参数
+2025-03-22 00:08:37,025 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-2 完成训练: Loss=0.0242, Acc=99.39%, 能耗=4.0487Wh
+2025-03-22 00:08:37,026 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-1 接收代表节点 satellite_2-2 的模型参数
+2025-03-22 00:08:37,027 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-2 完成训练: Loss=0.0178, Acc=99.50%, 能耗=4.0487Wh
+2025-03-22 00:08:37,031 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-1 接收代表节点 satellite_3-2 的模型参数
+2025-03-22 00:08:37,031 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-3 接收代表节点 satellite_2-2 的模型参数
+2025-03-22 00:08:37,034 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-3 接收代表节点 satellite_3-2 的模型参数
+2025-03-22 00:08:37,062 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-2 完成训练: Loss=0.0197, Acc=99.51%, 能耗=4.0487Wh
+2025-03-22 00:08:37,066 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-1 接收代表节点 satellite_5-2 的模型参数
+2025-03-22 00:08:37,067 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-3 接收代表节点 satellite_5-2 的模型参数
+2025-03-22 00:08:37,077 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-2 完成训练: Loss=0.0163, Acc=99.53%, 能耗=4.0487Wh
+2025-03-22 00:08:37,079 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-1 接收代表节点 satellite_4-2 的模型参数
+2025-03-22 00:08:37,083 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-3 接收代表节点 satellite_4-2 的模型参数
+2025-03-22 00:08:37,086 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-2 完成训练: Loss=0.0226, Acc=99.35%, 能耗=4.0487Wh
+2025-03-22 00:08:37,089 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-1 接收代表节点 satellite_1-2 的模型参数
+2025-03-22 00:08:37,091 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-3 接收代表节点 satellite_1-2 的模型参数
+2025-03-22 00:08:51,559 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-5 完成训练: Loss=0.0178, Acc=99.54%, 能耗=4.0487Wh
+2025-03-22 00:08:51,563 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-4 接收代表节点 satellite_2-5 的模型参数
+2025-03-22 00:08:51,566 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-5 完成训练: Loss=0.0146, Acc=99.56%, 能耗=4.0487Wh
+2025-03-22 00:08:51,567 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-6 接收代表节点 satellite_2-5 的模型参数
+2025-03-22 00:08:51,571 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-4 接收代表节点 satellite_6-5 的模型参数
+2025-03-22 00:08:51,576 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-6 接收代表节点 satellite_6-5 的模型参数
+2025-03-22 00:08:51,581 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-5 完成训练: Loss=0.0175, Acc=99.55%, 能耗=4.0487Wh
+2025-03-22 00:08:51,585 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-4 接收代表节点 satellite_5-5 的模型参数
+2025-03-22 00:08:51,585 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-5 完成训练: Loss=0.0187, Acc=99.51%, 能耗=4.0487Wh
+2025-03-22 00:08:51,589 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-6 接收代表节点 satellite_5-5 的模型参数
+2025-03-22 00:08:51,589 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-4 接收代表节点 satellite_3-5 的模型参数
+2025-03-22 00:08:51,593 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-6 接收代表节点 satellite_3-5 的模型参数
+2025-03-22 00:08:51,606 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-5 完成训练: Loss=0.0215, Acc=99.51%, 能耗=4.0487Wh
+2025-03-22 00:08:51,608 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-4 接收代表节点 satellite_1-5 的模型参数
+2025-03-22 00:08:51,611 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-6 接收代表节点 satellite_1-5 的模型参数
+2025-03-22 00:08:51,636 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-5 完成训练: Loss=0.0237, Acc=99.38%, 能耗=4.0487Wh
+2025-03-22 00:08:51,637 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-4 接收代表节点 satellite_4-5 的模型参数
+2025-03-22 00:08:51,640 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-6 接收代表节点 satellite_4-5 的模型参数
+2025-03-22 00:09:05,943 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-8 完成训练: Loss=0.0214, Acc=99.46%, 能耗=4.0487Wh
+2025-03-22 00:09:05,946 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-7 接收代表节点 satellite_6-8 的模型参数
+2025-03-22 00:09:05,949 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-9 接收代表节点 satellite_6-8 的模型参数
+2025-03-22 00:09:05,986 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-8 完成训练: Loss=0.0185, Acc=99.57%, 能耗=4.0487Wh
+2025-03-22 00:09:05,988 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-7 接收代表节点 satellite_5-8 的模型参数
+2025-03-22 00:09:05,992 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-9 接收代表节点 satellite_5-8 的模型参数
+2025-03-22 00:09:05,995 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-8 完成训练: Loss=0.0180, Acc=99.44%, 能耗=4.0487Wh
+2025-03-22 00:09:05,998 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-7 接收代表节点 satellite_2-8 的模型参数
+2025-03-22 00:09:06,001 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-9 接收代表节点 satellite_2-8 的模型参数
+2025-03-22 00:09:06,006 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-8 完成训练: Loss=0.0248, Acc=99.35%, 能耗=4.0487Wh
+2025-03-22 00:09:06,009 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-7 接收代表节点 satellite_1-8 的模型参数
+2025-03-22 00:09:06,012 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-9 接收代表节点 satellite_1-8 的模型参数
+2025-03-22 00:09:06,040 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-8 完成训练: Loss=0.0193, Acc=99.50%, 能耗=4.0487Wh
+2025-03-22 00:09:06,044 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-7 接收代表节点 satellite_3-8 的模型参数
+2025-03-22 00:09:06,046 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-9 接收代表节点 satellite_3-8 的模型参数
+2025-03-22 00:09:06,090 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-8 完成训练: Loss=0.0172, Acc=99.56%, 能耗=4.0487Wh
+2025-03-22 00:09:06,094 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-7 接收代表节点 satellite_4-8 的模型参数
+2025-03-22 00:09:06,096 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-9 接收代表节点 satellite_4-8 的模型参数
+2025-03-22 00:09:20,414 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_6-10 完成训练: Loss=0.0177, Acc=99.57%, 能耗=4.0487Wh
+2025-03-22 00:09:20,418 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_6-11 接收代表节点 satellite_6-10 的模型参数
+2025-03-22 00:09:20,418 - similaritygrouping_20250322_000415 - INFO - 更新轨道 6 的模型缓存
+2025-03-22 00:09:20,428 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:09:20,429 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:09:20,429 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 6 聚合 ===
+2025-03-22 00:09:20,429 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-5 的模型更新
+2025-03-22 00:09:20,430 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-10 的模型更新
+2025-03-22 00:09:20,432 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-2 的模型更新
+2025-03-22 00:09:20,434 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_6-8 的模型更新
+2025-03-22 00:09:20,434 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:09:20,438 - similaritygrouping_20250322_000415 - INFO - 轨道 6 完成聚合
+2025-03-22 00:09:20,441 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-1 的模型参数
+2025-03-22 00:09:20,443 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-2 的模型参数
+2025-03-22 00:09:20,445 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-3 的模型参数
+2025-03-22 00:09:20,447 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-4 的模型参数
+2025-03-22 00:09:20,448 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-5 的模型参数
+2025-03-22 00:09:20,450 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-6 的模型参数
+2025-03-22 00:09:20,452 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-7 的模型参数
+2025-03-22 00:09:20,454 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-8 的模型参数
+2025-03-22 00:09:20,456 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-9 的模型参数
+2025-03-22 00:09:20,458 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-10 的模型参数
+2025-03-22 00:09:20,460 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_6-11 的模型参数
+2025-03-22 00:09:20,460 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:09:20,472 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_1-10 完成训练: Loss=0.0169, Acc=99.57%, 能耗=4.0487Wh
+2025-03-22 00:09:20,477 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_1-11 接收代表节点 satellite_1-10 的模型参数
+2025-03-22 00:09:20,477 - similaritygrouping_20250322_000415 - INFO - 更新轨道 1 的模型缓存
+2025-03-22 00:09:20,491 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_5-10 完成训练: Loss=0.0187, Acc=99.48%, 能耗=4.0487Wh
+2025-03-22 00:09:20,496 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_2-10 完成训练: Loss=0.0174, Acc=99.53%, 能耗=4.0487Wh
+2025-03-22 00:09:20,498 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_5-11 接收代表节点 satellite_5-10 的模型参数
+2025-03-22 00:09:20,498 - similaritygrouping_20250322_000415 - INFO - 更新轨道 5 的模型缓存
+2025-03-22 00:09:20,502 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_2-11 接收代表节点 satellite_2-10 的模型参数
+2025-03-22 00:09:20,502 - similaritygrouping_20250322_000415 - INFO - 更新轨道 2 的模型缓存
+2025-03-22 00:09:20,511 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:09:20,511 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:09:20,511 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 1 聚合 ===
+2025-03-22 00:09:20,512 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-10 的模型更新
+2025-03-22 00:09:20,517 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-5 的模型更新
+2025-03-22 00:09:20,521 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-2 的模型更新
+2025-03-22 00:09:20,525 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_1-8 的模型更新
+2025-03-22 00:09:20,527 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:09:20,535 - similaritygrouping_20250322_000415 - INFO - 轨道 1 完成聚合
+2025-03-22 00:09:20,535 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:09:20,536 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:09:20,536 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 5 聚合 ===
+2025-03-22 00:09:20,538 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-5 的模型更新
+2025-03-22 00:09:20,539 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:09:20,539 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:09:20,539 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 2 聚合 ===
+2025-03-22 00:09:20,539 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-1 的模型参数
+2025-03-22 00:09:20,540 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-2 的模型更新
+2025-03-22 00:09:20,543 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-8 的模型更新
+2025-03-22 00:09:20,544 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-10 的模型更新
+2025-03-22 00:09:20,544 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-2 的模型参数
+2025-03-22 00:09:20,546 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-2 的模型更新
+2025-03-22 00:09:20,548 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-5 的模型更新
+2025-03-22 00:09:20,549 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_5-10 的模型更新
+2025-03-22 00:09:20,549 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-3 的模型参数
+2025-03-22 00:09:20,550 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:09:20,552 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_2-8 的模型更新
+2025-03-22 00:09:20,553 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:09:20,553 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-4 的模型参数
+2025-03-22 00:09:20,556 - similaritygrouping_20250322_000415 - INFO - 轨道 5 完成聚合
+2025-03-22 00:09:20,557 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-5 的模型参数
+2025-03-22 00:09:20,560 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-1 的模型参数
+2025-03-22 00:09:20,561 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-6 的模型参数
+2025-03-22 00:09:20,562 - similaritygrouping_20250322_000415 - INFO - 轨道 2 完成聚合
+2025-03-22 00:09:20,564 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-2 的模型参数
+2025-03-22 00:09:20,565 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-7 的模型参数
+2025-03-22 00:09:20,566 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-1 的模型参数
+2025-03-22 00:09:20,568 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-3 的模型参数
+2025-03-22 00:09:20,571 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-8 的模型参数
+2025-03-22 00:09:20,572 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-2 的模型参数
+2025-03-22 00:09:20,573 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-4 的模型参数
+2025-03-22 00:09:20,576 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-9 的模型参数
+2025-03-22 00:09:20,577 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-3 的模型参数
+2025-03-22 00:09:20,577 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-5 的模型参数
+2025-03-22 00:09:20,581 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-10 的模型参数
+2025-03-22 00:09:20,582 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-4 的模型参数
+2025-03-22 00:09:20,582 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-6 的模型参数
+2025-03-22 00:09:20,585 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_1-11 的模型参数
+2025-03-22 00:09:20,585 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:09:20,586 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-5 的模型参数
+2025-03-22 00:09:20,587 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-7 的模型参数
+2025-03-22 00:09:20,589 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-6 的模型参数
+2025-03-22 00:09:20,589 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-8 的模型参数
+2025-03-22 00:09:20,591 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-7 的模型参数
+2025-03-22 00:09:20,591 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-9 的模型参数
+2025-03-22 00:09:20,594 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-10 的模型参数
+2025-03-22 00:09:20,595 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-8 的模型参数
+2025-03-22 00:09:20,596 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_5-11 的模型参数
+2025-03-22 00:09:20,596 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:09:20,598 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-9 的模型参数
+2025-03-22 00:09:20,599 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-10 的模型参数
+2025-03-22 00:09:20,601 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_2-11 的模型参数
+2025-03-22 00:09:20,601 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:09:20,607 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_3-10 完成训练: Loss=0.0158, Acc=99.60%, 能耗=4.0487Wh
+2025-03-22 00:09:20,608 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_3-11 接收代表节点 satellite_3-10 的模型参数
+2025-03-22 00:09:20,608 - similaritygrouping_20250322_000415 - INFO - 更新轨道 3 的模型缓存
+2025-03-22 00:09:20,613 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:09:20,613 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:09:20,613 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 3 聚合 ===
+2025-03-22 00:09:20,614 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-8 的模型更新
+2025-03-22 00:09:20,614 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-2 的模型更新
+2025-03-22 00:09:20,615 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-10 的模型更新
+2025-03-22 00:09:20,615 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_3-5 的模型更新
+2025-03-22 00:09:20,616 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:09:20,617 - similaritygrouping_20250322_000415 - INFO - 轨道 3 完成聚合
+2025-03-22 00:09:20,618 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-1 的模型参数
+2025-03-22 00:09:20,619 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-2 的模型参数
+2025-03-22 00:09:20,620 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-3 的模型参数
+2025-03-22 00:09:20,621 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-4 的模型参数
+2025-03-22 00:09:20,621 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-5 的模型参数
+2025-03-22 00:09:20,622 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-6 的模型参数
+2025-03-22 00:09:20,623 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-7 的模型参数
+2025-03-22 00:09:20,624 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-8 的模型参数
+2025-03-22 00:09:20,625 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-9 的模型参数
+2025-03-22 00:09:20,626 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-10 的模型参数
+2025-03-22 00:09:20,626 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_3-11 的模型参数
+2025-03-22 00:09:20,627 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:09:20,655 - similaritygrouping_20250322_000415 - INFO - 代表节点 satellite_4-10 完成训练: Loss=0.0163, Acc=99.56%, 能耗=4.0487Wh
+2025-03-22 00:09:20,656 - similaritygrouping_20250322_000415 - INFO - 组内成员 satellite_4-11 接收代表节点 satellite_4-10 的模型参数
+2025-03-22 00:09:20,656 - similaritygrouping_20250322_000415 - INFO - 更新轨道 4 的模型缓存
+2025-03-22 00:09:20,660 - similaritygrouping_20250322_000415 - INFO - 缓存了 66 个卫星模型
+2025-03-22 00:09:20,660 - similaritygrouping_20250322_000415 - INFO - 需要至少 2 个代表节点更新，当前有 4 个
+2025-03-22 00:09:20,660 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道 4 聚合 ===
+2025-03-22 00:09:20,660 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-2 的模型更新
+2025-03-22 00:09:20,661 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-10 的模型更新
+2025-03-22 00:09:20,661 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-5 的模型更新
+2025-03-22 00:09:20,661 - similaritygrouping_20250322_000415 - INFO - 收集代表节点 satellite_4-8 的模型更新
+2025-03-22 00:09:20,662 - similaritygrouping_20250322_000415 - INFO - 成功收集了 4 个代表节点的更新
+2025-03-22 00:09:20,663 - similaritygrouping_20250322_000415 - INFO - 轨道 4 完成聚合
+2025-03-22 00:09:20,663 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-1 的模型参数
+2025-03-22 00:09:20,664 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-2 的模型参数
+2025-03-22 00:09:20,665 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-3 的模型参数
+2025-03-22 00:09:20,665 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-4 的模型参数
+2025-03-22 00:09:20,666 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-5 的模型参数
+2025-03-22 00:09:20,667 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-6 的模型参数
+2025-03-22 00:09:20,668 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-7 的模型参数
+2025-03-22 00:09:20,668 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-8 的模型参数
+2025-03-22 00:09:20,669 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-9 的模型参数
+2025-03-22 00:09:20,670 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-10 的模型参数
+2025-03-22 00:09:20,671 - similaritygrouping_20250322_000415 - INFO - 更新卫星 satellite_4-11 的模型参数
+2025-03-22 00:09:20,671 - similaritygrouping_20250322_000415 - INFO - 成功更新了 11 个卫星的模型
+2025-03-22 00:09:20,975 - similaritygrouping_20250322_000415 - INFO - 轨道 6 的模型成功发送给地面站 station_2
+2025-03-22 00:09:21,404 - similaritygrouping_20250322_000415 - INFO - 轨道 1 的模型成功发送给地面站 station_0
+2025-03-22 00:09:21,411 - similaritygrouping_20250322_000415 - INFO - 轨道 2 的模型成功发送给地面站 station_0
+2025-03-22 00:09:21,426 - similaritygrouping_20250322_000415 - INFO - 轨道 5 的模型成功发送给地面站 station_2
+2025-03-22 00:09:21,439 - similaritygrouping_20250322_000415 - INFO - 轨道 4 的模型成功发送给地面站 station_1
+2025-03-22 00:09:21,441 - similaritygrouping_20250322_000415 - INFO - 轨道 3 的模型成功发送给地面站 station_1
+2025-03-22 00:09:21,442 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站聚合阶段 === (6 个轨道成功)
+2025-03-22 00:09:21,442 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_0 聚合开始 ===
+2025-03-22 00:09:21,442 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 负责轨道: [0, 1]
+2025-03-22 00:09:21,442 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_1 聚合开始 ===
+2025-03-22 00:09:21,442 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['0', '1']
+2025-03-22 00:09:21,442 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 负责轨道: [2, 3]
+2025-03-22 00:09:21,442 - similaritygrouping_20250322_000415 - INFO - 
+=== 地面站 station_2 聚合开始 ===
+2025-03-22 00:09:21,442 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['3', '2']
+2025-03-22 00:09:21,442 - similaritygrouping_20250322_000415 - INFO - 地面站 station_2 负责轨道: [4, 5]
+2025-03-22 00:09:21,442 - similaritygrouping_20250322_000415 - INFO - 收到的轨道更新: ['5', '4']
+2025-03-22 00:09:21,443 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 完成聚合
+2025-03-22 00:09:21,443 - similaritygrouping_20250322_000415 - INFO - 地面站 station_1 的聚合结果已成功发送到全局聚合器
+2025-03-22 00:09:21,443 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 完成聚合
+2025-03-22 00:09:21,444 - similaritygrouping_20250322_000415 - INFO - 地面站 station_0 的聚合结果已成功发送到全局聚合器
+2025-03-22 00:09:21,444 - similaritygrouping_20250322_000415 - INFO - 地面站 station_2 完成聚合
+2025-03-22 00:09:21,444 - similaritygrouping_20250322_000415 - INFO - 地面站 station_2 的聚合结果已成功发送到全局聚合器
+2025-03-22 00:09:21,444 - similaritygrouping_20250322_000415 - INFO - 
+=== 全局聚合阶段 ===
+2025-03-22 00:09:21,444 - similaritygrouping_20250322_000415 - INFO - 
+=== 各轨道训练后模型单独评估 ===
+2025-03-22 00:09:21,444 - similaritygrouping_20250322_000415 - WARNING - 没有找到保存的轨道模型
+2025-03-22 00:09:21,444 - similaritygrouping_20250322_000415 - INFO - 
+=== 全局聚合阶段 ===
+2025-03-22 00:09:21,444 - similaritygrouping_20250322_000415 - INFO - 完成第 5 轮全局聚合
+2025-03-22 00:09:21,456 - similaritygrouping_20250322_000415 - INFO - 更新后 satellite_1-1 参数示例: 0.5851
+2025-03-22 00:09:21,457 - similaritygrouping_20250322_000415 - INFO - 更新后 satellite_1-5 参数示例: 0.5851
+2025-03-22 00:09:21,457 - similaritygrouping_20250322_000415 - INFO - 更新后 satellite_1-11 参数示例: 0.5851
+2025-03-22 00:09:21,457 - similaritygrouping_20250322_000415 - INFO - 成功更新了 66/66 个卫星的模型
+2025-03-22 00:09:22,176 - similaritygrouping_20250322_000415 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 418110
+平均损失: 0.0382
+准确率: 98.50%
+2025-03-22 00:09:22,176 - similaritygrouping_20250322_000415 - INFO - 第 5 轮全局准确率: 98.5028
+2025-03-22 00:09:22,176 - similaritygrouping_20250322_000415 - INFO - 
+=== 轨道模型 vs 全局模型性能对比 ===
+2025-03-22 00:09:22,897 - similaritygrouping_20250322_000415 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 418110
+平均损失: 0.0382
+准确率: 98.50%
+2025-03-22 00:09:22,898 - similaritygrouping_20250322_000415 - INFO - 第 5 轮全局准确率: 98.5028
+2025-03-22 00:09:22,898 - similaritygrouping_20250322_000415 - INFO - 找到更好的模型！新的最佳准确率: 98.5028
+2025-03-22 00:09:22,898 - similaritygrouping_20250322_000415 - INFO - 
+=== 训练结束 ===
+2025-03-22 00:09:22,898 - similaritygrouping_20250322_000415 - INFO - 总轮次: 5
+2025-03-22 00:09:22,898 - similaritygrouping_20250322_000415 - INFO - 最佳准确率: 98.5028
+2025-03-22 00:09:23,099 - similaritygrouping_20250322_000415 - INFO - 实验完成

@@ -1,0 +1,284 @@
+2025-03-16 23:09:28,958 - similaritygrouping_20250316_230928 - INFO - 日志保存在: logs/similaritygrouping/20250316_230928
+2025-03-16 23:09:34,471 - similaritygrouping_20250316_230928 - INFO - 创建RealTrafficModel: 输入维度=21, 类别数=2
+2025-03-16 23:09:34,472 - similaritygrouping_20250316_230928 - INFO - 地面站 0 初始化完成: 负责轨道=[0, 1]
+2025-03-16 23:09:34,472 - similaritygrouping_20250316_230928 - INFO - 地面站 1 初始化完成: 负责轨道=[2, 3]
+2025-03-16 23:09:34,472 - similaritygrouping_20250316_230928 - INFO - 地面站 2 初始化完成: 负责轨道=[4, 5]
+2025-03-16 23:09:34,472 - similaritygrouping_20250316_230928 - INFO - 初始化基于数据相似度分组的联邦学习实验
+2025-03-16 23:09:34,472 - similaritygrouping_20250316_230928 - INFO - 开始准备真实网络流量数据
+2025-03-16 23:09:35,069 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-1 数据集大小: 25726
+2025-03-16 23:09:35,070 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-1 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,070 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-2 数据集大小: 25726
+2025-03-16 23:09:35,070 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-2 标签分布: 良性=68.6%, 恶意=31.4%
+2025-03-16 23:09:35,070 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-3 数据集大小: 25726
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-3 标签分布: 良性=68.2%, 恶意=31.8%
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-4 数据集大小: 25726
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-4 标签分布: 良性=68.5%, 恶意=31.5%
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-5 数据集大小: 25726
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-5 标签分布: 良性=67.9%, 恶意=32.1%
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-6 数据集大小: 25726
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-6 标签分布: 良性=68.2%, 恶意=31.8%
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-7 数据集大小: 25726
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-7 标签分布: 良性=67.6%, 恶意=32.4%
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-8 数据集大小: 25725
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-8 标签分布: 良性=67.8%, 恶意=32.2%
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-9 数据集大小: 25725
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-9 标签分布: 良性=68.5%, 恶意=31.5%
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-10 数据集大小: 25725
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-10 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-11 数据集大小: 25725
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_1-11 标签分布: 良性=67.7%, 恶意=32.3%
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-1 数据集大小: 25725
+2025-03-16 23:09:35,071 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-1 标签分布: 良性=67.6%, 恶意=32.4%
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-2 数据集大小: 25725
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-2 标签分布: 良性=67.9%, 恶意=32.1%
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-3 数据集大小: 25725
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-3 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-4 数据集大小: 25725
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-4 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-5 数据集大小: 25725
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-5 标签分布: 良性=68.2%, 恶意=31.8%
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-6 数据集大小: 25725
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-6 标签分布: 良性=67.5%, 恶意=32.5%
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-7 数据集大小: 25725
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-7 标签分布: 良性=67.9%, 恶意=32.1%
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-8 数据集大小: 25725
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-8 标签分布: 良性=68.0%, 恶意=32.0%
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-9 数据集大小: 25725
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-9 标签分布: 良性=67.9%, 恶意=32.1%
+2025-03-16 23:09:35,072 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-10 数据集大小: 25725
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-10 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-11 数据集大小: 25725
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_2-11 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-1 数据集大小: 25725
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-1 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-2 数据集大小: 25725
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-2 标签分布: 良性=68.3%, 恶意=31.7%
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-3 数据集大小: 25725
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-3 标签分布: 良性=68.2%, 恶意=31.8%
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-4 数据集大小: 25725
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-4 标签分布: 良性=67.9%, 恶意=32.1%
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-5 数据集大小: 25725
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-5 标签分布: 良性=68.3%, 恶意=31.7%
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-6 数据集大小: 25725
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-6 标签分布: 良性=68.3%, 恶意=31.7%
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-7 数据集大小: 25725
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-7 标签分布: 良性=68.5%, 恶意=31.5%
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-8 数据集大小: 25725
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-8 标签分布: 良性=68.2%, 恶意=31.8%
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-9 数据集大小: 25725
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-9 标签分布: 良性=68.2%, 恶意=31.8%
+2025-03-16 23:09:35,073 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-10 数据集大小: 25725
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-10 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-11 数据集大小: 25725
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_3-11 标签分布: 良性=67.9%, 恶意=32.1%
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-1 数据集大小: 25725
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-1 标签分布: 良性=68.3%, 恶意=31.7%
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-2 数据集大小: 25725
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-2 标签分布: 良性=68.0%, 恶意=32.0%
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-3 数据集大小: 25725
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-3 标签分布: 良性=68.0%, 恶意=32.0%
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-4 数据集大小: 25725
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-4 标签分布: 良性=67.8%, 恶意=32.2%
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-5 数据集大小: 25725
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-5 标签分布: 良性=67.6%, 恶意=32.4%
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-6 数据集大小: 25725
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-6 标签分布: 良性=67.8%, 恶意=32.2%
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-7 数据集大小: 25725
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-7 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-8 数据集大小: 25725
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-8 标签分布: 良性=68.0%, 恶意=32.0%
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-9 数据集大小: 25725
+2025-03-16 23:09:35,074 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-9 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-10 数据集大小: 25725
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-10 标签分布: 良性=68.0%, 恶意=32.0%
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-11 数据集大小: 25725
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_4-11 标签分布: 良性=68.2%, 恶意=31.8%
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-1 数据集大小: 25725
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-1 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-2 数据集大小: 25725
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-2 标签分布: 良性=68.3%, 恶意=31.7%
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-3 数据集大小: 25725
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-3 标签分布: 良性=67.8%, 恶意=32.2%
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-4 数据集大小: 25725
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-4 标签分布: 良性=68.6%, 恶意=31.4%
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-5 数据集大小: 25725
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-5 标签分布: 良性=67.5%, 恶意=32.5%
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-6 数据集大小: 25725
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-6 标签分布: 良性=68.0%, 恶意=32.0%
+2025-03-16 23:09:35,075 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-7 数据集大小: 25725
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-7 标签分布: 良性=68.0%, 恶意=32.0%
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-8 数据集大小: 25725
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-8 标签分布: 良性=67.6%, 恶意=32.4%
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-9 数据集大小: 25725
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-9 标签分布: 良性=67.7%, 恶意=32.3%
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-10 数据集大小: 25725
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-10 标签分布: 良性=68.0%, 恶意=32.0%
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-11 数据集大小: 25725
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_5-11 标签分布: 良性=68.3%, 恶意=31.7%
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-1 数据集大小: 25725
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-1 标签分布: 良性=68.2%, 恶意=31.8%
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-2 数据集大小: 25725
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-2 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-3 数据集大小: 25725
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-3 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-4 数据集大小: 25725
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-4 标签分布: 良性=68.3%, 恶意=31.7%
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-5 数据集大小: 25725
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-5 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-6 数据集大小: 25725
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-6 标签分布: 良性=67.6%, 恶意=32.4%
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-7 数据集大小: 25725
+2025-03-16 23:09:35,076 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-7 标签分布: 良性=67.8%, 恶意=32.2%
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-8 数据集大小: 25725
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-8 标签分布: 良性=67.4%, 恶意=32.6%
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-9 数据集大小: 25725
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-9 标签分布: 良性=68.1%, 恶意=31.9%
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-10 数据集大小: 25725
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-10 标签分布: 良性=67.8%, 恶意=32.2%
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-11 数据集大小: 25725
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - DEBUG - 卫星 satellite_6-11 标签分布: 良性=68.0%, 恶意=32.0%
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - INFO - 数据分配完成:
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - INFO -   总样本数: 1697857
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - INFO -   良性样本: 1155037 (68.0%)
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - INFO -   恶意样本: 542820 (32.0%)
+2025-03-16 23:09:35,077 - similaritygrouping_20250316_230928 - INFO -   卫星节点: 66
+2025-03-16 23:09:35,141 - similaritygrouping_20250316_230928 - INFO - 轨道 1 数据结构初始化完成，协调者: satellite_1-1
+2025-03-16 23:09:35,141 - similaritygrouping_20250316_230928 - INFO - 轨道 2 数据结构初始化完成，协调者: satellite_2-1
+2025-03-16 23:09:35,141 - similaritygrouping_20250316_230928 - INFO - 轨道 3 数据结构初始化完成，协调者: satellite_3-1
+2025-03-16 23:09:35,141 - similaritygrouping_20250316_230928 - INFO - 轨道 4 数据结构初始化完成，协调者: satellite_4-1
+2025-03-16 23:09:35,141 - similaritygrouping_20250316_230928 - INFO - 轨道 5 数据结构初始化完成，协调者: satellite_5-1
+2025-03-16 23:09:35,141 - similaritygrouping_20250316_230928 - INFO - 轨道 6 数据结构初始化完成，协调者: satellite_6-1
+2025-03-16 23:09:35,141 - similaritygrouping_20250316_230928 - INFO - 
+=== 开始第 1 轮训练 === 时间：2025-03-16 23:09:35.140982
+2025-03-16 23:09:35,141 - similaritygrouping_20250316_230928 - INFO - 
+=== 处理轨道 1 ===
+2025-03-16 23:09:35,141 - similaritygrouping_20250316_230928 - INFO - 
+=== 处理轨道 2 ===
+2025-03-16 23:09:35,141 - similaritygrouping_20250316_230928 - INFO - 
+=== 处理轨道 3 ===
+2025-03-16 23:09:35,142 - similaritygrouping_20250316_230928 - INFO - 
+=== 处理轨道 4 ===
+2025-03-16 23:09:35,142 - similaritygrouping_20250316_230928 - INFO - 轨道 1 执行基于位置分组
+2025-03-16 23:09:35,142 - similaritygrouping_20250316_230928 - INFO - 
+=== 处理轨道 5 ===
+2025-03-16 23:09:35,142 - similaritygrouping_20250316_230928 - INFO - 轨道 2 执行基于位置分组
+2025-03-16 23:09:35,142 - similaritygrouping_20250316_230928 - INFO - 轨道 3 执行基于位置分组
+2025-03-16 23:09:35,142 - similaritygrouping_20250316_230928 - INFO - 
+=== 处理轨道 6 ===
+2025-03-16 23:09:35,142 - similaritygrouping_20250316_230928 - INFO - 轨道 4 执行基于位置分组
+2025-03-16 23:09:35,142 - similaritygrouping_20250316_230928 - INFO - 创建组 group_1-0 包含 3 个卫星: ['satellite_1-1', 'satellite_1-2', 'satellite_1-3']
+2025-03-16 23:09:35,142 - similaritygrouping_20250316_230928 - INFO - 轨道 5 执行基于位置分组
+2025-03-16 23:09:35,143 - similaritygrouping_20250316_230928 - INFO - 创建组 group_2-0 包含 3 个卫星: ['satellite_2-1', 'satellite_2-2', 'satellite_2-3']
+2025-03-16 23:09:35,143 - similaritygrouping_20250316_230928 - INFO - 创建组 group_3-0 包含 3 个卫星: ['satellite_3-1', 'satellite_3-2', 'satellite_3-3']
+2025-03-16 23:09:35,143 - similaritygrouping_20250316_230928 - INFO - 轨道 6 执行基于位置分组
+2025-03-16 23:09:35,143 - similaritygrouping_20250316_230928 - INFO - 创建组 group_4-0 包含 3 个卫星: ['satellite_4-1', 'satellite_4-2', 'satellite_4-3']
+2025-03-16 23:09:35,143 - similaritygrouping_20250316_230928 - INFO - 创建组 group_1-1 包含 3 个卫星: ['satellite_1-4', 'satellite_1-5', 'satellite_1-6']
+2025-03-16 23:09:35,143 - similaritygrouping_20250316_230928 - INFO - 创建组 group_5-0 包含 3 个卫星: ['satellite_5-1', 'satellite_5-2', 'satellite_5-3']
+2025-03-16 23:09:35,143 - similaritygrouping_20250316_230928 - INFO - 创建组 group_2-1 包含 3 个卫星: ['satellite_2-4', 'satellite_2-5', 'satellite_2-6']
+2025-03-16 23:09:35,143 - similaritygrouping_20250316_230928 - INFO - 创建组 group_3-1 包含 3 个卫星: ['satellite_3-4', 'satellite_3-5', 'satellite_3-6']
+2025-03-16 23:09:35,143 - similaritygrouping_20250316_230928 - INFO - 创建组 group_6-0 包含 3 个卫星: ['satellite_6-1', 'satellite_6-2', 'satellite_6-3']
+2025-03-16 23:09:35,143 - similaritygrouping_20250316_230928 - INFO - 创建组 group_4-1 包含 3 个卫星: ['satellite_4-4', 'satellite_4-5', 'satellite_4-6']
+2025-03-16 23:09:35,143 - similaritygrouping_20250316_230928 - INFO - 创建组 group_1-2 包含 3 个卫星: ['satellite_1-7', 'satellite_1-8', 'satellite_1-9']
+2025-03-16 23:09:35,144 - similaritygrouping_20250316_230928 - INFO - 创建组 group_5-1 包含 3 个卫星: ['satellite_5-4', 'satellite_5-5', 'satellite_5-6']
+2025-03-16 23:09:35,144 - similaritygrouping_20250316_230928 - INFO - 创建组 group_2-2 包含 3 个卫星: ['satellite_2-7', 'satellite_2-8', 'satellite_2-9']
+2025-03-16 23:09:35,144 - similaritygrouping_20250316_230928 - INFO - 创建组 group_3-2 包含 3 个卫星: ['satellite_3-7', 'satellite_3-8', 'satellite_3-9']
+2025-03-16 23:09:35,144 - similaritygrouping_20250316_230928 - INFO - 创建组 group_6-1 包含 3 个卫星: ['satellite_6-4', 'satellite_6-5', 'satellite_6-6']
+2025-03-16 23:09:35,144 - similaritygrouping_20250316_230928 - INFO - 创建组 group_4-2 包含 3 个卫星: ['satellite_4-7', 'satellite_4-8', 'satellite_4-9']
+2025-03-16 23:09:35,144 - similaritygrouping_20250316_230928 - INFO - 创建组 group_1-3 包含 2 个卫星: ['satellite_1-10', 'satellite_1-11']
+2025-03-16 23:09:35,144 - similaritygrouping_20250316_230928 - INFO - 创建组 group_5-2 包含 3 个卫星: ['satellite_5-7', 'satellite_5-8', 'satellite_5-9']
+2025-03-16 23:09:35,144 - similaritygrouping_20250316_230928 - INFO - 创建组 group_2-3 包含 2 个卫星: ['satellite_2-10', 'satellite_2-11']
+2025-03-16 23:09:35,144 - similaritygrouping_20250316_230928 - INFO - 创建组 group_3-3 包含 2 个卫星: ['satellite_3-10', 'satellite_3-11']
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO - 创建组 group_6-2 包含 3 个卫星: ['satellite_6-7', 'satellite_6-8', 'satellite_6-9']
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO - 创建组 group_4-3 包含 2 个卫星: ['satellite_4-10', 'satellite_4-11']
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO - 轨道 1 分组结果:
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO - 创建组 group_5-3 包含 2 个卫星: ['satellite_5-10', 'satellite_5-11']
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO - 轨道 2 分组结果:
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO - 轨道 3 分组结果:
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO - 创建组 group_6-3 包含 2 个卫星: ['satellite_6-10', 'satellite_6-11']
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO - 轨道 4 分组结果:
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO -   组 group_1-0: ['satellite_1-1', 'satellite_1-2', 'satellite_1-3']
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO - 轨道 5 分组结果:
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO -   组 group_2-0: ['satellite_2-1', 'satellite_2-2', 'satellite_2-3']
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO -   组 group_3-0: ['satellite_3-1', 'satellite_3-2', 'satellite_3-3']
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO - 轨道 6 分组结果:
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO -   组 group_4-0: ['satellite_4-1', 'satellite_4-2', 'satellite_4-3']
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO -   组 group_1-1: ['satellite_1-4', 'satellite_1-5', 'satellite_1-6']
+2025-03-16 23:09:35,145 - similaritygrouping_20250316_230928 - INFO -   组 group_5-0: ['satellite_5-1', 'satellite_5-2', 'satellite_5-3']
+2025-03-16 23:09:35,146 - similaritygrouping_20250316_230928 - INFO -   组 group_2-1: ['satellite_2-4', 'satellite_2-5', 'satellite_2-6']
+2025-03-16 23:09:35,146 - similaritygrouping_20250316_230928 - INFO -   组 group_3-1: ['satellite_3-4', 'satellite_3-5', 'satellite_3-6']
+2025-03-16 23:09:35,146 - similaritygrouping_20250316_230928 - INFO -   组 group_6-0: ['satellite_6-1', 'satellite_6-2', 'satellite_6-3']
+2025-03-16 23:09:35,146 - similaritygrouping_20250316_230928 - INFO -   组 group_4-1: ['satellite_4-4', 'satellite_4-5', 'satellite_4-6']
+2025-03-16 23:09:35,146 - similaritygrouping_20250316_230928 - INFO -   组 group_1-2: ['satellite_1-7', 'satellite_1-8', 'satellite_1-9']
+2025-03-16 23:09:35,146 - similaritygrouping_20250316_230928 - INFO -   组 group_5-1: ['satellite_5-4', 'satellite_5-5', 'satellite_5-6']
+2025-03-16 23:09:35,146 - similaritygrouping_20250316_230928 - INFO -   组 group_2-2: ['satellite_2-7', 'satellite_2-8', 'satellite_2-9']
+2025-03-16 23:09:35,146 - similaritygrouping_20250316_230928 - INFO -   组 group_3-2: ['satellite_3-7', 'satellite_3-8', 'satellite_3-9']
+2025-03-16 23:09:35,146 - similaritygrouping_20250316_230928 - INFO -   组 group_5-2: ['satellite_5-7', 'satellite_5-8', 'satellite_5-9']
+2025-03-16 23:09:35,146 - similaritygrouping_20250316_230928 - INFO -   组 group_4-2: ['satellite_4-7', 'satellite_4-8', 'satellite_4-9']
+2025-03-16 23:09:35,146 - similaritygrouping_20250316_230928 - INFO -   组 group_1-3: ['satellite_1-10', 'satellite_1-11']
+2025-03-16 23:09:35,146 - similaritygrouping_20250316_230928 - INFO -   组 group_6-1: ['satellite_6-4', 'satellite_6-5', 'satellite_6-6']
+2025-03-16 23:09:35,147 - similaritygrouping_20250316_230928 - INFO -   组 group_2-3: ['satellite_2-10', 'satellite_2-11']
+2025-03-16 23:09:35,147 - similaritygrouping_20250316_230928 - INFO -   组 group_3-3: ['satellite_3-10', 'satellite_3-11']
+2025-03-16 23:09:35,147 - similaritygrouping_20250316_230928 - INFO -   组 group_5-3: ['satellite_5-10', 'satellite_5-11']
+2025-03-16 23:09:35,147 - similaritygrouping_20250316_230928 - INFO -   组 group_4-3: ['satellite_4-10', 'satellite_4-11']
+2025-03-16 23:09:35,147 - similaritygrouping_20250316_230928 - INFO - 为轨道 1 分配初始代表节点
+2025-03-16 23:09:35,147 - similaritygrouping_20250316_230928 - INFO -   组 group_6-2: ['satellite_6-7', 'satellite_6-8', 'satellite_6-9']
+2025-03-16 23:09:35,147 - similaritygrouping_20250316_230928 - INFO - 为轨道 2 分配初始代表节点
+2025-03-16 23:09:35,148 - similaritygrouping_20250316_230928 - INFO - 为轨道 3 分配初始代表节点
+2025-03-16 23:09:35,148 - similaritygrouping_20250316_230928 - INFO - 为轨道 5 分配初始代表节点
+2025-03-16 23:09:35,148 - similaritygrouping_20250316_230928 - INFO - 为轨道 4 分配初始代表节点
+2025-03-16 23:09:35,148 - similaritygrouping_20250316_230928 - INFO - 组 group_1-0 的初始代表节点: satellite_1-1
+2025-03-16 23:09:35,148 - similaritygrouping_20250316_230928 - INFO -   组 group_6-3: ['satellite_6-10', 'satellite_6-11']
+2025-03-16 23:09:35,148 - similaritygrouping_20250316_230928 - INFO - 组 group_2-0 的初始代表节点: satellite_2-1
+2025-03-16 23:09:35,148 - similaritygrouping_20250316_230928 - INFO - 组 group_3-0 的初始代表节点: satellite_3-1
+2025-03-16 23:09:35,148 - similaritygrouping_20250316_230928 - INFO - 组 group_5-0 的初始代表节点: satellite_5-1
+2025-03-16 23:09:35,148 - similaritygrouping_20250316_230928 - INFO - 组 group_4-0 的初始代表节点: satellite_4-1
+2025-03-16 23:09:35,148 - similaritygrouping_20250316_230928 - INFO - 组 group_1-1 的初始代表节点: satellite_1-4
+2025-03-16 23:09:35,148 - similaritygrouping_20250316_230928 - INFO - 为轨道 6 分配初始代表节点
+2025-03-16 23:09:35,149 - similaritygrouping_20250316_230928 - INFO - 组 group_2-1 的初始代表节点: satellite_2-4
+2025-03-16 23:09:35,149 - similaritygrouping_20250316_230928 - INFO - 组 group_3-1 的初始代表节点: satellite_3-4
+2025-03-16 23:09:35,149 - similaritygrouping_20250316_230928 - INFO - 组 group_5-1 的初始代表节点: satellite_5-4
+2025-03-16 23:09:35,149 - similaritygrouping_20250316_230928 - INFO - 组 group_4-1 的初始代表节点: satellite_4-4
+2025-03-16 23:09:35,149 - similaritygrouping_20250316_230928 - INFO - 组 group_1-2 的初始代表节点: satellite_1-7
+2025-03-16 23:09:35,149 - similaritygrouping_20250316_230928 - INFO - 组 group_6-0 的初始代表节点: satellite_6-1
+2025-03-16 23:09:35,149 - similaritygrouping_20250316_230928 - INFO - 组 group_2-2 的初始代表节点: satellite_2-7
+2025-03-16 23:09:35,149 - similaritygrouping_20250316_230928 - INFO - 组 group_3-2 的初始代表节点: satellite_3-7
+2025-03-16 23:09:35,149 - similaritygrouping_20250316_230928 - INFO - 组 group_5-2 的初始代表节点: satellite_5-7
+2025-03-16 23:09:35,149 - similaritygrouping_20250316_230928 - INFO - 组 group_4-2 的初始代表节点: satellite_4-7
+2025-03-16 23:09:35,149 - similaritygrouping_20250316_230928 - INFO - 组 group_1-3 的初始代表节点: satellite_1-10
+2025-03-16 23:09:35,150 - similaritygrouping_20250316_230928 - INFO - 组 group_6-1 的初始代表节点: satellite_6-4
+2025-03-16 23:09:35,150 - similaritygrouping_20250316_230928 - INFO - 组 group_2-3 的初始代表节点: satellite_2-10
+2025-03-16 23:09:35,150 - similaritygrouping_20250316_230928 - INFO - 组 group_3-3 的初始代表节点: satellite_3-10
+2025-03-16 23:09:35,150 - similaritygrouping_20250316_230928 - INFO - 组 group_5-3 的初始代表节点: satellite_5-10
+2025-03-16 23:09:35,150 - similaritygrouping_20250316_230928 - INFO - 组 group_4-3 的初始代表节点: satellite_4-10
+2025-03-16 23:09:35,150 - similaritygrouping_20250316_230928 - INFO - 轨道 1 选择 satellite_1-11 作为协调者
+2025-03-16 23:09:35,151 - similaritygrouping_20250316_230928 - INFO - 组 group_6-2 的初始代表节点: satellite_6-7
+2025-03-16 23:09:35,151 - similaritygrouping_20250316_230928 - INFO - 轨道 2 选择 satellite_2-9 作为协调者
+2025-03-16 23:09:35,151 - similaritygrouping_20250316_230928 - INFO - 轨道 3 选择 satellite_3-8 作为协调者
+2025-03-16 23:09:35,152 - similaritygrouping_20250316_230928 - INFO - 轨道 5 选择 satellite_5-4 作为协调者
+2025-03-16 23:09:35,152 - similaritygrouping_20250316_230928 - INFO - 轨道 4 选择 satellite_4-6 作为协调者
+2025-03-16 23:09:35,152 - similaritygrouping_20250316_230928 - INFO - 
+=== 轨道 1 内参数分发 ===
+2025-03-16 23:09:35,152 - similaritygrouping_20250316_230928 - INFO - 组 group_6-3 的初始代表节点: satellite_6-10
+2025-03-16 23:09:35,153 - similaritygrouping_20250316_230928 - INFO - 轨道 6 选择 satellite_6-2 作为协调者
+2025-03-16 23:09:35,154 - similaritygrouping_20250316_230928 - INFO - 
+=== 轨道 2 内参数分发 ===
+2025-03-16 23:09:35,154 - similaritygrouping_20250316_230928 - INFO - 
+=== 轨道 4 内参数分发 ===
+2025-03-16 23:09:35,154 - similaritygrouping_20250316_230928 - INFO - 
+=== 轨道 5 内参数分发 ===
+2025-03-16 23:09:35,154 - similaritygrouping_20250316_230928 - INFO - 
+=== 轨道 3 内参数分发 ===
+2025-03-16 23:09:35,154 - similaritygrouping_20250316_230928 - INFO - 
+=== 轨道 6 内参数分发 ===
+2025-03-16 23:09:35,160 - similaritygrouping_20250316_230928 - INFO - 
+=== 轨道 5 代表节点训练 ===
+2025-03-16 23:09:35,160 - similaritygrouping_20250316_230928 - INFO - 
+=== 轨道 2 代表节点训练 ===
+2025-03-16 23:09:35,161 - similaritygrouping_20250316_230928 - INFO - 
+=== 轨道 3 代表节点训练 ===
+2025-03-16 23:09:35,161 - similaritygrouping_20250316_230928 - INFO - 
+=== 轨道 1 代表节点训练 ===
+2025-03-16 23:09:35,162 - similaritygrouping_20250316_230928 - INFO - 
+=== 轨道 4 代表节点训练 ===
+2025-03-16 23:09:35,162 - similaritygrouping_20250316_230928 - INFO - 
+=== 轨道 6 代表节点训练 ===

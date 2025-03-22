@@ -9,7 +9,7 @@ import torch.nn.functional as F
 from typing import Dict, List, Tuple, Optional
 
 class SimilarityGroupingExperiment(BaselineExperiment):
-    def __init__(self, config_path: str = "configs/grouping_config.yaml"):
+    def __init__(self, config_path: str = "configs/similarity_grouping_config.yaml"):
         """
         初始化基于数据相似度分组的联邦学习实验
         Args:
@@ -33,6 +33,9 @@ class SimilarityGroupingExperiment(BaselineExperiment):
         
         # 存储轨道模型缓存，用于相似度计算
         self.satellite_model_cache = {}
+        
+        # 禁用早停 - 添加以下几行代码
+        self.disable_early_stopping = True  # 添加一个标志，表示禁用早停
         
         self.logger.info("初始化基于数据相似度分组的联邦学习实验")
     
@@ -1141,6 +1144,10 @@ class SimilarityGroupingExperiment(BaselineExperiment):
                 # 如果不是第一轮，且上一轮有代表节点，则轮换代表节点
                 if self.current_round > 0 and self.orbit_representatives.get(orbit_num):
                     self.rotate_representatives(orbit_num, groups)
+            # 如果配置了最大卫星数量限制
+            if 'max_satellites_per_orbit' in self.config.get('limit', {}):
+                max_sats = self.config['limit']['max_satellites_per_orbit']
+                groups = self.limit_satellite_groups(orbit_num, groups, max_sats)
             
             # 2. 等待并选择可见卫星作为协调者
             coordinator = None
@@ -1356,6 +1363,105 @@ class SimilarityGroupingExperiment(BaselineExperiment):
             import traceback
             self.logger.error(traceback.format_exc())
             return False, orbit_stats
+
+    """
+    为相似度分组实验添加卫星数量限制功能
+    在grouping_experiment.py中添加此功能
+    """
+
+    def limit_satellite_groups(self, orbit_id: int, groups: dict, max_satellites: int = 8) -> dict:
+        """
+        限制每个轨道使用的卫星数量以满足总体限制
+        
+        Args:
+            orbit_id: 轨道ID
+            groups: 原始分组字典 {group_id: [satellite_ids]}
+            max_satellites: 限制的最大卫星数量
+            
+        Returns:
+            限制后的分组字典
+        """
+        self.logger.info(f"轨道 {orbit_id}: 限制卫星数量，目标数量: {max_satellites}")
+        
+        # 获取当前轨道数量
+        current_satellites = sum(len(members) for members in groups.values())
+        self.logger.info(f"轨道 {orbit_id}: 当前卫星数量: {current_satellites}")
+        
+        if current_satellites <= max_satellites:
+            self.logger.info(f"轨道 {orbit_id}: 无需限制，当前卫星数 {current_satellites} <= 限制 {max_satellites}")
+            return groups
+            
+        # 计算需要减少的卫星数量
+        reduction_needed = current_satellites - max_satellites
+        self.logger.info(f"轨道 {orbit_id}: 需要减少 {reduction_needed} 颗卫星")
+        
+        # 策略：优先保留代表节点，然后根据相似度保留最相似的卫星
+        limited_groups = {}
+        
+        # 1. 首先确保每个组至少保留代表节点
+        for group_id, members in groups.items():
+            representative = self.orbit_representatives[orbit_id].get(group_id)
+            if representative and representative in members:
+                limited_groups[group_id] = [representative]
+            elif members:
+                # 如果没有代表节点或代表节点不在成员中，选择第一个成员作为代表
+                limited_groups[group_id] = [members[0]]
+        
+        # 计算已经使用的卫星数量
+        used_satellites = sum(len(members) for members in limited_groups.values())
+        
+        # 2. 按相似度排序，分配剩余的卫星配额
+        remaining_slots = max_satellites - used_satellites
+        
+        if remaining_slots > 0:
+            # 收集所有已分配代表节点的组和剩余待分配的卫星
+            representatives = {}
+            remaining_satellites = []
+            
+            for group_id, members in groups.items():
+                rep = limited_groups[group_id][0]
+                representatives[group_id] = rep
+                
+                # 将除代表节点外的成员添加到待分配列表
+                for sat in members:
+                    if sat != rep:
+                        remaining_satellites.append((group_id, sat))
+            
+            # 计算每个待分配卫星与其组代表的相似度
+            satellite_similarities = []
+            for group_id, sat in remaining_satellites:
+                rep = representatives[group_id]
+                
+                # 如果可能，计算与代表节点的相似度
+                if sat in self.satellite_model_cache and rep in self.satellite_model_cache:
+                    similarity = self.compute_similarity(
+                        self.satellite_model_cache[sat],
+                        self.satellite_model_cache[rep]
+                    )
+                else:
+                    # 如果无法计算相似度，使用默认值
+                    similarity = 0.5
+                    
+                satellite_similarities.append((group_id, sat, similarity))
+            
+            # 按相似度降序排序
+            satellite_similarities.sort(key=lambda x: x[2], reverse=True)
+            
+            # 分配剩余的卫星配额
+            for i in range(min(remaining_slots, len(satellite_similarities))):
+                group_id, sat, _ = satellite_similarities[i]
+                limited_groups[group_id].append(sat)
+                
+        # 计算最终卫星数
+        final_satellite_count = sum(len(members) for members in limited_groups.values())
+        self.logger.info(f"轨道 {orbit_id}: 限制后卫星数量: {final_satellite_count}")
+        
+        # 记录每个组的卫星数量
+        for group_id, members in limited_groups.items():
+            self.logger.info(f"轨道 {orbit_id}: 组 {group_id} 成员数: {len(members)}")
+        
+        return limited_groups
+
     
     def train(self):
         """
@@ -1379,9 +1485,17 @@ class SimilarityGroupingExperiment(BaselineExperiment):
         self.current_round = 0
         best_accuracy = 0
         rounds_without_improvement = 0
-        max_rounds_without_improvement = 3  # 连续3轮没有提升就停止
-        min_rounds = 10  # 最少训练轮数
-        accuracy_threshold = 95.0  # 提高准确率阈值到95%
+        
+        # 如果禁用了早停，则修改相关参数 
+        if hasattr(self, 'disable_early_stopping') and self.disable_early_stopping: 
+            max_rounds_without_improvement = float('inf') # 设置为无穷大 
+            min_rounds = self.config['fl']['num_rounds'] # 最小轮数设为总轮数 
+            accuracy_threshold = 100.0 # 设置一个不可能达到的准确率阈值 
+        else: 
+            max_rounds_without_improvement = 3 # 默认值 
+            min_rounds = 5 # 默认值 
+            accuracy_threshold = 95.0 # 默认值
+
 
         # 初始化所有轨道的分组和代表节点
         # 注意：轨道ID实际是从1开始的
@@ -1490,14 +1604,14 @@ class SimilarityGroupingExperiment(BaselineExperiment):
                             rounds_without_improvement += 1
                             self.logger.info(f"准确率未提升，已经 {rounds_without_improvement} 轮没有改进")
 
-                        # 检查是否满足停止条件
-                        if round_num + 1 >= min_rounds:  # 已达到最小轮数
-                            if accuracy >= accuracy_threshold:
-                                self.logger.info(f"达到目标准确率 {accuracy:.4f}，停止训练")
-                                break
-                            elif rounds_without_improvement >= max_rounds_without_improvement:
-                                self.logger.info(f"连续 {max_rounds_without_improvement} 轮准确率未提升，停止训练")
-                                break
+                        # # 检查是否满足停止条件
+                        # if round_num + 1 >= min_rounds:  # 已达到最小轮数
+                        #     if accuracy >= accuracy_threshold:
+                        #         self.logger.info(f"达到目标准确率 {accuracy:.4f}，停止训练")
+                        #         break
+                        #     elif rounds_without_improvement >= max_rounds_without_improvement:
+                        #         self.logger.info(f"连续 {max_rounds_without_improvement} 轮准确率未提升，停止训练")
+                        #         break
                     else:
                         self.logger.warning("全局聚合失败")
                 else:

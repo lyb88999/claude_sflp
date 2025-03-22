@@ -40,6 +40,16 @@ class FedAvgExperiment(BaselineExperiment):
                 continue
                 
             self.logger.info(f"当前有 {len(visible_satellites)} 颗卫星可见")
+
+            participation_rate = self.config['fedavg']['participation_rate']
+            num_to_select = max(2, int(len(visible_satellites) * participation_rate))
+            # num_to_select = min(num_to_select, len(visible_satellites))
+
+            import random
+            participating_satellites = random.sample(visible_satellites, num_to_select)
+
+            self.logger.info(f"选择了 {len(participating_satellites)}/{len(visible_satellites)} 颗卫星 " +
+                            f"(参与率: {participation_rate})")
             
             # 2. 分发全局模型参数给可见卫星
             global_model = self.model.state_dict()

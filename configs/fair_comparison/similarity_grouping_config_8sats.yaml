@@ -1,0 +1,70 @@
+# configs/similarity_grouping_config_limited.yaml
+
+# 网络配置
+network:
+  tle_file: "configs/Iridium_TLEs.txt"
+  max_distance: 4000.0  # km
+
+# 能源配置
+energy:
+  config_file: "configs/energy_config.yaml"
+  
+# 联邦学习配置
+fl:
+  num_satellites: 66  # 总卫星数量
+  satellites_per_orbit: 11  # 每轨道卫星数
+  num_orbits: 6  # 轨道数量
+  num_rounds: 20
+  round_interval: 600  # 每轮训练间隔(秒)
+  
+# 数据配置
+data:
+  dataset: "real_traffic"  # 使用真实网络流量数据
+  csv_path: "/Users/yuboli/Downloads/merged_traffic_data_20250305_111338.csv"
+  test_size: 0.2  # 测试集比例
+  iid: false  # 独立同分布
+  alpha: 0.6  # Dirichlet参数(较小值使分布更不均匀)
+
+# 模型配置
+model:
+  type: "traffic_classifier"
+  hidden_dim: 64
+  batch_size: 32
+  learning_rate: 0.01
+  momentum: 0.9
+
+# 客户端配置
+client:
+  batch_size: 32
+  local_epochs: 5
+  learning_rate: 0.01
+  momentum: 0.9
+  compute_capacity: 1.0
+  storage_capacity: 1000.0
+  
+# 聚合配置
+aggregation:
+  min_updates: 2
+  max_staleness: 300.0
+  timeout: 600.0
+  weighted_average: true
+
+# 地面站配置
+ground_station:
+  bandwidth_limit: 1000.0  # Mbps
+  storage_limit: 10000.0   # MB
+  priority_levels: 3
+  batch_size: 10
+  aggregation_interval: 60.0
+
+# 数据相似度分组配置
+group:
+  max_distance: 2           # 最大距离阈值，表示每个源节点考虑左右多少个相邻节点
+  max_group_size: 2         # 每组最大卫星数量 (降低以限制卫星数量)
+  similarity_threshold: 0.7  # 相似度阈值
+  max_group_size_threshold: 2  # 触发相似度阈值调整的组大小
+  similarity_refresh_rounds: 5  # 每多少轮重新计算分组
+
+# 卫星数量限制配置 (新增)
+limit:
+  max_satellites_per_orbit: 2  # 每个轨道最多使用2颗卫星，总共约8颗(6个轨道)
