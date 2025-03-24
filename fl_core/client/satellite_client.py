@@ -295,6 +295,8 @@ class SatelliteClient:
         return model_diff, self.train_stats[-1]
         
     def apply_model_update(self, model_update: Dict[str, torch.Tensor]):
+        model_size_mb = sum(p.nelement() * p.element_size() for p in model_update.values()) / (1024 * 1024)
+        energy_consumption = 0.01 * model_size_mb  # 例如每MB消耗0.001Wh
         """应用模型更新"""
         with torch.no_grad():
             # 创建参数的深度复制
@@ -327,6 +329,9 @@ class SatelliteClient:
             # 添加调试信息
             first_param = next(iter(new_state_dict.values()))
             print(f"卫星 {self.client_id} 应用更新: 第一个参数示例值 {first_param.flatten()[0].item():.4f}")
+            self.energy_manager.consume_energy(self.client_id, energy_consumption)
+
+
                     
     def evaluate(self, test_data: Dataset) -> Dict:
         """
@@ -388,17 +393,31 @@ class SatelliteClient:
         
         return total_energy
         
+    # def _estimate_batch_energy(self) -> float:
+    #     """估算处理一个批次数据的能量消耗"""
+    #     # 基础计算能耗
+    #     base_computation_energy = 0.001  # Wh
+        
+    #     # 通信能耗（基于模型大小）
+    #     model_size_mb = sum(p.nelement() * p.element_size() for p in self.model.parameters()) / (1024 * 1024)
+    #     communication_energy = 0.0005 * model_size_mb  # Wh
+        
+    #     return base_computation_energy + communication_energy
+        
+
     def _estimate_batch_energy(self) -> float:
-        """估算处理一个批次数据的能量消耗"""
-        # 基础计算能耗
-        base_computation_energy = 0.001  # Wh
+        base_computation_energy = 0.001
         
-        # 通信能耗（基于模型大小）
-        model_size_mb = sum(p.nelement() * p.element_size() for p in self.model.parameters()) / (1024 * 1024)
-        communication_energy = 0.0005 * model_size_mb  # Wh
+        # 使用客户端ID生成变化因子
+        # 使用客户端ID生成变化因子
+        client_id_num = int(self.client_id.split('_')[1].split('-')[1]) if '-' in self.client_id else 0
+        variation_factor = 0.8 + 0.4 * (client_id_num % 11) / 11
         
-        return base_computation_energy + communication_energy
+        model_size_mb = sum(p.numel() * p.element_size() for p in self.model.parameters()) / (1024 * 1024)
+        communication_energy = 0.0005 * model_size_mb
         
+        return (base_computation_energy * variation_factor) + communication_energy
+
     def _should_interrupt_training(self) -> bool:
         """检查是否需要中断训练"""
         # 检查网络状态

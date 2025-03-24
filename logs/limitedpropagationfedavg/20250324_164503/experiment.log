@@ -1,0 +1,1066 @@
+2025-03-24 16:45:03,835 - limitedpropagationfedavg_20250324_164503 - INFO - 日志保存在: logs/limitedpropagationfedavg/20250324_164503
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - 创建RealTrafficModel: 输入维度=21, 类别数=2
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - 地面站 0 初始化完成: 负责轨道=[0, 1]
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - 地面站 1 初始化完成: 负责轨道=[2, 3]
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - 地面站 2 初始化完成: 负责轨道=[4, 5]
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - 初始化有限传播FedAvg实验
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - - 传播跳数: 3
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - - 最大卫星数: 22
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - - 轨道内链接: True
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - - 跨轨道链接: True
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - 初始化有限传播FedAvg实验，传播跳数: 3，最大卫星数: 22
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - 开始基线实验
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - 开始准备真实网络流量数据
+2025-03-24 16:45:07,356 - limitedpropagationfedavg_20250324_164503 - INFO - 启用区域相似性
+2025-03-24 16:45:07,592 - limitedpropagationfedavg_20250324_164503 - INFO - 数据分配完成:
+2025-03-24 16:45:07,592 - limitedpropagationfedavg_20250324_164503 - INFO -   总样本数: 2469577
+2025-03-24 16:45:07,592 - limitedpropagationfedavg_20250324_164503 - INFO -   良性样本: 1682567 (68.1%)
+2025-03-24 16:45:07,592 - limitedpropagationfedavg_20250324_164503 - INFO -   恶意样本: 787010 (31.9%)
+2025-03-24 16:45:07,592 - limitedpropagationfedavg_20250324_164503 - INFO -   卫星节点: 66
+2025-03-24 16:45:07,621 - limitedpropagationfedavg_20250324_164503 - INFO - 构建卫星间通信网络...
+2025-03-24 16:45:07,621 - limitedpropagationfedavg_20250324_164503 - INFO - 卫星网络构建完成: 66 个节点, 平均 19.00 个邻居
+2025-03-24 16:45:07,621 - limitedpropagationfedavg_20250324_164503 - INFO - 卫星 satellite_1-1 的邻居: ['satellite_1-2', 'satellite_1-11', 'satellite_1-3', 'satellite_1-10', 'satellite_2-1', 'satellite_2-11', 'satellite_2-2', 'satellite_3-1', 'satellite_3-11', 'satellite_3-2', 'satellite_4-1', 'satellite_4-11', 'satellite_4-2', 'satellite_5-1', 'satellite_5-11', 'satellite_5-2', 'satellite_6-1', 'satellite_6-11', 'satellite_6-2']
+2025-03-24 16:45:07,621 - limitedpropagationfedavg_20250324_164503 - INFO - 卫星 satellite_1-2 的邻居: ['satellite_1-3', 'satellite_1-1', 'satellite_1-4', 'satellite_1-11', 'satellite_2-2', 'satellite_2-1', 'satellite_2-3', 'satellite_3-2', 'satellite_3-1', 'satellite_3-3', 'satellite_4-2', 'satellite_4-1', 'satellite_4-3', 'satellite_5-2', 'satellite_5-1', 'satellite_5-3', 'satellite_6-2', 'satellite_6-1', 'satellite_6-3']
+2025-03-24 16:45:07,621 - limitedpropagationfedavg_20250324_164503 - INFO - 卫星 satellite_1-3 的邻居: ['satellite_1-4', 'satellite_1-2', 'satellite_1-5', 'satellite_1-1', 'satellite_2-3', 'satellite_2-2', 'satellite_2-4', 'satellite_3-3', 'satellite_3-2', 'satellite_3-4', 'satellite_4-3', 'satellite_4-2', 'satellite_4-4', 'satellite_5-3', 'satellite_5-2', 'satellite_5-4', 'satellite_6-3', 'satellite_6-2', 'satellite_6-4']
+2025-03-24 16:45:07,621 - limitedpropagationfedavg_20250324_164503 - INFO - 已构建卫星网络拓扑结构，卫星间邻居关系已建立
+2025-03-24 16:45:07,621 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 1 轮训练 === 时间：2025-03-24 16:45:07.621822
+2025-03-24 16:45:07,623 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:45:07.621822 可见卫星数: 9
+2025-03-24 16:45:07,623 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 9 颗卫星可见
+2025-03-24 16:45:07,623 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,624 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-3
+2025-03-24 16:45:07,624 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:07,624 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-5
+2025-03-24 16:45:07,624 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 16:45:07,624 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-9
+2025-03-24 16:45:07,625 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 16:45:07,625 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:45:07,625 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 16:45:07,625 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:45:07,625 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 16:45:07,625 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:45:07,625 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:45:07,626 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 16:45:07,626 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 16:45:07,626 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:45:07,626 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:45:07,626 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:45:07,626 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:45:07,626 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-4
+2025-03-24 16:45:07,627 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:45:07,627 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-5
+2025-03-24 16:45:07,627 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 16:45:07,629 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,631 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,632 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,632 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,632 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,633 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,633 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,634 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,635 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,635 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,635 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,636 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,636 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,637 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,639 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,639 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,640 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,641 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,641 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,642 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,642 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,642 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,644 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:51:07.621822 可见卫星数: 9
+2025-03-24 16:45:07,646 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:52:07.621822 可见卫星数: 8
+2025-03-24 16:45:07,647 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:53:07.621822 可见卫星数: 8
+2025-03-24 16:45:07,649 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:54:07.621822 可见卫星数: 8
+2025-03-24 16:45:07,650 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:55:07.621822 可见卫星数: 8
+2025-03-24 16:45:07,652 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:56:07.621822 可见卫星数: 8
+2025-03-24 16:45:07,654 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:57:07.621822 可见卫星数: 8
+2025-03-24 16:45:07,656 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:58:07.621822 可见卫星数: 9
+2025-03-24 16:45:07,657 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:59:07.621822 可见卫星数: 8
+2025-03-24 16:45:07,659 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:00:07.621822 可见卫星数: 9
+2025-03-24 16:45:07,660 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:01:07.621822 可见卫星数: 8
+2025-03-24 16:45:07,660 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:07,660 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:07,660 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 2 轮训练 === 时间：2025-03-24 16:45:07.660952
+2025-03-24 16:45:07,662 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:45:07.660952 可见卫星数: 9
+2025-03-24 16:45:07,662 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 9 颗卫星可见
+2025-03-24 16:45:07,662 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,662 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-3
+2025-03-24 16:45:07,663 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:07,663 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-5
+2025-03-24 16:45:07,663 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 16:45:07,663 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-9
+2025-03-24 16:45:07,663 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 16:45:07,663 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:45:07,663 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 16:45:07,664 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:45:07,664 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 16:45:07,664 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:45:07,664 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:45:07,664 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 16:45:07,664 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 16:45:07,664 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:45:07,665 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:45:07,665 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:45:07,665 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:45:07,665 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-4
+2025-03-24 16:45:07,665 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:45:07,665 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-5
+2025-03-24 16:45:07,665 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 16:45:07,667 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,669 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,669 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,669 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,671 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,671 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,672 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,673 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,673 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,673 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,674 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,675 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,676 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,676 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,676 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,678 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,680 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,680 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,680 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,681 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,681 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,681 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,683 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:51:07.660952 可见卫星数: 9
+2025-03-24 16:45:07,684 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:52:07.660952 可见卫星数: 8
+2025-03-24 16:45:07,686 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:53:07.660952 可见卫星数: 8
+2025-03-24 16:45:07,687 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:54:07.660952 可见卫星数: 8
+2025-03-24 16:45:07,689 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:55:07.660952 可见卫星数: 8
+2025-03-24 16:45:07,690 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:56:07.660952 可见卫星数: 8
+2025-03-24 16:45:07,692 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:57:07.660952 可见卫星数: 8
+2025-03-24 16:45:07,694 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:58:07.660952 可见卫星数: 9
+2025-03-24 16:45:07,695 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:59:07.660952 可见卫星数: 8
+2025-03-24 16:45:07,697 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:00:07.660952 可见卫星数: 9
+2025-03-24 16:45:07,698 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:01:07.660952 可见卫星数: 8
+2025-03-24 16:45:07,698 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:07,698 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:07,698 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 3 轮训练 === 时间：2025-03-24 16:55:07.698714
+2025-03-24 16:45:07,700 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 16:55:07.698714 可见卫星数: 8
+2025-03-24 16:45:07,700 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:07,700 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,700 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 16:45:07,701 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-8
+2025-03-24 16:45:07,701 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:07,701 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 16:45:07,701 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:45:07,701 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-5
+2025-03-24 16:45:07,701 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 16:45:07,701 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 16:45:07,702 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 16:45:07,702 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 16:45:07,702 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 16:45:07,702 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:45:07,702 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 16:45:07,702 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:45:07,702 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 16:45:07,703 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:45:07,703 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 16:45:07,703 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 16:45:07,703 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:45:07,704 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-5
+2025-03-24 16:45:07,704 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 16:45:07,704 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:45:07,707 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,708 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,708 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,708 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,709 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,709 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,710 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,711 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,711 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,712 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,712 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,713 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,713 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,714 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,714 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,715 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,716 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,716 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,717 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,717 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,717 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,718 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,719 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:01:07.698714 可见卫星数: 8
+2025-03-24 16:45:07,719 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:07,719 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:07,719 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 4 轮训练 === 时间：2025-03-24 17:05:07.719983
+2025-03-24 16:45:07,721 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:05:07.719983 可见卫星数: 8
+2025-03-24 16:45:07,721 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:07,721 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,721 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-3
+2025-03-24 16:45:07,721 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:07,722 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 16:45:07,722 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 16:45:07,722 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:45:07,722 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:45:07,722 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:07,722 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 16:45:07,722 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 16:45:07,723 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:45:07,723 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:45:07,723 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:45:07,723 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:45:07,723 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-2
+2025-03-24 16:45:07,723 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-9
+2025-03-24 16:45:07,723 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:45:07,724 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:45:07,724 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:45:07,724 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:45:07,724 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:45:07,724 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 16:45:07,724 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-7
+2025-03-24 16:45:07,725 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,727 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,729 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,729 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,732 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,733 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,734 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,734 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,735 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,735 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,736 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,737 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,738 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,738 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,739 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,739 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,740 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,740 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,741 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,741 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,741 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,742 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,743 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:11:07.719983 可见卫星数: 9
+2025-03-24 16:45:07,743 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:07,743 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:07,743 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 5 轮训练 === 时间：2025-03-24 17:15:07.743854
+2025-03-24 16:45:07,745 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:15:07.743854 可见卫星数: 8
+2025-03-24 16:45:07,745 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:07,745 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,745 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 16:45:07,746 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-8
+2025-03-24 16:45:07,746 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-4
+2025-03-24 16:45:07,746 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-5
+2025-03-24 16:45:07,746 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 16:45:07,747 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:45:07,747 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-5
+2025-03-24 16:45:07,747 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 16:45:07,747 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:07,747 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:45:07,747 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 16:45:07,747 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-6
+2025-03-24 16:45:07,747 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:45:07,748 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 16:45:07,748 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-8
+2025-03-24 16:45:07,748 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 16:45:07,748 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:45:07,748 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:45:07,748 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 16:45:07,748 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:45:07,749 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 16:45:07,749 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-7
+2025-03-24 16:45:07,751 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,752 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,753 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,753 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,754 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,756 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,756 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,757 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,758 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,759 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,760 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,760 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,761 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,762 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,763 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,763 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,763 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,764 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,765 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,765 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,765 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,765 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,767 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:21:07.743854 可见卫星数: 8
+2025-03-24 16:45:07,767 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:07,767 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:07,767 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 6 轮训练 === 时间：2025-03-24 17:25:07.767634
+2025-03-24 16:45:07,769 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:25:07.767634 可见卫星数: 8
+2025-03-24 16:45:07,769 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:07,769 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,769 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-5
+2025-03-24 16:45:07,769 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-7
+2025-03-24 16:45:07,769 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:07,770 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-9
+2025-03-24 16:45:07,770 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:45:07,770 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:45:07,770 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:45:07,770 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:07,770 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-10
+2025-03-24 16:45:07,770 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:45:07,770 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 16:45:07,771 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:45:07,771 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 16:45:07,771 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:45:07,771 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:45:07,771 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:45:07,771 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:45:07,771 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:45:07,772 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:45:07,772 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:45:07,772 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:45:07,772 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 16:45:07,774 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,774 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,779 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,782 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,782 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,784 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,785 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,786 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,786 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,787 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,787 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,788 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,790 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,792 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,793 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,793 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,794 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,794 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,796 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,796 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,797 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,797 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,799 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:31:07.767634 可见卫星数: 8
+2025-03-24 16:45:07,799 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:07,799 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:07,799 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 7 轮训练 === 时间：2025-03-24 17:35:07.799515
+2025-03-24 16:45:07,801 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:35:07.799515 可见卫星数: 8
+2025-03-24 16:45:07,801 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:07,801 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,801 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-4
+2025-03-24 16:45:07,801 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:07,801 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-8
+2025-03-24 16:45:07,801 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:45:07,802 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:45:07,802 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:45:07,802 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:07,802 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-10
+2025-03-24 16:45:07,803 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:45:07,803 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 16:45:07,803 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 16:45:07,803 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 16:45:07,803 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:45:07,803 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 16:45:07,803 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:45:07,804 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:45:07,804 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:45:07,804 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-11
+2025-03-24 16:45:07,804 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:45:07,804 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:45:07,804 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:45:07,804 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:45:07,811 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,811 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,812 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,812 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,814 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,816 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,817 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,818 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,818 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,820 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,821 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,822 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,822 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,823 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,824 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,824 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,829 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,832 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,832 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,834 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,834 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,834 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,836 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:41:07.799515 可见卫星数: 8
+2025-03-24 16:45:07,836 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:07,837 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:07,837 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 8 轮训练 === 时间：2025-03-24 17:45:07.837021
+2025-03-24 16:45:07,838 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:45:07.837021 可见卫星数: 8
+2025-03-24 16:45:07,838 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:07,838 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,839 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:07,839 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-3
+2025-03-24 16:45:07,839 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:45:07,839 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:45:07,839 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:45:07,839 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:07,840 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-5
+2025-03-24 16:45:07,840 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 16:45:07,840 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 16:45:07,840 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:45:07,840 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 16:45:07,840 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:45:07,840 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 16:45:07,840 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:45:07,841 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:45:07,841 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:45:07,841 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:45:07,841 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:45:07,841 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:45:07,841 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:45:07,841 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:45:07,842 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 16:45:07,843 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,850 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,850 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,851 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,852 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,854 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,855 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,855 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,857 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,857 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,858 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,859 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,860 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,860 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,862 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,863 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,865 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,865 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,866 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,866 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,867 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,867 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,869 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:51:07.837021 可见卫星数: 9
+2025-03-24 16:45:07,869 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:07,869 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:07,869 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 9 轮训练 === 时间：2025-03-24 17:55:07.869808
+2025-03-24 16:45:07,871 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 17:55:07.869808 可见卫星数: 8
+2025-03-24 16:45:07,871 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:07,871 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,871 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 16:45:07,871 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:45:07,871 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-9
+2025-03-24 16:45:07,872 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 16:45:07,872 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:45:07,872 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:45:07,872 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 16:45:07,872 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:07,872 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-10
+2025-03-24 16:45:07,872 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:45:07,873 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 16:45:07,873 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 16:45:07,873 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:45:07,873 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 16:45:07,873 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-2
+2025-03-24 16:45:07,873 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:45:07,873 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-9
+2025-03-24 16:45:07,873 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:45:07,874 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:45:07,874 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:45:07,874 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 16:45:07,874 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:45:07,876 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,880 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,880 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,880 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,881 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,881 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,882 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,886 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,887 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,888 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,888 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,888 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,889 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,889 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,894 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,894 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,897 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,898 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,898 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,899 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,899 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,899 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,902 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 18:01:07.869808 可见卫星数: 8
+2025-03-24 16:45:07,902 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:07,902 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:07,902 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 10 轮训练 === 时间：2025-03-24 18:05:07.902661
+2025-03-24 16:45:07,904 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 18:05:07.902661 可见卫星数: 8
+2025-03-24 16:45:07,904 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:07,904 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,904 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-1
+2025-03-24 16:45:07,904 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:45:07,904 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-9
+2025-03-24 16:45:07,904 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 16:45:07,905 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:45:07,905 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:45:07,905 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 16:45:07,905 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:07,905 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-10
+2025-03-24 16:45:07,905 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:45:07,905 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 16:45:07,906 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 16:45:07,906 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 16:45:07,906 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:45:07,906 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 16:45:07,906 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:45:07,906 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-9
+2025-03-24 16:45:07,906 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:45:07,906 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:45:07,907 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-5
+2025-03-24 16:45:07,907 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 16:45:07,907 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:45:07,913 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,914 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,914 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,915 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,918 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,919 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,920 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,920 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,920 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,920 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,922 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,924 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,924 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,925 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,925 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,929 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,930 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,930 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,932 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,932 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,932 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,932 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,934 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 18:11:07.902661 可见卫星数: 8
+2025-03-24 16:45:07,934 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:07,934 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:07,934 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 11 轮训练 === 时间：2025-03-24 18:15:07.934807
+2025-03-24 16:45:07,936 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 18:15:07.934807 可见卫星数: 8
+2025-03-24 16:45:07,936 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:07,936 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,936 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-3
+2025-03-24 16:45:07,936 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:07,937 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 16:45:07,937 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 16:45:07,937 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 16:45:07,938 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:45:07,938 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 16:45:07,938 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 16:45:07,938 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:45:07,938 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 16:45:07,939 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:45:07,939 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:45:07,939 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 16:45:07,939 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 16:45:07,939 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:45:07,939 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:45:07,939 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:45:07,940 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:45:07,940 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-4
+2025-03-24 16:45:07,940 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:45:07,940 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-5
+2025-03-24 16:45:07,940 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:45:07,941 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,943 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,945 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,946 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,946 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,946 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,948 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,949 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,949 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,949 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,951 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,951 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,952 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,952 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,953 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,954 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,955 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,955 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,956 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,956 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,956 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,956 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,958 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 18:21:07.934807 可见卫星数: 8
+2025-03-24 16:45:07,958 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:07,958 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:07,958 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 12 轮训练 === 时间：2025-03-24 18:25:07.958534
+2025-03-24 16:45:07,960 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 18:25:07.958534 可见卫星数: 9
+2025-03-24 16:45:07,960 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 9 颗卫星可见
+2025-03-24 16:45:07,960 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,960 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-3
+2025-03-24 16:45:07,960 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:07,960 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-5
+2025-03-24 16:45:07,961 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 16:45:07,961 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-9
+2025-03-24 16:45:07,961 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 16:45:07,961 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:45:07,961 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 16:45:07,961 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:45:07,962 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 16:45:07,962 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:45:07,962 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:45:07,962 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 16:45:07,962 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 16:45:07,962 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:45:07,962 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:45:07,963 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:45:07,963 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:45:07,963 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-4
+2025-03-24 16:45:07,963 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:45:07,963 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-5
+2025-03-24 16:45:07,963 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 16:45:07,966 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,966 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,967 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,969 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,969 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,970 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,970 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,970 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,972 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,973 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,973 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,973 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,974 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,975 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,975 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,977 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,979 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,979 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,980 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,980 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,980 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,980 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,982 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 18:31:07.958534 可见卫星数: 9
+2025-03-24 16:45:07,982 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:07,982 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:07,982 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 13 轮训练 === 时间：2025-03-24 18:35:07.982628
+2025-03-24 16:45:07,984 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 18:35:07.982628 可见卫星数: 8
+2025-03-24 16:45:07,984 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:07,984 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:07,984 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 16:45:07,984 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-8
+2025-03-24 16:45:07,984 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:07,984 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 16:45:07,985 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:45:07,985 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-5
+2025-03-24 16:45:07,985 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 16:45:07,985 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 16:45:07,985 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 16:45:07,985 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 16:45:07,985 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 16:45:07,986 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:45:07,986 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 16:45:07,986 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:45:07,986 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 16:45:07,986 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:45:07,986 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 16:45:07,986 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 16:45:07,986 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:45:07,987 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-5
+2025-03-24 16:45:07,987 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 16:45:07,987 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:45:07,989 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,991 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,991 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,992 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,993 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,993 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,993 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,994 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,995 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,996 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,997 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,997 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,998 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,999 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:07,999 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,001 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,001 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,001 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,002 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,002 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,002 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,005 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,012 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 18:41:07.982628 可见卫星数: 8
+2025-03-24 16:45:08,012 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:08,012 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:08,012 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 14 轮训练 === 时间：2025-03-24 18:45:08.012891
+2025-03-24 16:45:08,021 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 18:45:08.012891 可见卫星数: 8
+2025-03-24 16:45:08,021 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:08,021 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:08,022 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-3
+2025-03-24 16:45:08,022 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:08,023 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 16:45:08,023 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 16:45:08,023 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:45:08,023 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:45:08,023 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:08,023 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 16:45:08,024 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 16:45:08,024 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:45:08,024 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:45:08,024 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:45:08,025 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:45:08,025 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-2
+2025-03-24 16:45:08,027 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-9
+2025-03-24 16:45:08,027 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:45:08,027 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:45:08,028 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:45:08,028 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:45:08,028 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:45:08,028 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 16:45:08,028 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-7
+2025-03-24 16:45:08,030 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,031 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,036 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,036 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,037 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,038 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,039 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,039 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,040 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,042 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,043 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,043 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,044 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,044 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,044 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,044 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,044 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,044 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,046 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,046 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,046 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,047 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,049 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 18:51:08.012891 可见卫星数: 9
+2025-03-24 16:45:08,049 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:08,049 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:08,049 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 15 轮训练 === 时间：2025-03-24 18:55:08.049346
+2025-03-24 16:45:08,050 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 18:55:08.049346 可见卫星数: 8
+2025-03-24 16:45:08,050 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:08,050 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:08,051 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 16:45:08,051 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-8
+2025-03-24 16:45:08,051 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-4
+2025-03-24 16:45:08,051 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-5
+2025-03-24 16:45:08,051 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 16:45:08,051 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:45:08,051 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-5
+2025-03-24 16:45:08,052 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 16:45:08,052 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:08,052 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:45:08,052 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 16:45:08,052 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-6
+2025-03-24 16:45:08,052 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:45:08,052 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 16:45:08,053 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-8
+2025-03-24 16:45:08,053 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 16:45:08,053 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:45:08,053 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:45:08,053 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 16:45:08,054 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:45:08,054 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 16:45:08,054 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-7
+2025-03-24 16:45:08,056 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,057 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,057 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,060 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,061 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,061 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,062 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,063 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,064 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,065 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,065 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,066 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,066 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,068 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,068 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,071 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,071 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,071 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,072 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,072 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,072 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,072 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,074 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 19:01:08.049346 可见卫星数: 8
+2025-03-24 16:45:08,074 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:08,074 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:08,074 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 16 轮训练 === 时间：2025-03-24 19:05:08.074473
+2025-03-24 16:45:08,076 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 19:05:08.074473 可见卫星数: 8
+2025-03-24 16:45:08,076 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:08,076 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:08,077 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-5
+2025-03-24 16:45:08,077 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-7
+2025-03-24 16:45:08,077 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:08,077 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-9
+2025-03-24 16:45:08,077 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:45:08,077 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:45:08,078 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:45:08,078 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:08,078 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-10
+2025-03-24 16:45:08,078 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:45:08,078 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 16:45:08,078 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:45:08,078 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 16:45:08,078 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:45:08,079 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:45:08,079 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:45:08,079 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:45:08,079 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:45:08,079 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:45:08,079 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:45:08,079 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:45:08,080 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 16:45:08,081 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,083 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,086 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,088 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,089 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,089 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,089 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,090 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,091 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,092 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,094 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,094 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,095 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,095 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,095 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,098 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,100 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,101 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,102 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,102 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,102 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,103 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,104 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 19:11:08.074473 可见卫星数: 8
+2025-03-24 16:45:08,104 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:08,105 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:08,105 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 17 轮训练 === 时间：2025-03-24 19:15:08.105019
+2025-03-24 16:45:08,106 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 19:15:08.105019 可见卫星数: 8
+2025-03-24 16:45:08,106 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:08,106 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:08,106 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-4
+2025-03-24 16:45:08,106 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:08,107 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-8
+2025-03-24 16:45:08,107 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:45:08,107 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:45:08,107 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:45:08,107 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:08,107 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-10
+2025-03-24 16:45:08,107 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:45:08,107 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 16:45:08,108 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 16:45:08,108 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 16:45:08,108 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:45:08,108 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 16:45:08,108 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:45:08,108 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:45:08,108 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:45:08,109 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-11
+2025-03-24 16:45:08,109 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:45:08,109 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:45:08,109 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:45:08,109 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:45:08,111 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-4 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,116 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,116 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,116 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,119 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,119 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,120 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,120 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,121 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,122 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,124 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,125 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,125 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,126 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,126 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,127 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,130 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,131 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,131 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,132 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,133 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,134 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,135 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 19:21:08.105019 可见卫星数: 8
+2025-03-24 16:45:08,135 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:08,135 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:08,135 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 18 轮训练 === 时间：2025-03-24 19:25:08.135877
+2025-03-24 16:45:08,137 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 19:25:08.135877 可见卫星数: 8
+2025-03-24 16:45:08,137 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:08,137 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:08,137 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:45:08,137 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-3
+2025-03-24 16:45:08,137 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:45:08,138 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:45:08,138 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:45:08,138 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:08,138 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-5
+2025-03-24 16:45:08,138 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 16:45:08,138 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 16:45:08,138 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:45:08,139 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 16:45:08,139 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:45:08,139 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 16:45:08,140 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:45:08,140 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:45:08,140 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:45:08,141 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:45:08,141 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:45:08,141 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:45:08,142 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:45:08,142 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:45:08,142 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 16:45:08,146 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,148 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,152 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,153 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,154 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,154 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,155 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,156 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,156 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,157 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,158 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,159 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,159 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,159 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,162 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-3 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,163 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,163 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,164 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,164 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,165 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,165 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,167 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,171 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 19:31:08.135877 可见卫星数: 9
+2025-03-24 16:45:08,171 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:08,171 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:08,171 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 19 轮训练 === 时间：2025-03-24 19:35:08.171238
+2025-03-24 16:45:08,174 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 19:35:08.171238 可见卫星数: 8
+2025-03-24 16:45:08,174 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:08,174 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:08,175 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 16:45:08,175 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:45:08,175 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-9
+2025-03-24 16:45:08,176 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 16:45:08,176 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:45:08,176 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:45:08,177 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 16:45:08,177 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:08,177 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-10
+2025-03-24 16:45:08,177 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:45:08,178 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 16:45:08,178 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 16:45:08,178 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:45:08,178 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 16:45:08,178 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-2
+2025-03-24 16:45:08,178 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:45:08,178 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-9
+2025-03-24 16:45:08,179 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:45:08,179 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:45:08,179 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:45:08,179 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 16:45:08,179 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:45:08,185 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,185 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,187 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,187 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,188 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,188 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,192 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,194 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,194 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,196 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,196 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,197 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,197 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,197 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-2 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,198 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,198 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,198 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,201 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,202 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,203 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,203 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,203 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,205 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 19:41:08.171238 可见卫星数: 8
+2025-03-24 16:45:08,205 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:08,205 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:08,205 - limitedpropagationfedavg_20250324_164503 - INFO - === 开始第 20 轮训练 === 时间：2025-03-24 19:45:08.205663
+2025-03-24 16:45:08,207 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 19:45:08.205663 可见卫星数: 8
+2025-03-24 16:45:08,207 - limitedpropagationfedavg_20250324_164503 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:45:08,207 - limitedpropagationfedavg_20250324_164503 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:45:08,208 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_6-1
+2025-03-24 16:45:08,208 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:45:08,208 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-9
+2025-03-24 16:45:08,209 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 16:45:08,209 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:45:08,209 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:45:08,210 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 16:45:08,210 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:45:08,210 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-10
+2025-03-24 16:45:08,211 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:45:08,211 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 16:45:08,211 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 16:45:08,211 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 16:45:08,212 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:45:08,212 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 16:45:08,212 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:45:08,213 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_5-9
+2025-03-24 16:45:08,213 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:45:08,213 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:45:08,214 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_4-5
+2025-03-24 16:45:08,214 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 16:45:08,214 - limitedpropagationfedavg_20250324_164503 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:45:08,216 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,218 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-7 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,220 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_6-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,223 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,223 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,224 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,225 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,228 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-6 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,229 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,230 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,230 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,231 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,232 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,233 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,233 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-1 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,237 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_5-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,238 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,239 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_2-10 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,240 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_3-9 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,240 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_4-5 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,240 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-8 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,240 - limitedpropagationfedavg_20250324_164503 - ERROR - 训练卫星 satellite_1-11 出错: 'SatelliteClient' object has no attribute '_parse_satellite_id'
+2025-03-24 16:45:08,243 - limitedpropagationfedavg_20250324_164503 - INFO - 当前时间 2025-03-24 19:51:08.205663 可见卫星数: 8
+2025-03-24 16:45:08,243 - limitedpropagationfedavg_20250324_164503 - WARNING - 等待聚合超时，使用当前可见的卫星进行聚合
+2025-03-24 16:45:08,243 - limitedpropagationfedavg_20250324_164503 - WARNING - 没有足够的已训练卫星可见，跳过本轮聚合
+2025-03-24 16:45:08,243 - limitedpropagationfedavg_20250324_164503 - INFO - 实验完成

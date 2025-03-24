@@ -1,0 +1,1146 @@
+2025-03-24 16:46:28,405 - limitedpropagationfedavg_20250324_164628 - INFO - 日志保存在: logs/limitedpropagationfedavg/20250324_164628
+2025-03-24 16:46:31,736 - limitedpropagationfedavg_20250324_164628 - INFO - 创建RealTrafficModel: 输入维度=21, 类别数=2
+2025-03-24 16:46:31,737 - limitedpropagationfedavg_20250324_164628 - INFO - 地面站 0 初始化完成: 负责轨道=[0, 1]
+2025-03-24 16:46:31,737 - limitedpropagationfedavg_20250324_164628 - INFO - 地面站 1 初始化完成: 负责轨道=[2, 3]
+2025-03-24 16:46:31,737 - limitedpropagationfedavg_20250324_164628 - INFO - 地面站 2 初始化完成: 负责轨道=[4, 5]
+2025-03-24 16:46:31,737 - limitedpropagationfedavg_20250324_164628 - INFO - 初始化有限传播FedAvg实验
+2025-03-24 16:46:31,737 - limitedpropagationfedavg_20250324_164628 - INFO - - 传播跳数: 3
+2025-03-24 16:46:31,737 - limitedpropagationfedavg_20250324_164628 - INFO - - 最大卫星数: 22
+2025-03-24 16:46:31,737 - limitedpropagationfedavg_20250324_164628 - INFO - - 轨道内链接: True
+2025-03-24 16:46:31,737 - limitedpropagationfedavg_20250324_164628 - INFO - - 跨轨道链接: True
+2025-03-24 16:46:31,737 - limitedpropagationfedavg_20250324_164628 - INFO - 初始化有限传播FedAvg实验，传播跳数: 3，最大卫星数: 22
+2025-03-24 16:46:31,737 - limitedpropagationfedavg_20250324_164628 - INFO - 开始基线实验
+2025-03-24 16:46:31,737 - limitedpropagationfedavg_20250324_164628 - INFO - 开始准备真实网络流量数据
+2025-03-24 16:46:31,737 - limitedpropagationfedavg_20250324_164628 - INFO - 启用区域相似性
+2025-03-24 16:46:31,968 - limitedpropagationfedavg_20250324_164628 - INFO - 数据分配完成:
+2025-03-24 16:46:31,968 - limitedpropagationfedavg_20250324_164628 - INFO -   总样本数: 2469577
+2025-03-24 16:46:31,968 - limitedpropagationfedavg_20250324_164628 - INFO -   良性样本: 1682567 (68.1%)
+2025-03-24 16:46:31,968 - limitedpropagationfedavg_20250324_164628 - INFO -   恶意样本: 787010 (31.9%)
+2025-03-24 16:46:31,968 - limitedpropagationfedavg_20250324_164628 - INFO -   卫星节点: 66
+2025-03-24 16:46:31,998 - limitedpropagationfedavg_20250324_164628 - INFO - 构建卫星间通信网络...
+2025-03-24 16:46:31,998 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星网络构建完成: 66 个节点, 平均 19.00 个邻居
+2025-03-24 16:46:31,998 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-1 的邻居: ['satellite_1-2', 'satellite_1-11', 'satellite_1-3', 'satellite_1-10', 'satellite_2-1', 'satellite_2-11', 'satellite_2-2', 'satellite_3-1', 'satellite_3-11', 'satellite_3-2', 'satellite_4-1', 'satellite_4-11', 'satellite_4-2', 'satellite_5-1', 'satellite_5-11', 'satellite_5-2', 'satellite_6-1', 'satellite_6-11', 'satellite_6-2']
+2025-03-24 16:46:31,998 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-2 的邻居: ['satellite_1-3', 'satellite_1-1', 'satellite_1-4', 'satellite_1-11', 'satellite_2-2', 'satellite_2-1', 'satellite_2-3', 'satellite_3-2', 'satellite_3-1', 'satellite_3-3', 'satellite_4-2', 'satellite_4-1', 'satellite_4-3', 'satellite_5-2', 'satellite_5-1', 'satellite_5-3', 'satellite_6-2', 'satellite_6-1', 'satellite_6-3']
+2025-03-24 16:46:31,998 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-3 的邻居: ['satellite_1-4', 'satellite_1-2', 'satellite_1-5', 'satellite_1-1', 'satellite_2-3', 'satellite_2-2', 'satellite_2-4', 'satellite_3-3', 'satellite_3-2', 'satellite_3-4', 'satellite_4-3', 'satellite_4-2', 'satellite_4-4', 'satellite_5-3', 'satellite_5-2', 'satellite_5-4', 'satellite_6-3', 'satellite_6-2', 'satellite_6-4']
+2025-03-24 16:46:31,998 - limitedpropagationfedavg_20250324_164628 - INFO - 已构建卫星网络拓扑结构，卫星间邻居关系已建立
+2025-03-24 16:46:31,998 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 1 轮训练 === 时间：2025-03-24 16:46:31.998606
+2025-03-24 16:46:32,000 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 16:46:31.998606 可见卫星数: 8
+2025-03-24 16:46:32,000 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:46:32,000 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:46:32,000 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 16:46:32,000 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:46:32,000 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 16:46:32,001 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-5
+2025-03-24 16:46:32,001 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 16:46:32,001 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:46:32,001 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-8
+2025-03-24 16:46:32,001 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 16:46:32,001 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:46:32,001 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 16:46:32,002 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 16:46:32,002 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:46:32,002 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 16:46:32,002 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:46:32,002 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:46:32,002 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:46:32,003 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 16:46:32,003 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-7
+2025-03-24 16:46:32,003 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 16:46:32,003 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-9
+2025-03-24 16:46:32,003 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 16:46:32,003 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 16:46:49,051 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-4 完成训练，Loss=0.0313, Acc=99.18%
+2025-03-24 16:46:49,072 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-6 完成训练，Loss=0.0346, Acc=99.07%
+2025-03-24 16:46:49,093 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-9 完成训练，Loss=0.0326, Acc=99.20%
+2025-03-24 16:46:49,156 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-7 完成训练，Loss=0.0346, Acc=99.11%
+2025-03-24 16:46:49,168 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-5 完成训练，Loss=0.0338, Acc=99.14%
+2025-03-24 16:46:49,183 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-7 完成训练，Loss=0.0332, Acc=99.12%
+2025-03-24 16:47:06,136 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-7 完成训练，Loss=0.0376, Acc=98.99%
+2025-03-24 16:47:06,205 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-8 完成训练，Loss=0.0330, Acc=99.13%
+2025-03-24 16:47:06,230 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-3 完成训练，Loss=0.0298, Acc=99.24%
+2025-03-24 16:47:06,243 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-6 完成训练，Loss=0.0328, Acc=99.13%
+2025-03-24 16:47:06,313 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-6 完成训练，Loss=0.0336, Acc=99.16%
+2025-03-24 16:47:06,315 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-2 完成训练，Loss=0.0296, Acc=99.21%
+2025-03-24 16:47:23,338 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-6 完成训练，Loss=0.0313, Acc=99.21%
+2025-03-24 16:47:23,545 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-7 完成训练，Loss=0.0346, Acc=99.14%
+2025-03-24 16:47:23,558 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-8 完成训练，Loss=0.0314, Acc=99.19%
+2025-03-24 16:47:23,597 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-8 完成训练，Loss=0.0339, Acc=99.05%
+2025-03-24 16:47:23,613 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-7 完成训练，Loss=0.0269, Acc=99.30%
+2025-03-24 16:47:35,077 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-8 完成训练，Loss=0.0333, Acc=99.05%
+2025-03-24 16:47:35,169 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-5 完成训练，Loss=0.0314, Acc=99.19%
+2025-03-24 16:47:35,180 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-5 完成训练，Loss=0.0277, Acc=99.27%
+2025-03-24 16:47:35,185 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-9 完成训练，Loss=0.0298, Acc=99.27%
+2025-03-24 16:47:40,803 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-11 完成训练，Loss=0.0181, Acc=99.54%
+2025-03-24 16:47:40,805 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 16:52:31.998606 可见卫星数: 9
+2025-03-24 16:47:40,805 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 6 颗已训练的卫星可见，可以进行聚合
+2025-03-24 16:47:41,699 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 419159
+平均损失: 0.0530
+准确率: 98.75%
+2025-03-24 16:47:41,699 - limitedpropagationfedavg_20250324_164628 - INFO - 第 1 轮全局准确率: 98.7500
+2025-03-24 16:47:41,699 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 2 轮训练 === 时间：2025-03-24 16:47:41.699611
+2025-03-24 16:47:41,701 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 16:47:41.699611 可见卫星数: 8
+2025-03-24 16:47:41,701 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:47:41,701 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:47:41,701 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 16:47:41,701 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:47:41,701 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 16:47:41,702 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-5
+2025-03-24 16:47:41,702 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 16:47:41,702 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:47:41,702 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-8
+2025-03-24 16:47:41,702 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 16:47:41,702 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:47:41,702 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 16:47:41,703 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 16:47:41,703 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:47:41,703 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 16:47:41,703 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:47:41,703 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:47:41,703 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 16:47:41,704 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-7
+2025-03-24 16:47:41,704 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 16:47:41,704 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-9
+2025-03-24 16:47:41,704 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 16:47:41,704 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:47:41,705 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 16:47:57,731 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-6 完成训练，Loss=0.0260, Acc=99.23%
+2025-03-24 16:47:57,753 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-9 完成训练，Loss=0.0262, Acc=99.30%
+2025-03-24 16:47:57,777 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-7 完成训练，Loss=0.0254, Acc=99.36%
+2025-03-24 16:47:57,805 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-7 完成训练，Loss=0.0266, Acc=99.27%
+2025-03-24 16:47:57,835 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-4 完成训练，Loss=0.0236, Acc=99.34%
+2025-03-24 16:47:57,847 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-5 完成训练，Loss=0.0256, Acc=99.30%
+2025-03-24 16:48:14,067 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-7 完成训练，Loss=0.0261, Acc=99.35%
+2025-03-24 16:48:14,099 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-8 完成训练，Loss=0.0245, Acc=99.35%
+2025-03-24 16:48:14,161 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-3 完成训练，Loss=0.0229, Acc=99.42%
+2025-03-24 16:48:14,200 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-6 完成训练，Loss=0.0251, Acc=99.33%
+2025-03-24 16:48:14,214 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-2 完成训练，Loss=0.0226, Acc=99.37%
+2025-03-24 16:48:14,239 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-6 完成训练，Loss=0.0260, Acc=99.32%
+2025-03-24 16:48:30,233 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-7 完成训练，Loss=0.0260, Acc=99.26%
+2025-03-24 16:48:30,251 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-6 完成训练，Loss=0.0253, Acc=99.35%
+2025-03-24 16:48:30,349 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-7 完成训练，Loss=0.0224, Acc=99.36%
+2025-03-24 16:48:30,359 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-8 完成训练，Loss=0.0268, Acc=99.25%
+2025-03-24 16:48:30,364 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-8 完成训练，Loss=0.0265, Acc=99.23%
+2025-03-24 16:48:30,417 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-8 完成训练，Loss=0.0270, Acc=99.25%
+2025-03-24 16:48:37,346 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-9 完成训练，Loss=0.0220, Acc=99.44%
+2025-03-24 16:48:37,348 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-6 完成训练，Loss=0.0209, Acc=99.45%
+2025-03-24 16:48:37,375 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-5 完成训练，Loss=0.0241, Acc=99.33%
+2025-03-24 16:48:44,432 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-11 完成训练，Loss=0.0162, Acc=99.59%
+2025-03-24 16:48:44,434 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 16:53:41.699611 可见卫星数: 8
+2025-03-24 16:48:44,434 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 4 颗已训练的卫星可见，可以进行聚合
+2025-03-24 16:48:45,330 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 418986
+平均损失: 0.0432
+准确率: 98.71%
+2025-03-24 16:48:45,330 - limitedpropagationfedavg_20250324_164628 - INFO - 第 2 轮全局准确率: 98.7092
+2025-03-24 16:48:45,330 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 3 轮训练 === 时间：2025-03-24 16:58:45.330611
+2025-03-24 16:48:45,332 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 16:58:45.330611 可见卫星数: 8
+2025-03-24 16:48:45,332 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:48:45,332 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:48:45,332 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 16:48:45,332 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-4
+2025-03-24 16:48:45,332 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:48:45,332 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-3
+2025-03-24 16:48:45,333 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 16:48:45,333 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:48:45,333 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:48:45,333 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 16:48:45,333 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:48:45,333 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:48:45,333 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:48:45,334 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 16:48:45,334 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 16:48:45,334 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:48:45,334 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 16:48:45,334 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 16:48:45,334 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:48:45,334 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:48:45,335 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-4
+2025-03-24 16:48:45,335 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-8
+2025-03-24 16:48:45,335 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 16:48:45,335 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:49:01,419 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-2 完成训练，Loss=0.0232, Acc=99.33%
+2025-03-24 16:49:01,466 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-3 完成训练，Loss=0.0212, Acc=99.40%
+2025-03-24 16:49:01,483 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-3 完成训练，Loss=0.0200, Acc=99.50%
+2025-03-24 16:49:01,492 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-4 完成训练，Loss=0.0220, Acc=99.38%
+2025-03-24 16:49:01,524 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-4 完成训练，Loss=0.0202, Acc=99.42%
+2025-03-24 16:49:01,581 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-4 完成训练，Loss=0.0220, Acc=99.43%
+2025-03-24 16:49:17,171 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-3 完成训练，Loss=0.0212, Acc=99.42%
+2025-03-24 16:49:17,220 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-3 完成训练，Loss=0.0222, Acc=99.44%
+2025-03-24 16:49:17,268 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-2 完成训练，Loss=0.0246, Acc=99.35%
+2025-03-24 16:49:17,279 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-10 完成训练，Loss=0.0196, Acc=99.46%
+2025-03-24 16:49:17,301 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-5 完成训练，Loss=0.0241, Acc=99.39%
+2025-03-24 16:49:17,316 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-3 完成训练，Loss=0.0219, Acc=99.41%
+2025-03-24 16:49:32,844 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-4 完成训练，Loss=0.0204, Acc=99.44%
+2025-03-24 16:49:32,898 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-2 完成训练，Loss=0.0230, Acc=99.42%
+2025-03-24 16:49:32,905 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-2 完成训练，Loss=0.0189, Acc=99.50%
+2025-03-24 16:49:32,940 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-2 完成训练，Loss=0.0174, Acc=99.49%
+2025-03-24 16:49:32,987 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-6 完成训练，Loss=0.0243, Acc=99.37%
+2025-03-24 16:49:33,034 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-1 完成训练，Loss=0.0217, Acc=99.38%
+2025-03-24 16:49:39,701 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-4 完成训练，Loss=0.0205, Acc=99.42%
+2025-03-24 16:49:39,722 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-1 完成训练，Loss=0.0218, Acc=99.39%
+2025-03-24 16:49:39,724 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-8 完成训练，Loss=0.0186, Acc=99.56%
+2025-03-24 16:49:39,727 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-5 完成训练，Loss=0.0207, Acc=99.44%
+2025-03-24 16:49:39,729 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 17:04:45.330611 可见卫星数: 8
+2025-03-24 16:49:39,729 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 5 颗已训练的卫星可见，可以进行聚合
+2025-03-24 16:49:40,682 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 419237
+平均损失: 0.0346
+准确率: 98.77%
+2025-03-24 16:49:40,682 - limitedpropagationfedavg_20250324_164628 - INFO - 第 3 轮全局准确率: 98.7683
+2025-03-24 16:49:40,682 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 4 轮训练 === 时间：2025-03-24 17:09:40.682783
+2025-03-24 16:49:40,684 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 17:09:40.682783 可见卫星数: 8
+2025-03-24 16:49:40,684 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:49:40,684 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:49:40,684 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 16:49:40,684 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 16:49:40,685 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:49:40,685 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:49:40,685 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-7
+2025-03-24 16:49:40,685 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:49:40,685 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-3
+2025-03-24 16:49:40,685 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 16:49:40,685 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 16:49:40,686 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:49:40,686 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:49:40,686 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:49:40,686 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 16:49:40,686 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:49:40,686 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 16:49:40,686 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 16:49:40,687 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:49:40,687 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:49:40,687 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-2
+2025-03-24 16:49:40,687 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:49:40,687 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:49:40,687 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:49:56,461 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-1 完成训练，Loss=0.0197, Acc=99.51%
+2025-03-24 16:49:56,489 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-7 完成训练，Loss=0.0172, Acc=99.54%
+2025-03-24 16:49:56,494 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-2 完成训练，Loss=0.0225, Acc=99.46%
+2025-03-24 16:49:56,498 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-4 完成训练，Loss=0.0183, Acc=99.53%
+2025-03-24 16:49:56,519 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-1 完成训练，Loss=0.0189, Acc=99.51%
+2025-03-24 16:50:12,266 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-3 完成训练，Loss=0.0213, Acc=99.48%
+2025-03-24 16:50:12,278 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-3 完成训练，Loss=0.0178, Acc=99.50%
+2025-03-24 16:50:12,308 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-3 完成训练，Loss=0.0202, Acc=99.45%
+2025-03-24 16:50:12,346 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-3 完成训练，Loss=0.0178, Acc=99.52%
+2025-03-24 16:50:12,436 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-5 完成训练，Loss=0.0208, Acc=99.38%
+2025-03-24 16:50:27,955 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-2 完成训练，Loss=0.0206, Acc=99.46%
+2025-03-24 16:50:28,038 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-3 完成训练，Loss=0.0181, Acc=99.53%
+2025-03-24 16:50:28,108 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-2 完成训练，Loss=0.0223, Acc=99.39%
+2025-03-24 16:50:28,122 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-4 完成训练，Loss=0.0210, Acc=99.42%
+2025-03-24 16:50:28,223 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-2 完成训练，Loss=0.0177, Acc=99.51%
+2025-03-24 16:50:43,721 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-2 完成训练，Loss=0.0190, Acc=99.48%
+2025-03-24 16:50:43,774 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-1 完成训练，Loss=0.0196, Acc=99.46%
+2025-03-24 16:50:43,861 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-1 完成训练，Loss=0.0213, Acc=99.46%
+2025-03-24 16:50:43,876 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-2 完成训练，Loss=0.0154, Acc=99.59%
+2025-03-24 16:50:48,763 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-1 完成训练，Loss=0.0181, Acc=99.45%
+2025-03-24 16:50:51,998 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-11 完成训练，Loss=0.0151, Acc=99.62%
+2025-03-24 16:50:56,076 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-11 完成训练，Loss=0.0179, Acc=99.53%
+2025-03-24 16:50:56,077 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 17:15:40.682783 可见卫星数: 8
+2025-03-24 16:50:56,077 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 5 颗已训练的卫星可见，可以进行聚合
+2025-03-24 16:50:56,966 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 419671
+平均损失: 0.0285
+准确率: 98.87%
+2025-03-24 16:50:56,966 - limitedpropagationfedavg_20250324_164628 - INFO - 第 4 轮全局准确率: 98.8706
+2025-03-24 16:50:56,966 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 5 轮训练 === 时间：2025-03-24 17:20:56.966915
+2025-03-24 16:50:56,968 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 17:20:56.966915 可见卫星数: 8
+2025-03-24 16:50:56,968 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:50:56,968 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:50:56,968 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 16:50:56,968 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:50:56,969 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:50:56,969 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:50:56,969 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-3
+2025-03-24 16:50:56,969 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 16:50:56,969 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:50:56,969 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:50:56,970 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:50:56,970 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 16:50:56,970 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 16:50:56,970 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:50:56,970 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 16:50:56,970 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:50:56,970 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:50:56,971 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-2
+2025-03-24 16:50:56,971 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:50:56,971 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:50:56,971 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-7
+2025-03-24 16:50:56,971 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-9
+2025-03-24 16:50:56,972 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:50:56,972 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:51:12,864 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-3 完成训练，Loss=0.0152, Acc=99.60%
+2025-03-24 16:51:12,905 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-1 完成训练，Loss=0.0172, Acc=99.56%
+2025-03-24 16:51:12,920 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-1 完成训练，Loss=0.0168, Acc=99.56%
+2025-03-24 16:51:12,921 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-10 完成训练，Loss=0.0156, Acc=99.59%
+2025-03-24 16:51:12,924 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-2 完成训练，Loss=0.0165, Acc=99.55%
+2025-03-24 16:51:12,925 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-3 完成训练，Loss=0.0134, Acc=99.64%
+2025-03-24 16:51:28,763 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-3 完成训练，Loss=0.0187, Acc=99.51%
+2025-03-24 16:51:28,832 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-3 完成训练，Loss=0.0155, Acc=99.59%
+2025-03-24 16:51:28,881 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-3 完成训练，Loss=0.0160, Acc=99.59%
+2025-03-24 16:51:28,884 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-2 完成训练，Loss=0.0202, Acc=99.47%
+2025-03-24 16:51:28,885 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-4 完成训练，Loss=0.0170, Acc=99.55%
+2025-03-24 16:51:28,909 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-2 完成训练，Loss=0.0174, Acc=99.53%
+2025-03-24 16:51:44,580 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-2 完成训练，Loss=0.0157, Acc=99.56%
+2025-03-24 16:51:44,700 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-2 完成训练，Loss=0.0148, Acc=99.63%
+2025-03-24 16:51:44,762 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-1 完成训练，Loss=0.0157, Acc=99.57%
+2025-03-24 16:51:44,781 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-2 完成训练，Loss=0.0136, Acc=99.62%
+2025-03-24 16:51:44,828 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-1 完成训练，Loss=0.0151, Acc=99.58%
+2025-03-24 16:51:55,270 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-7 完成训练，Loss=0.0138, Acc=99.63%
+2025-03-24 16:51:55,339 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-9 完成训练，Loss=0.0159, Acc=99.59%
+2025-03-24 16:51:55,391 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-1 完成训练，Loss=0.0157, Acc=99.59%
+2025-03-24 16:52:07,898 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-11 完成训练，Loss=0.0159, Acc=99.60%
+2025-03-24 16:52:09,258 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-11 完成训练，Loss=0.0143, Acc=99.63%
+2025-03-24 16:52:09,260 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 17:26:56.966915 可见卫星数: 8
+2025-03-24 16:52:09,260 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 7 颗已训练的卫星可见，可以进行聚合
+2025-03-24 16:52:10,164 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 420091
+平均损失: 0.0359
+准确率: 98.97%
+2025-03-24 16:52:10,164 - limitedpropagationfedavg_20250324_164628 - INFO - 第 5 轮全局准确率: 98.9695
+2025-03-24 16:52:10,164 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 6 轮训练 === 时间：2025-03-24 17:32:10.164223
+2025-03-24 16:52:10,165 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 17:32:10.164223 可见卫星数: 8
+2025-03-24 16:52:10,165 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:52:10,165 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:52:10,166 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 16:52:10,166 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:52:10,166 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 16:52:10,166 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:52:10,166 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-10
+2025-03-24 16:52:10,166 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:52:10,167 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:52:10,167 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-9
+2025-03-24 16:52:10,167 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-8
+2025-03-24 16:52:10,167 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:52:10,167 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:52:10,167 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-4
+2025-03-24 16:52:10,167 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 16:52:10,168 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 16:52:10,168 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:52:10,168 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:52:10,168 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 16:52:10,168 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:52:10,169 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:52:10,169 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:52:10,169 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 16:52:10,170 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:52:26,166 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-1 完成训练，Loss=0.0163, Acc=99.60%
+2025-03-24 16:52:26,207 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-10 完成训练，Loss=0.0158, Acc=99.51%
+2025-03-24 16:52:26,270 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-1 完成训练，Loss=0.0144, Acc=99.58%
+2025-03-24 16:52:26,273 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-10 完成训练，Loss=0.0179, Acc=99.52%
+2025-03-24 16:52:42,130 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-2 完成训练，Loss=0.0186, Acc=99.51%
+2025-03-24 16:52:42,160 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-9 完成训练，Loss=0.0152, Acc=99.63%
+2025-03-24 16:52:42,213 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-10 完成训练，Loss=0.0132, Acc=99.64%
+2025-03-24 16:52:42,271 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-8 完成训练，Loss=0.0177, Acc=99.58%
+2025-03-24 16:52:58,052 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-1 完成训练，Loss=0.0129, Acc=99.66%
+2025-03-24 16:52:58,084 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-2 完成训练，Loss=0.0141, Acc=99.53%
+2025-03-24 16:52:58,122 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-4 完成训练，Loss=0.0145, Acc=99.61%
+2025-03-24 16:52:58,161 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-9 完成训练，Loss=0.0156, Acc=99.58%
+2025-03-24 16:53:14,094 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-1 完成训练，Loss=0.0134, Acc=99.64%
+2025-03-24 16:53:14,181 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-6 完成训练，Loss=0.0122, Acc=99.65%
+2025-03-24 16:53:14,326 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-10 完成训练，Loss=0.0158, Acc=99.60%
+2025-03-24 16:53:30,830 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-1 完成训练，Loss=0.0151, Acc=99.57%
+2025-03-24 16:53:46,731 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-11 完成训练，Loss=0.0156, Acc=99.61%
+2025-03-24 16:53:46,824 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-11 完成训练，Loss=0.0132, Acc=99.67%
+2025-03-24 16:53:46,984 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-10 完成训练，Loss=0.0152, Acc=99.60%
+2025-03-24 16:54:01,792 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-11 完成训练，Loss=0.0145, Acc=99.63%
+2025-03-24 16:54:04,924 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-11 完成训练，Loss=0.0142, Acc=99.64%
+2025-03-24 16:54:04,957 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-11 完成训练，Loss=0.0142, Acc=99.64%
+2025-03-24 16:54:04,959 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 17:38:10.164223 可见卫星数: 10
+2025-03-24 16:54:04,959 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 7 颗已训练的卫星可见，可以进行聚合
+2025-03-24 16:54:05,918 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 421838
+平均损失: 0.0213
+准确率: 99.38%
+2025-03-24 16:54:05,918 - limitedpropagationfedavg_20250324_164628 - INFO - 第 6 轮全局准确率: 99.3811
+2025-03-24 16:54:05,918 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 7 轮训练 === 时间：2025-03-24 17:44:05.918813
+2025-03-24 16:54:05,920 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 17:44:05.918813 可见卫星数: 8
+2025-03-24 16:54:05,920 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:54:05,920 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:54:05,920 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:54:05,920 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 16:54:05,921 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 16:54:05,921 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:54:05,921 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-1
+2025-03-24 16:54:05,921 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 16:54:05,921 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-3
+2025-03-24 16:54:05,921 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 16:54:05,922 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 16:54:05,922 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:54:05,922 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 16:54:05,922 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:54:05,922 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-5
+2025-03-24 16:54:05,922 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-5
+2025-03-24 16:54:05,922 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 16:54:05,923 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 16:54:05,923 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-4
+2025-03-24 16:54:05,923 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 16:54:05,923 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 16:54:05,923 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-2
+2025-03-24 16:54:05,923 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 16:54:05,924 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:54:21,913 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-4 完成训练，Loss=0.0162, Acc=99.59%
+2025-03-24 16:54:22,017 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-2 完成训练，Loss=0.0147, Acc=99.61%
+2025-03-24 16:54:22,021 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-7 完成训练，Loss=0.0129, Acc=99.70%
+2025-03-24 16:54:22,028 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-1 完成训练，Loss=0.0128, Acc=99.67%
+2025-03-24 16:54:22,069 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-1 完成训练，Loss=0.0137, Acc=99.63%
+2025-03-24 16:54:37,961 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-3 完成训练，Loss=0.0133, Acc=99.65%
+2025-03-24 16:54:38,030 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-9 完成训练，Loss=0.0154, Acc=99.56%
+2025-03-24 16:54:38,074 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-3 完成训练，Loss=0.0135, Acc=99.65%
+2025-03-24 16:54:38,084 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-4 完成训练，Loss=0.0143, Acc=99.63%
+2025-03-24 16:54:38,155 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-3 完成训练，Loss=0.0197, Acc=99.49%
+2025-03-24 16:54:54,180 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-3 完成训练，Loss=0.0119, Acc=99.67%
+2025-03-24 16:54:54,209 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-5 完成训练，Loss=0.0141, Acc=99.65%
+2025-03-24 16:54:54,245 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-5 完成训练，Loss=0.0120, Acc=99.68%
+2025-03-24 16:54:54,362 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-2 完成训练，Loss=0.0123, Acc=99.69%
+2025-03-24 16:54:54,396 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-3 完成训练，Loss=0.0163, Acc=99.59%
+2025-03-24 16:55:10,310 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-2 完成训练，Loss=0.0150, Acc=99.61%
+2025-03-24 16:55:10,319 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-4 完成训练，Loss=0.0137, Acc=99.66%
+2025-03-24 16:55:10,323 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-4 完成训练，Loss=0.0115, Acc=99.68%
+2025-03-24 16:55:10,377 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-2 完成训练，Loss=0.0125, Acc=99.69%
+2025-03-24 16:55:10,389 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-9 完成训练，Loss=0.0148, Acc=99.59%
+2025-03-24 16:55:13,519 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-10 完成训练，Loss=0.0136, Acc=99.63%
+2025-03-24 16:55:14,883 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-11 完成训练，Loss=0.0139, Acc=99.66%
+2025-03-24 16:55:14,884 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 17:50:05.918813 可见卫星数: 8
+2025-03-24 16:55:14,884 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 5 颗已训练的卫星可见，可以进行聚合
+2025-03-24 16:55:15,780 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 420760
+平均损失: 0.0247
+准确率: 99.13%
+2025-03-24 16:55:15,780 - limitedpropagationfedavg_20250324_164628 - INFO - 第 7 轮全局准确率: 99.1271
+2025-03-24 16:55:15,780 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 8 轮训练 === 时间：2025-03-24 17:55:15.780988
+2025-03-24 16:55:15,782 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 17:55:15.780988 可见卫星数: 8
+2025-03-24 16:55:15,782 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:55:15,782 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:55:15,782 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 16:55:15,783 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-9
+2025-03-24 16:55:15,783 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 16:55:15,783 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 16:55:15,783 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 16:55:15,783 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-10
+2025-03-24 16:55:15,783 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 16:55:15,783 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 16:55:15,784 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 16:55:15,784 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 16:55:15,784 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 16:55:15,784 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-2
+2025-03-24 16:55:15,784 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 16:55:15,784 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:55:15,784 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:55:15,785 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 16:55:15,785 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 16:55:15,785 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 16:55:15,785 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-9
+2025-03-24 16:55:15,785 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 16:55:15,785 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:55:15,785 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 16:55:31,960 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-10 完成训练，Loss=0.0139, Acc=99.65%
+2025-03-24 16:55:31,973 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-9 完成训练，Loss=0.0125, Acc=99.63%
+2025-03-24 16:55:32,049 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-10 完成训练，Loss=0.0147, Acc=99.58%
+2025-03-24 16:55:32,065 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-10 完成训练，Loss=0.0165, Acc=99.56%
+2025-03-24 16:55:48,498 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-9 完成训练，Loss=0.0161, Acc=99.56%
+2025-03-24 16:55:48,508 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-1 完成训练，Loss=0.0154, Acc=99.59%
+2025-03-24 16:55:48,610 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-10 完成训练，Loss=0.0135, Acc=99.66%
+2025-03-24 16:55:48,661 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-9 完成训练，Loss=0.0193, Acc=99.54%
+2025-03-24 16:56:05,096 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-6 完成训练，Loss=0.0123, Acc=99.70%
+2025-03-24 16:56:05,146 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-2 完成训练，Loss=0.0096, Acc=99.74%
+2025-03-24 16:56:05,228 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-7 完成训练，Loss=0.0142, Acc=99.61%
+2025-03-24 16:56:05,339 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-9 完成训练，Loss=0.0152, Acc=99.56%
+2025-03-24 16:56:21,049 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-8 完成训练，Loss=0.0184, Acc=99.46%
+2025-03-24 16:56:21,244 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-8 完成训练，Loss=0.0139, Acc=99.62%
+2025-03-24 16:56:21,425 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-8 完成训练，Loss=0.0141, Acc=99.59%
+2025-03-24 16:56:36,950 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-9 完成训练，Loss=0.0144, Acc=99.65%
+2025-03-24 16:56:53,261 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-11 完成训练，Loss=0.0152, Acc=99.61%
+2025-03-24 16:56:53,267 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-10 完成训练，Loss=0.0148, Acc=99.62%
+2025-03-24 16:56:53,277 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-11 完成训练，Loss=0.0126, Acc=99.68%
+2025-03-24 16:57:08,374 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-11 完成训练，Loss=0.0137, Acc=99.66%
+2025-03-24 16:57:11,535 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-11 完成训练，Loss=0.0137, Acc=99.67%
+2025-03-24 16:57:11,572 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-11 完成训练，Loss=0.0128, Acc=99.68%
+2025-03-24 16:57:11,574 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 18:01:15.780988 可见卫星数: 8
+2025-03-24 16:57:11,574 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 5 颗已训练的卫星可见，可以进行聚合
+2025-03-24 16:57:12,479 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 421168
+平均损失: 0.0260
+准确率: 99.22%
+2025-03-24 16:57:12,479 - limitedpropagationfedavg_20250324_164628 - INFO - 第 8 轮全局准确率: 99.2233
+2025-03-24 16:57:12,479 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 9 轮训练 === 时间：2025-03-24 18:07:12.479680
+2025-03-24 16:57:12,481 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 18:07:12.479680 可见卫星数: 9
+2025-03-24 16:57:12,481 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 9 颗卫星可见
+2025-03-24 16:57:12,481 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:57:12,481 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 16:57:12,481 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:57:12,481 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 16:57:12,482 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 16:57:12,482 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 16:57:12,482 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-8
+2025-03-24 16:57:12,482 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-8
+2025-03-24 16:57:12,482 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 16:57:12,482 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-5
+2025-03-24 16:57:12,482 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 16:57:12,483 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 16:57:12,483 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 16:57:12,483 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 16:57:12,483 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-4
+2025-03-24 16:57:12,483 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:57:12,483 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-11
+2025-03-24 16:57:12,483 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:57:12,484 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 16:57:12,484 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-7
+2025-03-24 16:57:12,484 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 16:57:12,484 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 16:57:12,484 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 16:57:28,382 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-6 完成训练，Loss=0.0168, Acc=99.54%
+2025-03-24 16:57:28,424 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-9 完成训练，Loss=0.0124, Acc=99.67%
+2025-03-24 16:57:28,452 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-8 完成训练，Loss=0.0121, Acc=99.65%
+2025-03-24 16:57:28,468 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-9 完成训练，Loss=0.0165, Acc=99.55%
+2025-03-24 16:57:28,481 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-7 完成训练，Loss=0.0149, Acc=99.63%
+2025-03-24 16:57:28,492 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-7 完成训练，Loss=0.0116, Acc=99.65%
+2025-03-24 16:57:44,373 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-7 完成训练，Loss=0.0156, Acc=99.61%
+2025-03-24 16:57:44,379 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-8 完成训练，Loss=0.0141, Acc=99.61%
+2025-03-24 16:57:44,410 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-5 完成训练，Loss=0.0166, Acc=99.62%
+2025-03-24 16:57:44,447 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-6 完成训练，Loss=0.0136, Acc=99.65%
+2025-03-24 16:57:44,513 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-2 完成训练，Loss=0.0116, Acc=99.69%
+2025-03-24 16:57:44,524 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-6 完成训练，Loss=0.0126, Acc=99.62%
+2025-03-24 16:58:00,468 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-6 完成训练，Loss=0.0135, Acc=99.62%
+2025-03-24 16:58:00,510 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-4 完成训练，Loss=0.0133, Acc=99.70%
+2025-03-24 16:58:00,601 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-8 完成训练，Loss=0.0134, Acc=99.67%
+2025-03-24 16:58:00,619 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-7 完成训练，Loss=0.0122, Acc=99.64%
+2025-03-24 16:58:00,691 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-8 完成训练，Loss=0.0128, Acc=99.68%
+2025-03-24 16:58:11,463 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-7 完成训练，Loss=0.0099, Acc=99.72%
+2025-03-24 16:58:11,466 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-8 完成训练，Loss=0.0135, Acc=99.62%
+2025-03-24 16:58:11,495 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-5 完成训练，Loss=0.0134, Acc=99.63%
+2025-03-24 16:58:11,498 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-6 完成训练，Loss=0.0117, Acc=99.70%
+2025-03-24 16:58:17,243 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-11 完成训练，Loss=0.0138, Acc=99.64%
+2025-03-24 16:58:17,244 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 18:13:12.479680 可见卫星数: 8
+2025-03-24 16:58:17,244 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗已训练的卫星可见，可以进行聚合
+2025-03-24 16:58:18,181 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 422328
+平均损失: 0.0218
+准确率: 99.50%
+2025-03-24 16:58:18,181 - limitedpropagationfedavg_20250324_164628 - INFO - 第 9 轮全局准确率: 99.4965
+2025-03-24 16:58:18,181 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 10 轮训练 === 时间：2025-03-24 18:18:18.181895
+2025-03-24 16:58:18,183 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 18:18:18.181895 可见卫星数: 9
+2025-03-24 16:58:18,183 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 9 颗卫星可见
+2025-03-24 16:58:18,183 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:58:18,183 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 16:58:18,183 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:58:18,184 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 16:58:18,184 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 16:58:18,184 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-8
+2025-03-24 16:58:18,184 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-8
+2025-03-24 16:58:18,184 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 16:58:18,184 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 16:58:18,185 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 16:58:18,185 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-10
+2025-03-24 16:58:18,185 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 16:58:18,185 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 16:58:18,185 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-4
+2025-03-24 16:58:18,185 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:58:18,186 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 16:58:18,186 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:58:18,186 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 16:58:18,186 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-7
+2025-03-24 16:58:18,187 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 16:58:18,187 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 16:58:18,187 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 16:58:18,187 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 16:58:34,234 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-6 完成训练，Loss=0.0167, Acc=99.55%
+2025-03-24 16:58:34,241 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-8 完成训练，Loss=0.0111, Acc=99.69%
+2025-03-24 16:58:34,279 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-7 完成训练，Loss=0.0134, Acc=99.58%
+2025-03-24 16:58:34,292 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-7 完成训练，Loss=0.0140, Acc=99.67%
+2025-03-24 16:58:34,300 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-9 完成训练，Loss=0.0130, Acc=99.63%
+2025-03-24 16:58:34,309 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-8 完成训练，Loss=0.0127, Acc=99.67%
+2025-03-24 16:58:50,193 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-7 完成训练，Loss=0.0144, Acc=99.62%
+2025-03-24 16:58:50,245 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-3 完成训练，Loss=0.0107, Acc=99.73%
+2025-03-24 16:58:50,267 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-6 完成训练，Loss=0.0123, Acc=99.67%
+2025-03-24 16:58:50,272 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-6 完成训练，Loss=0.0140, Acc=99.63%
+2025-03-24 16:58:50,299 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-10 完成训练，Loss=0.0122, Acc=99.69%
+2025-03-24 16:58:50,330 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-6 完成训练，Loss=0.0124, Acc=99.65%
+2025-03-24 16:59:06,062 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-4 完成训练，Loss=0.0142, Acc=99.65%
+2025-03-24 16:59:06,081 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-8 完成训练，Loss=0.0120, Acc=99.69%
+2025-03-24 16:59:06,107 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-8 完成训练，Loss=0.0143, Acc=99.63%
+2025-03-24 16:59:06,141 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-1 完成训练，Loss=0.0129, Acc=99.67%
+2025-03-24 16:59:06,158 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-7 完成训练，Loss=0.0127, Acc=99.67%
+2025-03-24 16:59:06,159 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-7 完成训练，Loss=0.0110, Acc=99.70%
+2025-03-24 16:59:13,337 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-8 完成训练，Loss=0.0132, Acc=99.65%
+2025-03-24 16:59:13,347 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-6 完成训练，Loss=0.0107, Acc=99.72%
+2025-03-24 16:59:13,349 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-5 完成训练，Loss=0.0128, Acc=99.64%
+2025-03-24 16:59:13,360 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-5 完成训练，Loss=0.0129, Acc=99.61%
+2025-03-24 16:59:13,362 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 18:24:18.181895 可见卫星数: 8
+2025-03-24 16:59:13,362 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 4 颗已训练的卫星可见，可以进行聚合
+2025-03-24 16:59:14,335 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 422938
+平均损失: 0.0163
+准确率: 99.64%
+2025-03-24 16:59:14,335 - limitedpropagationfedavg_20250324_164628 - INFO - 第 10 轮全局准确率: 99.6403
+2025-03-24 16:59:14,335 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 11 轮训练 === 时间：2025-03-24 18:29:14.335870
+2025-03-24 16:59:14,337 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 18:29:14.335870 可见卫星数: 8
+2025-03-24 16:59:14,337 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 16:59:14,337 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 16:59:14,337 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 16:59:14,337 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 16:59:14,338 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 16:59:14,338 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-5
+2025-03-24 16:59:14,338 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 16:59:14,338 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 16:59:14,338 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-8
+2025-03-24 16:59:14,338 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 16:59:14,338 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 16:59:14,339 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 16:59:14,339 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 16:59:14,339 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 16:59:14,339 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 16:59:14,339 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 16:59:14,339 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 16:59:14,339 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 16:59:14,340 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-7
+2025-03-24 16:59:14,340 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 16:59:14,340 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-9
+2025-03-24 16:59:14,340 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 16:59:14,340 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 16:59:14,340 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 16:59:30,484 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-6 完成训练，Loss=0.0185, Acc=99.51%
+2025-03-24 16:59:30,498 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-5 完成训练，Loss=0.0123, Acc=99.67%
+2025-03-24 16:59:30,516 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-9 完成训练，Loss=0.0138, Acc=99.60%
+2025-03-24 16:59:30,524 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-7 完成训练，Loss=0.0122, Acc=99.69%
+2025-03-24 16:59:30,530 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-7 完成训练，Loss=0.0120, Acc=99.67%
+2025-03-24 16:59:30,557 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-4 完成训练，Loss=0.0124, Acc=99.69%
+2025-03-24 16:59:47,079 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-7 完成训练，Loss=0.0146, Acc=99.61%
+2025-03-24 16:59:47,183 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-4 完成训练，Loss=0.0122, Acc=99.69%
+2025-03-24 16:59:47,184 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-8 完成训练，Loss=0.0136, Acc=99.64%
+2025-03-24 16:59:47,210 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-6 完成训练，Loss=0.0125, Acc=99.68%
+2025-03-24 16:59:47,214 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-6 完成训练，Loss=0.0129, Acc=99.73%
+2025-03-24 16:59:47,240 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-2 完成训练，Loss=0.0108, Acc=99.72%
+2025-03-24 17:00:04,316 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-6 完成训练，Loss=0.0133, Acc=99.65%
+2025-03-24 17:00:04,350 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-7 完成训练，Loss=0.0107, Acc=99.74%
+2025-03-24 17:00:04,351 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-7 完成训练，Loss=0.0132, Acc=99.70%
+2025-03-24 17:00:04,355 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-8 完成训练，Loss=0.0132, Acc=99.65%
+2025-03-24 17:00:04,373 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-8 完成训练，Loss=0.0162, Acc=99.61%
+2025-03-24 17:00:04,451 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-8 完成训练，Loss=0.0124, Acc=99.66%
+2025-03-24 17:00:11,701 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-5 完成训练，Loss=0.0135, Acc=99.62%
+2025-03-24 17:00:11,705 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-9 完成训练，Loss=0.0117, Acc=99.70%
+2025-03-24 17:00:11,709 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-6 完成训练，Loss=0.0112, Acc=99.72%
+2025-03-24 17:00:18,470 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-11 完成训练，Loss=0.0126, Acc=99.68%
+2025-03-24 17:00:18,472 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 18:35:14.335870 可见卫星数: 8
+2025-03-24 17:00:18,472 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 4 颗已训练的卫星可见，可以进行聚合
+2025-03-24 17:00:19,382 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 423281
+平均损失: 0.0142
+准确率: 99.72%
+2025-03-24 17:00:19,382 - limitedpropagationfedavg_20250324_164628 - INFO - 第 11 轮全局准确率: 99.7211
+2025-03-24 17:00:19,382 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 12 轮训练 === 时间：2025-03-24 18:40:19.382493
+2025-03-24 17:00:19,384 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 18:40:19.382493 可见卫星数: 9
+2025-03-24 17:00:19,384 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 9 颗卫星可见
+2025-03-24 17:00:19,384 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 17:00:19,384 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 17:00:19,384 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-4
+2025-03-24 17:00:19,384 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 17:00:19,384 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-3
+2025-03-24 17:00:19,384 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 17:00:19,385 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 17:00:19,385 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 17:00:19,385 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 17:00:19,385 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 17:00:19,385 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 17:00:19,385 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 17:00:19,385 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 17:00:19,386 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 17:00:19,386 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 17:00:19,386 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 17:00:19,386 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 17:00:19,386 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 17:00:19,386 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 17:00:19,386 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-4
+2025-03-24 17:00:19,387 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-8
+2025-03-24 17:00:19,387 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 17:00:19,387 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 17:00:35,220 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-4 完成训练，Loss=0.0104, Acc=99.71%
+2025-03-24 17:00:35,292 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-2 完成训练，Loss=0.0154, Acc=99.59%
+2025-03-24 17:00:35,323 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-4 完成训练，Loss=0.0125, Acc=99.69%
+2025-03-24 17:00:35,330 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-3 完成训练，Loss=0.0121, Acc=99.69%
+2025-03-24 17:00:35,341 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-4 完成训练，Loss=0.0115, Acc=99.70%
+2025-03-24 17:00:35,376 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-3 完成训练，Loss=0.0116, Acc=99.66%
+2025-03-24 17:00:51,145 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-3 完成训练，Loss=0.0123, Acc=99.69%
+2025-03-24 17:00:51,193 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-5 完成训练，Loss=0.0124, Acc=99.66%
+2025-03-24 17:00:51,219 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-10 完成训练，Loss=0.0133, Acc=99.66%
+2025-03-24 17:00:51,280 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-3 完成训练，Loss=0.0125, Acc=99.68%
+2025-03-24 17:00:51,310 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-2 完成训练，Loss=0.0125, Acc=99.64%
+2025-03-24 17:00:51,363 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-3 完成训练，Loss=0.0145, Acc=99.64%
+2025-03-24 17:01:07,084 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-2 完成训练，Loss=0.0143, Acc=99.66%
+2025-03-24 17:01:07,142 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-4 完成训练，Loss=0.0144, Acc=99.64%
+2025-03-24 17:01:07,194 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-6 完成训练，Loss=0.0114, Acc=99.69%
+2025-03-24 17:01:07,230 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-2 完成训练，Loss=0.0115, Acc=99.71%
+2025-03-24 17:01:07,257 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-2 完成训练，Loss=0.0117, Acc=99.65%
+2025-03-24 17:01:07,321 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-1 完成训练，Loss=0.0128, Acc=99.67%
+2025-03-24 17:01:14,035 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-4 完成训练，Loss=0.0157, Acc=99.58%
+2025-03-24 17:01:14,045 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-1 完成训练，Loss=0.0121, Acc=99.69%
+2025-03-24 17:01:14,053 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-8 完成训练，Loss=0.0114, Acc=99.70%
+2025-03-24 17:01:14,056 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-5 完成训练，Loss=0.0122, Acc=99.70%
+2025-03-24 17:01:14,059 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 18:46:19.382493 可见卫星数: 8
+2025-03-24 17:01:14,059 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 5 颗已训练的卫星可见，可以进行聚合
+2025-03-24 17:01:14,976 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 423436
+平均损失: 0.0158
+准确率: 99.76%
+2025-03-24 17:01:14,976 - limitedpropagationfedavg_20250324_164628 - INFO - 第 12 轮全局准确率: 99.7576
+2025-03-24 17:01:14,976 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 13 轮训练 === 时间：2025-03-24 18:51:14.976194
+2025-03-24 17:01:14,977 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 18:51:14.976194 可见卫星数: 8
+2025-03-24 17:01:14,977 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 17:01:14,977 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 17:01:14,978 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 17:01:14,978 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 17:01:14,978 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 17:01:14,978 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 17:01:14,978 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 17:01:14,978 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-3
+2025-03-24 17:01:14,979 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 17:01:14,979 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-8
+2025-03-24 17:01:14,979 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 17:01:14,979 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 17:01:14,979 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 17:01:14,979 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 17:01:14,979 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 17:01:14,980 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 17:01:14,980 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 17:01:14,980 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 17:01:14,980 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 17:01:14,980 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-2
+2025-03-24 17:01:14,980 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 17:01:14,981 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 17:01:14,981 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 17:01:14,981 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 17:01:31,024 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-4 完成训练，Loss=0.0135, Acc=99.65%
+2025-03-24 17:01:31,038 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-2 完成训练，Loss=0.0147, Acc=99.60%
+2025-03-24 17:01:31,041 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-1 完成训练，Loss=0.0131, Acc=99.64%
+2025-03-24 17:01:31,067 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-1 完成训练，Loss=0.0123, Acc=99.69%
+2025-03-24 17:01:31,130 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-3 完成训练，Loss=0.0124, Acc=99.65%
+2025-03-24 17:01:46,954 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-8 完成训练，Loss=0.0101, Acc=99.76%
+2025-03-24 17:01:47,052 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-3 完成训练，Loss=0.0132, Acc=99.65%
+2025-03-24 17:01:47,093 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-3 完成训练，Loss=0.0126, Acc=99.65%
+2025-03-24 17:01:47,121 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-3 完成训练，Loss=0.0118, Acc=99.71%
+2025-03-24 17:01:47,137 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-2 完成训练，Loss=0.0127, Acc=99.62%
+2025-03-24 17:02:02,838 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-3 完成训练，Loss=0.0116, Acc=99.70%
+2025-03-24 17:02:03,070 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-2 完成训练，Loss=0.0134, Acc=99.66%
+2025-03-24 17:02:03,085 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-4 完成训练，Loss=0.0128, Acc=99.66%
+2025-03-24 17:02:03,090 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-2 完成训练，Loss=0.0110, Acc=99.70%
+2025-03-24 17:02:03,151 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-2 完成训练，Loss=0.0107, Acc=99.69%
+2025-03-24 17:02:18,760 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-1 完成训练，Loss=0.0134, Acc=99.62%
+2025-03-24 17:02:19,032 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-2 完成训练，Loss=0.0096, Acc=99.75%
+2025-03-24 17:02:19,052 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-1 完成训练，Loss=0.0122, Acc=99.68%
+2025-03-24 17:02:19,075 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-10 完成训练，Loss=0.0125, Acc=99.69%
+2025-03-24 17:02:23,984 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-1 完成训练，Loss=0.0131, Acc=99.67%
+2025-03-24 17:02:27,132 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-11 完成训练，Loss=0.0123, Acc=99.69%
+2025-03-24 17:02:31,305 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-11 完成训练，Loss=0.0133, Acc=99.67%
+2025-03-24 17:02:31,307 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 18:57:14.976194 可见卫星数: 8
+2025-03-24 17:02:31,307 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 7 颗已训练的卫星可见，可以进行聚合
+2025-03-24 17:02:32,251 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 423442
+平均损失: 0.0209
+准确率: 99.76%
+2025-03-24 17:02:32,251 - limitedpropagationfedavg_20250324_164628 - INFO - 第 13 轮全局准确率: 99.7590
+2025-03-24 17:02:32,251 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 14 轮训练 === 时间：2025-03-24 19:02:32.251752
+2025-03-24 17:02:32,253 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 19:02:32.251752 可见卫星数: 8
+2025-03-24 17:02:32,253 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 17:02:32,253 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 17:02:32,253 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-6
+2025-03-24 17:02:32,253 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 17:02:32,254 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 17:02:32,254 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 17:02:32,254 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 17:02:32,254 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-7
+2025-03-24 17:02:32,254 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-5
+2025-03-24 17:02:32,254 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-3
+2025-03-24 17:02:32,255 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 17:02:32,255 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 17:02:32,255 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-5
+2025-03-24 17:02:32,255 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-5
+2025-03-24 17:02:32,255 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-4
+2025-03-24 17:02:32,255 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 17:02:32,256 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 17:02:32,256 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 17:02:32,256 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 17:02:32,256 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-7
+2025-03-24 17:02:32,257 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-9
+2025-03-24 17:02:32,257 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 17:02:32,257 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 17:02:32,257 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 17:02:48,261 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-4 完成训练，Loss=0.0113, Acc=99.67%
+2025-03-24 17:02:48,285 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-1 完成训练，Loss=0.0109, Acc=99.74%
+2025-03-24 17:02:48,292 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-10 完成训练，Loss=0.0133, Acc=99.66%
+2025-03-24 17:02:48,312 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-7 完成训练，Loss=0.0112, Acc=99.72%
+2025-03-24 17:02:48,320 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-6 完成训练，Loss=0.0174, Acc=99.53%
+2025-03-24 17:02:48,343 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-6 完成训练，Loss=0.0127, Acc=99.67%
+2025-03-24 17:03:04,156 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-5 完成训练，Loss=0.0132, Acc=99.66%
+2025-03-24 17:03:04,168 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-4 完成训练，Loss=0.0126, Acc=99.67%
+2025-03-24 17:03:04,182 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-3 完成训练，Loss=0.0124, Acc=99.69%
+2025-03-24 17:03:04,221 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-5 完成训练，Loss=0.0132, Acc=99.64%
+2025-03-24 17:03:04,282 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-5 完成训练，Loss=0.0138, Acc=99.68%
+2025-03-24 17:03:04,286 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-3 完成训练，Loss=0.0144, Acc=99.68%
+2025-03-24 17:03:20,175 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-4 完成训练，Loss=0.0130, Acc=99.67%
+2025-03-24 17:03:20,190 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-4 完成训练，Loss=0.0089, Acc=99.76%
+2025-03-24 17:03:20,242 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-6 完成训练，Loss=0.0126, Acc=99.65%
+2025-03-24 17:03:20,321 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-6 完成训练，Loss=0.0115, Acc=99.68%
+2025-03-24 17:03:20,366 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-7 完成训练，Loss=0.0104, Acc=99.69%
+2025-03-24 17:03:20,413 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-1 完成训练，Loss=0.0140, Acc=99.64%
+2025-03-24 17:03:27,123 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-9 完成训练，Loss=0.0120, Acc=99.69%
+2025-03-24 17:03:27,132 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-5 完成训练，Loss=0.0122, Acc=99.67%
+2025-03-24 17:03:27,148 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-5 完成训练，Loss=0.0128, Acc=99.64%
+2025-03-24 17:03:33,964 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-11 完成训练，Loss=0.0118, Acc=99.69%
+2025-03-24 17:03:33,965 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 19:08:32.251752 可见卫星数: 8
+2025-03-24 17:03:33,965 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 5 颗已训练的卫星可见，可以进行聚合
+2025-03-24 17:03:34,943 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 423278
+平均损失: 0.0233
+准确率: 99.72%
+2025-03-24 17:03:34,943 - limitedpropagationfedavg_20250324_164628 - INFO - 第 14 轮全局准确率: 99.7204
+2025-03-24 17:03:34,943 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 15 轮训练 === 时间：2025-03-24 19:13:34.943294
+2025-03-24 17:03:34,944 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 19:13:34.943294 可见卫星数: 8
+2025-03-24 17:03:34,944 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 17:03:34,944 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 17:03:34,945 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 17:03:34,945 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 17:03:34,945 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-1
+2025-03-24 17:03:34,945 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 17:03:34,945 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-10
+2025-03-24 17:03:34,945 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 17:03:34,946 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 17:03:34,946 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-9
+2025-03-24 17:03:34,946 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-8
+2025-03-24 17:03:34,946 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 17:03:34,946 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 17:03:34,946 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-4
+2025-03-24 17:03:34,946 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-1
+2025-03-24 17:03:34,947 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 17:03:34,947 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 17:03:34,947 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 17:03:34,947 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 17:03:34,947 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 17:03:34,947 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 17:03:34,947 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 17:03:34,948 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-1
+2025-03-24 17:03:34,948 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 17:03:50,984 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-10 完成训练，Loss=0.0148, Acc=99.60%
+2025-03-24 17:03:51,087 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-1 完成训练，Loss=0.0144, Acc=99.61%
+2025-03-24 17:03:51,089 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-10 完成训练，Loss=0.0136, Acc=99.63%
+2025-03-24 17:03:51,108 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-1 完成训练，Loss=0.0129, Acc=99.68%
+2025-03-24 17:04:06,951 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-2 完成训练，Loss=0.0142, Acc=99.62%
+2025-03-24 17:04:07,025 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-9 完成训练，Loss=0.0115, Acc=99.69%
+2025-03-24 17:04:07,057 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-10 完成训练，Loss=0.0112, Acc=99.70%
+2025-03-24 17:04:07,081 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-8 完成训练，Loss=0.0120, Acc=99.72%
+2025-03-24 17:04:22,977 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-2 完成训练，Loss=0.0133, Acc=99.65%
+2025-03-24 17:04:23,040 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-4 完成训练，Loss=0.0105, Acc=99.74%
+2025-03-24 17:04:23,107 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-1 完成训练，Loss=0.0112, Acc=99.72%
+2025-03-24 17:04:23,136 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-9 完成训练，Loss=0.0141, Acc=99.60%
+2025-03-24 17:04:38,987 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-1 完成训练，Loss=0.0100, Acc=99.76%
+2025-03-24 17:04:39,081 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-6 完成训练，Loss=0.0104, Acc=99.73%
+2025-03-24 17:04:39,176 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-10 完成训练，Loss=0.0123, Acc=99.70%
+2025-03-24 17:04:55,128 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-1 完成训练，Loss=0.0118, Acc=99.66%
+2025-03-24 17:05:11,017 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-11 完成训练，Loss=0.0117, Acc=99.71%
+2025-03-24 17:05:11,157 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-10 完成训练，Loss=0.0119, Acc=99.73%
+2025-03-24 17:05:11,179 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-11 完成训练，Loss=0.0116, Acc=99.70%
+2025-03-24 17:05:26,104 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-11 完成训练，Loss=0.0123, Acc=99.69%
+2025-03-24 17:05:29,181 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-11 完成训练，Loss=0.0121, Acc=99.70%
+2025-03-24 17:05:29,208 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-11 完成训练，Loss=0.0116, Acc=99.71%
+2025-03-24 17:05:29,210 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 19:19:34.943294 可见卫星数: 8
+2025-03-24 17:05:29,210 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 5 颗已训练的卫星可见，可以进行聚合
+2025-03-24 17:05:30,160 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 423450
+平均损失: 0.0389
+准确率: 99.76%
+2025-03-24 17:05:30,160 - limitedpropagationfedavg_20250324_164628 - INFO - 第 15 轮全局准确率: 99.7609
+2025-03-24 17:05:30,160 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 16 轮训练 === 时间：2025-03-24 19:25:30.160707
+2025-03-24 17:05:30,162 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 19:25:30.160707 可见卫星数: 9
+2025-03-24 17:05:30,162 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 9 颗卫星可见
+2025-03-24 17:05:30,162 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 17:05:30,162 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 17:05:30,162 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-4
+2025-03-24 17:05:30,162 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 17:05:30,163 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 17:05:30,163 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-1
+2025-03-24 17:05:30,163 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-2
+2025-03-24 17:05:30,163 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-3
+2025-03-24 17:05:30,163 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 17:05:30,163 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-3
+2025-03-24 17:05:30,164 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 17:05:30,164 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-3
+2025-03-24 17:05:30,164 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-5
+2025-03-24 17:05:30,164 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-5
+2025-03-24 17:05:30,164 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-2
+2025-03-24 17:05:30,164 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-3
+2025-03-24 17:05:30,164 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-4
+2025-03-24 17:05:30,165 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 17:05:30,165 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-2
+2025-03-24 17:05:30,165 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-2
+2025-03-24 17:05:30,165 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 17:05:30,165 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 17:05:30,166 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 17:05:46,296 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-4 完成训练，Loss=0.0139, Acc=99.65%
+2025-03-24 17:05:46,299 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-2 完成训练，Loss=0.0133, Acc=99.60%
+2025-03-24 17:05:46,329 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-1 完成训练，Loss=0.0106, Acc=99.71%
+2025-03-24 17:05:46,359 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-7 完成训练，Loss=0.0114, Acc=99.70%
+2025-03-24 17:05:46,374 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-1 完成训练，Loss=0.0138, Acc=99.59%
+2025-03-24 17:06:02,339 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-9 完成训练，Loss=0.0144, Acc=99.55%
+2025-03-24 17:06:02,405 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-4 完成训练，Loss=0.0155, Acc=99.63%
+2025-03-24 17:06:02,430 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-3 完成训练，Loss=0.0117, Acc=99.72%
+2025-03-24 17:06:02,471 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-3 完成训练，Loss=0.0110, Acc=99.72%
+2025-03-24 17:06:02,493 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-3 完成训练，Loss=0.0126, Acc=99.68%
+2025-03-24 17:06:18,352 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-5 完成训练，Loss=0.0123, Acc=99.67%
+2025-03-24 17:06:18,411 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-5 完成训练，Loss=0.0109, Acc=99.74%
+2025-03-24 17:06:18,449 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-2 完成训练，Loss=0.0118, Acc=99.70%
+2025-03-24 17:06:18,537 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-4 完成训练，Loss=0.0118, Acc=99.69%
+2025-03-24 17:06:18,540 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-3 完成训练，Loss=0.0112, Acc=99.69%
+2025-03-24 17:06:34,341 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-4 完成训练，Loss=0.0122, Acc=99.64%
+2025-03-24 17:06:34,353 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-2 完成训练，Loss=0.0131, Acc=99.58%
+2025-03-24 17:06:34,359 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-2 完成训练，Loss=0.0086, Acc=99.78%
+2025-03-24 17:06:34,404 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-9 完成训练，Loss=0.0137, Acc=99.65%
+2025-03-24 17:06:34,424 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-8 完成训练，Loss=0.0113, Acc=99.71%
+2025-03-24 17:06:37,519 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-10 完成训练，Loss=0.0117, Acc=99.69%
+2025-03-24 17:06:38,892 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-11 完成训练，Loss=0.0130, Acc=99.67%
+2025-03-24 17:06:38,894 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 19:31:30.160707 可见卫星数: 8
+2025-03-24 17:06:38,894 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 5 颗已训练的卫星可见，可以进行聚合
+2025-03-24 17:06:39,833 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 423115
+平均损失: 0.0322
+准确率: 99.68%
+2025-03-24 17:06:39,833 - limitedpropagationfedavg_20250324_164628 - INFO - 第 16 轮全局准确率: 99.6820
+2025-03-24 17:06:39,833 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 17 轮训练 === 时间：2025-03-24 19:36:39.833583
+2025-03-24 17:06:39,835 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 19:36:39.833583 可见卫星数: 8
+2025-03-24 17:06:39,835 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 17:06:39,835 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 17:06:39,835 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-10
+2025-03-24 17:06:39,835 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-9
+2025-03-24 17:06:39,835 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-11
+2025-03-24 17:06:39,835 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-11
+2025-03-24 17:06:39,836 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-10
+2025-03-24 17:06:39,836 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-10
+2025-03-24 17:06:39,836 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-1
+2025-03-24 17:06:39,836 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 17:06:39,836 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-3
+2025-03-24 17:06:39,836 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 17:06:39,836 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-5
+2025-03-24 17:06:39,837 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-10
+2025-03-24 17:06:39,837 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 17:06:39,837 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-9
+2025-03-24 17:06:39,837 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 17:06:39,837 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 17:06:39,837 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-11
+2025-03-24 17:06:39,837 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 17:06:39,838 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 17:06:39,838 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-9
+2025-03-24 17:06:39,838 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-11
+2025-03-24 17:06:39,838 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-10
+2025-03-24 17:06:55,826 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-10 完成训练，Loss=0.0140, Acc=99.67%
+2025-03-24 17:06:55,843 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-10 完成训练，Loss=0.0146, Acc=99.63%
+2025-03-24 17:06:55,848 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-10 完成训练，Loss=0.0131, Acc=99.66%
+2025-03-24 17:06:55,887 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-9 完成训练，Loss=0.0107, Acc=99.72%
+2025-03-24 17:07:11,842 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-9 完成训练，Loss=0.0110, Acc=99.67%
+2025-03-24 17:07:11,852 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-3 完成训练，Loss=0.0108, Acc=99.72%
+2025-03-24 17:07:11,890 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-1 完成训练，Loss=0.0160, Acc=99.55%
+2025-03-24 17:07:11,965 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-9 完成训练，Loss=0.0140, Acc=99.63%
+2025-03-24 17:07:27,848 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-6 完成训练，Loss=0.0135, Acc=99.66%
+2025-03-24 17:07:27,885 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-10 完成训练，Loss=0.0129, Acc=99.64%
+2025-03-24 17:07:27,892 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-5 完成训练，Loss=0.0155, Acc=99.60%
+2025-03-24 17:07:28,009 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-9 完成训练，Loss=0.0154, Acc=99.61%
+2025-03-24 17:07:43,781 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-7 完成训练，Loss=0.0137, Acc=99.63%
+2025-03-24 17:07:43,812 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-8 完成训练，Loss=0.0122, Acc=99.69%
+2025-03-24 17:07:43,919 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-8 完成训练，Loss=0.0128, Acc=99.67%
+2025-03-24 17:07:59,653 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-8 完成训练，Loss=0.0127, Acc=99.63%
+2025-03-24 17:07:59,659 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-9 完成训练，Loss=0.0132, Acc=99.70%
+2025-03-24 17:08:10,332 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-10 完成训练，Loss=0.0130, Acc=99.60%
+2025-03-24 17:08:10,368 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-11 完成训练，Loss=0.0125, Acc=99.69%
+2025-03-24 17:08:10,378 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-11 完成训练，Loss=0.0125, Acc=99.70%
+2025-03-24 17:08:19,696 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-11 完成训练，Loss=0.0121, Acc=99.70%
+2025-03-24 17:08:21,110 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-11 完成训练，Loss=0.0126, Acc=99.68%
+2025-03-24 17:08:21,112 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 19:42:39.833583 可见卫星数: 8
+2025-03-24 17:08:21,112 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 6 颗已训练的卫星可见，可以进行聚合
+2025-03-24 17:08:22,054 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 423428
+平均损失: 0.0346
+准确率: 99.76%
+2025-03-24 17:08:22,054 - limitedpropagationfedavg_20250324_164628 - INFO - 第 17 轮全局准确率: 99.7557
+2025-03-24 17:08:22,054 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 18 轮训练 === 时间：2025-03-24 19:48:22.054667
+2025-03-24 17:08:22,056 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 19:48:22.054667 可见卫星数: 8
+2025-03-24 17:08:22,056 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 17:08:22,056 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 17:08:22,056 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 17:08:22,056 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 17:08:22,056 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 17:08:22,057 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 17:08:22,057 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-9
+2025-03-24 17:08:22,057 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-8
+2025-03-24 17:08:22,057 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-8
+2025-03-24 17:08:22,057 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 17:08:22,057 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-5
+2025-03-24 17:08:22,057 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 17:08:22,058 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-2
+2025-03-24 17:08:22,058 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 17:08:22,058 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 17:08:22,058 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-4
+2025-03-24 17:08:22,058 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 17:08:22,058 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-11
+2025-03-24 17:08:22,058 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 17:08:22,059 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 17:08:22,059 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-7
+2025-03-24 17:08:22,059 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 17:08:22,059 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 17:08:22,059 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 17:08:37,966 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-7 完成训练，Loss=0.0130, Acc=99.63%
+2025-03-24 17:08:38,044 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-6 完成训练，Loss=0.0141, Acc=99.62%
+2025-03-24 17:08:38,068 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-8 完成训练，Loss=0.0106, Acc=99.69%
+2025-03-24 17:08:38,069 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-7 完成训练，Loss=0.0117, Acc=99.71%
+2025-03-24 17:08:38,091 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-9 完成训练，Loss=0.0109, Acc=99.75%
+2025-03-24 17:08:38,106 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-9 完成训练，Loss=0.0147, Acc=99.60%
+2025-03-24 17:08:53,864 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-8 完成训练，Loss=0.0135, Acc=99.63%
+2025-03-24 17:08:53,974 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-2 完成训练，Loss=0.0105, Acc=99.70%
+2025-03-24 17:08:53,977 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-6 完成训练，Loss=0.0120, Acc=99.67%
+2025-03-24 17:08:53,984 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-5 完成训练，Loss=0.0141, Acc=99.61%
+2025-03-24 17:08:53,985 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-7 完成训练，Loss=0.0134, Acc=99.67%
+2025-03-24 17:08:54,128 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-6 完成训练，Loss=0.0146, Acc=99.61%
+2025-03-24 17:09:09,824 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-6 完成训练，Loss=0.0134, Acc=99.65%
+2025-03-24 17:09:09,883 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-7 完成训练，Loss=0.0139, Acc=99.65%
+2025-03-24 17:09:09,895 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-4 完成训练，Loss=0.0113, Acc=99.70%
+2025-03-24 17:09:09,940 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-8 完成训练，Loss=0.0111, Acc=99.66%
+2025-03-24 17:09:10,153 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-8 完成训练，Loss=0.0115, Acc=99.70%
+2025-03-24 17:09:20,711 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-8 完成训练，Loss=0.0135, Acc=99.60%
+2025-03-24 17:09:20,720 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-7 完成训练，Loss=0.0117, Acc=99.68%
+2025-03-24 17:09:20,728 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-6 完成训练，Loss=0.0116, Acc=99.66%
+2025-03-24 17:09:20,731 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-5 完成训练，Loss=0.0113, Acc=99.67%
+2025-03-24 17:09:26,130 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-11 完成训练，Loss=0.0108, Acc=99.72%
+2025-03-24 17:09:26,131 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 19:54:22.054667 可见卫星数: 9
+2025-03-24 17:09:26,132 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗已训练的卫星可见，可以进行聚合
+2025-03-24 17:09:27,082 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 423446
+平均损失: 0.0563
+准确率: 99.76%
+2025-03-24 17:09:27,082 - limitedpropagationfedavg_20250324_164628 - INFO - 第 18 轮全局准确率: 99.7599
+2025-03-24 17:09:27,082 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 19 轮训练 === 时间：2025-03-24 19:59:27.082221
+2025-03-24 17:09:27,083 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 19:59:27.082221 可见卫星数: 8
+2025-03-24 17:09:27,083 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 17:09:27,083 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 17:09:27,084 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 17:09:27,084 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 17:09:27,084 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 17:09:27,084 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 17:09:27,084 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-8
+2025-03-24 17:09:27,084 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-8
+2025-03-24 17:09:27,085 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 17:09:27,085 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-3
+2025-03-24 17:09:27,085 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 17:09:27,085 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-10
+2025-03-24 17:09:27,085 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 17:09:27,085 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 17:09:27,085 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-4
+2025-03-24 17:09:27,086 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 17:09:27,086 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-1
+2025-03-24 17:09:27,086 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 17:09:27,086 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 17:09:27,086 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-7
+2025-03-24 17:09:27,086 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 17:09:27,087 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 17:09:27,087 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-5
+2025-03-24 17:09:27,087 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 17:09:43,134 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-7 完成训练，Loss=0.0124, Acc=99.71%
+2025-03-24 17:09:43,138 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-8 完成训练，Loss=0.0108, Acc=99.70%
+2025-03-24 17:09:43,152 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-7 完成训练，Loss=0.0125, Acc=99.63%
+2025-03-24 17:09:43,163 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-6 完成训练，Loss=0.0147, Acc=99.62%
+2025-03-24 17:09:43,207 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-8 完成训练，Loss=0.0092, Acc=99.77%
+2025-03-24 17:09:43,209 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-9 完成训练，Loss=0.0120, Acc=99.69%
+2025-03-24 17:09:59,114 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-7 完成训练，Loss=0.0131, Acc=99.63%
+2025-03-24 17:09:59,141 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-3 完成训练，Loss=0.0122, Acc=99.69%
+2025-03-24 17:09:59,154 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-6 完成训练，Loss=0.0126, Acc=99.67%
+2025-03-24 17:09:59,165 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-6 完成训练，Loss=0.0128, Acc=99.73%
+2025-03-24 17:09:59,192 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-10 完成训练，Loss=0.0103, Acc=99.73%
+2025-03-24 17:09:59,246 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-6 完成训练，Loss=0.0114, Acc=99.69%
+2025-03-24 17:10:15,061 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-4 完成训练，Loss=0.0130, Acc=99.67%
+2025-03-24 17:10:15,063 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-7 完成训练，Loss=0.0133, Acc=99.65%
+2025-03-24 17:10:15,109 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-1 完成训练，Loss=0.0107, Acc=99.71%
+2025-03-24 17:10:15,113 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-8 完成训练，Loss=0.0123, Acc=99.70%
+2025-03-24 17:10:15,180 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-8 完成训练，Loss=0.0127, Acc=99.64%
+2025-03-24 17:10:15,201 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-7 完成训练，Loss=0.0103, Acc=99.73%
+2025-03-24 17:10:21,895 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-8 完成训练，Loss=0.0118, Acc=99.67%
+2025-03-24 17:10:21,901 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-6 完成训练，Loss=0.0105, Acc=99.72%
+2025-03-24 17:10:21,906 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-5 完成训练，Loss=0.0131, Acc=99.63%
+2025-03-24 17:10:21,913 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-5 完成训练，Loss=0.0141, Acc=99.59%
+2025-03-24 17:10:21,915 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 20:05:27.082221 可见卫星数: 8
+2025-03-24 17:10:21,915 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 3 颗已训练的卫星可见，可以进行聚合
+2025-03-24 17:10:22,920 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 423318
+平均损失: 0.0643
+准确率: 99.73%
+2025-03-24 17:10:22,920 - limitedpropagationfedavg_20250324_164628 - INFO - 第 19 轮全局准确率: 99.7298
+2025-03-24 17:10:22,920 - limitedpropagationfedavg_20250324_164628 - INFO - === 开始第 20 轮训练 === 时间：2025-03-24 20:10:22.920935
+2025-03-24 17:10:22,922 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 20:10:22.920935 可见卫星数: 8
+2025-03-24 17:10:22,922 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 8 颗卫星可见
+2025-03-24 17:10:22,922 - limitedpropagationfedavg_20250324_164628 - INFO - 通过有限传播策略选择了 22 颗卫星
+2025-03-24 17:10:22,922 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-7
+2025-03-24 17:10:22,922 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-6
+2025-03-24 17:10:22,923 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-9
+2025-03-24 17:10:22,923 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-5
+2025-03-24 17:10:22,923 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-7
+2025-03-24 17:10:22,923 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-4
+2025-03-24 17:10:22,923 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-8
+2025-03-24 17:10:22,923 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-7
+2025-03-24 17:10:22,924 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-6
+2025-03-24 17:10:22,924 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-4
+2025-03-24 17:10:22,924 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-6
+2025-03-24 17:10:22,924 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_4-2
+2025-03-24 17:10:22,924 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-6
+2025-03-24 17:10:22,924 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-7
+2025-03-24 17:10:22,924 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-8
+2025-03-24 17:10:22,924 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_3-8
+2025-03-24 17:10:22,925 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-7
+2025-03-24 17:10:22,925 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_2-8
+2025-03-24 17:10:22,925 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_6-9
+2025-03-24 17:10:22,925 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-6
+2025-03-24 17:10:22,925 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_5-11
+2025-03-24 17:10:22,926 - limitedpropagationfedavg_20250324_164628 - INFO - 分发模型参数给卫星 satellite_1-5
+2025-03-24 17:10:39,022 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-9 完成训练，Loss=0.0123, Acc=99.67%
+2025-03-24 17:10:39,033 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-6 完成训练，Loss=0.0146, Acc=99.63%
+2025-03-24 17:10:39,052 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-7 完成训练，Loss=0.0096, Acc=99.75%
+2025-03-24 17:10:39,111 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-5 完成训练，Loss=0.0132, Acc=99.64%
+2025-03-24 17:10:39,122 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-4 完成训练，Loss=0.0112, Acc=99.69%
+2025-03-24 17:10:39,163 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-7 完成训练，Loss=0.0118, Acc=99.70%
+2025-03-24 17:10:54,874 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-8 完成训练，Loss=0.0125, Acc=99.72%
+2025-03-24 17:10:54,887 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-7 完成训练，Loss=0.0143, Acc=99.66%
+2025-03-24 17:10:54,901 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-6 完成训练，Loss=0.0115, Acc=99.70%
+2025-03-24 17:10:54,980 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-6 完成训练，Loss=0.0127, Acc=99.67%
+2025-03-24 17:10:55,019 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-4 完成训练，Loss=0.0112, Acc=99.75%
+2025-03-24 17:10:55,112 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_4-2 完成训练，Loss=0.0125, Acc=99.64%
+2025-03-24 17:11:10,905 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-7 完成训练，Loss=0.0146, Acc=99.65%
+2025-03-24 17:11:10,966 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-6 完成训练，Loss=0.0144, Acc=99.61%
+2025-03-24 17:11:10,995 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-8 完成训练，Loss=0.0174, Acc=99.53%
+2025-03-24 17:11:11,079 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-7 完成训练，Loss=0.0091, Acc=99.72%
+2025-03-24 17:11:11,127 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_3-8 完成训练，Loss=0.0137, Acc=99.65%
+2025-03-24 17:11:11,174 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_2-8 完成训练，Loss=0.0124, Acc=99.67%
+2025-03-24 17:11:17,878 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_6-9 完成训练，Loss=0.0104, Acc=99.74%
+2025-03-24 17:11:17,893 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-6 完成训练，Loss=0.0088, Acc=99.75%
+2025-03-24 17:11:17,914 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_1-5 完成训练，Loss=0.0122, Acc=99.63%
+2025-03-24 17:11:24,809 - limitedpropagationfedavg_20250324_164628 - INFO - 卫星 satellite_5-11 完成训练，Loss=0.0115, Acc=99.71%
+2025-03-24 17:11:24,811 - limitedpropagationfedavg_20250324_164628 - INFO - 当前时间 2025-03-24 20:16:22.920935 可见卫星数: 8
+2025-03-24 17:11:24,811 - limitedpropagationfedavg_20250324_164628 - INFO - 当前有 4 颗已训练的卫星可见，可以进行聚合
+2025-03-24 17:11:25,770 - limitedpropagationfedavg_20250324_164628 - INFO - 测试结果:
+总样本数: 424465
+正确预测数: 423416
+平均损失: 0.0636
+准确率: 99.75%
+2025-03-24 17:11:25,770 - limitedpropagationfedavg_20250324_164628 - INFO - 第 20 轮全局准确率: 99.7529
+2025-03-24 17:11:25,770 - limitedpropagationfedavg_20250324_164628 - INFO - 实验完成
