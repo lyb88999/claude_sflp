@@ -320,11 +320,23 @@ class BaselineExperiment:
         if self.config['data'].get('dataset') == 'real_traffic':
             self.logger.info("开始准备真实网络流量数据")
             
-            # 使用IID或非IID分布分配给卫星
-            self.satellite_datasets = self.data_generator.generate_data(
-                iid=self.config['data'].get('iid', True),            # 是否使用IID分布
-                alpha=self.config['data'].get('alpha', 1.0)          # Dirichlet参数(仅在non-iid时使用)
-            )
+            # 检查是否启用区域相似性
+            region_similarity = self.config['data'].get('region_similarity', False)
+
+            if region_similarity:
+                self.logger.info("启用区域相似性")
+                overlap_ratio = self.config['data'].get('overlap_ratio', 0.5)
+                self.satellite_datasets = self.data_generator.generate_region_similar_data(
+                iid=self.config['data'].get('iid', False),
+                alpha=self.config['data'].get('alpha', 1.0),
+                overlap_ratio=overlap_ratio)
+            else:
+                self.logger.info("未启用区域相似性")
+                # 使用IID或非IID分布分配给卫星
+                self.satellite_datasets = self.data_generator.generate_data(
+                    iid=self.config['data'].get('iid', True),            # 是否使用IID分布
+                    alpha=self.config['data'].get('alpha', 1.0)          # Dirichlet参数(仅在non-iid时使用)
+                )
             
             # 获取测试数据集
             self.test_dataset = self.data_generator.generate_test_data()

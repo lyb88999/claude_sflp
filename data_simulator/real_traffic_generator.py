@@ -227,6 +227,113 @@ class RealTrafficGenerator:
         
         return satellite_datasets
     
+    def generate_region_similar_data(self, iid: bool = False, alpha: float = 0.6, overlap_ratio: float = 0.5) -> Dict[str, TrafficFlowDataset]:
+        """
+        生成具有区域相似性的数据分布
+        
+        Args:
+            iid: 是否为独立同分布数据（在本方法中不起作用，保留参数是为了保持接口一致）
+            alpha: Dirichlet参数（控制非IID程度）
+            overlap_ratio: 区域内数据重叠比例（0-1之间）
+            
+        Returns:
+            Dict: 卫星ID -> 数据集
+        """
+        if not hasattr(self, 'X_train_tensor'):
+            raise ValueError("请先调用load_and_preprocess_data加载数据")
+            
+        print(f"为 {self.num_satellites} 个卫星生成具有区域相似性的数据分布，重叠比例: {overlap_ratio}")
+        
+        # 按轨道分组卫星
+        orbit_satellites = {}
+        for orbit in range(1, self.num_orbits + 1):
+            orbit_satellites[orbit] = []
+            for sat in range(1, self.satellites_per_orbit + 1):
+                orbit_satellites[orbit].append(f"satellite_{orbit}-{sat}")
+        
+        # 获取所有特征和标签
+        all_features = self.X_train_tensor
+        all_labels = self.y_train_tensor
+        
+        # 计算每个轨道分配的样本数
+        total_samples = len(all_features)
+        samples_per_orbit = total_samples // self.num_orbits
+        
+        # 为每个轨道创建基础数据集
+        orbit_data = {}
+        start_idx = 0
+        for orbit in range(1, self.num_orbits + 1):
+            # 为每个轨道分配数据
+            orbit_size = samples_per_orbit
+            if orbit == self.num_orbits:  # 最后一个轨道分配剩余的所有样本
+                orbit_size = total_samples - start_idx
+                
+            indices = list(range(start_idx, start_idx + orbit_size))
+            orbit_features = all_features[indices]
+            orbit_labels = all_labels[indices]
+            
+            orbit_data[orbit] = {
+                'features': orbit_features,
+                'labels': orbit_labels,
+                'size': orbit_size
+            }
+            start_idx += orbit_size
+        
+        # 分配具有重叠的数据集
+        satellite_datasets = {}
+        for orbit, satellites in orbit_satellites.items():
+            orbit_features = orbit_data[orbit]['features']
+            orbit_labels = orbit_data[orbit]['labels']
+            orbit_size = orbit_data[orbit]['size']
+            
+            # 计算每个卫星的基础样本数
+            base_samples_per_sat = orbit_size // len(satellites)
+            
+            # 计算共享样本数
+            shared_size = int(base_samples_per_sat * overlap_ratio)
+            unique_size = base_samples_per_sat - shared_size
+            
+            # 创建共享数据池
+            shared_indices = list(range(shared_size))
+            shared_features = orbit_features[shared_indices]
+            shared_labels = orbit_labels[shared_indices]
+            
+            # 为每个卫星分配数据
+            for i, sat_id in enumerate(satellites):
+                # 分配共享数据
+                sat_features = [shared_features]
+                sat_labels = [shared_labels]
+                
+                # 分配独特数据
+                if i < len(satellites) - 1:  # 前面的卫星
+                    start = shared_size + i * unique_size
+                    end = start + unique_size
+                    unique_features = orbit_features[start:end]
+                    unique_labels = orbit_labels[start:end]
+                else:  # 最后一个卫星，分配所有剩余样本
+                    start = shared_size + (len(satellites) - 1) * unique_size
+                    unique_features = orbit_features[start:]
+                    unique_labels = orbit_labels[start:]
+                
+                sat_features.append(unique_features)
+                sat_labels.append(unique_labels)
+                
+                # 合并数据
+                combined_features = torch.cat(sat_features)
+                combined_labels = torch.cat(sat_labels)
+                
+                # 随机打乱数据
+                indices = torch.randperm(len(combined_features))
+                satellite_datasets[sat_id] = TrafficFlowDataset(
+                    combined_features[indices],
+                    combined_labels[indices]
+                )
+                
+                print(f"卫星 {sat_id} 数据集大小: {len(satellite_datasets[sat_id])}, "
+                    f"共享: {len(shared_features)}, 独特: {len(unique_features)}")
+        
+        return satellite_datasets
+    
     def generate_test_data(self) -> TrafficFlowDataset:
         """生成测试数据集"""
         if not hasattr(self, 'X_test_tensor'):

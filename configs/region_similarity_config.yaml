@@ -1,4 +1,4 @@
-# configs/similarity_grouping_config_limited.yaml
+# 区域数据相似性配置
 
 # 网络配置
 network:
@@ -8,6 +8,21 @@ network:
 # 能源配置
 energy:
   config_file: "configs/energy_config.yaml"
+
+# FedAvg特定配置
+fedavg:
+  participation_rate: 0.8  # 每轮参与比例
+
+# 传播配置 - 新增的部分
+propagation:
+  hops: 3  # 传播跳数，表示模型可以传播多少跳
+  max_satellites: 22  # 最大传播卫星数量
+  relay_selection: "nearest"  # 中继选择策略，可选：nearest, random, energy_aware
+  intra_orbit_links: true  # 是否允许轨道内链接
+  inter_orbit_links: true  # 是否允许跨轨道链接
+  link_reliability: 0.95  # 链接可靠性（0-1）
+  propagation_delay: 10  # 每跳传播延迟(毫秒)
+  energy_per_hop: 0.05  # 每跳传播的能量消耗(Wh)
   
 # 联邦学习配置
 fl:
@@ -23,7 +38,9 @@ data:
   csv_path: "/Users/yuboli/Downloads/merged_traffic_data_20250305_111338.csv"
   test_size: 0.2  # 测试集比例
   iid: false  # 独立同分布
-  alpha: 0.6  # Dirichlet参数(较小值使分布更不均匀)
+  alpha: 0.6  # Dirichlet参数
+  region_similarity: true  # 启用区域相似性
+  overlap_ratio: 0.5  # 区域内数据重叠比例
 
 # 模型配置
 model:
@@ -59,12 +76,8 @@ ground_station:
 
 # 数据相似度分组配置
 group:
-  max_distance: 2           # 最大距离阈值，表示每个源节点考虑左右多少个相邻节点
-  max_group_size: 2         # 每组最大卫星数量 (降低以限制卫星数量)
-  similarity_threshold: 0.7  # 相似度阈值
-  max_group_size_threshold: 2  # 触发相似度阈值调整的组大小
+  max_distance: 2           # 最大距离阈值
+  max_group_size: 5         # 每组最大卫星数量
+  similarity_threshold: 0.5  # 初始相似度阈值
+  max_group_size_threshold: 4  # 触发相似度阈值调整的组大小
   similarity_refresh_rounds: 5  # 每多少轮重新计算分组
-
-# 卫星数量限制配置 (新增)
-limit:
-  max_satellites_per_orbit: 2  # 每个轨道最多使用2颗卫星，总共约8颗(6个轨道)
