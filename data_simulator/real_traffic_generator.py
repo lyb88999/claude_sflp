@@ -229,7 +229,7 @@ class RealTrafficGenerator:
     
     def generate_region_similar_data(self, iid: bool = False, alpha: float = 0.6, overlap_ratio: float = 0.5) -> Dict[str, TrafficFlowDataset]:
         """
-        生成具有区域相似性的数据分布
+        生成具有区域相似性的数据分布 (修改版)
         
         Args:
             iid: 是否为独立同分布数据（在本方法中不起作用，保留参数是为了保持接口一致）
@@ -259,24 +259,84 @@ class RealTrafficGenerator:
         total_samples = len(all_features)
         samples_per_orbit = total_samples // self.num_orbits
         
+        # 为每个轨道创建特定的数据偏移
+        orbit_shifts = {}
+        for orbit in range(1, self.num_orbits + 1):
+            # 生成一个统一的区域偏移向量
+            if orbit == 1:  # 为区域1创建较小的偏移，使其更接近原始数据
+                orbit_shifts[orbit] = np.random.uniform(-0.1, 0.1, size=self.feature_dim)
+            else:
+                orbit_shifts[orbit] = np.random.uniform(-0.5, 0.5, size=self.feature_dim)
+        
+        # 打乱所有数据索引
+        all_indices = list(range(total_samples))
+        self.random_state.shuffle(all_indices)
+        
         # 为每个轨道创建基础数据集
         orbit_data = {}
         start_idx = 0
         for orbit in range(1, self.num_orbits + 1):
-            # 为每个轨道分配数据
+            # 随机分配数据，而不是按顺序
             orbit_size = samples_per_orbit
             if orbit == self.num_orbits:  # 最后一个轨道分配剩余的所有样本
                 orbit_size = total_samples - start_idx
                 
-            indices = list(range(start_idx, start_idx + orbit_size))
-            orbit_features = all_features[indices]
-            orbit_labels = all_labels[indices]
+            # 使用打乱后的索引
+            orbit_indices = all_indices[start_idx:start_idx + orbit_size]
+            orbit_features = all_features[orbit_indices]
+            orbit_labels = all_labels[orbit_indices]
+            
+            # 对区域1进行特殊处理 - 平衡标签分布
+            if orbit == 1:
+                label_counts = torch.bincount(orbit_labels, minlength=self.num_classes)
+                if torch.max(label_counts) > 0:  # 确保有数据
+                    # 计算每个标签的比例
+                    label_ratios = label_counts.float() / torch.sum(label_counts).float()
+                    # 找出小于平均比例的标签
+                    avg_ratio = 1.0 / self.num_classes
+                    underrepresented = (label_ratios < avg_ratio * 0.7).nonzero(as_tuple=True)[0]
+                    
+                    # 对不平衡的标签进行过采样
+                    if len(underrepresented) > 0:
+                        extended_features = []
+                        extended_labels = []
+                        
+                        for label in underrepresented:
+                            # 找出此标签的所有索引
+                            label_indices = (orbit_labels == label).nonzero(as_tuple=True)[0]
+                            
+                            # 如果存在此标签的样本，进行过采样
+                            if len(label_indices) > 0:
+                                target_count = int(avg_ratio * len(orbit_labels) * 0.8)
+                                oversample_size = target_count - len(label_indices)
+                                
+                                if oversample_size > 0:
+                                    # 随机选择过采样的样本
+                                    choice_indices = self.random_state.choice(
+                                        len(label_indices), size=oversample_size, replace=True)
+                                    oversample_indices = label_indices[choice_indices]
+                                    
+                                    # 添加到扩展数据中
+                                    extended_features.append(orbit_features[oversample_indices])
+                                    extended_labels.append(orbit_labels[oversample_indices])
+                        
+                        # 合并原始数据和过采样数据
+                        if extended_features:
+                            orbit_features = torch.cat([orbit_features] + extended_features)
+                            orbit_labels = torch.cat([orbit_labels] + extended_labels)
+                
+                print(f"区域1经过平衡处理后的标签分布: {torch.bincount(orbit_labels, minlength=self.num_classes)}")
+            
+            # 应用区域特定的偏移
+            region_shift = torch.tensor(orbit_shifts[orbit], dtype=torch.float32)
+            orbit_features_shifted = orbit_features + region_shift
             
             orbit_data[orbit] = {
-                'features': orbit_features,
+                'features': orbit_features_shifted,
                 'labels': orbit_labels,
-                'size': orbit_size
+                'size': len(orbit_features_shifted)
             }
+            
             start_idx += orbit_size
         
         # 分配具有重叠的数据集
@@ -291,48 +351,95 @@ class RealTrafficGenerator:
             
             # 计算共享样本数
             shared_size = int(base_samples_per_sat * overlap_ratio)
-            unique_size = base_samples_per_sat - shared_size
             
-            # 创建共享数据池
-            shared_indices = list(range(shared_size))
+            # 随机选择共享数据而不是总是使用前面的部分
+            all_orbit_indices = list(range(len(orbit_features)))
+            self.random_state.shuffle(all_orbit_indices)
+            
+            shared_indices = all_orbit_indices[:shared_size]
             shared_features = orbit_features[shared_indices]
             shared_labels = orbit_labels[shared_indices]
             
-            # 为每个卫星分配数据
-            for i, sat_id in enumerate(satellites):
-                # 分配共享数据
-                sat_features = [shared_features]
-                sat_labels = [shared_labels]
+            # 剩余可分配的非共享数据
+            remaining_indices = all_orbit_indices[shared_size:]
+            self.random_state.shuffle(remaining_indices)
+            
+            # 计算每个卫星应获得的独特数据量
+            if len(satellites) > 0:
+                unique_indices_per_sat = len(remaining_indices) // len(satellites)
                 
-                # 分配独特数据
-                if i < len(satellites) - 1:  # 前面的卫星
-                    start = shared_size + i * unique_size
-                    end = start + unique_size
-                    unique_features = orbit_features[start:end]
-                    unique_labels = orbit_labels[start:end]
-                else:  # 最后一个卫星，分配所有剩余样本
-                    start = shared_size + (len(satellites) - 1) * unique_size
-                    unique_features = orbit_features[start:]
-                    unique_labels = orbit_labels[start:]
-                
-                sat_features.append(unique_features)
-                sat_labels.append(unique_labels)
-                
-                # 合并数据
-                combined_features = torch.cat(sat_features)
-                combined_labels = torch.cat(sat_labels)
-                
-                # 随机打乱数据
-                indices = torch.randperm(len(combined_features))
-                satellite_datasets[sat_id] = TrafficFlowDataset(
-                    combined_features[indices],
-                    combined_labels[indices]
-                )
-                
-                print(f"卫星 {sat_id} 数据集大小: {len(satellite_datasets[sat_id])}, "
-                    f"共享: {len(shared_features)}, 独特: {len(unique_features)}")
+                # 为每个卫星分配数据
+                for i, sat_id in enumerate(satellites):
+                    # 分配共享数据
+                    sat_features = [shared_features]
+                    sat_labels = [shared_labels]
+                    
+                    # 分配独特数据
+                    start = i * unique_indices_per_sat
+                    if i < len(satellites) - 1:
+                        end = start + unique_indices_per_sat
+                        indices_slice = remaining_indices[start:end]
+                    else:
+                        # 最后一个卫星获取所有剩余数据
+                        indices_slice = remaining_indices[start:]
+                    
+                    if indices_slice:
+                        unique_features = orbit_features[indices_slice]
+                        unique_labels = orbit_labels[indices_slice]
+                        
+                        sat_features.append(unique_features)
+                        sat_labels.append(unique_labels)
+                    
+                    # 合并数据
+                    if sat_features:
+                        combined_features = torch.cat(sat_features)
+                        combined_labels = torch.cat(sat_labels)
+                        
+                        # 随机打乱数据
+                        shuffle_indices = torch.randperm(len(combined_features))
+                        shuffle_features = combined_features[shuffle_indices]
+                        shuffle_labels = combined_labels[shuffle_indices]
+                        
+                        satellite_datasets[sat_id] = TrafficFlowDataset(
+                            shuffle_features,
+                            shuffle_labels
+                        )
+                        
+                        label_dist = torch.bincount(shuffle_labels, minlength=self.num_classes)
+                        print(f"卫星 {sat_id} 数据集大小: {len(satellite_datasets[sat_id])}, "
+                            f"共享: {len(shared_features)}, 独特: {len(indices_slice)}, "
+                            f"标签分布: {label_dist}")
         
         return satellite_datasets
+    
+    def extract_region_data(self, dataset, orbit_id):
+        """
+        提取特定区域的数据（用于跨区域性能评估）
+        
+        Args:
+            dataset: 数据集对象
+            orbit_id: 轨道ID
+            
+        Returns:
+            特定区域的数据子集
+        """
+        # 复制一个新的数据集
+        region_dataset = TrafficFlowDataset(
+            features=dataset.features.clone(),
+            labels=dataset.labels.clone()
+        )
+        
+        # 应用相同的区域偏移（与训练数据相同）
+        if orbit_id == 1:
+            # 区域1使用较小的偏移
+            region_shift = np.random.uniform(-0.1, 0.1, size=self.feature_dim)
+        else:
+            region_shift = np.random.uniform(-0.5, 0.5, size=self.feature_dim)
+            
+        # 应用偏移到特征
+        region_dataset.features += torch.tensor(region_shift, dtype=torch.float32)
+        
+        return region_dataset
     
     def generate_test_data(self) -> TrafficFlowDataset:
         """生成测试数据集"""

@@ -428,6 +428,9 @@ class BaselineExperiment:
     def setup_clients(self):
         """设置卫星客户端"""
         client_config = ClientConfig(**self.config['client'])
+        # 选择设备
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.logger.info(f"使用设备: {device}")
         
 
         
@@ -454,7 +457,8 @@ class BaselineExperiment:
                         model_copy,
                         client_config,
                         self.network_manager,
-                        self.energy_model
+                        self.energy_model,
+                        device=device
                     )
                 elif self.config['data'].get('dataset') == 'network_traffic':
                     from fl_core.models.traffic_model import SimpleTrafficModel
@@ -469,7 +473,8 @@ class BaselineExperiment:
                         model_copy,
                         client_config,
                         self.network_manager,
-                        self.energy_model
+                        self.energy_model,
+                        device=device
                     )
                 elif self.config['data'].get('dataset') == 'mnist':
                     model_copy = MNISTModel()  # 创建新实例
@@ -480,7 +485,8 @@ class BaselineExperiment:
                         model_copy,  # 创建新的CNN模型实例
                         client_config,
                         self.network_manager,
-                        self.energy_model
+                        self.energy_model,
+                        device=device
                     )
                 else:
                     # 基础模型
@@ -495,7 +501,8 @@ class BaselineExperiment:
                         base_model,
                         client_config,
                         self.network_manager,
-                        self.energy_model
+                        self.energy_model,
+                        device=device
                     )
                 
                 # 设置数据集

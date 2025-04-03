@@ -16,7 +16,7 @@ class LimitedPropagationFedAvg(FedAvgExperiment):
         # 获取传播相关配置
         propagation_config = self.config.get('propagation', {})
         self.propagation_hops = propagation_config.get('hops', 1)
-        self.max_propagation_satellites = propagation_config.get('max_satellites', 22)
+        self.max_propagation_satellites = propagation_config.get('max_satellites', 24)
         self.intra_orbit_links = propagation_config.get('intra_orbit_links', True)
         self.inter_orbit_links = propagation_config.get('inter_orbit_links', True)
         self.link_reliability = propagation_config.get('link_reliability', 0.95)

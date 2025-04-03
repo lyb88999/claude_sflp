@@ -1,0 +1,32 @@
+# Comparison Summary: FedAvg vs. Similarity Grouping with Region Similar Data
+
+## Accuracy Performance
+- FedAvg Final Accuracy: 99.75%
+- Similarity Grouping Final Accuracy: 99.76%
+- Accuracy Difference: +0.01%
+
+## Energy Efficiency
+- FedAvg Total Energy: 2611.80 Wh
+- Similarity Grouping Total Energy: 2327.08 Wh
+- Energy Savings: 10.90%
+
+## Convergence Speed
+- FedAvg Rounds to 90% Max Accuracy: 1
+- Similarity Grouping Rounds to 90% Max Accuracy: 1
+- Convergence Speedup: 0.00%
+
+## Resource Utilization
+- FedAvg Avg. Training Satellites: 22.00
+- Similarity Grouping Avg. Training Satellites: 19.80
+- Satellite Utilization Difference: Similarity uses 10.00% fewer satellites
+
+## Advantages of Similarity Grouping in Region Similar Data
+1. **Higher Data Utilization Efficiency**: Similarity grouping can identify data similarity among satellites in regions, utilizing overlapping data more effectively.
+
+2. **Lower Communication Cost**: By identifying data similarity, redundant satellite participation in training is reduced, lowering overall communication costs.
+
+3. **Better Model Performance**: Similarity grouping allows each group of satellites to optimize for their specific data distribution, improving overall model performance.
+
+4. **Higher Energy Efficiency**: By selecting representative satellites for training, energy consumption is significantly reduced.
+
+5. **Faster Convergence Speed**: Training based on data similarity allows the model to converge to optimal solutions more quickly.

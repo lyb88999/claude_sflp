@@ -22,11 +22,20 @@ class SatelliteClient:
              model: nn.Module,
              config: ClientConfig,
              network_manager,
-             energy_manager):
+             energy_manager,
+             device=None):
         """
         初始化卫星客户端
         """
         self.client_id = client_id
+
+        # 添加设备检测
+        if device is None:
+            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        else:
+            self.device = device
+        print(f"客户端 {client_id} 使用设备: {self.device}")
+
         
         # 创建模型的深度复制
         if hasattr(model, '__init__args__') and hasattr(model, '__init__kwargs__'):
@@ -49,6 +58,23 @@ class SatelliteClient:
         self.train_stats = []
         self.is_training = False
         self.current_round = 0
+        
+        # 初始化优化器
+        self.optimizer = torch.optim.SGD(
+            self.model.parameters(),
+            lr=config.learning_rate,
+            momentum=config.momentum
+        )
+
+        # 将模型移动到GPU
+        if hasattr(model, '__init__args__') and hasattr(model, '__init__kwargs__'):
+            self.model = type(model)(*model.__init__args__, **model.__init__kwargs__)
+            self.model.load_state_dict({k: v.clone() for k, v in model.state_dict().items()})
+        else:
+            self.logger.warning(f"Client {client_id}: 无法深度复制模型，使用直接引用")
+            self.model = model
+        # 移动模型到设备
+        self.model = self.model.to(self.device)
         
         # 初始化优化器
         self.optimizer = torch.optim.SGD(
@@ -167,6 +193,8 @@ class SatelliteClient:
                 break
             
             try:
+                data = data.to(self.device)
+                target = target.to(self.device)
                 # 前向传播
                 output = self.model(data)
                 loss = nn.functional.cross_entropy(output, target)
@@ -290,8 +318,9 @@ class SatelliteClient:
             
         model_diff = {}
         for name, param in self.model.named_parameters():
-            model_diff[name] = param.data.clone().detach()
-            
+            # 确保返回CPU上的参数以便通信
+            model_diff[name] = param.data.clone().detach().cpu()
+        
         return model_diff, self.train_stats[-1]
         
     def apply_model_update(self, model_update: Dict[str, torch.Tensor]):
@@ -299,6 +328,11 @@ class SatelliteClient:
         energy_consumption = 0.01 * model_size_mb  # 例如每MB消耗0.001Wh
         """应用模型更新"""
         with torch.no_grad():
+            new_state_dict = {}
+            for name, param in model_update.items():
+                # 将更新移动到设备
+                new_state_dict[name] = param.to(self.device)
+
             # 创建参数的深度复制
             new_state_dict = {}
             for name, param in model_update.items():
@@ -333,38 +367,63 @@ class SatelliteClient:
 
 
                     
+    # def evaluate(self, test_data: Dataset) -> Dict:
+    #     """
+    #     评估模型性能
+    #     Args:
+    #         test_data: 测试数据集
+    #     Returns:
+    #         评估结果
+    #     """
+    #     self.model.eval()
+    #     test_loader = DataLoader(test_data, batch_size=self.config.batch_size)
+        
+    #     correct = 0
+    #     total = 0
+    #     test_loss = 0.0
+        
+    #     with torch.no_grad():
+    #         for data, target in test_loader:
+    #             output = self.model(data)
+    #             test_loss += nn.functional.cross_entropy(output, target).item()
+    #             _, predicted = output.max(1)
+    #             total += target.size(0)
+    #             correct += predicted.eq(target).sum().item()
+                
+    #     accuracy = 100.0 * correct / total
+    #     avg_loss = test_loss / len(test_loader)
+        
+    #     return {
+    #         'test_loss': avg_loss,
+    #         'test_accuracy': accuracy,
+    #         'test_samples': total
+    #     }
+        
     def evaluate(self, test_data: Dataset) -> Dict:
-        """
-        评估模型性能
-        Args:
-            test_data: 测试数据集
-        Returns:
-            评估结果
-        """
         self.model.eval()
         test_loader = DataLoader(test_data, batch_size=self.config.batch_size)
-        
         correct = 0
         total = 0
         test_loss = 0.0
-        
         with torch.no_grad():
             for data, target in test_loader:
+                # 移动数据到设备
+                data = data.to(self.device)
+                target = target.to(self.device)
+                
                 output = self.model(data)
                 test_loss += nn.functional.cross_entropy(output, target).item()
                 _, predicted = output.max(1)
                 total += target.size(0)
                 correct += predicted.eq(target).sum().item()
-                
+        
         accuracy = 100.0 * correct / total
         avg_loss = test_loss / len(test_loader)
-        
         return {
             'test_loss': avg_loss,
             'test_accuracy': accuracy,
             'test_samples': total
         }
-        
     def _check_energy_available(self) -> bool:
         """检查是否有足够的能量进行训练"""
         # 估算整体训练所需能量
