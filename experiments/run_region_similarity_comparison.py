@@ -1,4 +1,5 @@
 import os
+from data_simulator.real_traffic_generator import TrafficFlowDataset
 from experiments.fedavg_experiment import FedAvgExperiment
 from experiments.grouping_experiment import SimilarityGroupingExperiment
 from experiments.propagation_fedavg_experiment import LimitedPropagationFedAvg
