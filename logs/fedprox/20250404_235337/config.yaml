@@ -1,0 +1,39 @@
+aggregation:
+  max_staleness: 300.0
+  min_updates: 2
+  timeout: 600.0
+  weighted_average: true
+client:
+  batch_size: 32
+  compute_capacity: 1.0
+  learning_rate: 0.01
+  local_epochs: 5
+  momentum: 0.9
+  storage_capacity: 1000.0
+data:
+  alpha: 0.3
+  csv_path: /Users/yuboli/Downloads/merged_traffic_data_20250305_111338.csv
+  dataset: real_traffic
+  iid: false
+  test_size: 0.2
+energy:
+  config_file: configs/energy_config.yaml
+fedavg:
+  participation_rate: 0.8
+fedprox:
+  mu: 0.01
+fl:
+  num_orbits: 6
+  num_rounds: 20
+  num_satellites: 66
+  round_interval: 300
+  satellites_per_orbit: 11
+model:
+  batch_size: 32
+  hidden_dim: 64
+  learning_rate: 0.001
+  momentum: 0.9
+  type: traffic_classifier
+network:
+  max_distance: 4000.0
+  tle_file: configs/Iridium_TLEs.txt

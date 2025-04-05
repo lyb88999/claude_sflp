@@ -15,10 +15,13 @@ fl:
   num_rounds: 20
   round_interval: 300  # 每轮训练间隔(秒)
   
-# FedAvg特定配置
+# FedAvg特定配置 - 保留以兼容基类
 fedavg:
   participation_rate: 0.8  # 每轮参与比例
-  
+
+# FedProx特定配置
+fedprox:
+  mu: 0.01  # 接近性参数 - 控制正则化强度
 
 # 数据配置
 data:
@@ -26,10 +29,8 @@ data:
   csv_path: "/Users/yuboli/Downloads/merged_traffic_data_20250305_111338.csv"
   # csv_path: "/Users/lyb/Downloads/gitProjects/STI/merged_traffic_data_20250305_111338.csv"
   test_size: 0.2                     # 测试集比例
-  iid: true                          # 是否使用IID分布
-  alpha: 0.6                         # Dirichlet参数（仅在non-iid时使用）
-
-
+  iid: false                         # 非IID分布更能体现FedProx优势
+  alpha: 0.3                         # Dirichlet参数较小，创造更不均衡的分布
 
 # 模型配置
 model:
