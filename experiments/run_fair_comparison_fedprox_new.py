@@ -18,6 +18,12 @@ from experiments.propagation_fedprox_experiment import LimitedPropagationFedProx
 from experiments.grouping_experiment import SimilarityGroupingExperiment
 from visualization.visualization import Visualization
 
+import pickle
+import json
+import copy
+import argparse
+from pathlib import Path
+
 # 设置matplotlib不使用中文
 plt.rcParams['font.sans-serif'] = ['Arial']
 
@@ -90,8 +96,25 @@ def calculate_convergence_speed(accuracies, target_accuracy=None):
     # 如果没有达到目标，返回总轮次
     return len(accuracies)
 
-def create_comparison_plots(fedprox_stats, fedavg_stats, similarity_stats, output_dir, fedprox_exp=None, fedavg_exp=None, similarity_exp=None):
-    """创建对比图表，与区域相似性实验风格一致"""
+def create_comparison_plots(fedprox_stats, fedavg_stats, similarity_stats, output_dir, 
+                           fedprox_exp=None, fedavg_exp=None, similarity_exp=None,
+                           custom_style=None, show_grid=True, figure_format='png', dpi=150):
+    """
+    创建对比图表，支持自定义图表样式
+    
+    Args:
+        fedprox_stats: FedProx实验统计数据
+        fedavg_stats: FedAvg实验统计数据
+        similarity_stats: 相似度分组实验统计数据
+        output_dir: 输出目录
+        fedprox_exp: FedProx实验对象(可选)
+        fedavg_exp: FedAvg实验对象(可选)
+        similarity_exp: 相似度分组实验对象(可选)
+        custom_style: 自定义图表样式字典
+        show_grid: 是否显示网格
+        figure_format: 图片格式(png, pdf, svg等)
+        dpi: 图像DPI
+    """
     # 获取实际参与的卫星数量
     fedprox_sats = np.mean(fedprox_stats['satellite_stats']['training_satellites'])
     fedavg_sats = np.mean(fedavg_stats['satellite_stats']['training_satellites'])
@@ -100,72 +123,192 @@ def create_comparison_plots(fedprox_stats, fedavg_stats, similarity_stats, outpu
     # 准备图表标题
     title_suffix = f"(FedProx: {fedprox_sats:.1f}, FedAvg: {fedavg_sats:.1f}, Similarity: {similarity_sats:.1f} satellites)"
     
+    # 应用自定义样式
+    style = {
+        'figsize': (10, 6),
+        'title_fontsize': 14,
+        'label_fontsize': 12,
+        'tick_fontsize': 10,
+        'legend_fontsize': 10,
+        'linewidth': 2,
+        'marker_size': 6,
+        'grid_alpha': 0.3,
+        'grid_linestyle': '--',
+        'save_format': figure_format,
+        'dpi': dpi
+    }
+    
+    if custom_style:
+        style.update(custom_style)
+    
+    # 设置默认样式
+    plt.rcParams.update({
+        'font.size': style['label_fontsize'],
+        'axes.titlesize': style['title_fontsize'],
+        'axes.labelsize': style['label_fontsize'],
+        'xtick.labelsize': style['tick_fontsize'],
+        'ytick.labelsize': style['tick_fontsize'],
+        'legend.fontsize': style['legend_fontsize']
+    })
+    
+    # 定义算法颜色和标记
+    algo_styles = {
+        'FedProx': {'color': 'g', 'marker': 'o', 'label': 'FedProx'},
+        'FedAvg': {'color': 'b', 'marker': 's', 'label': 'FedAvg'},
+        'Similarity': {'color': 'r', 'marker': '^', 'label': 'Similarity Grouping'}
+    }
+    
     # 1. 准确率对比
-    plt.figure(figsize=(10, 6))
-    plt.plot(fedprox_stats['accuracies'], 'g-', label='FedProx', marker='o')
-    plt.plot(fedavg_stats['accuracies'], 'b-', label='FedAvg', marker='s')
-    plt.plot(similarity_stats['accuracies'], 'r-', label='Similarity Grouping', marker='^')
+    plt.figure(figsize=style['figsize'])
+    plt.plot(fedprox_stats['accuracies'], 
+             color=algo_styles['FedProx']['color'], 
+             marker=algo_styles['FedProx']['marker'], 
+             label=algo_styles['FedProx']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(fedavg_stats['accuracies'], 
+             color=algo_styles['FedAvg']['color'], 
+             marker=algo_styles['FedAvg']['marker'], 
+             label=algo_styles['FedAvg']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(similarity_stats['accuracies'], 
+             color=algo_styles['Similarity']['color'], 
+             marker=algo_styles['Similarity']['marker'], 
+             label=algo_styles['Similarity']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
     plt.title(f'Accuracy Comparison {title_suffix}')
     plt.xlabel('Round')
     plt.ylabel('Accuracy (%)')
     plt.legend()
-    plt.grid(True)
-    plt.savefig(f"{output_dir}/accuracy_comparison.png")
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/accuracy_comparison.{style['save_format']}", dpi=style['dpi'])
     plt.close()
     
     # 2. 损失函数对比
-    plt.figure(figsize=(10, 6))
-    plt.plot(fedprox_stats['losses'], 'g-', label='FedProx', marker='o')
-    plt.plot(fedavg_stats['losses'], 'b-', label='FedAvg', marker='s')
-    plt.plot(similarity_stats['losses'], 'r-', label='Similarity Grouping', marker='^')
+    plt.figure(figsize=style['figsize'])
+    plt.plot(fedprox_stats['losses'], 
+             color=algo_styles['FedProx']['color'], 
+             marker=algo_styles['FedProx']['marker'], 
+             label=algo_styles['FedProx']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(fedavg_stats['losses'], 
+             color=algo_styles['FedAvg']['color'], 
+             marker=algo_styles['FedAvg']['marker'], 
+             label=algo_styles['FedAvg']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(similarity_stats['losses'], 
+             color=algo_styles['Similarity']['color'], 
+             marker=algo_styles['Similarity']['marker'], 
+             label=algo_styles['Similarity']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
     plt.title(f'Loss Comparison {title_suffix}')
     plt.xlabel('Round')
     plt.ylabel('Loss')
     plt.legend()
-    plt.grid(True)
-    plt.savefig(f"{output_dir}/loss_comparison.png")
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/loss_comparison.{style['save_format']}", dpi=style['dpi'])
     plt.close()
     
     # 3. 能耗对比 - 训练能耗
-    plt.figure(figsize=(10, 6))
-    plt.plot(fedprox_stats['energy_stats']['training_energy'], 'g-', label='FedProx', marker='o')
-    plt.plot(fedavg_stats['energy_stats']['training_energy'], 'b-', label='FedAvg', marker='s')
-    plt.plot(similarity_stats['energy_stats']['training_energy'], 'r-', label='Similarity Grouping', marker='^')
+    plt.figure(figsize=style['figsize'])
+    plt.plot(fedprox_stats['energy_stats']['training_energy'], 
+             color=algo_styles['FedProx']['color'], 
+             marker=algo_styles['FedProx']['marker'], 
+             label=algo_styles['FedProx']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(fedavg_stats['energy_stats']['training_energy'], 
+             color=algo_styles['FedAvg']['color'], 
+             marker=algo_styles['FedAvg']['marker'], 
+             label=algo_styles['FedAvg']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(similarity_stats['energy_stats']['training_energy'], 
+             color=algo_styles['Similarity']['color'], 
+             marker=algo_styles['Similarity']['marker'], 
+             label=algo_styles['Similarity']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
     plt.title(f'Training Energy Consumption {title_suffix}')
     plt.xlabel('Round')
     plt.ylabel('Energy (Wh)')
     plt.legend()
-    plt.grid(True)
-    plt.savefig(f"{output_dir}/training_energy_comparison.png")
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/training_energy_comparison.{style['save_format']}", dpi=style['dpi'])
     plt.close()
     
     # 4. 能耗对比 - 通信能耗
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=style['figsize'])
     if 'energy_stats' in fedprox_stats and 'communication_energy' in fedprox_stats['energy_stats']:
-        plt.plot(fedprox_stats['energy_stats']['communication_energy'], 'g-', label='FedProx', marker='o')
+        plt.plot(fedprox_stats['energy_stats']['communication_energy'], 
+                 color=algo_styles['FedProx']['color'], 
+                 marker=algo_styles['FedProx']['marker'], 
+                 label=algo_styles['FedProx']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
     if 'energy_stats' in fedavg_stats and 'communication_energy' in fedavg_stats['energy_stats']:
-        plt.plot(fedavg_stats['energy_stats']['communication_energy'], 'b-', label='FedAvg', marker='s')
+        plt.plot(fedavg_stats['energy_stats']['communication_energy'], 
+                 color=algo_styles['FedAvg']['color'], 
+                 marker=algo_styles['FedAvg']['marker'], 
+                 label=algo_styles['FedAvg']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
     if 'energy_stats' in similarity_stats and 'communication_energy' in similarity_stats['energy_stats']:
-        plt.plot(similarity_stats['energy_stats']['communication_energy'], 'r-', label='Similarity Grouping', marker='^')
+        plt.plot(similarity_stats['energy_stats']['communication_energy'], 
+                 color=algo_styles['Similarity']['color'], 
+                 marker=algo_styles['Similarity']['marker'], 
+                 label=algo_styles['Similarity']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
     plt.title(f'Communication Energy Consumption {title_suffix}')
     plt.xlabel('Round')
     plt.ylabel('Energy (Wh)')
     plt.legend()
-    plt.grid(True)
-    plt.savefig(f"{output_dir}/communication_energy_comparison.png")
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/communication_energy_comparison.{style['save_format']}", dpi=style['dpi'])
     plt.close()
     
     # 5. 能耗对比 - 总能耗
-    plt.figure(figsize=(10, 6))
-    plt.plot(fedprox_stats['energy_stats']['total_energy'], 'g-', label='FedProx', marker='o')
-    plt.plot(fedavg_stats['energy_stats']['total_energy'], 'b-', label='FedAvg', marker='s')
-    plt.plot(similarity_stats['energy_stats']['total_energy'], 'r-', label='Similarity Grouping', marker='^')
+    plt.figure(figsize=style['figsize'])
+    plt.plot(fedprox_stats['energy_stats']['total_energy'], 
+             color=algo_styles['FedProx']['color'], 
+             marker=algo_styles['FedProx']['marker'], 
+             label=algo_styles['FedProx']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(fedavg_stats['energy_stats']['total_energy'], 
+             color=algo_styles['FedAvg']['color'], 
+             marker=algo_styles['FedAvg']['marker'], 
+             label=algo_styles['FedAvg']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(similarity_stats['energy_stats']['total_energy'], 
+             color=algo_styles['Similarity']['color'], 
+             marker=algo_styles['Similarity']['marker'], 
+             label=algo_styles['Similarity']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
     plt.title(f'Total Energy Consumption {title_suffix}')
     plt.xlabel('Round')
     plt.ylabel('Energy (Wh)')
     plt.legend()
-    plt.grid(True)
-    plt.savefig(f"{output_dir}/total_energy_comparison.png")
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/total_energy_comparison.{style['save_format']}", dpi=style['dpi'])
     plt.close()
     
     # 6. 能效比对比(准确率/能耗)
@@ -176,50 +319,101 @@ def create_comparison_plots(fedprox_stats, fedavg_stats, similarity_stats, outpu
     similarity_efficiency = [acc / (energy + 1e-10) for acc, energy in 
                            zip(similarity_stats['accuracies'], similarity_stats['energy_stats']['total_energy'])]
     
-    plt.figure(figsize=(10, 6))
-    plt.plot(fedprox_efficiency, 'g-', label='FedProx', marker='o')
-    plt.plot(fedavg_efficiency, 'b-', label='FedAvg', marker='s')
-    plt.plot(similarity_efficiency, 'r-', label='Similarity Grouping', marker='^')
+    plt.figure(figsize=style['figsize'])
+    plt.plot(fedprox_efficiency, 
+             color=algo_styles['FedProx']['color'], 
+             marker=algo_styles['FedProx']['marker'], 
+             label=algo_styles['FedProx']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(fedavg_efficiency, 
+             color=algo_styles['FedAvg']['color'], 
+             marker=algo_styles['FedAvg']['marker'], 
+             label=algo_styles['FedAvg']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(similarity_efficiency, 
+             color=algo_styles['Similarity']['color'], 
+             marker=algo_styles['Similarity']['marker'], 
+             label=algo_styles['Similarity']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
     plt.title(f'Energy Efficiency (Accuracy/Energy) {title_suffix}')
     plt.xlabel('Round')
     plt.ylabel('Efficiency (%/Wh)')
     plt.legend()
-    plt.grid(True)
-    plt.savefig(f"{output_dir}/efficiency_comparison.png")
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/efficiency_comparison.{style['save_format']}", dpi=style['dpi'])
     plt.close()
     
     # 7. 活跃卫星数量对比
-    plt.figure(figsize=(10, 6))
-    plt.plot(fedprox_stats['satellite_stats']['training_satellites'], 'g-', label='FedProx', marker='o')
-    plt.plot(fedavg_stats['satellite_stats']['training_satellites'], 'b-', label='FedAvg', marker='s')
-    plt.plot(similarity_stats['satellite_stats']['training_satellites'], 'r-', label='Similarity Grouping', marker='^')
+    plt.figure(figsize=style['figsize'])
+    plt.plot(fedprox_stats['satellite_stats']['training_satellites'], 
+             color=algo_styles['FedProx']['color'], 
+             marker=algo_styles['FedProx']['marker'], 
+             label=algo_styles['FedProx']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(fedavg_stats['satellite_stats']['training_satellites'], 
+             color=algo_styles['FedAvg']['color'], 
+             marker=algo_styles['FedAvg']['marker'], 
+             label=algo_styles['FedAvg']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(similarity_stats['satellite_stats']['training_satellites'], 
+             color=algo_styles['Similarity']['color'], 
+             marker=algo_styles['Similarity']['marker'], 
+             label=algo_styles['Similarity']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
     plt.title(f'Number of Training Satellites {title_suffix}')
     plt.xlabel('Round')
     plt.ylabel('Number of Satellites')
     plt.legend()
-    plt.grid(True)
-    plt.savefig(f"{output_dir}/training_satellites_comparison.png")
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/training_satellites_comparison.{style['save_format']}", dpi=style['dpi'])
     plt.close()
 
     # 8. 通信开销对比
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=style['figsize'])
     fedprox_comm = calculate_communication_overhead(fedprox_stats)
     fedavg_comm = calculate_communication_overhead(fedavg_stats)
     similarity_comm = calculate_communication_overhead(similarity_stats)
     
-    plt.plot(fedprox_comm, 'g-', label='FedProx', marker='o')
-    plt.plot(fedavg_comm, 'b-', label='FedAvg', marker='s')
-    plt.plot(similarity_comm, 'r-', label='Similarity Grouping', marker='^')
+    plt.plot(fedprox_comm, 
+             color=algo_styles['FedProx']['color'], 
+             marker=algo_styles['FedProx']['marker'], 
+             label=algo_styles['FedProx']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(fedavg_comm, 
+             color=algo_styles['FedAvg']['color'], 
+             marker=algo_styles['FedAvg']['marker'], 
+             label=algo_styles['FedAvg']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(similarity_comm, 
+             color=algo_styles['Similarity']['color'], 
+             marker=algo_styles['Similarity']['marker'], 
+             label=algo_styles['Similarity']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
     plt.title(f'Cumulative Communication Overhead {title_suffix}')
     plt.xlabel('Round')
     plt.ylabel('Cumulative Communication Energy (Wh)')
     plt.legend()
-    plt.grid(True)
-    plt.savefig(f"{output_dir}/communication_overhead.png")
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/communication_overhead.{style['save_format']}", dpi=style['dpi'])
     plt.close()
 
     # 9. 能效比对比 (准确率/累积能耗)
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=style['figsize'])
     
     # 计算能效比 - 每单位能量获得的准确率
     fedprox_cumulative_energy = np.cumsum(fedprox_stats['energy_stats']['total_energy'])
@@ -233,21 +427,38 @@ def create_comparison_plots(fedprox_stats, fedavg_stats, similarity_stats, outpu
     similarity_efficiency = [acc / (energy + 1e-10) for acc, energy in 
                            zip(similarity_stats['accuracies'], similarity_cumulative_energy)]
     
-    plt.plot(fedprox_efficiency, 'g-', label='FedProx', marker='o')
-    plt.plot(fedavg_efficiency, 'b-', label='FedAvg', marker='s')
-    plt.plot(similarity_efficiency, 'r-', label='Similarity Grouping', marker='^')
+    plt.plot(fedprox_efficiency, 
+             color=algo_styles['FedProx']['color'], 
+             marker=algo_styles['FedProx']['marker'], 
+             label=algo_styles['FedProx']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(fedavg_efficiency, 
+             color=algo_styles['FedAvg']['color'], 
+             marker=algo_styles['FedAvg']['marker'], 
+             label=algo_styles['FedAvg']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
+    plt.plot(similarity_efficiency, 
+             color=algo_styles['Similarity']['color'], 
+             marker=algo_styles['Similarity']['marker'], 
+             label=algo_styles['Similarity']['label'],
+             linewidth=style['linewidth'],
+             markersize=style['marker_size'])
     plt.title(f'Energy Efficiency (Accuracy/Cumulative Energy) {title_suffix}')
     plt.xlabel('Round')
     plt.ylabel('Efficiency (%/Wh)')
     plt.legend()
-    plt.grid(True)
-    plt.savefig(f"{output_dir}/energy_efficiency_cumulative.png")
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/energy_efficiency_cumulative.{style['save_format']}", dpi=style['dpi'])
     plt.close()
 
     # 10. 区域内一致性比较 (如果可用)
     if all(hasattr(exp, 'region_coherence') for exp in [fedprox_exp, fedavg_exp, similarity_exp] if exp is not None):
         try:
-            plt.figure(figsize=(10, 6))
+            plt.figure(figsize=style['figsize'])
             
             # 获取所有轨道ID
             all_orbits = sorted(list(set().union(
@@ -262,30 +473,41 @@ def create_comparison_plots(fedprox_stats, fedavg_stats, similarity_stats, outpu
                 fedavg_coherence = [getattr(fedavg_exp, 'region_coherence', {}).get(orbit, 0) for orbit in all_orbits]
                 similarity_coherence = [getattr(similarity_exp, 'region_coherence', {}).get(orbit, 0) for orbit in all_orbits]
                 
-                plt.bar(np.array(x) - bar_width, fedprox_coherence, width=bar_width, label='FedProx')
-                plt.bar(np.array(x), fedavg_coherence, width=bar_width, label='FedAvg')
-                plt.bar(np.array(x) + bar_width, similarity_coherence, width=bar_width, label='Similarity Grouping')
+                plt.bar(np.array(x) - bar_width, fedprox_coherence, width=bar_width, 
+                       color=algo_styles['FedProx']['color'], label=algo_styles['FedProx']['label'])
+                plt.bar(np.array(x), fedavg_coherence, width=bar_width, 
+                       color=algo_styles['FedAvg']['color'], label=algo_styles['FedAvg']['label'])
+                plt.bar(np.array(x) + bar_width, similarity_coherence, width=bar_width, 
+                       color=algo_styles['Similarity']['color'], label=algo_styles['Similarity']['label'])
                 
                 plt.title('Model Coherence Within Regions')
                 plt.xlabel('Region (Orbit)')
                 plt.ylabel('Intra-Region Model Similarity')
                 plt.xticks(x, all_orbits)
                 plt.legend()
-                plt.grid(True, axis='y')
-                plt.savefig(f"{output_dir}/region_coherence.png")
+                if show_grid:
+                    plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'], axis='y')
+                plt.tight_layout()
+                plt.savefig(f"{output_dir}/region_coherence.{style['save_format']}", dpi=style['dpi'])
             plt.close()
         except Exception as e:
             logger.error(f"绘制区域内一致性对比图时出错: {str(e)}")
 
     # 11. 如果有FedProx特有的指标，绘制FedProx的接近性项
     if 'proximal_terms' in fedprox_stats:
-        plt.figure(figsize=(10, 6))
-        plt.plot(fedprox_stats['proximal_terms'], 'g-', marker='o')
+        plt.figure(figsize=style['figsize'])
+        plt.plot(fedprox_stats['proximal_terms'], 
+                color=algo_styles['FedProx']['color'], 
+                marker=algo_styles['FedProx']['marker'],
+                linewidth=style['linewidth'],
+                markersize=style['marker_size'])
         plt.title(f'FedProx Proximal Term (μ={fedprox_stats.get("mu", 0.01)})')
         plt.xlabel('Round')
         plt.ylabel('Proximal Term Value')
-        plt.grid(True)
-        plt.savefig(f"{output_dir}/fedprox_proximal_term.png")
+        if show_grid:
+            plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+        plt.tight_layout()
+        plt.savefig(f"{output_dir}/fedprox_proximal_term.{style['save_format']}", dpi=style['dpi'])
         plt.close()
 
     # 12. 跨区域性能评估 (如果可用)
@@ -298,7 +520,11 @@ def create_comparison_plots(fedprox_stats, fedavg_stats, similarity_stats, outpu
             
             if all_regions:
                 # 为每个算法创建热图
-                for name, exp in [('FedProx', fedprox_exp), ('FedAvg', fedavg_exp), ('Similarity', similarity_exp)]:
+                for name, exp, color in [
+                    ('FedProx', fedprox_exp, algo_styles['FedProx']['color']), 
+                    ('FedAvg', fedavg_exp, algo_styles['FedAvg']['color']), 
+                    ('Similarity', similarity_exp, algo_styles['Similarity']['color'])
+                ]:
                     if exp is not None and hasattr(exp, 'cross_region_performance'):
                         plt.figure(figsize=(10, 8))
                         perf = exp.cross_region_performance
@@ -311,13 +537,16 @@ def create_comparison_plots(fedprox_stats, fedavg_stats, similarity_stats, outpu
                                 if model_region in perf and test_region in perf.get(model_region, {}):
                                     perf_matrix[i, j] = perf[model_region][test_region]
                         
-                        sns.heatmap(perf_matrix, annot=True, fmt=".1f", cmap="YlGnBu",
+                        # 创建自定义colormap
+                        cmap = plt.cm.get_cmap('YlGnBu')
+                        
+                        sns.heatmap(perf_matrix, annot=True, fmt=".1f", cmap=cmap,
                                    xticklabels=all_regions, yticklabels=all_regions)
                         plt.title(f'{name} Cross-Region Performance (%)')
                         plt.xlabel('Test Region')
                         plt.ylabel('Model Region')
                         plt.tight_layout()
-                        plt.savefig(f"{output_dir}/{name.lower()}_cross_region_performance.png")
+                        plt.savefig(f"{output_dir}/{name.lower()}_cross_region_performance.{style['save_format']}", dpi=style['dpi'])
                         plt.close()
                 
                 # 创建对比热图 (Similarity vs FedAvg, FedProx vs FedAvg)
@@ -347,7 +576,7 @@ def create_comparison_plots(fedprox_stats, fedavg_stats, similarity_stats, outpu
                     plt.xlabel('Test Region')
                     plt.ylabel('Model Region')
                     plt.tight_layout()
-                    plt.savefig(f"{output_dir}/similarity_fedavg_performance_diff.png")
+                    plt.savefig(f"{output_dir}/similarity_fedavg_performance_diff.{style['save_format']}", dpi=style['dpi'])
                     plt.close()
                 
                 # FedProx vs FedAvg对比热图
@@ -377,12 +606,149 @@ def create_comparison_plots(fedprox_stats, fedavg_stats, similarity_stats, outpu
                     plt.xlabel('Test Region')
                     plt.ylabel('Model Region')
                     plt.tight_layout()
-                    plt.savefig(f"{output_dir}/fedprox_fedavg_performance_diff.png")
+                    plt.savefig(f"{output_dir}/fedprox_fedavg_performance_diff.{style['save_format']}", dpi=style['dpi'])
                     plt.close()
         except Exception as e:
             logger.error(f"绘制跨区域性能热图时出错: {str(e)}")
             import traceback
             logger.error(traceback.format_exc())
+            
+    logger.info(f"图表生成完成，保存在 {output_dir}/ 目录")
+
+def save_experiment_data(output_dir, fedprox_stats, fedavg_stats, similarity_stats, timestamp):
+    """保存实验数据，以便后续重新绘图"""
+    data_dir = os.path.join(output_dir, 'raw_data')
+    os.makedirs(data_dir, exist_ok=True)
+    
+    # 将统计数据转换为可序列化的格式
+    def prepare_for_serialization(stats_dict):
+        # 深复制以避免修改原始数据
+        serializable_stats = copy.deepcopy(stats_dict)
+        
+        # 将numpy数组转换为列表
+        for key, value in serializable_stats.items():
+            if isinstance(value, np.ndarray):
+                serializable_stats[key] = value.tolist()
+            elif isinstance(value, dict):
+                for k, v in value.items():
+                    if isinstance(v, np.ndarray):
+                        serializable_stats[key][k] = v.tolist()
+        return serializable_stats
+    
+    # 准备数据
+    fedprox_data = prepare_for_serialization(fedprox_stats)
+    fedavg_data = prepare_for_serialization(fedavg_stats)
+    similarity_data = prepare_for_serialization(similarity_stats)
+    
+    # 保存为pickle格式(包含完整数据)
+    with open(os.path.join(data_dir, 'experiment_data.pkl'), 'wb') as f:
+        pickle.dump({
+            'fedprox': fedprox_data,
+            'fedavg': fedavg_data,
+            'similarity': similarity_data,
+            'timestamp': timestamp,
+            'metadata': {
+                'creation_time': datetime.now().isoformat(),
+                'description': '公平对比实验数据'
+            }
+        }, f)
+    
+    # 同时保存为JSON格式(便于查看和跨平台使用)
+    try:
+        with open(os.path.join(data_dir, 'experiment_data.json'), 'w', encoding='utf-8') as f:
+            json.dump({
+                'fedprox': fedprox_data,
+                'fedavg': fedavg_data,
+                'similarity': similarity_data,
+                'timestamp': timestamp,
+                'metadata': {
+                    'creation_time': datetime.now().isoformat(),
+                    'description': '公平对比实验数据'
+                }
+            }, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        logger.warning(f"无法保存为JSON格式: {str(e)}")
+    
+    # 保存实验配置
+    try:
+        with open(os.path.join(data_dir, 'fedprox_config.yaml'), 'w') as f:
+            with open(f"configs/temp/fedprox_{fedprox_stats['satellite_stats']['training_satellites'][0]}sats.yaml", 'r') as src:
+                f.write(src.read())
+                
+        with open(os.path.join(data_dir, 'fedavg_config.yaml'), 'w') as f:
+            with open(f"configs/temp/fedavg_{fedavg_stats['satellite_stats']['training_satellites'][0]}sats.yaml", 'r') as src:
+                f.write(src.read())
+                
+        with open(os.path.join(data_dir, 'similarity_config.yaml'), 'w') as f:
+            with open("configs/similarity_grouping_config.yaml", 'r') as src:
+                f.write(src.read())
+    except Exception as e:
+        logger.warning(f"无法保存配置文件: {str(e)}")
+    
+    # 创建元数据文件，记录关键指标，便于快速查看
+    with open(os.path.join(data_dir, 'metadata.txt'), 'w') as f:
+        f.write(f"实验时间: {timestamp}\n\n")
+        
+        f.write("平均卫星数量:\n")
+        f.write(f"  FedProx: {np.mean(fedprox_stats['satellite_stats']['training_satellites']):.2f}\n")
+        f.write(f"  FedAvg: {np.mean(fedavg_stats['satellite_stats']['training_satellites']):.2f}\n")
+        f.write(f"  相似度分组: {np.mean(similarity_stats['satellite_stats']['training_satellites']):.2f}\n\n")
+        
+        f.write("最终准确率:\n")
+        f.write(f"  FedProx: {max(fedprox_stats['accuracies']):.2f}%\n")
+        f.write(f"  FedAvg: {max(fedavg_stats['accuracies']):.2f}%\n")
+        f.write(f"  相似度分组: {max(similarity_stats['accuracies']):.2f}%\n")
+    
+    logger.info(f"实验数据已保存到 {data_dir}/")
+
+def load_experiment_data(data_dir):
+    """加载保存的实验数据"""
+    # 优先尝试加载pickle格式
+    pickle_path = os.path.join(data_dir, 'raw_data', 'experiment_data.pkl')
+    if os.path.exists(pickle_path):
+        try:
+            with open(pickle_path, 'rb') as f:
+                return pickle.load(f)
+        except Exception as e:
+            logger.error(f"无法加载pickle数据: {str(e)}")
+    
+    # 尝试加载JSON格式
+    json_path = os.path.join(data_dir, 'raw_data', 'experiment_data.json')
+    if os.path.exists(json_path):
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            logger.error(f"无法加载JSON数据: {str(e)}")
+    
+    raise FileNotFoundError(f"在 {data_dir}/raw_data/ 中找不到实验数据文件")
+
+def parse_args():
+    """解析命令行参数"""
+    parser = argparse.ArgumentParser(description='运行公平对比实验或重新绘制已有实验的图表')
+    parser.add_argument('--target-sats', type=int, default=0,
+                      help='目标卫星数量 (0表示使用相似度分组的平均卫星数)')
+    parser.add_argument('--fedprox-mu', type=float, default=0.01,
+                      help='FedProx的接近性参数μ')
+    parser.add_argument('--config-dir', type=str, default='configs',
+                      help='配置文件目录')
+    
+    # 添加重新绘图相关参数
+    parser.add_argument('--replot', action='store_true',
+                      help='重新绘图模式，不运行实验，只加载已有数据并重新绘制图表')
+    parser.add_argument('--data-dir', type=str, default=None,
+                      help='数据目录(用于重新绘图模式)')
+    parser.add_argument('--output-dir', type=str, default=None,
+                      help='图表输出目录(默认为data-dir，仅用于重新绘图模式)')
+    parser.add_argument('--format', type=str, default='png',
+                      choices=['png', 'pdf', 'svg', 'jpg'],
+                      help='图表保存格式(仅用于重新绘图模式)')
+    parser.add_argument('--dpi', type=int, default=150,
+                      help='图表DPI(仅用于重新绘图模式)')
+    parser.add_argument('--no-grid', action='store_true',
+                      help='不显示网格(仅用于重新绘图模式)')
+    
+    return parser.parse_args()
 
 def generate_comparison_report(fedprox_stats, fedavg_stats, similarity_stats, output_path):
     """生成对比报告"""
@@ -614,20 +980,44 @@ def run_fair_comparison():
         return
     
     # 5. 创建输出目录
-    output_dir = f"comparison_results/fair_comparison_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    output_dir = f"comparison_results/fair_comparison_{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
     
+    # 保存实验数据到文件，以便后续可以重新绘制图表
+    save_experiment_data(
+        output_dir,
+        fedprox_stats=fedprox_stats,
+        fedavg_stats=fedavg_stats,
+        similarity_stats=similarity_stats,
+        timestamp=timestamp
+    )
+    
     # 6. 生成对比报告和图表
-    # create_comparison_plots(fedprox_stats, fedavg_stats, similarity_stats, output_dir)
-    # 在generate_comparison_report调用前添加
-    create_comparison_plots(fedprox_stats, fedavg_stats, similarity_stats, output_dir, 
-                      fedprox_exp=fedprox_exp, fedavg_exp=fedavg_exp, similarity_exp=similarity_exp)
-    generate_comparison_report(fedprox_stats, fedavg_stats, similarity_stats, f"{output_dir}/comparison_report.md")
+    create_comparison_plots(
+        fedprox_stats, 
+        fedavg_stats, 
+        similarity_stats, 
+        output_dir, 
+        fedprox_exp=fedprox_exp, 
+        fedavg_exp=fedavg_exp, 
+        similarity_exp=similarity_exp
+    )
+    
+    generate_comparison_report(
+        fedprox_stats, 
+        fedavg_stats, 
+        similarity_stats, 
+        f"{output_dir}/comparison_report.md"
+    )
     
     # 7. 打印关键指标
     print_key_metrics(fedprox_stats, fedavg_stats, similarity_stats)
     
     logger.info(f"公平比较实验完成，结果保存在 {output_dir}/")
+    logger.info(f"实验原始数据已保存，可使用 'python run_fair_comparison_fedprox_new.py --replot --data-dir {output_dir}' 重新绘制图表")
+    
+    return output_dir
 
 def print_key_metrics(fedprox_stats, fedavg_stats, similarity_stats):
     """打印关键指标"""
@@ -673,25 +1063,54 @@ def print_key_metrics(fedprox_stats, fedavg_stats, similarity_stats):
     logger.info(f"  FedAvg: {fedavg_efficiency:.2f}%/satellite")
     logger.info(f"  相似度分组: {similarity_efficiency:.2f}%/satellite")
 
-def parse_args():
-    """解析命令行参数"""
-    parser = argparse.ArgumentParser(description='运行公平对比实验')
-    parser.add_argument('--target-sats', type=int, default=0,
-                      help='目标卫星数量 (0表示使用相似度分组的平均卫星数)')
-    parser.add_argument('--fedprox-mu', type=float, default=0.01,
-                      help='FedProx的接近性参数μ')
-    parser.add_argument('--config-dir', type=str, default='configs',
-                      help='配置文件目录')
-    return parser.parse_args()
 
 if __name__ == "__main__":
     args = parse_args()
     
-    # 如果指定了目标卫星数，则使用命令行参数
-    if args.target_sats > 0:
-        # TODO: 实现使用命令行参数指定卫星数的逻辑
-        logger.info(f"使用命令行指定的目标卫星数: {args.target_sats}")
-    
-    # 运行公平比较实验
-    run_fair_comparison()
-
+    if args.replot:
+        # 重新绘图模式
+        if not args.data_dir:
+            logger.error("重新绘图模式需要指定 --data-dir 参数")
+            exit(1)
+            
+        try:
+            # 设置输出目录
+            output_dir = args.output_dir if args.output_dir else args.data_dir
+            os.makedirs(output_dir, exist_ok=True)
+            
+            # 加载实验数据
+            logger.info(f"从 {args.data_dir} 加载实验数据")
+            data = load_experiment_data(args.data_dir)
+            
+            # 提取各个算法的统计数据
+            fedprox_stats = data['fedprox']
+            fedavg_stats = data['fedavg']
+            similarity_stats = data['similarity']
+            
+            # 重新绘制图表
+            logger.info(f"开始重新生成图表")
+            create_comparison_plots(
+                fedprox_stats, 
+                fedavg_stats, 
+                similarity_stats, 
+                output_dir,
+                show_grid=not args.no_grid,
+                figure_format=args.format,
+                dpi=args.dpi
+            )
+            
+            logger.info(f"图表重绘完成，保存在 {output_dir}/")
+            
+        except Exception as e:
+            logger.error(f"重新绘制图表时出错: {str(e)}")
+            import traceback
+            logger.error(traceback.format_exc())
+            exit(1)
+    else:
+        # 正常实验模式
+        # 如果指定了目标卫星数，则使用命令行参数
+        if args.target_sats > 0:
+            logger.info(f"使用命令行指定的目标卫星数: {args.target_sats}")
+        
+        # 运行公平比较实验
+        run_fair_comparison()

@@ -6,7 +6,7 @@ aggregation:
 client:
   batch_size: 32
   learning_rate: 0.01
-  local_epochs: 3
+  local_epochs: 5
   momentum: 0.9
   shuffle: true
   weight_decay: 0.0001
@@ -20,6 +20,7 @@ data:
   overlap_ratio: 0.5
   region_similarity: true
   test_samples: 10000
+  test_size: 0.2
   total_samples: 100000
 energy:
   config_file: configs/energy_config.yaml

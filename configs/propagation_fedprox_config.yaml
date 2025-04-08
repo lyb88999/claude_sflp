@@ -11,6 +11,7 @@ data:
   csv_path: "/Users/yuboli/Downloads/merged_traffic_data_20250305_111338.csv"
   total_samples: 100000
   test_samples: 10000
+  test_size: 0.2  # 测试集比例
   iid: false
   alpha: 1.0
   dirichlet_alpha: 0.5
@@ -19,7 +20,7 @@ data:
   overlap_ratio: 0.5
 
 client:
-  local_epochs: 3
+  local_epochs: 5
   batch_size: 32
   learning_rate: 0.01
   momentum: 0.9
