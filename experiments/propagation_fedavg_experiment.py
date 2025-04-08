@@ -177,7 +177,7 @@ class LimitedPropagationFedAvg(FedAvgExperiment):
             model_state = self.model.state_dict()
             
             # 3. 确定参与传播的卫星数量限制
-            max_satellites = getattr(self, 'max_propagation_satellites', 22)
+            max_satellites = getattr(self, 'max_propagation_satellites', 24)
             
             # 4. 首先将模型传播给可见卫星
             propagation_satellites = set(visible_satellites)

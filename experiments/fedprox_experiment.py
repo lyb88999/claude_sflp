@@ -255,7 +255,16 @@ class FedProxExperiment(FedAvgExperiment):
     
     def setup_clients(self):
         """设置卫星客户端，使用 FedProxClient 代替 SatelliteClient"""
-        client_config = ClientConfig(**self.config['client'])
+
+        client_cfg = self.config.get('client', {}) 
+        client_config = ClientConfig(
+             local_epochs=client_cfg.get('local_epochs', 1), 
+             batch_size=client_cfg.get('batch_size', 32), 
+             learning_rate=client_cfg.get('learning_rate', 0.01), 
+             momentum=client_cfg.get('momentum', 0.9), 
+             # weight_decay=client_cfg.get('weight_decay', 0.0001) 
+             # 不传入不支持的参数如'optimizer'和'shuffle' 
+             )
         # 选择设备
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.logger.info(f"使用设备: {device}")

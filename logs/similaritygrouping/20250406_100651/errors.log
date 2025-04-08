@@ -1,0 +1,20 @@
+2025-04-06 10:21:18,067 - similaritygrouping_20250406_100651 - ERROR - grouping_experiment.py:993 - 谱聚类分组失败: Input X contains NaN.
+SpectralClustering does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+2025-04-06 10:21:18,074 - similaritygrouping_20250406_100651 - ERROR - grouping_experiment.py:995 - Traceback (most recent call last):
+  File "/Users/yuboli/Downloads/sflp_0404/experiments/grouping_experiment.py", line 938, in perform_grouping
+    clustering = SpectralClustering(
+  File "/Users/yuboli/miniconda3/envs/sflp/lib/python3.9/site-packages/sklearn/base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/Users/yuboli/miniconda3/envs/sflp/lib/python3.9/site-packages/sklearn/cluster/_spectral.py", line 691, in fit
+    X = validate_data(
+  File "/Users/yuboli/miniconda3/envs/sflp/lib/python3.9/site-packages/sklearn/utils/validation.py", line 2944, in validate_data
+    out = check_array(X, input_name="X", **check_params)
+  File "/Users/yuboli/miniconda3/envs/sflp/lib/python3.9/site-packages/sklearn/utils/validation.py", line 1107, in check_array
+    _assert_all_finite(
+  File "/Users/yuboli/miniconda3/envs/sflp/lib/python3.9/site-packages/sklearn/utils/validation.py", line 120, in _assert_all_finite
+    _assert_all_finite_element_wise(
+  File "/Users/yuboli/miniconda3/envs/sflp/lib/python3.9/site-packages/sklearn/utils/validation.py", line 169, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input X contains NaN.
+SpectralClustering does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+
