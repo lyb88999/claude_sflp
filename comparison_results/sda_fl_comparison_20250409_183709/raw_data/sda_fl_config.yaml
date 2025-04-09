@@ -1,0 +1,60 @@
+# 网络配置
+network:
+  tle_file: "configs/Iridium_TLEs.txt"
+  max_distance: 4000.0  # km
+
+# 能源配置
+energy:
+  config_file: "configs/energy_config.yaml"
+  
+# 联邦学习配置
+fl:
+  num_satellites: 66  # 总卫星数量
+  satellites_per_orbit: 11  # 每轨道卫星数
+  num_orbits: 6  # 轨道数量
+  num_rounds: 20
+  round_interval: 300  # 每轮训练间隔(秒)
+
+# SDA-FL特定配置
+sda_fl:
+  noise_dim: 100  # 噪声维度
+  num_synthetic_samples: 1000  # 生成的合成样本数量
+  dp_epsilon: 1.0  # 差分隐私参数epsilon
+  dp_delta: 1e-5  # 差分隐私参数delta
+  pseudo_threshold: 0.8  # 伪标签置信度阈值
+  initial_rounds: 3  # 初始常规训练轮数
+  gan_epochs: 50  # GAN训练轮数
+  gan_samples_per_client: 100  # 每个客户端提供的GAN训练样本数
+  regenerate_interval: 5  # 重新生成合成数据的间隔轮数
+
+# 数据配置
+data:
+  dataset: "real_traffic"
+  csv_path: "/Users/yuboli/Downloads/merged_traffic_data_20250305_111338.csv"
+  test_size: 0.2                     # 测试集比例
+  iid: true                         # 非IID分布
+  alpha: 0.3                         # Dirichlet参数
+
+# 模型配置
+model:
+  type: "traffic_classifier"
+  hidden_dim: 64
+  batch_size: 32
+  learning_rate: 0.001
+  momentum: 0.9
+  
+# 客户端配置
+client:
+  batch_size: 32
+  local_epochs: 5
+  learning_rate: 0.01
+  momentum: 0.9
+  compute_capacity: 1.0
+  storage_capacity: 1000.0
+  
+# 聚合配置
+aggregation:
+  min_updates: 2
+  max_staleness: 300.0
+  timeout: 600.0
+  weighted_average: true

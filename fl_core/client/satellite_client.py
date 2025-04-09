@@ -548,3 +548,18 @@ class SatelliteClient:
                 'model_updates': None
             }
         }
+    
+
+    def set_dataset(self, dataset: Dataset):
+        """设置本地数据集"""
+        self.dataset = dataset
+        
+    def update_dataset(self, dataset):
+        """
+        更新客户端的数据集
+        
+        Args:
+            dataset: 新的数据集
+        """
+        self.dataset = dataset
+        print(f"客户端 {self.client_id} 更新数据集，新大小: {len(dataset)}")
