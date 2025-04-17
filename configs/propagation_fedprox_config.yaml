@@ -9,13 +9,13 @@ fl:
 data:
   dataset: "real_traffic"  # 使用真实网络流量数据
   csv_path: "/Users/yuboli/Downloads/merged_traffic_data_20250305_111338.csv"
-  total_samples: 100000
-  test_samples: 10000
+  #total_samples: 100000
+  #test_samples: 10000
   test_size: 0.2  # 测试集比例
   iid: true
   alpha: 1.0
   dirichlet_alpha: 0.5
-  mean_samples_per_satellite: 1000
+  # mean_samples_per_satellite: 1000
   region_similarity: true
   overlap_ratio: 0.5
 
@@ -47,7 +47,7 @@ energy:
 
 # FedProx特有参数
 fedprox:
-  mu: 0.1  # 接近性项系数
+  mu: 0.15  # 接近性项系数
 
 # 传播相关参数
 propagation:

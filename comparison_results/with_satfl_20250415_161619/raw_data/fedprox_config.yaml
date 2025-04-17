@@ -1,0 +1,46 @@
+aggregation:
+  max_staleness: 2
+  min_updates: 2
+  timeout: 600.0
+  weighted_average: true
+client:
+  batch_size: 32
+  learning_rate: 0.01
+  local_epochs: 5
+  momentum: 0.9
+  shuffle: true
+  weight_decay: 0.0001
+data:
+  alpha: 1.0
+  csv_path: /Users/yuboli/Downloads/merged_traffic_data_20250305_111338.csv
+  dataset: real_traffic
+  dirichlet_alpha: 0.5
+  iid: true
+  mean_samples_per_satellite: 1000
+  overlap_ratio: 0.5
+  region_similarity: true
+  test_samples: 10000
+  test_size: 0.2
+  total_samples: 100000
+energy:
+  config_file: configs/energy_config.yaml
+fedprox:
+  mu: 0.1
+fl:
+  num_orbits: 6
+  num_rounds: 30
+  num_satellites: 66
+  round_interval: 3600
+  satellites_per_orbit: 11
+model:
+  hidden_dim: 64
+network:
+  max_distance: 4000.0
+  tle_file: configs/Iridium_TLEs.txt
+propagation:
+  energy_per_hop: 0.05
+  hops: 3
+  inter_orbit_links: true
+  intra_orbit_links: true
+  link_reliability: 0.95
+  max_satellites: 24
