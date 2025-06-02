@@ -547,32 +547,41 @@ class BaselineExperiment:
             self.logger.info(f"地面站 {i} 初始化完成: 负责轨道={station.responsible_orbits}")
         
     def train(self):
-        # 初始化记录列表
+        # 初始化记录列表 - 扩展为包含所有分类指标
         accuracies = []
         losses = []
-        # 初始化统计信息
+        # 新增的分类指标
+        precision_macros = []
+        recall_macros = []
+        f1_macros = []
+        precision_weighteds = []
+        recall_weighteds = []
+        f1_weighteds = []
+        
+        # 能源和卫星统计（保持不变）
         energy_stats = {
-            'training_energy': [],   # 每轮训练能耗
-            'communication_energy': [],  # 每轮通信能耗
-            'total_energy': []      # 每轮总能耗
+            'training_energy': [],
+            'communication_energy': [],
+            'total_energy': []
         }
         satellite_stats = {
-            'training_satellites': [],   # 每轮训练的卫星数
-            'receiving_satellites': [],  # 每轮接收参数的卫星数
-            'total_active': []          # 每轮总活跃卫星数
+            'training_satellites': [],
+            'receiving_satellites': [],
+            'total_active': []
         }
 
         current_time = datetime.now().timestamp()
         self.current_round = 0
-        best_accuracy = 0
+        best_f1 = 0  # 改用F1值作为最佳模型指标
         rounds_without_improvement = 0
-        max_rounds_without_improvement = 3  # 连续3轮没有提升就停止
-        min_rounds = 5  # 最少训练轮数
-        accuracy_threshold = 95.0  # 提高准确率阈值到95%
+        max_rounds_without_improvement = 3
+        min_rounds = 5
+        f1_threshold = 95.0  # F1值阈值
 
         for round_num in range(self.config['fl']['num_rounds']):
             self.current_round = round_num
             self.logger.info(f"=== 开始第 {round_num + 1} 轮训练 === 时间：{datetime.fromtimestamp(current_time)}")
+            
             round_energy = 0
 
             # 使用线程池并行处理每个地面站的轨道
@@ -646,46 +655,56 @@ class BaselineExperiment:
                     self.logger.info("\n=== 全局聚合阶段 ===")
                     success = self._perform_global_aggregation(round_num)
                     
+                    # 在全局聚合成功后，评估模型
                     if success:
-                        # 评估准确率
-                        accuracy = self.evaluate()
-                        accuracies.append(accuracy)
-                        # 计算当前轮次的总损失和能耗
-                        round_energy = 0
+                        # 评估准确率和其他指标
+                        metrics = self.evaluate()  # 现在返回包含所有指标的字典
+                        
+                        # 记录所有指标
+                        accuracies.append(metrics['accuracy'])
+                        precision_macros.append(metrics['precision_macro'])
+                        recall_macros.append(metrics['recall_macro'])
+                        f1_macros.append(metrics['f1_macro'])
+                        precision_weighteds.append(metrics['precision_weighted'])
+                        recall_weighteds.append(metrics['recall_weighted'])
+                        f1_weighteds.append(metrics['f1_weighted'])
+                        
+                        # 计算当前轮次的总损失
                         round_loss = 0
                         round_stat = {}
                         for client in self.clients.values():
                             if client.train_stats:
-                                round_energy += client.train_stats[-1]['summary']['energy_consumption']
                                 round_loss += client.train_stats[-1]['summary']['train_loss'][-1]
                                 round_stat[client.client_id] = client.train_stats[-1]
                                 
-                        # energies.append(round_energy)
-                        losses.append(round_loss / len(self.clients))  # 平均损失
-                        # round_stats.append(round_stat)
+                        losses.append(round_loss / len(self.clients))
 
-                        self.logger.info(f"第 {round_num + 1} 轮全局准确率: {accuracy:.4f}")
+                        self.logger.info(f"第 {round_num + 1} 轮全局指标: "
+                                    f"准确率={metrics['accuracy']:.2f}%, "
+                                    f"F1(macro)={metrics['f1_macro']:.2f}%, "
+                                    f"精确率(macro)={metrics['precision_macro']:.2f}%, "
+                                    f"召回率(macro)={metrics['recall_macro']:.2f}%")
                         
-                        # 更新最佳准确率和检查提升情况
-                        if accuracy > best_accuracy:
-                            best_accuracy = accuracy
+                        # 使用F1值作为模型改进的判断标准
+                        current_f1 = metrics['f1_macro']
+                        if current_f1 > best_f1:
+                            best_f1 = current_f1
                             rounds_without_improvement = 0
-                            self.logger.info(f"找到更好的模型！新的最佳准确率: {accuracy:.4f}")
+                            self.logger.info(f"找到更好的模型！新的最佳F1值: {current_f1:.2f}%")
                         else:
                             rounds_without_improvement += 1
-                            self.logger.info(f"准确率未提升，已经 {rounds_without_improvement} 轮没有改进")
+                            self.logger.info(f"F1值未提升，已经 {rounds_without_improvement} 轮没有改进")
 
                         # 检查是否满足停止条件
-                        if round_num + 1 >= min_rounds:  # 已达到最小轮数
-                            if accuracy >= accuracy_threshold:
-                                self.logger.info(f"达到目标准确率 {accuracy:.4f}，停止训练")
+                        if round_num + 1 >= min_rounds:
+                            if current_f1 >= f1_threshold:
+                                self.logger.info(f"达到目标F1值 {current_f1:.2f}%，停止训练")
                                 break
                             elif rounds_without_improvement >= max_rounds_without_improvement:
-                                self.logger.info(f"连续 {max_rounds_without_improvement} 轮准确率未提升，停止训练")
+                                self.logger.info(f"连续 {max_rounds_without_improvement} 轮F1值未提升，停止训练")
                                 break
 
-                        current_time += self.config['fl']['round_interval']
-                        
+                        current_time += self.config['fl']['round_interval']    
                     else:
                         self.logger.warning("全局聚合失败")
                 else:
@@ -697,31 +716,36 @@ class BaselineExperiment:
             
         self.logger.info(f"\n=== 训练结束 ===")
         self.logger.info(f"总轮次: {round_num + 1}")
-        self.logger.info(f"最佳准确率: {best_accuracy:.4f}")
+        self.logger.info(f"最佳F1值: {best_f1:.2f}%")
+        self.logger.info(f"最终准确率: {accuracies[-1] if accuracies else 0:.2f}%")
         # self.plot_training_results(accuracies, energies)
         # 收集所有统计信息
         stats = {
             'accuracies': accuracies,
             'losses': losses,
-            'energy_stats': {
-                'training_energy': energy_stats['training_energy'],
-                'communication_energy': energy_stats['communication_energy'],
-                'total_energy': energy_stats['total_energy']
-            },
-            'satellite_stats': {
-                'training_satellites': satellite_stats['training_satellites'],
-                'receiving_satellites': satellite_stats['receiving_satellites'],
-                'total_active': satellite_stats['total_active']
-            }
+            'precision_macros': precision_macros,
+            'recall_macros': recall_macros,
+            'f1_macros': f1_macros,
+            'precision_weighteds': precision_weighteds,
+            'recall_weighteds': recall_weighteds,
+            'f1_weighteds': f1_weighteds,
+            'energy_stats': energy_stats,
+            'satellite_stats': satellite_stats,
+            'final_metrics': metrics if 'metrics' in locals() else {}  # 最终轮次的完整指标
         }
 
+
         # 生成可视化
-        self.visualizer.plot_training_metrics(
-            accuracies=stats['accuracies'],
-            losses=stats['losses'],
-            energy_stats=stats['energy_stats'],
-            satellite_stats=stats['satellite_stats'],
-            save_path=self.log_dir / 'training_metrics.png'  # 保存在实验日志目录
+        # self.visualizer.plot_training_metrics(
+        #     accuracies=stats['accuracies'],
+        #     losses=stats['losses'],
+        #     energy_stats=stats['energy_stats'],
+        #     satellite_stats=stats['satellite_stats'],
+        #     save_path=self.log_dir / 'training_metrics.png'  # 保存在实验日志目录
+        # )
+        self.visualizer.plot_training_metrics_extended(
+            stats=stats,
+            save_path=self.log_dir / 'training_metrics.png'
         )
 
         return stats
@@ -1580,11 +1604,16 @@ class BaselineExperiment:
         
     #     return accuracy
 
-    def evaluate(self) -> float:
-        """评估全局模型性能"""
+    def evaluate(self) -> dict:
+        """评估全局模型性能，返回包含多个指标的字典"""
+        from sklearn.metrics import precision_recall_fscore_support, confusion_matrix, classification_report
+        import numpy as np
+        
         self.model.eval()
         test_loss = 0
         correct = 0
+        all_predictions = []
+        all_targets = []
         
         test_loader = DataLoader(
             self.test_dataset, 
@@ -1598,20 +1627,84 @@ class BaselineExperiment:
                 test_loss += F.cross_entropy(output, target, reduction='sum').item()
                 pred = output.argmax(dim=1)
                 correct += pred.eq(target).sum().item()
+                
+                # 收集所有预测和真实标签用于计算详细指标
+                all_predictions.extend(pred.cpu().numpy())
+                all_targets.extend(target.cpu().numpy())
         
         test_loss /= len(test_loader.dataset)
         accuracy = 100. * correct / len(test_loader.dataset)
         
+        # 计算分类指标
+        all_predictions = np.array(all_predictions)
+        all_targets = np.array(all_targets)
+        
+        # 计算精确率、召回率、F1值 (macro和weighted平均)
+        precision_macro, recall_macro, f1_macro, _ = precision_recall_fscore_support(
+            all_targets, all_predictions, average='macro', zero_division=0
+        )
+        precision_weighted, recall_weighted, f1_weighted, _ = precision_recall_fscore_support(
+            all_targets, all_predictions, average='weighted', zero_division=0
+        )
+        
+        # 计算每个类别的指标
+        precision_per_class, recall_per_class, f1_per_class, support_per_class = precision_recall_fscore_support(
+            all_targets, all_predictions, average=None, zero_division=0
+        )
+        
+        # 混淆矩阵
+        cm = confusion_matrix(all_targets, all_predictions)
+        
+        # 构建详细的分类报告
+        class_report = classification_report(all_targets, all_predictions, output_dict=True, zero_division=0)
+        
+        # 构建结果字典
+        metrics = {
+            'accuracy': accuracy,
+            'test_loss': test_loss,
+            'precision_macro': precision_macro * 100,  # 转换为百分比
+            'recall_macro': recall_macro * 100,
+            'f1_macro': f1_macro * 100,
+            'precision_weighted': precision_weighted * 100,
+            'recall_weighted': recall_weighted * 100,
+            'f1_weighted': f1_weighted * 100,
+            'precision_per_class': precision_per_class * 100,
+            'recall_per_class': recall_per_class * 100,
+            'f1_per_class': f1_per_class * 100,
+            'support_per_class': support_per_class,
+            'confusion_matrix': cm,
+            'classification_report': class_report,
+            'total_samples': len(test_loader.dataset),
+            'correct_predictions': correct
+        }
+        
+        # 记录详细信息
         self.logger.info(
             f'测试结果:'
             f'\n总样本数: {len(test_loader.dataset)}'
             f'\n正确预测数: {correct}'
             f'\n平均损失: {test_loss:.4f}'
             f'\n准确率: {accuracy:.2f}%'
+            f'\n精确率(macro): {precision_macro*100:.2f}%'
+            f'\n召回率(macro): {recall_macro*100:.2f}%'
+            f'\nF1值(macro): {f1_macro*100:.2f}%'
+            f'\n精确率(weighted): {precision_weighted*100:.2f}%'
+            f'\n召回率(weighted): {recall_weighted*100:.2f}%'
+            f'\nF1值(weighted): {f1_weighted*100:.2f}%'
         )
         
-        return accuracy
-
+        # 打印混淆矩阵
+        self.logger.info(f'混淆矩阵:\n{cm}')
+        
+        # 如果是二分类，打印每个类别的详细指标
+        if len(precision_per_class) == 2:
+            self.logger.info(
+                f'类别详细指标:'
+                f'\n恶意流量 - 精确率: {precision_per_class[0]*100:.2f}%, 召回率: {recall_per_class[0]*100:.2f}%, F1: {f1_per_class[0]*100:.2f}%'
+                f'\n良性流量 - 精确率: {precision_per_class[1]*100:.2f}%, 召回率: {recall_per_class[1]*100:.2f}%, F1: {f1_per_class[1]*100:.2f}%'
+            )
+        
+        return metrics
     # 添加新的辅助方法来获取轨道模型和评估模型
     def _get_orbit_model(self, orbit: int):
         """获取指定轨道的模型"""

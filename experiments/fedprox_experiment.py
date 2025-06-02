@@ -29,6 +29,13 @@ class FedProxExperiment(FedAvgExperiment):
         # 初始化记录列表
         accuracies = []
         losses = []
+        # 新增的分类指标列表
+        precision_macros = []
+        recall_macros = []
+        f1_macros = []
+        precision_weighteds = []
+        recall_weighteds = []
+        f1_weighteds = []
         energy_stats = {
             'training_energy': [],
             'communication_energy': [],
@@ -149,8 +156,18 @@ class FedProxExperiment(FedAvgExperiment):
                     
                     if success:
                         # 评估准确率
-                        accuracy = self.evaluate()
-                        accuracies.append(accuracy)
+                        # accuracy = self.evaluate()
+                        # accuracies.append(accuracy)
+                        metrics = self.evaluate() 
+                        # 收集所有指标
+                        accuracies.append(metrics['accuracy'])
+                        precision_macros.append(metrics['precision_macro'])
+                        recall_macros.append(metrics['recall_macro'])
+                        f1_macros.append(metrics['f1_macro'])
+                        precision_weighteds.append(metrics['precision_weighted'])
+                        recall_weighteds.append(metrics['recall_weighted'])
+                        f1_weighteds.append(metrics['f1_weighted'])
+
                         
                         # 计算当前轮次的总损失和能耗
                         round_energy = 0
@@ -170,14 +187,26 @@ class FedProxExperiment(FedAvgExperiment):
                         else:
                             losses.append(0)
 
-                        self.logger.info(f"第 {round_num + 1} 轮全局准确率: {accuracy:.4f}")
+                        # self.logger.info(f"第 {round_num + 1} 轮全局准确率: {accuracy:.4f}")
+                        self.logger.info(f"第 {round_num + 1} 轮指标: "
+                           f"准确率={metrics['accuracy']:.2f}%, "
+                           f"F1={metrics['f1_macro']:.2f}%, "
+                           f"精确率={metrics['precision_macro']:.2f}%, "
+                           f"召回率={metrics['recall_macro']:.2f}%")
                         self.logger.info(f"接近性项 (μ={self.mu}): {proximal_terms[-1]:.6f}")
+                        current_accuracy = metrics['accuracy']
+                        current_f1 = metrics['f1_macro']
+
                         
-                        # 更新最佳准确率和检查提升情况
-                        if accuracy > best_accuracy:
-                            best_accuracy = accuracy
+                        if current_f1 > best_f1:
+                            best_f1 = current_f1
                             rounds_without_improvement = 0
-                            self.logger.info(f"找到更好的模型！新的最佳准确率: {accuracy:.4f}")
+                            self.logger.info(f"找到更好的模型！新的最佳F1值: {current_f1:.2f}%")
+                        # 更新最佳准确率和检查提升情况
+                        elif current_accuracy > best_accuracy:
+                            best_accuracy = current_accuracy
+                            rounds_without_improvement = 0
+                            self.logger.info(f"找到更好的模型！新的最佳准确率: {current_accuracy:.4f}")
                         else:
                             rounds_without_improvement += 1
                             self.logger.info(f"准确率未提升，已经 {rounds_without_improvement} 轮没有改进")
@@ -196,6 +225,7 @@ class FedProxExperiment(FedAvgExperiment):
         self.logger.info(f"\n=== FedProx 训练结束 ===")
         self.logger.info(f"总轮次: {self.current_round + 1}")
         self.logger.info(f"最佳准确率: {best_accuracy:.4f}")
+        self.logger.info(f"最佳F1值: {best_f1:.4f}")  # 新增
         self.logger.info(f"接近性参数 μ: {self.mu}")
         
         # 保存接近性项统计
@@ -205,6 +235,12 @@ class FedProxExperiment(FedAvgExperiment):
         stats = {
             'accuracies': accuracies,
             'losses': losses,
+            'precision_macros': precision_macros,
+            'recall_macros': recall_macros,
+            'f1_macros': f1_macros,
+            'precision_weighteds': precision_weighteds,
+            'recall_weighteds': recall_weighteds,
+            'f1_weighteds': f1_weighteds,
             'energy_stats': energy_stats,
             'satellite_stats': satellite_stats,
             'proximal_terms': proximal_terms,

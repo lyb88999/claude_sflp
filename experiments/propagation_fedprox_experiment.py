@@ -121,6 +121,12 @@ class LimitedPropagationFedProx(FedProxExperiment):
         # 初始化记录列表
         accuracies = []
         losses = []
+        precision_macros = []
+        recall_macros = []
+        f1_macros = []
+        precision_weighteds = []
+        recall_weighteds = []
+        f1_weighteds = []
         energy_stats = {
             'training_energy': [],
             'communication_energy': [],
@@ -143,6 +149,8 @@ class LimitedPropagationFedProx(FedProxExperiment):
         self.current_round = 0
         best_accuracy = 0
         rounds_without_improvement = 0
+
+        best_f1 = 0
         
         # 禁用早停或修改参数
         max_rounds_without_improvement = float('inf')  # 设置为无穷大
@@ -289,8 +297,17 @@ class LimitedPropagationFedProx(FedProxExperiment):
                 self.model.load_state_dict(aggregated_update)
                 
                 # 8. 评估全局模型
-                accuracy = self.evaluate()
-                accuracies.append(accuracy)
+                # accuracy = self.evaluate()
+                # accuracies.append(accuracy)
+                metrics = self.evaluate() 
+                # 收集所有指标
+                accuracies.append(metrics['accuracy'])
+                precision_macros.append(metrics['precision_macro'])
+                recall_macros.append(metrics['recall_macro'])
+                f1_macros.append(metrics['f1_macro'])
+                precision_weighteds.append(metrics['precision_weighted'])
+                recall_weighteds.append(metrics['recall_weighted'])
+                f1_weighteds.append(metrics['f1_weighted'])
                 
                 # 计算平均损失
                 round_loss = 0
@@ -307,7 +324,12 @@ class LimitedPropagationFedProx(FedProxExperiment):
                 else:
                     proximal_terms.append(0.0)
                 
-                self.logger.info(f"第 {round_num + 1} 轮全局准确率: {accuracy:.4f}")
+                # self.logger.info(f"第 {round_num + 1} 轮全局准确率: {accuracy:.4f}")
+                self.logger.info(f"第 {round_num + 1} 轮指标: "
+                           f"准确率={metrics['accuracy']:.2f}%, "
+                           f"F1={metrics['f1_macro']:.2f}%, "
+                           f"精确率={metrics['precision_macro']:.2f}%, "
+                           f"召回率={metrics['recall_macro']:.2f}%")
                 
                 # 记录能源和卫星统计信息
                 energy_stats['training_energy'].append(round_training_energy)
@@ -318,23 +340,36 @@ class LimitedPropagationFedProx(FedProxExperiment):
                 satellite_stats['receiving_satellites'].append(len(round_receiving_sats))
                 satellite_stats['total_active'].append(len(round_training_satellites | round_receiving_sats))
                 
+
+                current_accuracy = metrics['accuracy']
+                current_f1 = metrics['f1_macro']
                 # 更新最佳准确率和检查提升情况
-                if accuracy > best_accuracy:
-                    best_accuracy = accuracy
+                improvement_found = False
+                if current_f1 > best_f1:
+                    best_f1 = current_f1
+                    improvement_found = True
+                    self.logger.info(f"找到更好的模型！新的最佳F1值: {current_f1:.2f}%")
+                
+                if current_accuracy > best_accuracy:
+                    best_accuracy = current_accuracy
+                    if not improvement_found:
+                        improvement_found = True
+                        self.logger.info(f"找到更好的模型！新的最佳准确率: {current_accuracy:.2f}%")
+                
+                if improvement_found:
                     rounds_without_improvement = 0
-                    self.logger.info(f"找到更好的模型！新的最佳准确率: {accuracy:.4f}")
                 else:
                     rounds_without_improvement += 1
-                    self.logger.info(f"准确率未提升，已经 {rounds_without_improvement} 轮没有改进")
+                    self.logger.info(f"性能未提升，已经 {rounds_without_improvement} 轮没有改进")
             else:
                 self.logger.warning(f"没有足够的已训练卫星可见，跳过本轮聚合")
-            
             # 调整仿真时间到下一轮开始
             current_time = datetime.now().timestamp() + round_num * self.config['fl']['round_interval']
         
         self.logger.info(f"\n=== 限制传播FedProx训练结束 ===")
         self.logger.info(f"总轮次: {self.current_round + 1}")
         self.logger.info(f"最佳准确率: {best_accuracy:.4f}")
+        self.logger.info(f"最佳F1值: {best_f1:.4f}")  # 新增
         self.logger.info(f"接近性参数 μ: {self.mu}")
         
         # 保存接近性项统计
@@ -344,6 +379,12 @@ class LimitedPropagationFedProx(FedProxExperiment):
         stats = {
             'accuracies': accuracies,
             'losses': losses,
+            'precision_macros': precision_macros,
+            'recall_macros': recall_macros,
+            'f1_macros': f1_macros,
+            'precision_weighteds': precision_weighteds,
+            'recall_weighteds': recall_weighteds,
+            'f1_weighteds': f1_weighteds,
             'energy_stats': energy_stats,
             'satellite_stats': satellite_stats,
             'proximal_terms': proximal_terms,

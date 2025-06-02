@@ -404,6 +404,12 @@ class SDAFLExperiment(BaselineExperiment):
         # 初始化记录列表
         accuracies = []
         losses = []
+        precision_macros = []
+        recall_macros = []
+        f1_macros = []
+        precision_weighteds = []
+        recall_weighteds = []
+        f1_weighteds = []
         energy_stats = {
             'training_energy': [],
             'communication_energy': [],
@@ -556,8 +562,17 @@ class SDAFLExperiment(BaselineExperiment):
                 self.model.load_state_dict(aggregated_update)
                 
                 # 8. 评估全局模型
-                accuracy = self.evaluate()
-                accuracies.append(accuracy)
+                # accuracy = self.evaluate()
+                # accuracies.append(accuracy)
+                metrics = self.evaluate() 
+
+                accuracies.append(metrics['accuracy'])
+                precision_macros.append(metrics['precision_macro'])
+                recall_macros.append(metrics['recall_macro'])
+                f1_macros.append(metrics['f1_macro'])
+                precision_weighteds.append(metrics['precision_weighted'])
+                recall_weighteds.append(metrics['recall_weighted'])
+                f1_weighteds.append(metrics['f1_weighted'])
                 
                 # 计算平均损失
                 round_loss = 0
@@ -566,7 +581,7 @@ class SDAFLExperiment(BaselineExperiment):
                         round_loss += self.clients[sat_id].train_stats[-1]['summary']['train_loss'][-1]
                 losses.append(round_loss / len(trained_satellites))
                 
-                self.logger.info(f"初始阶段第 {round_num + 1} 轮完成，准确率: {accuracy:.4f}")
+                self.logger.info(f"初始阶段第 {round_num + 1} 轮完成，准确率: {metrics['accuracy']:.2f}%")
                 
                 # 记录能源和卫星统计信息
                 energy_stats['training_energy'].append(round_training_energy)
@@ -733,8 +748,16 @@ class SDAFLExperiment(BaselineExperiment):
                 self.model.load_state_dict(aggregated_update)
                 
                 # 8. 评估全局模型
-                accuracy = self.evaluate()
-                accuracies.append(accuracy)
+                # accuracy = self.evaluate()
+                # accuracies.append(accuracy)
+                metrics = self.evaluate()
+                accuracies.append(metrics['accuracy'])
+                precision_macros.append(metrics['precision_macro'])
+                recall_macros.append(metrics['recall_macro'])
+                f1_macros.append(metrics['f1_macro'])
+                precision_weighteds.append(metrics['precision_weighted'])
+                recall_weighteds.append(metrics['recall_weighted'])
+                f1_weighteds.append(metrics['f1_weighted'])
                 
                 # 计算平均损失
                 round_loss = 0
@@ -743,7 +766,7 @@ class SDAFLExperiment(BaselineExperiment):
                         round_loss += self.clients[sat_id].train_stats[-1]['summary']['train_loss'][-1]
                 losses.append(round_loss / len(trained_satellites))
                 
-                self.logger.info(f"增强阶段第 {round_num - initial_rounds + 1} 轮完成，准确率: {accuracy:.4f}")
+                self.logger.info(f"增强阶段第 {round_num - initial_rounds + 1} 轮完成，准确率: {metrics['accuracy']:.2f}%")
                 
                 # 记录能源和卫星统计信息
                 energy_stats['training_energy'].append(round_training_energy)
@@ -768,6 +791,12 @@ class SDAFLExperiment(BaselineExperiment):
         stats = {
             'accuracies': accuracies,
             'losses': losses,
+            'precision_macros': precision_macros,
+            'recall_macros': recall_macros,
+            'f1_macros': f1_macros,
+            'precision_weighteds': precision_weighteds,
+            'recall_weighteds': recall_weighteds,
+            'f1_weighteds': f1_weighteds,
             'energy_stats': energy_stats,
             'satellite_stats': satellite_stats,
             'num_synthetic_samples': self.num_synthetic_samples

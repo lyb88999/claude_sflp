@@ -192,6 +192,271 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
     plt.savefig(f"{output_dir}/accuracy_comparison.{style['save_format']}", dpi=style['dpi'])
     plt.close()
     
+    # 1.1 F1 Score 对比 (Macro)
+    plt.figure(figsize=style['figsize'])
+    if 'f1_macros' in satfl_stats and satfl_stats['f1_macros']:
+        plt.plot(satfl_stats['f1_macros'], 
+                 color=algo_styles['SDA-FL']['color'], 
+                 marker=algo_styles['SDA-FL']['marker'], 
+                 label=algo_styles['SDA-FL']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'f1_macros' in fedprox_stats and fedprox_stats['f1_macros']:
+        plt.plot(fedprox_stats['f1_macros'], 
+                 color=algo_styles['FedProx']['color'], 
+                 marker=algo_styles['FedProx']['marker'], 
+                 label=algo_styles['FedProx']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'f1_macros' in fedavg_stats and fedavg_stats['f1_macros']:
+        plt.plot(fedavg_stats['f1_macros'], 
+                 color=algo_styles['FedAvg']['color'], 
+                 marker=algo_styles['FedAvg']['marker'], 
+                 label=algo_styles['FedAvg']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'f1_macros' in similarity_stats and similarity_stats['f1_macros']:
+        plt.plot(similarity_stats['f1_macros'], 
+                 color=algo_styles['Similarity']['color'], 
+                 marker=algo_styles['Similarity']['marker'], 
+                 label=algo_styles['Similarity']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    plt.title(f'F1 Score (Macro) Comparison {title_suffix}')
+    plt.xlabel('Round')
+    plt.ylabel('F1 Score (%)')
+    plt.legend()
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/f1_macro_comparison.{style['save_format']}", dpi=style['dpi'])
+    plt.close()
+    
+    # 1.2 精确率对比 (Macro)
+    plt.figure(figsize=style['figsize'])
+    if 'precision_macros' in satfl_stats and satfl_stats['precision_macros']:
+        plt.plot(satfl_stats['precision_macros'], 
+                 color=algo_styles['SDA-FL']['color'], 
+                 marker=algo_styles['SDA-FL']['marker'], 
+                 label=algo_styles['SDA-FL']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'precision_macros' in fedprox_stats and fedprox_stats['precision_macros']:
+        plt.plot(fedprox_stats['precision_macros'], 
+                 color=algo_styles['FedProx']['color'], 
+                 marker=algo_styles['FedProx']['marker'], 
+                 label=algo_styles['FedProx']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'precision_macros' in fedavg_stats and fedavg_stats['precision_macros']:
+        plt.plot(fedavg_stats['precision_macros'], 
+                 color=algo_styles['FedAvg']['color'], 
+                 marker=algo_styles['FedAvg']['marker'], 
+                 label=algo_styles['FedAvg']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'precision_macros' in similarity_stats and similarity_stats['precision_macros']:
+        plt.plot(similarity_stats['precision_macros'], 
+                 color=algo_styles['Similarity']['color'], 
+                 marker=algo_styles['Similarity']['marker'], 
+                 label=algo_styles['Similarity']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    plt.title(f'Precision (Macro) Comparison {title_suffix}')
+    plt.xlabel('Round')
+    plt.ylabel('Precision (%)')
+    plt.legend()
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/precision_macro_comparison.{style['save_format']}", dpi=style['dpi'])
+    plt.close()
+    
+    # 1.3 召回率对比 (Macro)
+    plt.figure(figsize=style['figsize'])
+    if 'recall_macros' in satfl_stats and satfl_stats['recall_macros']:
+        plt.plot(satfl_stats['recall_macros'], 
+                 color=algo_styles['SDA-FL']['color'], 
+                 marker=algo_styles['SDA-FL']['marker'], 
+                 label=algo_styles['SDA-FL']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'recall_macros' in fedprox_stats and fedprox_stats['recall_macros']:
+        plt.plot(fedprox_stats['recall_macros'], 
+                 color=algo_styles['FedProx']['color'], 
+                 marker=algo_styles['FedProx']['marker'], 
+                 label=algo_styles['FedProx']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'recall_macros' in fedavg_stats and fedavg_stats['recall_macros']:
+        plt.plot(fedavg_stats['recall_macros'], 
+                 color=algo_styles['FedAvg']['color'], 
+                 marker=algo_styles['FedAvg']['marker'], 
+                 label=algo_styles['FedAvg']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'recall_macros' in similarity_stats and similarity_stats['recall_macros']:
+        plt.plot(similarity_stats['recall_macros'], 
+                 color=algo_styles['Similarity']['color'], 
+                 marker=algo_styles['Similarity']['marker'], 
+                 label=algo_styles['Similarity']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    plt.title(f'Recall (Macro) Comparison {title_suffix}')
+    plt.xlabel('Round')
+    plt.ylabel('Recall (%)')
+    plt.legend()
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/recall_macro_comparison.{style['save_format']}", dpi=style['dpi'])
+    plt.close()
+    
+    # 1.4 综合性能指标对比（在一张图中显示多个指标）
+    plt.figure(figsize=(14, 8))
+    
+    # 创建2x2的子图
+    fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+    
+    # 子图1: 准确率
+    axes[0, 0].plot(satfl_stats['accuracies'], 
+                    color=algo_styles['SDA-FL']['color'], 
+                    marker=algo_styles['SDA-FL']['marker'], 
+                    label=algo_styles['SDA-FL']['label'],
+                    linewidth=style['linewidth'],
+                    markersize=style['marker_size'])
+    axes[0, 0].plot(fedprox_stats['accuracies'], 
+                    color=algo_styles['FedProx']['color'], 
+                    marker=algo_styles['FedProx']['marker'], 
+                    label=algo_styles['FedProx']['label'],
+                    linewidth=style['linewidth'],
+                    markersize=style['marker_size'])
+    axes[0, 0].plot(fedavg_stats['accuracies'], 
+                    color=algo_styles['FedAvg']['color'], 
+                    marker=algo_styles['FedAvg']['marker'], 
+                    label=algo_styles['FedAvg']['label'],
+                    linewidth=style['linewidth'],
+                    markersize=style['marker_size'])
+    axes[0, 0].plot(similarity_stats['accuracies'], 
+                    color=algo_styles['Similarity']['color'], 
+                    marker=algo_styles['Similarity']['marker'], 
+                    label=algo_styles['Similarity']['label'],
+                    linewidth=style['linewidth'],
+                    markersize=style['marker_size'])
+    axes[0, 0].set_title('Accuracy (%)')
+    axes[0, 0].set_xlabel('Round')
+    axes[0, 0].set_ylabel('Accuracy (%)')
+    if show_grid:
+        axes[0, 0].grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    
+    # 子图2: F1 Score (Macro)
+    if all('f1_macros' in stats and stats['f1_macros'] for stats in [satfl_stats, fedprox_stats, fedavg_stats, similarity_stats]):
+        axes[0, 1].plot(satfl_stats['f1_macros'], 
+                        color=algo_styles['SDA-FL']['color'], 
+                        marker=algo_styles['SDA-FL']['marker'], 
+                        label=algo_styles['SDA-FL']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[0, 1].plot(fedprox_stats['f1_macros'], 
+                        color=algo_styles['FedProx']['color'], 
+                        marker=algo_styles['FedProx']['marker'], 
+                        label=algo_styles['FedProx']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[0, 1].plot(fedavg_stats['f1_macros'], 
+                        color=algo_styles['FedAvg']['color'], 
+                        marker=algo_styles['FedAvg']['marker'], 
+                        label=algo_styles['FedAvg']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[0, 1].plot(similarity_stats['f1_macros'], 
+                        color=algo_styles['Similarity']['color'], 
+                        marker=algo_styles['Similarity']['marker'], 
+                        label=algo_styles['Similarity']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+    axes[0, 1].set_title('F1 Score (Macro)')
+    axes[0, 1].set_xlabel('Round')
+    axes[0, 1].set_ylabel('F1 Score (%)')
+    if show_grid:
+        axes[0, 1].grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    
+    # 子图3: 精确率 (Macro)
+    if all('precision_macros' in stats and stats['precision_macros'] for stats in [satfl_stats, fedprox_stats, fedavg_stats, similarity_stats]):
+        axes[1, 0].plot(satfl_stats['precision_macros'], 
+                        color=algo_styles['SDA-FL']['color'], 
+                        marker=algo_styles['SDA-FL']['marker'], 
+                        label=algo_styles['SDA-FL']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[1, 0].plot(fedprox_stats['precision_macros'], 
+                        color=algo_styles['FedProx']['color'], 
+                        marker=algo_styles['FedProx']['marker'], 
+                        label=algo_styles['FedProx']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[1, 0].plot(fedavg_stats['precision_macros'], 
+                        color=algo_styles['FedAvg']['color'], 
+                        marker=algo_styles['FedAvg']['marker'], 
+                        label=algo_styles['FedAvg']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[1, 0].plot(similarity_stats['precision_macros'], 
+                        color=algo_styles['Similarity']['color'], 
+                        marker=algo_styles['Similarity']['marker'], 
+                        label=algo_styles['Similarity']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+    axes[1, 0].set_title('Precision (Macro)')
+    axes[1, 0].set_xlabel('Round')
+    axes[1, 0].set_ylabel('Precision (%)')
+    if show_grid:
+        axes[1, 0].grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    
+    # 子图4: 召回率 (Macro)
+    if all('recall_macros' in stats and stats['recall_macros'] for stats in [satfl_stats, fedprox_stats, fedavg_stats, similarity_stats]):
+        axes[1, 1].plot(satfl_stats['recall_macros'], 
+                        color=algo_styles['SDA-FL']['color'], 
+                        marker=algo_styles['SDA-FL']['marker'], 
+                        label=algo_styles['SDA-FL']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[1, 1].plot(fedprox_stats['recall_macros'], 
+                        color=algo_styles['FedProx']['color'], 
+                        marker=algo_styles['FedProx']['marker'], 
+                        label=algo_styles['FedProx']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[1, 1].plot(fedavg_stats['recall_macros'], 
+                        color=algo_styles['FedAvg']['color'], 
+                        marker=algo_styles['FedAvg']['marker'], 
+                        label=algo_styles['FedAvg']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[1, 1].plot(similarity_stats['recall_macros'], 
+                        color=algo_styles['Similarity']['color'], 
+                        marker=algo_styles['Similarity']['marker'], 
+                        label=algo_styles['Similarity']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+    axes[1, 1].set_title('Recall (Macro)')
+    axes[1, 1].set_xlabel('Round')
+    axes[1, 1].set_ylabel('Recall (%)')
+    if show_grid:
+        axes[1, 1].grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    
+    # 添加总标题和图例
+    fig.suptitle(f'Classification Metrics Comparison {title_suffix}', fontsize=16, y=0.98)
+    
+    # 在图的底部添加通用图例
+    handles, labels = axes[0, 0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 0.02), ncol=4)
+    
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.93, bottom=0.1)
+    plt.savefig(f"{output_dir}/comprehensive_metrics_comparison.{style['save_format']}", dpi=style['dpi'])
+    plt.close()
+    
     # 2. 损失函数对比
     plt.figure(figsize=style['figsize'])
     plt.plot(satfl_stats['losses'], 
@@ -519,6 +784,270 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
     plt.savefig(f"{output_dir}/energy_efficiency_cumulative.{style['save_format']}", dpi=style['dpi'])
     plt.close()
     
+    # 10. 加权指标对比
+    # 10.1 F1 Score (Weighted) 对比
+    plt.figure(figsize=style['figsize'])
+    if 'f1_weighteds' in satfl_stats and satfl_stats['f1_weighteds']:
+        plt.plot(satfl_stats['f1_weighteds'], 
+                 color=algo_styles['SDA-FL']['color'], 
+                 marker=algo_styles['SDA-FL']['marker'], 
+                 label=algo_styles['SDA-FL']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'f1_weighteds' in fedprox_stats and fedprox_stats['f1_weighteds']:
+        plt.plot(fedprox_stats['f1_weighteds'], 
+                 color=algo_styles['FedProx']['color'], 
+                 marker=algo_styles['FedProx']['marker'], 
+                 label=algo_styles['FedProx']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'f1_weighteds' in fedavg_stats and fedavg_stats['f1_weighteds']:
+        plt.plot(fedavg_stats['f1_weighteds'], 
+                 color=algo_styles['FedAvg']['color'], 
+                 marker=algo_styles['FedAvg']['marker'], 
+                 label=algo_styles['FedAvg']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'f1_weighteds' in similarity_stats and similarity_stats['f1_weighteds']:
+        plt.plot(similarity_stats['f1_weighteds'], 
+                 color=algo_styles['Similarity']['color'], 
+                 marker=algo_styles['Similarity']['marker'], 
+                 label=algo_styles['Similarity']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    plt.title(f'F1 Score (Weighted) Comparison {title_suffix}')
+    plt.xlabel('Round')
+    plt.ylabel('F1 Score (%)')
+    plt.legend()
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/f1_weighted_comparison.{style['save_format']}", dpi=style['dpi'])
+    plt.close()
+    
+    # 10.2 精确率 (Weighted) 对比
+    plt.figure(figsize=style['figsize'])
+    if 'precision_weighteds' in satfl_stats and satfl_stats['precision_weighteds']:
+        plt.plot(satfl_stats['precision_weighteds'], 
+                 color=algo_styles['SDA-FL']['color'], 
+                 marker=algo_styles['SDA-FL']['marker'], 
+                 label=algo_styles['SDA-FL']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'precision_weighteds' in fedprox_stats and fedprox_stats['precision_weighteds']:
+        plt.plot(fedprox_stats['precision_weighteds'], 
+                 color=algo_styles['FedProx']['color'], 
+                 marker=algo_styles['FedProx']['marker'], 
+                 label=algo_styles['FedProx']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'precision_weighteds' in fedavg_stats and fedavg_stats['precision_weighteds']:
+        plt.plot(fedavg_stats['precision_weighteds'], 
+                 color=algo_styles['FedAvg']['color'], 
+                 marker=algo_styles['FedAvg']['marker'], 
+                 label=algo_styles['FedAvg']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'precision_weighteds' in similarity_stats and similarity_stats['precision_weighteds']:
+        plt.plot(similarity_stats['precision_weighteds'], 
+                 color=algo_styles['Similarity']['color'], 
+                 marker=algo_styles['Similarity']['marker'], 
+                 label=algo_styles['Similarity']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    plt.title(f'Precision (Weighted) Comparison {title_suffix}')
+    plt.xlabel('Round')
+    plt.ylabel('Precision (%)')
+    plt.legend()
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/precision_weighted_comparison.{style['save_format']}", dpi=style['dpi'])
+    plt.close()
+    
+    # 10.3 召回率 (Weighted) 对比
+    plt.figure(figsize=style['figsize'])
+    if 'recall_weighteds' in satfl_stats and satfl_stats['recall_weighteds']:
+        plt.plot(satfl_stats['recall_weighteds'], 
+                 color=algo_styles['SDA-FL']['color'], 
+                 marker=algo_styles['SDA-FL']['marker'], 
+                 label=algo_styles['SDA-FL']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'recall_weighteds' in fedprox_stats and fedprox_stats['recall_weighteds']:
+        plt.plot(fedprox_stats['recall_weighteds'], 
+                 color=algo_styles['FedProx']['color'], 
+                 marker=algo_styles['FedProx']['marker'], 
+                 label=algo_styles['FedProx']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'recall_weighteds' in fedavg_stats and fedavg_stats['recall_weighteds']:
+        plt.plot(fedavg_stats['recall_weighteds'], 
+                 color=algo_styles['FedAvg']['color'], 
+                 marker=algo_styles['FedAvg']['marker'], 
+                 label=algo_styles['FedAvg']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    if 'recall_weighteds' in similarity_stats and similarity_stats['recall_weighteds']:
+        plt.plot(similarity_stats['recall_weighteds'], 
+                 color=algo_styles['Similarity']['color'], 
+                 marker=algo_styles['Similarity']['marker'], 
+                 label=algo_styles['Similarity']['label'],
+                 linewidth=style['linewidth'],
+                 markersize=style['marker_size'])
+    plt.title(f'Recall (Weighted) Comparison {title_suffix}')
+    plt.xlabel('Round')
+    plt.ylabel('Recall (%)')
+    plt.legend()
+    if show_grid:
+        plt.grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    plt.tight_layout()
+    plt.savefig(f"{output_dir}/recall_weighted_comparison.{style['save_format']}", dpi=style['dpi'])
+    plt.close()
+    
+    # 10.4 加权指标综合对比图
+    # 创建2x2的子图显示加权指标
+    fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+    
+    # 子图1: F1 Score (Weighted)
+    if all('f1_weighteds' in stats and stats['f1_weighteds'] for stats in [satfl_stats, fedprox_stats, fedavg_stats, similarity_stats]):
+        axes[0, 0].plot(satfl_stats['f1_weighteds'], 
+                        color=algo_styles['SDA-FL']['color'], 
+                        marker=algo_styles['SDA-FL']['marker'], 
+                        label=algo_styles['SDA-FL']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[0, 0].plot(fedprox_stats['f1_weighteds'], 
+                        color=algo_styles['FedProx']['color'], 
+                        marker=algo_styles['FedProx']['marker'], 
+                        label=algo_styles['FedProx']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[0, 0].plot(fedavg_stats['f1_weighteds'], 
+                        color=algo_styles['FedAvg']['color'], 
+                        marker=algo_styles['FedAvg']['marker'], 
+                        label=algo_styles['FedAvg']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[0, 0].plot(similarity_stats['f1_weighteds'], 
+                        color=algo_styles['Similarity']['color'], 
+                        marker=algo_styles['Similarity']['marker'], 
+                        label=algo_styles['Similarity']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+    axes[0, 0].set_title('F1 Score (Weighted)')
+    axes[0, 0].set_xlabel('Round')
+    axes[0, 0].set_ylabel('F1 Score (%)')
+    if show_grid:
+        axes[0, 0].grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    
+    # 子图2: 精确率 (Weighted)
+    if all('precision_weighteds' in stats and stats['precision_weighteds'] for stats in [satfl_stats, fedprox_stats, fedavg_stats, similarity_stats]):
+        axes[0, 1].plot(satfl_stats['precision_weighteds'], 
+                        color=algo_styles['SDA-FL']['color'], 
+                        marker=algo_styles['SDA-FL']['marker'], 
+                        label=algo_styles['SDA-FL']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[0, 1].plot(fedprox_stats['precision_weighteds'], 
+                        color=algo_styles['FedProx']['color'], 
+                        marker=algo_styles['FedProx']['marker'], 
+                        label=algo_styles['FedProx']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[0, 1].plot(fedavg_stats['precision_weighteds'], 
+                        color=algo_styles['FedAvg']['color'], 
+                        marker=algo_styles['FedAvg']['marker'], 
+                        label=algo_styles['FedAvg']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[0, 1].plot(similarity_stats['precision_weighteds'], 
+                        color=algo_styles['Similarity']['color'], 
+                        marker=algo_styles['Similarity']['marker'], 
+                        label=algo_styles['Similarity']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+    axes[0, 1].set_title('Precision (Weighted)')
+    axes[0, 1].set_xlabel('Round')
+    axes[0, 1].set_ylabel('Precision (%)')
+    if show_grid:
+        axes[0, 1].grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    
+    # 子图3: 召回率 (Weighted)
+    if all('recall_weighteds' in stats and stats['recall_weighteds'] for stats in [satfl_stats, fedprox_stats, fedavg_stats, similarity_stats]):
+        axes[1, 0].plot(satfl_stats['recall_weighteds'], 
+                        color=algo_styles['SDA-FL']['color'], 
+                        marker=algo_styles['SDA-FL']['marker'], 
+                        label=algo_styles['SDA-FL']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[1, 0].plot(fedprox_stats['recall_weighteds'], 
+                        color=algo_styles['FedProx']['color'], 
+                        marker=algo_styles['FedProx']['marker'], 
+                        label=algo_styles['FedProx']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[1, 0].plot(fedavg_stats['recall_weighteds'], 
+                        color=algo_styles['FedAvg']['color'], 
+                        marker=algo_styles['FedAvg']['marker'], 
+                        label=algo_styles['FedAvg']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+        axes[1, 0].plot(similarity_stats['recall_weighteds'], 
+                        color=algo_styles['Similarity']['color'], 
+                        marker=algo_styles['Similarity']['marker'], 
+                        label=algo_styles['Similarity']['label'],
+                        linewidth=style['linewidth'],
+                        markersize=style['marker_size'])
+    axes[1, 0].set_title('Recall (Weighted)')
+    axes[1, 0].set_xlabel('Round')
+    axes[1, 0].set_ylabel('Recall (%)')
+    if show_grid:
+        axes[1, 0].grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    
+    # 子图4: 准确率（作为参考）
+    axes[1, 1].plot(satfl_stats['accuracies'], 
+                    color=algo_styles['SDA-FL']['color'], 
+                    marker=algo_styles['SDA-FL']['marker'], 
+                    label=algo_styles['SDA-FL']['label'],
+                    linewidth=style['linewidth'],
+                    markersize=style['marker_size'])
+    axes[1, 1].plot(fedprox_stats['accuracies'], 
+                    color=algo_styles['FedProx']['color'], 
+                    marker=algo_styles['FedProx']['marker'], 
+                    label=algo_styles['FedProx']['label'],
+                    linewidth=style['linewidth'],
+                    markersize=style['marker_size'])
+    axes[1, 1].plot(fedavg_stats['accuracies'], 
+                    color=algo_styles['FedAvg']['color'], 
+                    marker=algo_styles['FedAvg']['marker'], 
+                    label=algo_styles['FedAvg']['label'],
+                    linewidth=style['linewidth'],
+                    markersize=style['marker_size'])
+    axes[1, 1].plot(similarity_stats['accuracies'], 
+                    color=algo_styles['Similarity']['color'], 
+                    marker=algo_styles['Similarity']['marker'], 
+                    label=algo_styles['Similarity']['label'],
+                    linewidth=style['linewidth'],
+                    markersize=style['marker_size'])
+    axes[1, 1].set_title('Accuracy (Reference)')
+    axes[1, 1].set_xlabel('Round')
+    axes[1, 1].set_ylabel('Accuracy (%)')
+    if show_grid:
+        axes[1, 1].grid(alpha=style['grid_alpha'], linestyle=style['grid_linestyle'])
+    
+    # 添加总标题和图例
+    fig.suptitle(f'Weighted Classification Metrics Comparison {title_suffix}', fontsize=16, y=0.98)
+    
+    # 在图的底部添加通用图例
+    handles, labels = axes[0, 0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5, 0.02), ncol=4)
+    
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.93, bottom=0.1)
+    plt.savefig(f"{output_dir}/weighted_metrics_comparison.{style['save_format']}", dpi=style['dpi'])
+    plt.close()
+    
     logger.info(f"图表生成完成，保存在 {output_dir}/ 目录")
 
 def save_experiment_data(output_dir, satfl_stats, fedprox_stats, fedavg_stats, similarity_stats, timestamp):
@@ -681,6 +1210,24 @@ def generate_comparison_report(satfl_stats, fedprox_stats, fedavg_stats, similar
     fedavg_max_acc = max(fedavg_stats['accuracies'])
     similarity_max_acc = max(similarity_stats['accuracies'])
     
+    # 计算F1分数（如果有的话）
+    satfl_max_f1 = max(satfl_stats.get('f1_macros', [0])) if satfl_stats.get('f1_macros') else 0
+    fedprox_max_f1 = max(fedprox_stats.get('f1_macros', [0])) if fedprox_stats.get('f1_macros') else 0
+    fedavg_max_f1 = max(fedavg_stats.get('f1_macros', [0])) if fedavg_stats.get('f1_macros') else 0
+    similarity_max_f1 = max(similarity_stats.get('f1_macros', [0])) if similarity_stats.get('f1_macros') else 0
+    
+    # 计算精确率（如果有的话）
+    satfl_max_precision = max(satfl_stats.get('precision_macros', [0])) if satfl_stats.get('precision_macros') else 0
+    fedprox_max_precision = max(fedprox_stats.get('precision_macros', [0])) if fedprox_stats.get('precision_macros') else 0
+    fedavg_max_precision = max(fedavg_stats.get('precision_macros', [0])) if fedavg_stats.get('precision_macros') else 0
+    similarity_max_precision = max(similarity_stats.get('precision_macros', [0])) if similarity_stats.get('precision_macros') else 0
+    
+    # 计算召回率（如果有的话）
+    satfl_max_recall = max(satfl_stats.get('recall_macros', [0])) if satfl_stats.get('recall_macros') else 0
+    fedprox_max_recall = max(fedprox_stats.get('recall_macros', [0])) if fedprox_stats.get('recall_macros') else 0
+    fedavg_max_recall = max(fedavg_stats.get('recall_macros', [0])) if fedavg_stats.get('recall_macros') else 0
+    similarity_max_recall = max(similarity_stats.get('recall_macros', [0])) if similarity_stats.get('recall_macros') else 0
+    
     satfl_avg_sats = np.mean(satfl_stats['satellite_stats']['training_satellites'])
     fedprox_avg_sats = np.mean(fedprox_stats['satellite_stats']['training_satellites'])
     fedavg_avg_sats = np.mean(fedavg_stats['satellite_stats']['training_satellites'])
@@ -702,6 +1249,12 @@ def generate_comparison_report(satfl_stats, fedprox_stats, fedavg_stats, similar
     fedavg_energy_efficiency = fedavg_max_acc / fedavg_energy if fedavg_energy > 0 else 0
     similarity_energy_efficiency = similarity_max_acc / similarity_energy if similarity_energy > 0 else 0
     
+    # 计算F1效率指标
+    satfl_f1_efficiency = satfl_max_f1 / satfl_avg_sats if satfl_avg_sats > 0 else 0
+    fedprox_f1_efficiency = fedprox_max_f1 / fedprox_avg_sats if fedprox_avg_sats > 0 else 0
+    fedavg_f1_efficiency = fedavg_max_f1 / fedavg_avg_sats if fedavg_avg_sats > 0 else 0
+    similarity_f1_efficiency = similarity_max_f1 / similarity_avg_sats if similarity_avg_sats > 0 else 0
+    
     # 计算收敛速度 (达到90%最终准确率的轮次)
     def calculate_convergence(accuracies, target_percentage=0.9):
         target = max(accuracies) * target_percentage
@@ -714,6 +1267,21 @@ def generate_comparison_report(satfl_stats, fedprox_stats, fedavg_stats, similar
     fedprox_convergence = calculate_convergence(fedprox_stats['accuracies'])
     fedavg_convergence = calculate_convergence(fedavg_stats['accuracies'])
     similarity_convergence = calculate_convergence(similarity_stats['accuracies'])
+    
+    # 计算F1分数收敛速度
+    def calculate_f1_convergence(f1_scores, target_percentage=0.9):
+        if not f1_scores:
+            return float('inf')
+        target = max(f1_scores) * target_percentage
+        for i, f1 in enumerate(f1_scores):
+            if f1 >= target:
+                return i + 1
+        return len(f1_scores)
+    
+    satfl_f1_convergence = calculate_f1_convergence(satfl_stats.get('f1_macros', []))
+    fedprox_f1_convergence = calculate_f1_convergence(fedprox_stats.get('f1_macros', []))
+    fedavg_f1_convergence = calculate_f1_convergence(fedavg_stats.get('f1_macros', []))
+    similarity_f1_convergence = calculate_f1_convergence(similarity_stats.get('f1_macros', []))
     
     # 生成报告
     with open(output_path, 'w') as f:
@@ -730,18 +1298,45 @@ def generate_comparison_report(satfl_stats, fedprox_stats, fedavg_stats, similar
         f.write(f"- FedAvg 平均训练卫星数: {fedavg_avg_sats:.2f}\n")
         f.write(f"- 相似度分组平均训练卫星数: {similarity_avg_sats:.2f}\n\n")
         
-        f.write("## 准确率性能\n")
+        f.write("## 分类性能指标\n")
+        f.write("### 准确率性能\n")
         f.write(f"- SDA-FL 最高准确率: {satfl_max_acc:.2f}%\n")
         f.write(f"- FedProx 最高准确率: {fedprox_max_acc:.2f}%\n")
         f.write(f"- FedAvg 最高准确率: {fedavg_max_acc:.2f}%\n")
         f.write(f"- 相似度分组最高准确率: {similarity_max_acc:.2f}%\n\n")
         
-        f.write(f"- SDA-FL vs FedProx: {satfl_max_acc - fedprox_max_acc:+.2f}%\n")
-        f.write(f"- SDA-FL vs FedAvg: {satfl_max_acc - fedavg_max_acc:+.2f}%\n")
-        f.write(f"- SDA-FL vs 相似度分组: {satfl_max_acc - similarity_max_acc:+.2f}%\n")
-        f.write(f"- FedProx vs FedAvg: {fedprox_max_acc - fedavg_max_acc:+.2f}%\n")
-        f.write(f"- FedProx vs 相似度分组: {fedprox_max_acc - similarity_max_acc:+.2f}%\n")
-        f.write(f"- 相似度分组 vs FedAvg: {similarity_max_acc - fedavg_max_acc:+.2f}%\n\n")
+        f.write("### F1分数性能 (Macro)\n")
+        f.write(f"- SDA-FL 最高F1分数: {satfl_max_f1:.2f}%\n")
+        f.write(f"- FedProx 最高F1分数: {fedprox_max_f1:.2f}%\n")
+        f.write(f"- FedAvg 最高F1分数: {fedavg_max_f1:.2f}%\n")
+        f.write(f"- 相似度分组最高F1分数: {similarity_max_f1:.2f}%\n\n")
+        
+        f.write("### 精确率性能 (Macro)\n")
+        f.write(f"- SDA-FL 最高精确率: {satfl_max_precision:.2f}%\n")
+        f.write(f"- FedProx 最高精确率: {fedprox_max_precision:.2f}%\n")
+        f.write(f"- FedAvg 最高精确率: {fedavg_max_precision:.2f}%\n")
+        f.write(f"- 相似度分组最高精确率: {similarity_max_precision:.2f}%\n\n")
+        
+        f.write("### 召回率性能 (Macro)\n")
+        f.write(f"- SDA-FL 最高召回率: {satfl_max_recall:.2f}%\n")
+        f.write(f"- FedProx 最高召回率: {fedprox_max_recall:.2f}%\n")
+        f.write(f"- FedAvg 最高召回率: {fedavg_max_recall:.2f}%\n")
+        f.write(f"- 相似度分组最高召回率: {similarity_max_recall:.2f}%\n\n")
+        
+        f.write("## 性能对比分析\n")
+        f.write(f"- SDA-FL vs FedProx (准确率): {satfl_max_acc - fedprox_max_acc:+.2f}%\n")
+        f.write(f"- SDA-FL vs FedAvg (准确率): {satfl_max_acc - fedavg_max_acc:+.2f}%\n")
+        f.write(f"- SDA-FL vs 相似度分组 (准确率): {satfl_max_acc - similarity_max_acc:+.2f}%\n")
+        f.write(f"- FedProx vs FedAvg (准确率): {fedprox_max_acc - fedavg_max_acc:+.2f}%\n")
+        f.write(f"- FedProx vs 相似度分组 (准确率): {fedprox_max_acc - similarity_max_acc:+.2f}%\n")
+        f.write(f"- 相似度分组 vs FedAvg (准确率): {similarity_max_acc - fedavg_max_acc:+.2f}%\n\n")
+        
+        f.write(f"- SDA-FL vs FedProx (F1分数): {satfl_max_f1 - fedprox_max_f1:+.2f}%\n")
+        f.write(f"- SDA-FL vs FedAvg (F1分数): {satfl_max_f1 - fedavg_max_f1:+.2f}%\n")
+        f.write(f"- SDA-FL vs 相似度分组 (F1分数): {satfl_max_f1 - similarity_max_f1:+.2f}%\n")
+        f.write(f"- FedProx vs FedAvg (F1分数): {fedprox_max_f1 - fedavg_max_f1:+.2f}%\n")
+        f.write(f"- FedProx vs 相似度分组 (F1分数): {fedprox_max_f1 - similarity_max_f1:+.2f}%\n")
+        f.write(f"- 相似度分组 vs FedAvg (F1分数): {similarity_max_f1 - fedavg_max_f1:+.2f}%\n\n")
         
         f.write("## 能耗\n")
         f.write(f"- SDA-FL 总能耗: {satfl_energy:.2f} Wh\n")
@@ -750,21 +1345,36 @@ def generate_comparison_report(satfl_stats, fedprox_stats, fedavg_stats, similar
         f.write(f"- 相似度分组总能耗: {similarity_energy:.2f} Wh\n\n")
         
         f.write("## 效率指标\n")
+        f.write("### 卫星效率（每卫星准确率）\n")
         f.write(f"- SDA-FL 每卫星准确率: {satfl_efficiency:.2f}%\n")
         f.write(f"- FedProx 每卫星准确率: {fedprox_efficiency:.2f}%\n")
         f.write(f"- FedAvg 每卫星准确率: {fedavg_efficiency:.2f}%\n")
         f.write(f"- 相似度分组每卫星准确率: {similarity_efficiency:.2f}%\n\n")
         
+        f.write("### 卫星F1效率（每卫星F1分数）\n")
+        f.write(f"- SDA-FL 每卫星F1分数: {satfl_f1_efficiency:.2f}%\n")
+        f.write(f"- FedProx 每卫星F1分数: {fedprox_f1_efficiency:.2f}%\n")
+        f.write(f"- FedAvg 每卫星F1分数: {fedavg_f1_efficiency:.2f}%\n")
+        f.write(f"- 相似度分组每卫星F1分数: {similarity_f1_efficiency:.2f}%\n\n")
+        
+        f.write("### 能源效率\n")
         f.write(f"- SDA-FL 能源效率: {satfl_energy_efficiency:.4f}%/Wh\n")
         f.write(f"- FedProx 能源效率: {fedprox_energy_efficiency:.4f}%/Wh\n")
         f.write(f"- FedAvg 能源效率: {fedavg_energy_efficiency:.4f}%/Wh\n")
         f.write(f"- 相似度分组能源效率: {similarity_energy_efficiency:.4f}%/Wh\n\n")
         
         f.write("## 收敛速度\n")
+        f.write("### 准确率收敛速度\n")
         f.write(f"- SDA-FL 达到90%最高准确率轮次: {satfl_convergence}\n")
         f.write(f"- FedProx 达到90%最高准确率轮次: {fedprox_convergence}\n")
         f.write(f"- FedAvg 达到90%最高准确率轮次: {fedavg_convergence}\n")
         f.write(f"- 相似度分组达到90%最高准确率轮次: {similarity_convergence}\n\n")
+        
+        f.write("### F1分数收敛速度\n")
+        f.write(f"- SDA-FL 达到90%最高F1分数轮次: {satfl_f1_convergence}\n")
+        f.write(f"- FedProx 达到90%最高F1分数轮次: {fedprox_f1_convergence}\n")
+        f.write(f"- FedAvg 达到90%最高F1分数轮次: {fedavg_f1_convergence}\n")
+        f.write(f"- 相似度分组达到90%最高F1分数轮次: {similarity_f1_convergence}\n\n")
         
         f.write("## 总结\n")
         # 添加各个方法的优缺点和总结
@@ -792,6 +1402,14 @@ def generate_comparison_report(satfl_stats, fedprox_stats, fedavg_stats, similar
             '相似度分组': similarity_max_acc
         }
         best_method = max(methods.items(), key=lambda x: x[1])[0]
+        
+        f1_methods = {
+            'SDA-FL': satfl_max_f1,
+            'FedProx': fedprox_max_f1,
+            'FedAvg': fedavg_max_f1,
+            '相似度分组': similarity_max_f1
+        }
+        best_f1_method = max(f1_methods.items(), key=lambda x: x[1])[0]
             
         efficiency_methods = {
             'SDA-FL': satfl_efficiency,
@@ -802,17 +1420,20 @@ def generate_comparison_report(satfl_stats, fedprox_stats, fedavg_stats, similar
         best_efficiency = max(efficiency_methods.items(), key=lambda x: x[1])[0]
             
         f.write("### 结论\n")
-        f.write(f"{best_method}在准确率上表现最好，{best_efficiency}在资源效率上表现最好。在卫星网络环境中，")
+        f.write(f"**准确率**: {best_method}在准确率上表现最好 ({methods[best_method]:.2f}%)。\n")
+        f.write(f"**F1分数**: {best_f1_method}在F1分数上表现最好 ({f1_methods[best_f1_method]:.2f}%)。\n")
+        f.write(f"**资源效率**: {best_efficiency}在资源效率上表现最好 ({efficiency_methods[best_efficiency]:.2f}%/satellite)。\n\n")
         
         # 综合评估
-        if best_method == 'SDA-FL' and best_efficiency == 'SDA-FL':
-            f.write("SDA-FL算法综合表现最佳，特别是在数据不平衡的场景下。\n")
-        elif best_method == '相似度分组' and best_efficiency == '相似度分组':
-            f.write("相似度分组算法综合表现最佳，特别是在资源受限的场景下。\n")
-        elif best_method == 'FedProx' and best_efficiency == 'FedProx':
-            f.write("FedProx算法综合表现最佳，特别是在数据异质性较高的场景下。\n")
+        if best_method == best_f1_method and best_method == best_efficiency:
+            f.write(f"{best_method}算法综合表现最佳，在所有指标上都领先。\n")
+        elif best_method == best_f1_method:
+            f.write(f"{best_method}在分类性能（准确率和F1分数）方面表现最佳，而{best_efficiency}在资源效率方面更优。\n")
         else:
-            f.write(f"需要根据具体场景权衡选择合适的联邦学习算法。{best_method}在准确率方面更有优势，而{best_efficiency}在资源效率方面更有优势。\n")
+            f.write(f"需要根据具体场景权衡选择合适的联邦学习算法：\n")
+            f.write(f"- 注重准确率：选择{best_method}\n")
+            f.write(f"- 注重F1分数：选择{best_f1_method}\n")
+            f.write(f"- 注重资源效率：选择{best_efficiency}\n")
 
 def create_modified_config(base_config_path, target_satellite_count, output_path):
     """
@@ -1068,6 +1689,24 @@ def print_key_metrics(satfl_stats, fedprox_stats, fedavg_stats, similarity_stats
     fedavg_max_acc = max(fedavg_stats['accuracies'])
     similarity_max_acc = max(similarity_stats['accuracies'])
     
+    # 获取最高F1分数
+    satfl_max_f1 = max(satfl_stats.get('f1_macros', [0])) if satfl_stats.get('f1_macros') else 0
+    fedprox_max_f1 = max(fedprox_stats.get('f1_macros', [0])) if fedprox_stats.get('f1_macros') else 0
+    fedavg_max_f1 = max(fedavg_stats.get('f1_macros', [0])) if fedavg_stats.get('f1_macros') else 0
+    similarity_max_f1 = max(similarity_stats.get('f1_macros', [0])) if similarity_stats.get('f1_macros') else 0
+    
+    # 获取最高精确率
+    satfl_max_precision = max(satfl_stats.get('precision_macros', [0])) if satfl_stats.get('precision_macros') else 0
+    fedprox_max_precision = max(fedprox_stats.get('precision_macros', [0])) if fedprox_stats.get('precision_macros') else 0
+    fedavg_max_precision = max(fedavg_stats.get('precision_macros', [0])) if fedavg_stats.get('precision_macros') else 0
+    similarity_max_precision = max(similarity_stats.get('precision_macros', [0])) if similarity_stats.get('precision_macros') else 0
+    
+    # 获取最高召回率
+    satfl_max_recall = max(satfl_stats.get('recall_macros', [0])) if satfl_stats.get('recall_macros') else 0
+    fedprox_max_recall = max(fedprox_stats.get('recall_macros', [0])) if fedprox_stats.get('recall_macros') else 0
+    fedavg_max_recall = max(fedavg_stats.get('recall_macros', [0])) if fedavg_stats.get('recall_macros') else 0
+    similarity_max_recall = max(similarity_stats.get('recall_macros', [0])) if similarity_stats.get('recall_macros') else 0
+    
     # 计算总能耗
     satfl_energy = sum(satfl_stats['energy_stats']['total_energy'])
     fedprox_energy = sum(fedprox_stats['energy_stats']['total_energy'])
@@ -1079,6 +1718,12 @@ def print_key_metrics(satfl_stats, fedprox_stats, fedavg_stats, similarity_stats
     fedprox_efficiency = fedprox_max_acc / fedprox_sats if fedprox_sats > 0 else 0
     fedavg_efficiency = fedavg_max_acc / fedavg_sats if fedavg_sats > 0 else 0
     similarity_efficiency = similarity_max_acc / similarity_sats if similarity_sats > 0 else 0
+    
+    # 计算每卫星F1分数
+    satfl_f1_efficiency = satfl_max_f1 / satfl_sats if satfl_sats > 0 else 0
+    fedprox_f1_efficiency = fedprox_max_f1 / fedprox_sats if fedprox_sats > 0 else 0
+    fedavg_f1_efficiency = fedavg_max_f1 / fedavg_sats if fedavg_sats > 0 else 0
+    similarity_f1_efficiency = similarity_max_f1 / similarity_sats if similarity_sats > 0 else 0
     
     # 打印结果
     logger.info("\n=== 关键指标对比 ===")
@@ -1094,6 +1739,24 @@ def print_key_metrics(satfl_stats, fedprox_stats, fedavg_stats, similarity_stats
     logger.info(f"  FedAvg: {fedavg_max_acc:.2f}%")
     logger.info(f"  相似度分组: {similarity_max_acc:.2f}%")
     
+    logger.info(f"\n最高F1分数 (Macro):")
+    logger.info(f"  SDA-FL: {satfl_max_f1:.2f}%")
+    logger.info(f"  FedProx: {fedprox_max_f1:.2f}%")
+    logger.info(f"  FedAvg: {fedavg_max_f1:.2f}%")
+    logger.info(f"  相似度分组: {similarity_max_f1:.2f}%")
+    
+    logger.info(f"\n最高精确率 (Macro):")
+    logger.info(f"  SDA-FL: {satfl_max_precision:.2f}%")
+    logger.info(f"  FedProx: {fedprox_max_precision:.2f}%")
+    logger.info(f"  FedAvg: {fedavg_max_precision:.2f}%")
+    logger.info(f"  相似度分组: {similarity_max_precision:.2f}%")
+    
+    logger.info(f"\n最高召回率 (Macro):")
+    logger.info(f"  SDA-FL: {satfl_max_recall:.2f}%")
+    logger.info(f"  FedProx: {fedprox_max_recall:.2f}%")
+    logger.info(f"  FedAvg: {fedavg_max_recall:.2f}%")
+    logger.info(f"  相似度分组: {similarity_max_recall:.2f}%")
+    
     logger.info(f"\n总能耗:")
     logger.info(f"  SDA-FL: {satfl_energy:.2f} Wh")
     logger.info(f"  FedProx: {fedprox_energy:.2f} Wh")
@@ -1105,6 +1768,76 @@ def print_key_metrics(satfl_stats, fedprox_stats, fedavg_stats, similarity_stats
     logger.info(f"  FedProx: {fedprox_efficiency:.2f}%/satellite")
     logger.info(f"  FedAvg: {fedavg_efficiency:.2f}%/satellite")
     logger.info(f"  相似度分组: {similarity_efficiency:.2f}%/satellite")
+    
+    logger.info(f"\n每卫星F1分数:")
+    logger.info(f"  SDA-FL: {satfl_f1_efficiency:.2f}%/satellite")
+    logger.info(f"  FedProx: {fedprox_f1_efficiency:.2f}%/satellite")
+    logger.info(f"  FedAvg: {fedavg_f1_efficiency:.2f}%/satellite")
+    logger.info(f"  相似度分组: {similarity_f1_efficiency:.2f}%/satellite")
+    
+    # 打印性能排名
+    logger.info(f"\n=== 性能排名 ===")
+    
+    # 准确率排名
+    acc_ranking = sorted([
+        ('SDA-FL', satfl_max_acc),
+        ('FedProx', fedprox_max_acc),
+        ('FedAvg', fedavg_max_acc),
+        ('相似度分组', similarity_max_acc)
+    ], key=lambda x: x[1], reverse=True)
+    
+    logger.info("准确率排名:")
+    for i, (method, acc) in enumerate(acc_ranking, 1):
+        logger.info(f"  {i}. {method}: {acc:.2f}%")
+    
+    # F1分数排名
+    f1_ranking = sorted([
+        ('SDA-FL', satfl_max_f1),
+        ('FedProx', fedprox_max_f1),
+        ('FedAvg', fedavg_max_f1),
+        ('相似度分组', similarity_max_f1)
+    ], key=lambda x: x[1], reverse=True)
+    
+    logger.info("\nF1分数排名:")
+    for i, (method, f1) in enumerate(f1_ranking, 1):
+        logger.info(f"  {i}. {method}: {f1:.2f}%")
+    
+    # 资源效率排名（每卫星准确率）
+    eff_ranking = sorted([
+        ('SDA-FL', satfl_efficiency),
+        ('FedProx', fedprox_efficiency),
+        ('FedAvg', fedavg_efficiency),
+        ('相似度分组', similarity_efficiency)
+    ], key=lambda x: x[1], reverse=True)
+    
+    logger.info("\n资源效率排名 (每卫星准确率):")
+    for i, (method, eff) in enumerate(eff_ranking, 1):
+        logger.info(f"  {i}. {method}: {eff:.2f}%/satellite")
+    
+    # 综合评分（准确率 + F1分数）
+    combined_scores = [
+        ('SDA-FL', satfl_max_acc + satfl_max_f1),
+        ('FedProx', fedprox_max_acc + fedprox_max_f1),
+        ('FedAvg', fedavg_max_acc + fedavg_max_f1),
+        ('相似度分组', similarity_max_acc + similarity_max_f1)
+    ]
+    combined_ranking = sorted(combined_scores, key=lambda x: x[1], reverse=True)
+    
+    logger.info("\n综合性能排名 (准确率 + F1分数):")
+    for i, (method, score) in enumerate(combined_ranking, 1):
+        logger.info(f"  {i}. {method}: {score:.2f}")
+    
+    # 显示最佳方法
+    best_acc_method = acc_ranking[0][0]
+    best_f1_method = f1_ranking[0][0]
+    best_eff_method = eff_ranking[0][0]
+    best_combined_method = combined_ranking[0][0]
+    
+    logger.info(f"\n=== 最佳表现 ===")
+    logger.info(f"最佳准确率: {best_acc_method}")
+    logger.info(f"最佳F1分数: {best_f1_method}")
+    logger.info(f"最佳资源效率: {best_eff_method}")
+    logger.info(f"最佳综合性能: {best_combined_method}")
 
 
 if __name__ == "__main__":
