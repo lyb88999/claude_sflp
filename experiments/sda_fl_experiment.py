@@ -15,10 +15,10 @@ class Generator(nn.Module):
             nn.Linear(input_dim, 128),
             nn.LeakyReLU(0.2),
             nn.Linear(128, 256),
-            nn.BatchNorm1d(256),
+            nn.BatchNorm1d(256, momentum=0.1),
             nn.LeakyReLU(0.2),
             nn.Linear(256, 512),
-            nn.BatchNorm1d(512),
+            nn.BatchNorm1d(512, momentum=0.1),
             nn.LeakyReLU(0.2),
             nn.Linear(512, output_dim),
             nn.Tanh()

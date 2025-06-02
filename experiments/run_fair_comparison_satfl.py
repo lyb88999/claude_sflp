@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-公平对比实验 - 比较SATFL、FedAvg、FedProx与相似度分组算法
+公平对比实验 - 比较SDA-FL、FedAvg、FedProx与相似度分组算法
 """
 
 import os
@@ -110,7 +110,7 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
     similarity_sats = np.mean(similarity_stats['satellite_stats']['training_satellites'])
     
     # 准备图表标题
-    title_suffix = f"(SATFL: {satfl_sats:.1f}, FedProx: {fedprox_sats:.1f}, FedAvg: {fedavg_sats:.1f}, Similarity: {similarity_sats:.1f} satellites)"
+    title_suffix = f"(SDA-FL: {satfl_sats:.1f}, FedProx: {fedprox_sats:.1f}, FedAvg: {fedavg_sats:.1f}, Similarity: {similarity_sats:.1f} satellites)"
     
     # 应用自定义样式
     style = {
@@ -141,8 +141,16 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
     })
     
     # 定义算法颜色和标记
+    offsets = {
+        'SDA-FL': 0.3,
+        'FedProx': 0.1, 
+        'FedAvg': -0.1,
+        'Similarity': -0.3
+    }
+    
+    # 算法样式定义
     algo_styles = {
-        'SATFL': {'color': 'purple', 'marker': '*', 'label': 'SATFL'},
+        'SDA-FL': {'color': 'purple', 'marker': '*', 'label': 'SDA-FL'},
         'FedProx': {'color': 'g', 'marker': 'o', 'label': 'FedProx'},
         'FedAvg': {'color': 'b', 'marker': 's', 'label': 'FedAvg'},
         'Similarity': {'color': 'r', 'marker': '^', 'label': 'Similarity Grouping'}
@@ -151,9 +159,9 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
     # 1. 准确率对比
     plt.figure(figsize=style['figsize'])
     plt.plot(satfl_stats['accuracies'], 
-             color=algo_styles['SATFL']['color'], 
-             marker=algo_styles['SATFL']['marker'], 
-             label=algo_styles['SATFL']['label'],
+             color=algo_styles['SDA-FL']['color'], 
+             marker=algo_styles['SDA-FL']['marker'], 
+             label=algo_styles['SDA-FL']['label'],
              linewidth=style['linewidth'],
              markersize=style['marker_size'])
     plt.plot(fedprox_stats['accuracies'], 
@@ -187,9 +195,9 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
     # 2. 损失函数对比
     plt.figure(figsize=style['figsize'])
     plt.plot(satfl_stats['losses'], 
-             color=algo_styles['SATFL']['color'], 
-             marker=algo_styles['SATFL']['marker'], 
-             label=algo_styles['SATFL']['label'],
+             color=algo_styles['SDA-FL']['color'], 
+             marker=algo_styles['SDA-FL']['marker'], 
+             label=algo_styles['SDA-FL']['label'],
              linewidth=style['linewidth'],
              markersize=style['marker_size'])
     plt.plot(fedprox_stats['losses'], 
@@ -223,9 +231,9 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
     # 3. 能耗对比 - 训练能耗
     plt.figure(figsize=style['figsize'])
     plt.plot(satfl_stats['energy_stats']['training_energy'], 
-             color=algo_styles['SATFL']['color'], 
-             marker=algo_styles['SATFL']['marker'], 
-             label=algo_styles['SATFL']['label'],
+             color=algo_styles['SDA-FL']['color'], 
+             marker=algo_styles['SDA-FL']['marker'], 
+             label=algo_styles['SDA-FL']['label'],
              linewidth=style['linewidth'],
              markersize=style['marker_size'])
     plt.plot(fedprox_stats['energy_stats']['training_energy'], 
@@ -259,9 +267,9 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
     # 4. 能耗对比 - 通信能耗
     plt.figure(figsize=style['figsize'])
     plt.plot(satfl_stats['energy_stats']['communication_energy'], 
-             color=algo_styles['SATFL']['color'], 
-             marker=algo_styles['SATFL']['marker'], 
-             label=algo_styles['SATFL']['label'],
+             color=algo_styles['SDA-FL']['color'], 
+             marker=algo_styles['SDA-FL']['marker'], 
+             label=algo_styles['SDA-FL']['label'],
              linewidth=style['linewidth'],
              markersize=style['marker_size'])
     plt.plot(fedprox_stats['energy_stats']['communication_energy'], 
@@ -295,9 +303,9 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
     # 5. 能耗对比 - 总能耗
     plt.figure(figsize=style['figsize'])
     plt.plot(satfl_stats['energy_stats']['total_energy'], 
-             color=algo_styles['SATFL']['color'], 
-             marker=algo_styles['SATFL']['marker'], 
-             label=algo_styles['SATFL']['label'],
+             color=algo_styles['SDA-FL']['color'], 
+             marker=algo_styles['SDA-FL']['marker'], 
+             label=algo_styles['SDA-FL']['label'],
              linewidth=style['linewidth'],
              markersize=style['marker_size'])
     plt.plot(fedprox_stats['energy_stats']['total_energy'], 
@@ -340,9 +348,9 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
     
     plt.figure(figsize=style['figsize'])
     plt.plot(satfl_efficiency, 
-             color=algo_styles['SATFL']['color'], 
-             marker=algo_styles['SATFL']['marker'], 
-             label=algo_styles['SATFL']['label'],
+             color=algo_styles['SDA-FL']['color'], 
+             marker=algo_styles['SDA-FL']['marker'], 
+             label=algo_styles['SDA-FL']['label'],
              linewidth=style['linewidth'],
              markersize=style['marker_size'])
     plt.plot(fedprox_efficiency, 
@@ -374,31 +382,40 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
     plt.close()
     
     # 7. 活跃卫星数量对比
+    import matplotlib as mpl
+    # 设置支持中文的字体
+    plt.rcParams['font.sans-serif'] = ['SimHei', 'Arial Unicode MS', 'Microsoft YaHei', 'WenQuanYi Micro Hei'] + plt.rcParams['font.sans-serif']
+    plt.rcParams['axes.unicode_minus'] = False
     plt.figure(figsize=style['figsize'])
-    plt.plot(satfl_stats['satellite_stats']['training_satellites'], 
-             color=algo_styles['SATFL']['color'], 
-             marker=algo_styles['SATFL']['marker'], 
-             label=algo_styles['SATFL']['label'],
+    
+    # 对每个算法应用偏移显示，使用相同的线型
+    for algo_name, data, style_name in [
+        ('SDA-FL', satfl_stats['satellite_stats']['training_satellites'], 'SDA-FL'),
+        ('FedProx', fedprox_stats['satellite_stats']['training_satellites'], 'FedProx'),
+        ('FedAvg', fedavg_stats['satellite_stats']['training_satellites'], 'FedAvg'),
+        ('Similarity', similarity_stats['satellite_stats']['training_satellites'], 'Similarity')
+    ]:
+        # 创建带偏移的数据副本
+        offset_data = [val + offsets[style_name] for val in data]
+        
+        plt.plot(offset_data, 
+             color=algo_styles[style_name]['color'], 
+             marker=algo_styles[style_name]['marker'], 
+             label=algo_styles[style_name]['label'],
              linewidth=style['linewidth'],
-             markersize=style['marker_size'])
-    plt.plot(fedprox_stats['satellite_stats']['training_satellites'], 
-             color=algo_styles['FedProx']['color'], 
-             marker=algo_styles['FedProx']['marker'], 
-             label=algo_styles['FedProx']['label'],
-             linewidth=style['linewidth'],
-             markersize=style['marker_size'])
-    plt.plot(fedavg_stats['satellite_stats']['training_satellites'], 
-             color=algo_styles['FedAvg']['color'], 
-             marker=algo_styles['FedAvg']['marker'], 
-             label=algo_styles['FedAvg']['label'],
-             linewidth=style['linewidth'],
-             markersize=style['marker_size'])
-    plt.plot(similarity_stats['satellite_stats']['training_satellites'], 
-             color=algo_styles['Similarity']['color'], 
-             marker=algo_styles['Similarity']['marker'], 
-             label=algo_styles['Similarity']['label'],
-             linewidth=style['linewidth'],
-             markersize=style['marker_size'])
+             markersize=style['marker_size'],
+             markevery=2)  # 减少标记数量以避免拥挤
+    
+    # 添加说明文本，解释偏移显示
+    plt.text(0.02, 0.02, "注：应用了垂直偏移以区分重叠的线条。\n实际数据值见表名。", 
+             transform=plt.gca().transAxes, fontsize=9,
+             bbox=dict(facecolor='white', alpha=0.7))
+    
+    # 添加参考线，显示实际数据值
+    plt.axhline(y=24, color='gray', linestyle='--', alpha=0.3, linewidth=1)
+    plt.axhline(y=19.8, color='gray', linestyle='--', alpha=0.3, linewidth=1)
+    
+    # 其他代码保持不变
     plt.title(f'Number of Training Satellites {title_suffix}')
     plt.xlabel('Round')
     plt.ylabel('Number of Satellites')
@@ -417,9 +434,9 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
     similarity_comm = calculate_communication_overhead(similarity_stats)
     
     plt.plot(satfl_comm, 
-             color=algo_styles['SATFL']['color'], 
-             marker=algo_styles['SATFL']['marker'], 
-             label=algo_styles['SATFL']['label'],
+             color=algo_styles['SDA-FL']['color'], 
+             marker=algo_styles['SDA-FL']['marker'], 
+             label=algo_styles['SDA-FL']['label'],
              linewidth=style['linewidth'],
              markersize=style['marker_size'])
     plt.plot(fedprox_comm, 
@@ -469,9 +486,9 @@ def create_comparison_plots(satfl_stats, fedprox_stats, fedavg_stats, similarity
                            zip(similarity_stats['accuracies'], similarity_cumulative_energy)]
     
     plt.plot(satfl_efficiency, 
-             color=algo_styles['SATFL']['color'], 
-             marker=algo_styles['SATFL']['marker'], 
-             label=algo_styles['SATFL']['label'],
+             color=algo_styles['SDA-FL']['color'], 
+             marker=algo_styles['SDA-FL']['marker'], 
+             label=algo_styles['SDA-FL']['label'],
              linewidth=style['linewidth'],
              markersize=style['marker_size'])
     plt.plot(fedprox_efficiency, 
@@ -586,13 +603,13 @@ def save_experiment_data(output_dir, satfl_stats, fedprox_stats, fedavg_stats, s
         f.write(f"实验时间: {timestamp}\n\n")
         
         f.write("平均卫星数量:\n")
-        f.write(f"  SATFL: {np.mean(satfl_stats['satellite_stats']['training_satellites']):.2f}\n")
+        f.write(f"  SDA-FL: {np.mean(satfl_stats['satellite_stats']['training_satellites']):.2f}\n")
         f.write(f"  FedProx: {np.mean(fedprox_stats['satellite_stats']['training_satellites']):.2f}\n")
         f.write(f"  FedAvg: {np.mean(fedavg_stats['satellite_stats']['training_satellites']):.2f}\n")
         f.write(f"  相似度分组: {np.mean(similarity_stats['satellite_stats']['training_satellites']):.2f}\n\n")
         
         f.write("最终准确率:\n")
-        f.write(f"  SATFL: {max(satfl_stats['accuracies']):.2f}%\n")
+        f.write(f"  SDA-FL: {max(satfl_stats['accuracies']):.2f}%\n")
         f.write(f"  FedProx: {max(fedprox_stats['accuracies']):.2f}%\n")
         f.write(f"  FedAvg: {max(fedavg_stats['accuracies']):.2f}%\n")
         f.write(f"  相似度分组: {max(similarity_stats['accuracies']):.2f}%\n")
@@ -602,15 +619,16 @@ def save_experiment_data(output_dir, satfl_stats, fedprox_stats, fedavg_stats, s
 def load_experiment_data(data_dir):
     """加载保存的实验数据"""
     # 优先尝试加载pickle格式
-    pickle_path = os.path.join(data_dir, 'raw_data', 'experiment_data.pkl')
-    if os.path.exists(pickle_path):
-        try:
-            with open(pickle_path, 'rb') as f:
-                return pickle.load(f)
-        except Exception as e:
-            logger.error(f"无法加载pickle数据: {str(e)}")
+    # pickle_path = os.path.join(data_dir, 'raw_data', 'experiment_data.pkl')
+    # if os.path.exists(pickle_path):
+    #     try:
+    #         with open(pickle_path, 'rb') as f:
+    #             return pickle.load(f)
+    #     except Exception as e:
+    #         logger.error(f"无法加载pickle数据: {str(e)}")
     
     # 尝试加载JSON格式
+    logger.info(f"尝试加载JSON格式数据: {data_dir}")
     json_path = os.path.join(data_dir, 'raw_data', 'experiment_data.json')
     if os.path.exists(json_path):
         try:
@@ -631,9 +649,9 @@ def parse_args():
     parser.add_argument('--config-dir', type=str, default='configs',
                       help='配置文件目录')
     parser.add_argument('--satfl-noise-dim', type=int, default=100,
-                      help='SATFL的噪声维度')
+                      help='SDA-FL的噪声维度')
     parser.add_argument('--satfl-samples', type=int, default=1000,
-                      help='SATFL生成的合成样本数量')
+                      help='SDA-FL生成的合成样本数量')
     
     # 添加重新绘图相关参数
     parser.add_argument('--replot', action='store_true',
@@ -699,58 +717,58 @@ def generate_comparison_report(satfl_stats, fedprox_stats, fedavg_stats, similar
     
     # 生成报告
     with open(output_path, 'w') as f:
-        f.write("# 公平对比报告: SATFL vs FedProx vs FedAvg vs 相似度分组\n\n")
+        f.write("# 公平对比报告: SDA-FL vs FedProx vs FedAvg vs 相似度分组\n\n")
         
         f.write("## 实验设置\n")
-        f.write(f"- SATFL 参数 - 合成样本数: {satfl_stats.get('num_synthetic_samples', 1000)}\n")
+        f.write(f"- SDA-FL 参数 - 合成样本数: {satfl_stats.get('num_synthetic_samples', 1000)}\n")
         f.write(f"- FedProx 参数 μ: {fedprox_stats.get('mu', 0.01)}\n")
         f.write(f"- 总轮次: {len(satfl_stats['accuracies'])}\n\n")
         
         f.write("## 参与卫星数量\n")
-        f.write(f"- SATFL 平均训练卫星数: {satfl_avg_sats:.2f}\n")
+        f.write(f"- SDA-FL 平均训练卫星数: {satfl_avg_sats:.2f}\n")
         f.write(f"- FedProx 平均训练卫星数: {fedprox_avg_sats:.2f}\n")
         f.write(f"- FedAvg 平均训练卫星数: {fedavg_avg_sats:.2f}\n")
         f.write(f"- 相似度分组平均训练卫星数: {similarity_avg_sats:.2f}\n\n")
         
         f.write("## 准确率性能\n")
-        f.write(f"- SATFL 最高准确率: {satfl_max_acc:.2f}%\n")
+        f.write(f"- SDA-FL 最高准确率: {satfl_max_acc:.2f}%\n")
         f.write(f"- FedProx 最高准确率: {fedprox_max_acc:.2f}%\n")
         f.write(f"- FedAvg 最高准确率: {fedavg_max_acc:.2f}%\n")
         f.write(f"- 相似度分组最高准确率: {similarity_max_acc:.2f}%\n\n")
         
-        f.write(f"- SATFL vs FedProx: {satfl_max_acc - fedprox_max_acc:+.2f}%\n")
-        f.write(f"- SATFL vs FedAvg: {satfl_max_acc - fedavg_max_acc:+.2f}%\n")
-        f.write(f"- SATFL vs 相似度分组: {satfl_max_acc - similarity_max_acc:+.2f}%\n")
+        f.write(f"- SDA-FL vs FedProx: {satfl_max_acc - fedprox_max_acc:+.2f}%\n")
+        f.write(f"- SDA-FL vs FedAvg: {satfl_max_acc - fedavg_max_acc:+.2f}%\n")
+        f.write(f"- SDA-FL vs 相似度分组: {satfl_max_acc - similarity_max_acc:+.2f}%\n")
         f.write(f"- FedProx vs FedAvg: {fedprox_max_acc - fedavg_max_acc:+.2f}%\n")
         f.write(f"- FedProx vs 相似度分组: {fedprox_max_acc - similarity_max_acc:+.2f}%\n")
         f.write(f"- 相似度分组 vs FedAvg: {similarity_max_acc - fedavg_max_acc:+.2f}%\n\n")
         
         f.write("## 能耗\n")
-        f.write(f"- SATFL 总能耗: {satfl_energy:.2f} Wh\n")
+        f.write(f"- SDA-FL 总能耗: {satfl_energy:.2f} Wh\n")
         f.write(f"- FedProx 总能耗: {fedprox_energy:.2f} Wh\n")
         f.write(f"- FedAvg 总能耗: {fedavg_energy:.2f} Wh\n")
         f.write(f"- 相似度分组总能耗: {similarity_energy:.2f} Wh\n\n")
         
         f.write("## 效率指标\n")
-        f.write(f"- SATFL 每卫星准确率: {satfl_efficiency:.2f}%\n")
+        f.write(f"- SDA-FL 每卫星准确率: {satfl_efficiency:.2f}%\n")
         f.write(f"- FedProx 每卫星准确率: {fedprox_efficiency:.2f}%\n")
         f.write(f"- FedAvg 每卫星准确率: {fedavg_efficiency:.2f}%\n")
         f.write(f"- 相似度分组每卫星准确率: {similarity_efficiency:.2f}%\n\n")
         
-        f.write(f"- SATFL 能源效率: {satfl_energy_efficiency:.4f}%/Wh\n")
+        f.write(f"- SDA-FL 能源效率: {satfl_energy_efficiency:.4f}%/Wh\n")
         f.write(f"- FedProx 能源效率: {fedprox_energy_efficiency:.4f}%/Wh\n")
         f.write(f"- FedAvg 能源效率: {fedavg_energy_efficiency:.4f}%/Wh\n")
         f.write(f"- 相似度分组能源效率: {similarity_energy_efficiency:.4f}%/Wh\n\n")
         
         f.write("## 收敛速度\n")
-        f.write(f"- SATFL 达到90%最高准确率轮次: {satfl_convergence}\n")
+        f.write(f"- SDA-FL 达到90%最高准确率轮次: {satfl_convergence}\n")
         f.write(f"- FedProx 达到90%最高准确率轮次: {fedprox_convergence}\n")
         f.write(f"- FedAvg 达到90%最高准确率轮次: {fedavg_convergence}\n")
         f.write(f"- 相似度分组达到90%最高准确率轮次: {similarity_convergence}\n\n")
         
         f.write("## 总结\n")
         # 添加各个方法的优缺点和总结
-        f.write("### SATFL\n")
+        f.write("### SDA-FL\n")
         f.write("- **优势**: 使用合成数据增强训练，在数据稀缺情况下能提高准确率。\n")
         f.write("- **劣势**: 需要训练GAN模型，增加了计算复杂度和能耗。\n\n")
 
@@ -768,7 +786,7 @@ def generate_comparison_report(satfl_stats, fedprox_stats, fedavg_stats, similar
         
         # 确定哪种方法表现最佳
         methods = {
-            'SATFL': satfl_max_acc,
+            'SDA-FL': satfl_max_acc,
             'FedProx': fedprox_max_acc,
             'FedAvg': fedavg_max_acc,
             '相似度分组': similarity_max_acc
@@ -776,7 +794,7 @@ def generate_comparison_report(satfl_stats, fedprox_stats, fedavg_stats, similar
         best_method = max(methods.items(), key=lambda x: x[1])[0]
             
         efficiency_methods = {
-            'SATFL': satfl_efficiency,
+            'SDA-FL': satfl_efficiency,
             'FedProx': fedprox_efficiency,
             'FedAvg': fedavg_efficiency,
             '相似度分组': similarity_efficiency
@@ -787,8 +805,8 @@ def generate_comparison_report(satfl_stats, fedprox_stats, fedavg_stats, similar
         f.write(f"{best_method}在准确率上表现最好，{best_efficiency}在资源效率上表现最好。在卫星网络环境中，")
         
         # 综合评估
-        if best_method == 'SATFL' and best_efficiency == 'SATFL':
-            f.write("SATFL算法综合表现最佳，特别是在数据不平衡的场景下。\n")
+        if best_method == 'SDA-FL' and best_efficiency == 'SDA-FL':
+            f.write("SDA-FL算法综合表现最佳，特别是在数据不平衡的场景下。\n")
         elif best_method == '相似度分组' and best_efficiency == '相似度分组':
             f.write("相似度分组算法综合表现最佳，特别是在资源受限的场景下。\n")
         elif best_method == 'FedProx' and best_efficiency == 'FedProx':
@@ -839,7 +857,7 @@ def create_modified_config(base_config_path, target_satellite_count, output_path
         return base_config_path
 
 def create_satfl_config(args, target_satellite_count, output_path="configs/sda_fl_config.yaml"):
-    """创建SATFL配置文件"""
+    """创建SDA-FL配置文件"""
     try:
         # 基于baseline_config.yaml创建SDA-FL配置
         with open("configs/baseline_config.yaml", 'r') as f:
@@ -862,13 +880,13 @@ def create_satfl_config(args, target_satellite_count, output_path="configs/sda_f
         with open(output_path, 'w') as f:
             yaml.dump(config, f)
             
-        logger.info(f"已创建SATFL配置文件：{output_path}")
+        logger.info(f"已创建SDA-FL配置文件：{output_path}")
         logger.info(f"- 噪声维度：{args.satfl_noise_dim}")
         logger.info(f"- 合成样本数：{args.satfl_samples}")
         
         return output_path
     except Exception as e:
-        logger.error(f"创建SATFL配置文件时出错：{str(e)}")
+        logger.error(f"创建SDA-FL配置文件时出错：{str(e)}")
         return None
 
 def run_fair_comparison():
@@ -891,7 +909,7 @@ def run_fair_comparison():
             data = load_experiment_data(args.data_dir)
             
             # 提取各个算法的统计数据
-            satfl_stats = data['sda_fl']
+            satfl_stats = data['satfl']
             fedprox_stats = data['fedprox']
             fedavg_stats = data['fedavg']
             similarity_stats = data['similarity']
@@ -938,12 +956,12 @@ def run_fair_comparison():
     
     # 2. 为FedProx、FedAvg和SDA-FL创建配置文件
     target_sats = 24 if args.target_sats == 0 else args.target_sats
-    logger.info(f"为SATFL、FedProx和FedAvg设置目标卫星数: {target_sats}")
+    logger.info(f"为SDA-FL、FedProx和FedAvg设置目标卫星数: {target_sats}")
     
     # 创建配置目录
     os.makedirs("configs/temp", exist_ok=True)
     
-    # 为SATFL创建配置
+    # 为SDA-FL创建配置
     satfl_config = create_satfl_config(args, target_sats)
     
     # 为FedProx和FedAvg创建配置
@@ -959,15 +977,15 @@ def run_fair_comparison():
         f"configs/temp/fedavg_{target_sats}sats.yaml"
     )
     
-    # 3. 运行SATFL实验
-    logger.info(f"\n=== 运行SATFL实验 (目标卫星数: {target_sats}) ===")
+    # 3. 运行SDA-FL实验
+    logger.info(f"\n=== 运行SDA-FL实验 (目标卫星数: {target_sats}) ===")
     satfl_stats, satfl_exp = run_experiment(
         satfl_config, 
         SDAFLExperiment
     )
     
     if not satfl_stats:
-        logger.error("SATFL实验失败")
+        logger.error("SDA-FL实验失败")
         return
     
     # 4. 运行有限传播FedProx实验
@@ -1065,25 +1083,25 @@ def print_key_metrics(satfl_stats, fedprox_stats, fedavg_stats, similarity_stats
     # 打印结果
     logger.info("\n=== 关键指标对比 ===")
     logger.info(f"平均卫星数量:")
-    logger.info(f"  SATFL: {satfl_sats:.2f}")
+    logger.info(f"  SDA-FL: {satfl_sats:.2f}")
     logger.info(f"  FedProx: {fedprox_sats:.2f}")
     logger.info(f"  FedAvg: {fedavg_sats:.2f}")
     logger.info(f"  相似度分组: {similarity_sats:.2f}")
     
     logger.info(f"\n最终准确率:")
-    logger.info(f"  SATFL: {satfl_max_acc:.2f}%")
+    logger.info(f"  SDA-FL: {satfl_max_acc:.2f}%")
     logger.info(f"  FedProx: {fedprox_max_acc:.2f}%")
     logger.info(f"  FedAvg: {fedavg_max_acc:.2f}%")
     logger.info(f"  相似度分组: {similarity_max_acc:.2f}%")
     
     logger.info(f"\n总能耗:")
-    logger.info(f"  SATFL: {satfl_energy:.2f} Wh")
+    logger.info(f"  SDA-FL: {satfl_energy:.2f} Wh")
     logger.info(f"  FedProx: {fedprox_energy:.2f} Wh")
     logger.info(f"  FedAvg: {fedavg_energy:.2f} Wh")
     logger.info(f"  相似度分组: {similarity_energy:.2f} Wh")
     
     logger.info(f"\n每卫星准确率:")
-    logger.info(f"  SATFL: {satfl_efficiency:.2f}%/satellite")
+    logger.info(f"  SDA-FL: {satfl_efficiency:.2f}%/satellite")
     logger.info(f"  FedProx: {fedprox_efficiency:.2f}%/satellite")
     logger.info(f"  FedAvg: {fedavg_efficiency:.2f}%/satellite")
     logger.info(f"  相似度分组: {similarity_efficiency:.2f}%/satellite")
